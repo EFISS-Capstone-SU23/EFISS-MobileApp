@@ -22,6 +22,7 @@ const Home = () => {
         if (!result.canceled) {
             setImage(result.assets[0].uri);
             console.log(result.assets[0].uri)
+            navigation.navigate("Results", { imageUrl: result.assets[0].uri })
         }
     }
 

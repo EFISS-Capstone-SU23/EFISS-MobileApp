@@ -11,6 +11,7 @@ export const NFTTitle = ({ title, subtitle, titleSize, subtitleSize }) => {
                     fontSize: titleSize,
                     color: COLORS.primary
                 }}
+                numberOfLines={1}
             >
                 {title}
             </Text>
@@ -20,6 +21,7 @@ export const NFTTitle = ({ title, subtitle, titleSize, subtitleSize }) => {
                     fontSize: subtitleSize,
                     color: COLORS.primary
                 }}
+                numberOfLines={1}
             >
                 {subtitle}
             </Text>
@@ -31,16 +33,16 @@ export const EthPrice = ({price}) => {
     return (
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image 
-                source={assets.eth}
+                source={assets.price}
                 resizeMode='contain'
                 style={{
                     width: 20,
                     height: 20,
-                    marginRight: 2
+                    marginRight: 1
                 }}
             />
             <Text style={{
-                fontFamily: FONTS.medium,
+                fontFamily: FONTS.small,
                 fontSize: SIZES.font,
                 color: COLORS.primary
             }}>{price}</Text>

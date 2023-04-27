@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 
 import Home from "./screens/Home";
 import Details from "./screens/Details";
+import Results from "./screens/Results";
 import { ActivityIndicator } from "react-native";
 
 const Stack = createStackNavigator();
@@ -34,6 +35,7 @@ const App = () => {
       >
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Details" component={Details}/>
+        <Stack.Screen name="Results" component={Results}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
