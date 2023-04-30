@@ -21,10 +21,24 @@ const Home = () => {
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            console.log(result.assets[0].uri)
             navigation.navigate("Results", { imageUrl: result.assets[0].uri })
         }
     }
+
+        // This function is triggered when the "Select an image" button pressed
+        const openCamera = async () => {
+            // No permissions request is necessary for launching the image library
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                quality: 1,
+            });
+    
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+                navigation.navigate("Results", { imageUrl: result.assets[0].uri })
+            }
+        }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -38,7 +52,7 @@ const Home = () => {
                         renderItem={({ item }) => <NFTCard data={item} />}
                         keyExtractor={(item) => item.id}
                         showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<HomeHeader onSearch={() => { }} onPicture={showImagePicker} />}
+                        ListHeaderComponent={<HomeHeader onSearch={() => navigation.navigate("TakePicture")} onPicture={showImagePicker} />}
                     />
                 </View>
 

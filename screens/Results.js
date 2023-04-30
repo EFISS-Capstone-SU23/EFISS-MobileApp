@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, ScrollView } from 'react-native'
 import { COLORS, SIZES, SHADOWS, FONTS, assets } from '../constants'
 import { CircleButton, RectButton, SubInfo, FocusStatusBar, ResultsHeader, ResultCard } from '../components'
 import axios from "axios";
@@ -19,7 +19,7 @@ const Results = ({ route, navigation }) => {
 
       <View>
         {isLoading ? (
-          <ActivityIndicator size="large" colors={COLORS.primary} style={{alignItems:'center', justifyContent:'center'}} />
+          <ActivityIndicator size="large" colors={COLORS.primary} style={{flex: 1, alignItems:'center', justifyContent:'center'}} />
         ) : error ? (
           <Text>Something went wrong</Text>
         ) : (
