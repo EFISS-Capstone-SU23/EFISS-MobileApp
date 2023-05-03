@@ -1,7 +1,7 @@
 import { View, Text, Image, StatusBar } from 'react-native'
 import React from 'react'
-import { CircleButton } from './Button'
-import { COLORS, FONTS, SIZES, assets } from '../constants'
+import { CircleButton } from '../Button'
+import { COLORS, FONTS, SIZES, assets } from '../../constants'
 
 const ResultsHeader = ({ navigation }) => {
     return (

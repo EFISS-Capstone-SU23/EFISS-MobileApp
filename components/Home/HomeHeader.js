@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { COLORS, FONTS, SIZES, assets } from '../constants'
+import { COLORS, FONTS, SIZES, assets } from '../../constants'
 import { TextInput } from 'react-native-gesture-handler'
 
 const HomeHeader = ({ onSearch, onPicture }) => {

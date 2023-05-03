@@ -23,7 +23,6 @@ const TakePicture = ({ route, navigation }) => {
             try {
                 const data = await cameraRef.current.takePictureAsync();
 
-                console.log(data);
                 setImage(data.uri);
             } catch (error) {
                 console.log(error);
@@ -54,7 +53,7 @@ const TakePicture = ({ route, navigation }) => {
                         justifyContent: 'space-between',
                         padding: 30
                     }}>
-                        <CameraButton icon="back"
+                        <CameraButton icon="arrow-left"
                             onPress={() => navigation.goBack()}
                         ></CameraButton>
                         <CameraButton icon="flash"
@@ -73,10 +72,13 @@ const TakePicture = ({ route, navigation }) => {
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        paddingHorizontal: 50
+                        paddingHorizontal: 30
                     }}>
-                        <CameraButton title={"Re-take"} icon="retweet" onPress={() => setImage(null)}></CameraButton>
-                        <CameraButton title={"Search"} icon="check" onPress={() => navigation.navigate("Results", { imageUrl: image })}></CameraButton>
+                        <CameraButton icon="arrow-left" title={"Cancel"}
+                            onPress={() => navigation.goBack()}
+                        ></CameraButton>
+                        <CameraButton title={"Re-take"} icon="ccw" onPress={() => setImage(null)}></CameraButton>
+                        <CameraButton title={"Search"} icon="magnifying-glass" onPress={() => navigation.navigate("Results", { imageUrl: image })}></CameraButton>
                     </View>
                     :
                     <CameraButton title={'Take a picture'} icon="camera" onPress={takePicture} />

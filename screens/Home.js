@@ -1,44 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
-import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import * as ImagePicker from 'expo-image-picker'
+import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native'
 
 import { COLORS, NFTData } from '../constants'
-import { NFTCard, HomeHeader, FocusStatusBar } from '../components'
+import { NFTCard, HomeHeader, FocusStatusBar, ModalPicker } from '../components'
 
 const Home = () => {
     const navigation = useNavigation();
-    const [image, setImage] = useState(null);
-
-    // This function is triggered when the "Select an image" button pressed
-    const showImagePicker = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            navigation.navigate("Results", { imageUrl: result.assets[0].uri })
-        }
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const changeModalVisibility = (bool) => {
+        setIsModalVisible(bool);
     }
-
-        // This function is triggered when the "Select an image" button pressed
-        const openCamera = async () => {
-            // No permissions request is necessary for launching the image library
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsEditing: true,
-                quality: 1,
-            });
-    
-            if (!result.canceled) {
-                setImage(result.assets[0].uri);
-                navigation.navigate("Results", { imageUrl: result.assets[0].uri })
-            }
-        }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -52,7 +24,7 @@ const Home = () => {
                         renderItem={({ item }) => <NFTCard data={item} />}
                         keyExtractor={(item) => item.id}
                         showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<HomeHeader onSearch={() => navigation.navigate("TakePicture")} onPicture={showImagePicker} />}
+                        ListHeaderComponent={<HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />}
                     />
                 </View>
 
@@ -68,6 +40,15 @@ const Home = () => {
                     <View style={{ flex: 1, backgroundColor: COLORS.white }} />
                 </View>
             </View>
+
+            <Modal
+                transparent={true}
+                animationType='fade'
+                visible={isModalVisible}
+                onRequestClose={() => changeModalVisibility(false)}
+            >
+                <ModalPicker changeModalVisibility={changeModalVisibility} />
+            </Modal>
         </SafeAreaView>
     )
 }
