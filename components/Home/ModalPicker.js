@@ -6,9 +6,11 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 
+import { COLORS, FONTS } from '../../constants';
+
 const OPTIONS = ['Take a picture', 'Upload from gallery', 'Cancel']
-const WIDTH = Dimensions.get('window').width / 2
-const HEIGHT = Dimensions.get('window').height / 3
+const WIDTH = Dimensions.get('window').width * 4/5
+const HEIGHT = Dimensions.get('window').height / 4
 
 const ModalPicker = (props) => {
 
@@ -77,13 +79,24 @@ const styles = StyleSheet.create({
     },
     modal: {
         backgroundColor: 'white',
-        borderRadius: 10
+        borderRadius: 10,
+        borderColor: COLORS.gray,
+        borderWidth: 1
     },
     option: {
-        width: WIDTH,
-        height: HEIGHT / 3,
+        width: WIDTH-20,
+        height: HEIGHT / 3 - 20,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: COLORS.primary,
+        borderRadius: 5,
+        marginHorizontal: 10,
+        marginVertical: 10
+    },
+    text: {
+        fontSize: 16,
+        fontFamily: FONTS.bold,
+        color: COLORS.white
     }
 
 })

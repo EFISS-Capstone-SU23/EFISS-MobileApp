@@ -14,14 +14,15 @@ const HomeHeader = ({ onSearch, onPicture }) => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Image
-          source={assets.logo}
-          resizeMode='contain'
+        <Text 
           style={{
-            width: 90,
-            height: 25
+            fontFamily: FONTS.bold,
+            fontSize: SIZES.large,
+            color: COLORS.white
           }}
-        />
+        >
+          EFISS
+        </Text>
 
         <View style={{ width: 45, height: 45 }}>
           <Image
@@ -71,8 +72,8 @@ const HomeHeader = ({ onSearch, onPicture }) => {
       <View style={{ marginTop: SIZES.font }}>
         <View style={{
           width: "100%",
-          borderRadius: SIZES.font,
-          backgroundColor: COLORS.gray,
+          borderRadius: SIZES.extraLarge,
+          backgroundColor: COLORS.white,
           flexDirection: 'row',
           paddingHorizontal: SIZES.font,
           paddingVertical: SIZES.small
