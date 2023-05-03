@@ -76,7 +76,7 @@ const HomeHeader = ({ onSearch, onPicture }) => {
           backgroundColor: COLORS.white,
           flexDirection: 'row',
           paddingHorizontal: SIZES.font,
-          paddingVertical: SIZES.small
+          paddingVertical: SIZES.font
         }}>
           <TouchableOpacity onPress={onSearch}>
             <Image
