@@ -55,12 +55,13 @@ const TakePicture = ({ route, navigation }) => {
                     }}>
                         <CameraButton icon="arrow-left"
                             onPress={() => navigation.goBack()}
-                        ></CameraButton>
+                        />
                         <CameraButton icon="flash"
                             color={flash === Camera.Constants.FlashMode.off ? '#f1f1f1' : 'yellow'}
                             onPress={() => {
                                 setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)
-                            }}></CameraButton>
+                            }} 
+                        />
                     </View>
                 </Camera>
                 :
@@ -76,9 +77,9 @@ const TakePicture = ({ route, navigation }) => {
                     }}>
                         <CameraButton icon="arrow-left" title={"Cancel"}
                             onPress={() => navigation.goBack()}
-                        ></CameraButton>
-                        <CameraButton title={"Re-take"} icon="ccw" onPress={() => setImage(null)}></CameraButton>
-                        <CameraButton title={"Search"} icon="magnifying-glass" onPress={() => navigation.navigate("Results", { imageUrl: image })}></CameraButton>
+                        />
+                        <CameraButton title={"Re-take"} icon="ccw" onPress={() => setImage(null)} />
+                        <CameraButton title={"Search"} icon="magnifying-glass" onPress={() => navigation.navigate("Results", { imageUrl: image })} />
                     </View>
                     :
                     <CameraButton title={'Take a picture'} icon="camera" onPress={takePicture} />

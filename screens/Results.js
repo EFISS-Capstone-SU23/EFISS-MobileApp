@@ -1,37 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, ScrollView } from 'react-native'
-import { COLORS, SIZES, SHADOWS, FONTS, assets } from '../constants'
-import { CircleButton, RectButton, SubInfo, FocusStatusBar, ResultsHeader, ResultCard } from '../components'
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { COLORS, SIZES, FONTS } from '../constants'
+import { ResultsHeader, ProductCard } from '../components'
 import axios from "axios";
 
 const Results = ({ route, navigation }) => {
   const { data } = route.params
-
   const { products, isLoading, error } = getResults()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
-      <View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
         {isLoading ? (
-          <ActivityIndicator size="large" colors={COLORS.primary} style={{flex: 1, alignItems:'center', justifyContent:'center'}} />
+          <ActivityIndicator size="large" colors={COLORS.primary} />
         ) : error ? (
           <Text>Something went wrong</Text>
         ) : (
           <FlatList
             data={products.data}
             renderItem={({ item }) => (
-              <ResultCard product={item} />
+              <ProductCard product={item} navigation={navigation} />
             )}
             numColumns={2}
             keyExtractor={item => item?.id}
             contentContainerStyle={{ columnGap: SIZES.medium }}
-            ListHeaderComponent={<ResultsHeader navigation={navigation}/>}
-            ListFooterComponent={<Text>No more results found</Text>}
+            ListHeaderComponent={<ResultsHeader navigation={navigation} />}
+            ListFooterComponent={<Text style={{textAlign: 'center', fontFamily: FONTS.bold}}>No more results found</Text>}
             stickyHeaderIndices={[0]}
+            showsVerticalScrollIndicator={false}
           />
         )}
-        
+
       </View>
     </SafeAreaView>
   )

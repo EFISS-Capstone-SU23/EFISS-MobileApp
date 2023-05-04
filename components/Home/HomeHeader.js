@@ -17,7 +17,7 @@ const HomeHeader = ({ onSearch, onPicture }) => {
         <Text 
           style={{
             fontFamily: FONTS.bold,
-            fontSize: SIZES.large,
+            fontSize: SIZES.extraLarge,
             color: COLORS.white
           }}
         >

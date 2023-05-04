@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
-import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native'
+import { View, SafeAreaView, StyleSheet, ScrollView, Modal } from 'react-native'
 
-import { COLORS, NFTData } from '../constants'
-import { NFTCard, HomeHeader, FocusStatusBar, ModalPicker } from '../components'
+import { COLORS } from '../constants'
+import { HomeHeader, FocusStatusBar, ModalPicker } from '../components'
 
 const Home = () => {
     const navigation = useNavigation();
@@ -16,19 +16,15 @@ const Home = () => {
         <SafeAreaView style={styles.container}>
             <FocusStatusBar background={COLORS.primary} />
 
-            <View style={{ flex: 1 }}>
-
-                <View style={{ zIndex: 0 }}>
-                    <FlatList
-                        data={NFTData}
-                        renderItem={({ item }) => <NFTCard data={item} />}
-                        keyExtractor={(item) => item.id}
-                        showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />}
-                    />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View
+                    style={{
+                        flex: 1
+                    }}
+                >
+                    <HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
                 </View>
-
-            </View>
+            </ScrollView>
 
             <Modal
                 transparent={true}

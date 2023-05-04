@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar, FlatList } from 'react-native'
-import { COLORS, SIZES, SHADOWS, FONTS, assets } from '../constants'
-import { CircleButton, RectButton, SubInfo, FocusStatusBar, DetailsBids, DetailsHeader } from '../components'
+import { View, SafeAreaView, FlatList } from 'react-native'
+import { SIZES, SHADOWS } from '../constants'
+import { RectButton, FocusStatusBar, DetailsBids, DetailsHeader } from '../components'
 
 
 const Details = ({ route, navigation }) => {
