@@ -11,11 +11,6 @@ const Results = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <FocusStatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent={true}
-      />
 
       <View>
         {isLoading ? (
@@ -33,7 +28,6 @@ const Results = ({ route, navigation }) => {
             contentContainerStyle={{ columnGap: SIZES.medium }}
             ListHeaderComponent={<ResultsHeader navigation={navigation}/>}
             ListFooterComponent={<Text>No more results found</Text>}
-            style={{ padding: SIZES.medium }}
             stickyHeaderIndices={[0]}
           />
         )}
