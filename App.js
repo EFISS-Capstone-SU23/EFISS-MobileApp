@@ -1,22 +1,7 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import * as React from 'react'
 import { useFonts } from "expo-font";
 
-import Home from "./screens/Home";
-import Details from "./screens/Details";
-import Results from "./screens/Results";
-import { ActivityIndicator } from "react-native";
-import TakePicture from "./screens/TakePicture";
-
-const Stack = createStackNavigator();
-
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "transparent"
-  }
-}
+import MainContainer from "./navigations/MainContainer";
 
 const App = () => {
   const [loaded] = useFonts({
@@ -30,16 +15,7 @@ const App = () => {
   if(!loaded) return null;
 
   return (
-    <NavigationContainer theme={theme}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}
-        initialRouteName="Home"
-      >
-        <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="Details" component={Details}/>
-        <Stack.Screen name="Results" component={Results}/>
-        <Stack.Screen name="TakePicture" component={TakePicture}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <MainContainer />
   );
 }
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
-import { COLORS, SIZES, FONTS } from '../constants'
-import { ResultsHeader, ProductCard } from '../components'
+import { COLORS, SIZES, FONTS } from '../../constants'
+import { ResultsHeader, ProductCard } from '../../components'
 import axios from "axios";
 
 const Results = ({ route, navigation }) => {
-  const { data } = route.params
+  const { imageUrl } = route.params;
   const { products, isLoading, error } = getResults()
 
   return (
@@ -45,7 +45,7 @@ const Results = ({ route, navigation }) => {
 
 const getResults = () => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const options = {

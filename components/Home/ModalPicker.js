@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { COLORS, FONTS } from '../../constants';
 
 const OPTIONS = ['Take a picture', 'Upload from gallery', 'Cancel']
-const WIDTH = Dimensions.get('window').width * 4/5
+const WIDTH = Dimensions.get('window').width * 4 / 5
 const HEIGHT = Dimensions.get('window').height / 4
 
 const ModalPicker = (props) => {
@@ -56,9 +56,10 @@ const ModalPicker = (props) => {
                 <Text style={styles.text}>
                     {item}
                 </Text>
-            </TouchableOpacity>)
+            </TouchableOpacity>
+        )
     })
-    
+
     return (
         <TouchableOpacity
             style={styles.container}
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     option: {
-        width: WIDTH-20,
+        width: WIDTH - 20,
         height: HEIGHT / 3 - 20,
         justifyContent: 'center',
         alignItems: 'center',

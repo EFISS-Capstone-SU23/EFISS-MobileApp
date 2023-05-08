@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import { View, SafeAreaView, StyleSheet, ScrollView, Modal } from 'react-native'
 
-import { COLORS } from '../constants'
-import { HomeHeader, FocusStatusBar, ModalPicker } from '../components'
+import { COLORS } from '../../constants'
+import { HomeHeader, FocusStatusBar, ModalPicker, Welcome, Category, NewProductCarousel, PopularProductCarousel } from '../../components'
 
 const Home = () => {
     const navigation = useNavigation();
@@ -23,6 +23,10 @@ const Home = () => {
                     }}
                 >
                     <HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
+                    <Welcome />
+                    <Category />
+                    <NewProductCarousel />
+                    <PopularProductCarousel />
                 </View>
             </ScrollView>
 

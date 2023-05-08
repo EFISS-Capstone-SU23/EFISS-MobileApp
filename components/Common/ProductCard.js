@@ -1,4 +1,4 @@
-import { View, Image, Text } from 'react-native'
+import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { Entypo } from '@expo/vector-icons'
 
@@ -17,15 +17,19 @@ const ProductCard = ({ product, navigation }) => {
             ...SHADOWS.dark
         }}>
             <View style={{ width: "100%", height: 150 }}>
-                <Image
-                    source={{
-                        uri: product.image,
-                    }}
-                    style={{ width: "100%", height: "100%", borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small }}
-                />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Details", { productId: product.id })}
+                >
+                    <Image
+                        source={{
+                            uri: product.image,
+                        }}
+                        style={{ width: "100%", height: "100%", borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small }}
+                    />
+                </TouchableOpacity>
             </View>
             <View
-                style={{ width: "100%", padding: SIZES.base }}
+                style={{ width: "100%", padding: SIZES.small }}
             >
                 <View>
                     <Text
@@ -34,6 +38,7 @@ const ProductCard = ({ product, navigation }) => {
                             fontSize: SIZES.small
                         }}
                         numberOfLines={1}
+                        onPress={() => navigation.navigate("Details", { productId: product.id })}
                     >
                         {product.title}
                     </Text>
@@ -49,7 +54,7 @@ const ProductCard = ({ product, navigation }) => {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <Entypo name={'colours'} size={14} color={COLORS.primary} />
+                        <Entypo name={'colours'} size={SIZES.small} color={COLORS.primary} />
                         <Text
                             style={{
                                 fontFamily: FONTS.medium,
@@ -64,7 +69,7 @@ const ProductCard = ({ product, navigation }) => {
                             style={{
                                 color: COLORS.primary,
                                 fontFamily: FONTS.semiBold,
-                                fontSize: SIZES.font
+                                fontSize: SIZES.small
                             }}
                         >
                             ${product.price}
@@ -75,5 +80,20 @@ const ProductCard = ({ product, navigation }) => {
         </View>
     )
 }
+
+const DetailsView = (id, navigation) => {
+    navigation.navigate("Details", { productId: id })
+}
+
+const styles = StyleSheet.create({
+    button: {
+        height: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: COLORS.primary,
+        borderRadius: SIZES.small,
+    }
+})
 
 export default ProductCard
