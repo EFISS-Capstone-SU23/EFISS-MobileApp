@@ -5,24 +5,27 @@ import NewProductCarousel from "./Home/NewProductCarousel";
 import PopularProductCarousel from "./Home/PopularProductCarousel";
 import FocusStatusBar from "./Common/FocusStatusBar";
 import CameraButton from "./TakePicture/CameraButton";
-import DetailsBids from "./Details/DetailsBids";
+import DetailsBody from "./Details/DetailsBody";
 import DetailsHeader from "./Details/DetailsHeader";
 import ResultsHeader from "./Results/ResultsHeader";
 import ProductCard from "./Common/ProductCard";
 import ModalPicker from "./Home/ModalPicker";
+import { CircleButton, RectButton } from "./Common/Button";
 
-export { 
-    HomeHeader, 
+export {
+    HomeHeader,
     Welcome,
     Category,
     NewProductCarousel,
     PopularProductCarousel,
     ModalPicker,
-    FocusStatusBar, 
+    FocusStatusBar,
     CameraButton,
-    DetailsBids, 
-    DetailsHeader, 
+    DetailsBody,
+    DetailsHeader,
     ResultsHeader,
-    ProductCard
+    ProductCard,
+    CircleButton,
+    RectButton
 }
 

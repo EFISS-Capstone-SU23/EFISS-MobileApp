@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native'
-import { COLORS, SIZES, FONTS } from '../../constants'
-import { RectButton, FocusStatusBar, DetailsBids, DetailsHeader } from '../../components'
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, Image } from 'react-native'
+import { COLORS, SIZES, FONTS, SHADOWS } from '../../constants'
+import { FocusStatusBar, DetailsBody } from '../../components'
 import axios from "axios";
 
 
@@ -11,7 +11,7 @@ const Details = ({ route, navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-
+            <FocusStatusBar colors={COLORS.primary} />
             <View
                 style={{
                     flex: 1,
@@ -25,8 +25,9 @@ const Details = ({ route, navigation }) => {
                 ) : error ? (
                     <Text>Something went wrong</Text>
                 ) : (
-                    <Text>{product.title}</Text>
+                    <DetailsBody data={product} navigation={navigation} />
                 )}
+
 
             </View>
         </SafeAreaView>

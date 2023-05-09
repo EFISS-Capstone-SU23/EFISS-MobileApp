@@ -61,7 +61,7 @@ const ModalPicker = (props) => {
     })
 
     return (
-        <TouchableOpacity
+        <View
             style={styles.container}
         >
             <View style={[styles.modal, { width: WIDTH, height: HEIGHT }]}>
@@ -71,7 +71,7 @@ const ModalPicker = (props) => {
                     {option}
                 </ScrollView>
             </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 
