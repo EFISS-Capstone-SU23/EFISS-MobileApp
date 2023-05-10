@@ -24,7 +24,8 @@ const ProductCard = ({ product, navigation }) => {
                         source={{
                             uri: product.image,
                         }}
-                        style={{ width: "100%", height: "100%", borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small }}
+                        resizeMode='stretch'
+                        style={{ height: "100%", borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small }}
                     />
                 </TouchableOpacity>
             </View>

@@ -12,25 +12,19 @@ const Details = ({ route, navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <FocusStatusBar colors={COLORS.primary} />
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                }}
-            >
-                {isLoading ? (
+
+            {isLoading ? (
+                <View style={styles.commonView}>
                     <ActivityIndicator size="large" colors={COLORS.primary} />
-                ) : error ? (
+                </View>
+            ) : error ? (
+                <View style={styles.commonView}>
                     <Text>Something went wrong</Text>
-                ) : (
-                    <DetailsBody data={product} navigation={navigation} />
-                )}
-
-
-            </View>
-        </SafeAreaView>
+                </View>
+            ) : (
+                <DetailsBody data={product} navigation={navigation} />
+            )}
+        </SafeAreaView >
     )
 }
 
@@ -66,5 +60,14 @@ const getResult = (productId) => {
 
     return { product, isLoading, error };
 };
+
+const styles = StyleSheet.create({
+    commonView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    }
+})
 
 export default Details

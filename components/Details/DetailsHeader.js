@@ -4,36 +4,45 @@ import React from 'react'
 import { CircleButton } from '../Common/Button'
 import { COLORS, SIZES, assets } from '../../constants'
 
-const WIDTH = Dimensions.get('window').width 
+const WIDTH = Dimensions.get('window').width
 
 const DetailsHeader = ({ data, navigation }) => {
+    console.log(data)
+
     return (
-        <View style={{ width: WIDTH, height: '60%'}}>
-            <Image 
-                source={{uri: data.image}}
-                resizeMode='cover'
-                style={{ width: WIDTH, height: '100%' }}
+        <View style={{ width: '100%', height: '40%', justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+                source={{ uri: data.image }}
+                resizeMode='stretch'
+                style={{ width: '60%', height: '100%' }}
             />
+
             <CircleButton
                 imgUrl={assets.left}
                 handlePress={() => navigation.goBack()}
                 left={15}
-                top={SIZES.medium}
+                top={15}
             />
+
             <CircleButton
                 imgUrl={assets.dots}
+                handlePress={() => navigation.goBack()}
                 right={15}
-                top={SIZES.medium}
+                top={15}
             />
+
             <CircleButton
                 imgUrl={assets.heartTrans}
+                handlePress={() => navigation.goBack()}
                 right={65}
-                top={SIZES.medium}
+                top={15}
             />
+
             <CircleButton
                 imgUrl={assets.share}
+                handlePress={() => navigation.goBack()}
                 right={115}
-                top={SIZES.medium}
+                top={15}
             />
         </View>
     )

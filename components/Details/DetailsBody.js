@@ -1,97 +1,44 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
-import DetailsHeader from './DetailsHeader'
 
-import { COLORS, FONTS, SIZES } from '../../constants'
+import DetailsHeader from './DetailsHeader'
+import DetailsDesc from './DetailsDesc'
+import SubInfo from './SubInfo'
+import DetailsInfo from './DetailsInfo'
+import { COLORS, FONTS, SHADOWS, SIZES } from '../../constants'
+import { RectButton } from '../Common/Button'
 
 const DetailsBody = ({ data, navigation }) => {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#E5E5E5',
-      }}
-    >
-      <DetailsHeader data={data} navigation={navigation} />
+    <React.Fragment>
       <View
         style={{
-          padding: SIZES.base,
-          borderRadius: SIZES.small,
-          backgroundColor: COLORS.white
-        }}
-      >
-        <Text style={styles.text}>{data.title}</Text>
-        <Text style={[styles.text, { color: COLORS.primary }]}>${data.price}</Text>
-      </View>
-
-      <View
-        style={{
-          marginTop: 5,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          width: '100%',
+          position: 'absolute',
+          bottom: 0,
+          paddingVertical: SIZES.font,
+          justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: COLORS.white
+          zIndex: 1
         }}
       >
-        <Text
-          style={{
-            fontFamily: FONTS.bold,
-            fontSize: SIZES.large,
-            margin: SIZES.small,
-          }}
-        >EFISS Store</Text>
-        <TouchableOpacity
-          style={{
-            width: '30%',
-            backgroundColor: COLORS.primary,
-            padding: SIZES.base,
-            borderRadius: SIZES.small,
-            margin: SIZES.small,
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ color: COLORS.white, fontFamily: FONTS.bold }}>Follow</Text>
-        </TouchableOpacity>
+        <RectButton minWidth={170} fontSize={SIZES.large} {...SHADOWS.dark} title={'Go to Store'} />
       </View>
 
-      <View style={styles.table}>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Condition</Text>
-          <Text style={styles.cell}>Organic</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Price Type</Text>
-          <Text style={styles.cell}>Fixed</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Category</Text>
-          <Text style={styles.cell}>Beverages</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Location</Text>
-          <Text style={styles.cell}>Hanoi</Text>
-        </View>
-      </View>
+      <DetailsHeader data={data} navigation={navigation} />
+      <DetailsInfo data={data} />
 
-      <View style={styles.table}>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Condition</Text>
-          <Text style={styles.cell}>Organic</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Price Type</Text>
-          <Text style={styles.cell}>Fixed</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Category</Text>
-          <Text style={styles.cell}>Beverages</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cellHead}>Location</Text>
-          <Text style={styles.cell}>Hanoi</Text>
-        </View>
+      <View
+        style={{
+          padding: SIZES.font
+        }}
+      >
+
+        <SubInfo />
+        <DetailsDesc />
       </View>
-    </SafeAreaView>
+    </React.Fragment>
+
   )
 }
 
