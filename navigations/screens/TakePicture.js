@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import React, { useState, useEffect, useRef } from 'react';
+import * as FileSystem from 'expo-file-system';
+
 import { CameraButton } from '../../components';
 
 const TakePicture = ({ route, navigation }) => {
@@ -23,6 +25,8 @@ const TakePicture = ({ route, navigation }) => {
                 const data = await cameraRef.current.takePictureAsync();
 
                 setImage(data.uri);
+                var base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
+                console.log(base64);
             } catch (error) {
                 console.log(error);
             }

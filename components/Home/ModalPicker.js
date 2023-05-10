@@ -24,11 +24,15 @@ const ModalPicker = (props) => {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             quality: 1,
+            base64: true,
         });
 
+        console.log(result.assets[0].base64);
+
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            navigation.navigate("Results", { imageUrl: result.assets[0].uri })
+            setImage(result.assets[0].base64);
+
+            navigation.navigate("Results", { imageUrl: result.assets[0].base64 })
         }
     }
 
