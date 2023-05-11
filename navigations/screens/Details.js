@@ -6,60 +6,12 @@ import axios from "axios";
 
 
 const Details = ({ route, navigation }) => {
-    const { productId } = route.params
-    const { product, isLoading, error } = getResult(productId)
+    const { data } = route.params
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <FocusStatusBar colors={COLORS.primary} />
-
-            {isLoading ? (
-                <View style={styles.commonView}>
-                    <ActivityIndicator size="large" colors={COLORS.primary} />
-                </View>
-            ) : error ? (
-                <View style={styles.commonView}>
-                    <Text>Something went wrong</Text>
-                </View>
-            ) : (
-                <DetailsBody data={product} navigation={navigation} />
-            )}
-        </SafeAreaView >
+        <DetailsBody data={data} navigation={navigation} />
     )
 }
-
-const getResult = (productId) => {
-    const [product, setProduct] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const options = {
-        method: "GET",
-        url: `https://fakestoreapi.com/products/${productId}`,
-    };
-
-    const fetchData = async () => {
-        setIsLoading(true);
-
-        try {
-            const response = await axios.request(options);
-
-            setProduct(response.data);
-            setIsLoading(false);
-        } catch (error) {
-            setError(error);
-            console.log(error)
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    return { product, isLoading, error };
-};
 
 const styles = StyleSheet.create({
     commonView: {

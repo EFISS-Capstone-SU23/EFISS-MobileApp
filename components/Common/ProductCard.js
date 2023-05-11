@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons'
 import { COLORS, SHADOWS, SIZES, FONTS } from '../../constants'
 
 const ProductCard = ({ product, navigation }) => {
+
     return (
         <View style={{
             width: "46%",
@@ -18,7 +19,7 @@ const ProductCard = ({ product, navigation }) => {
         }}>
             <View style={{ width: "100%", height: 150 }}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Details", { productId: product.id })}
+                    onPress={() => navigation.navigate("Details", { data: product })}
                 >
                     <Image
                         source={{
@@ -58,22 +59,13 @@ const ProductCard = ({ product, navigation }) => {
                         <Entypo name={'colours'} size={SIZES.small} color={COLORS.primary} />
                         <Text
                             style={{
-                                fontFamily: FONTS.medium,
-                                fontSize: SIZES.small,
-                                marginLeft: 2,
-                                color: COLORS.gray
-                            }}
-                        >{product.category}</Text>
-                    </View>
-                    <View>
-                        <Text
-                            style={{
                                 color: COLORS.primary,
                                 fontFamily: FONTS.semiBold,
-                                fontSize: SIZES.small
+                                fontSize: SIZES.small,
+                                marginLeft: SIZES.base / 2
                             }}
                         >
-                            ${product.price}
+                            {product.price}
                         </Text>
                     </View>
                 </View>

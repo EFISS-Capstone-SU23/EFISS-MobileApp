@@ -27,12 +27,12 @@ const Results = ({ route, navigation }) => {
           <Text>Something went wrong</Text>
         ) : (
           <FlatList
-            data={products.data}
+            data={products.searchResults}
             renderItem={({ item }) => (
               <ProductCard product={item} navigation={navigation} />
             )}
             numColumns={2}
-            keyExtractor={item => item?.id}
+            keyExtractor={item => item?._id}
             contentContainerStyle={{ columnGap: SIZES.medium }}
             ListHeaderComponent={<ResultsHeader navigation={navigation} />}
             ListFooterComponent={<Text style={{textAlign: 'center', fontFamily: FONTS.bold}}>No more results found</Text>}

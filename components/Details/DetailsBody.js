@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, Linking  } from 'react-native'
 import React from 'react'
 
 import DetailsHeader from './DetailsHeader'
@@ -22,7 +22,8 @@ const DetailsBody = ({ data, navigation }) => {
           zIndex: 1
         }}
       >
-        <RectButton minWidth={170} fontSize={SIZES.large} {...SHADOWS.dark} title={'Go to Store'} />
+        <RectButton minWidth={170} fontSize={SIZES.large} {...SHADOWS.dark} title={'Go to Store'} handlePress={() => {Linking.openURL(data.url);
+    }} />
       </View>
 
       <DetailsHeader data={data} navigation={navigation} />

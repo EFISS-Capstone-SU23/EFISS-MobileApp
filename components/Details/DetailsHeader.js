@@ -7,12 +7,11 @@ import { COLORS, SIZES, assets } from '../../constants'
 const WIDTH = Dimensions.get('window').width
 
 const DetailsHeader = ({ data, navigation }) => {
-    console.log(data)
 
     return (
         <View style={{ width: '100%', height: '40%', justifyContent: 'center', alignItems: 'center' }}>
             <Image
-                source={{ uri: data.image }}
+                source={{ uri: data.images[0] }}
                 resizeMode='contain'
                 style={{ width: "80%", height: '100%' }}
             />
