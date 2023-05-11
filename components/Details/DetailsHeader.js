@@ -13,8 +13,8 @@ const DetailsHeader = ({ data, navigation }) => {
         <View style={{ width: '100%', height: '40%', justifyContent: 'center', alignItems: 'center' }}>
             <Image
                 source={{ uri: data.image }}
-                resizeMode='stretch'
-                style={{ width: '60%', height: '100%' }}
+                resizeMode='contain'
+                style={{ width: "80%", height: '100%' }}
             />
 
             <CircleButton

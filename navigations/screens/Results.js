@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import axios from "axios";
+
 import { COLORS, SIZES, FONTS } from '../../constants'
 import { ResultsHeader, ProductCard } from '../../components'
-import axios from "axios";
 
 const Results = ({ route, navigation }) => {
   const { imageUrl } = route.params;
-  const { products, isLoading, error } = getResults()
+
+  const { products, isLoading, error } = getResults(imageUrl)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,7 +45,7 @@ const Results = ({ route, navigation }) => {
   )
 }
 
-const getResults = () => {
+const getResults = (imageUrl) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

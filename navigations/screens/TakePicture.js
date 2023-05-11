@@ -8,6 +8,7 @@ import { CameraButton } from '../../components';
 const TakePicture = ({ route, navigation }) => {
     const [hasCameraPermisson, setHasCameraPermissons] = useState(null);
     const [image, setImage] = useState(null);
+    const [image64, setImage64] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
     const cameraRef = useRef(null);
@@ -23,10 +24,11 @@ const TakePicture = ({ route, navigation }) => {
         if (cameraRef) {
             try {
                 const data = await cameraRef.current.takePictureAsync();
+                var base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
 
                 setImage(data.uri);
                 var base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
-                console.log(base64);
+                setImage64(base64)
             } catch (error) {
                 console.log(error);
             }
@@ -82,7 +84,7 @@ const TakePicture = ({ route, navigation }) => {
                             onPress={() => navigation.goBack()}
                         />
                         <CameraButton title={"Re-take"} icon="ccw" onPress={() => setImage(null)} />
-                        <CameraButton title={"Search"} icon="magnifying-glass" onPress={() => navigation.navigate("Results", { imageUrl: image })} />
+                        <CameraButton title={"Search"} icon="magnifying-glass" onPress={() => navigation.navigate("Results", { imageUrl: image64 })} />
                     </View>
                     :
                     <CameraButton title={'Take a picture'} icon="camera" onPress={takePicture} />

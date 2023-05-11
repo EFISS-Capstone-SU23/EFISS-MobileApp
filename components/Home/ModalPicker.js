@@ -24,10 +24,8 @@ const ModalPicker = (props) => {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             quality: 1,
-            base64: true,
+            base64: true
         });
-
-        console.log(result.assets[0].base64);
 
         if (!result.canceled) {
             setImage(result.assets[0].base64);
