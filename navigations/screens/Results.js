@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { COLORS, SIZES, FONTS } from '../../constants'
 import { ResultsHeader, ProductCard } from '../../components'
+import { config } from '../../config';
 
 const Results = ({ route, navigation }) => {
   const { imageUrl } = route.params;
@@ -50,18 +51,13 @@ const getResults = (imageUrl) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const options = {
-    method: "GET",
-    url: `https://fakestoreapi.com/products`,
-  };
-
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.request(options);
+      const response = await axios.post(`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`, { encodedImage: imageUrl });
 
-      setProducts(response);
+      setProducts(response.data);
       setIsLoading(false);
     } catch (error) {
       setError(error);
