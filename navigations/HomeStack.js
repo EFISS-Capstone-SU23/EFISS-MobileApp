@@ -19,6 +19,7 @@ const HomeStack = () => {
   return (
     <Tab.Navigator
       initialRouteName={homeTab}
+      backBehavior='initialRoute'
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
