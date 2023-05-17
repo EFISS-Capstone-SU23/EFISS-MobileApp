@@ -1,7 +1,9 @@
+import { Dimensions } from 'react-native'
+
 export const COLORS = {
   primary: "#33907C",
   secondary: "#4D626C",
-
+  black: "#000000",
   white: "#FFF",
   gray: "#74858C",
 };
@@ -13,6 +15,8 @@ export const SIZES = {
   medium: 16,
   large: 18,
   extraLarge: 24,
+  WIDTH: Dimensions.get('window').width,
+  HEIGHT: Dimensions.get('window').height
 };
 
 export const FONTS = {

@@ -12,6 +12,8 @@ import { COLORS } from '../constants';
 const homeTab = 'Home'
 const loginTab = 'Login'
 const settingsTab = 'Settings'
+const dashBoardTab = 'Dashboard'
+const browserTab = 'Browser'
 
 const Tab = createBottomTabNavigator();
 

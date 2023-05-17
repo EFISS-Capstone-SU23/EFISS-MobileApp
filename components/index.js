@@ -1,6 +1,7 @@
 import { CircleButton, RectButton } from "./Common/Button";
 import FocusStatusBar from "./Common/FocusStatusBar";
 import ProductCard from "./Common/ProductCard";
+import CarouselCard from "./Common/CarouselCard";
 
 import DetailsBody from "./Details/DetailsBody";
 import DetailsHeader from "./Details/DetailsHeader";
@@ -36,6 +37,7 @@ export {
     ResultsHeader,
     ProductCard,
     CircleButton,
-    RectButton
+    RectButton,
+    CarouselCard
 }
 

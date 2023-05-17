@@ -3,37 +3,43 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios";
 
 import { FONTS, SIZES, COLORS } from '../../constants'
+import CarouselCard from '../Common/CarouselCard';
 
 const PopularProductCarousel = () => {
 
   const { products, isLoading, error } = getNewProduct()
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Sản phẩm hot</Text>
-        <TouchableOpacity>
-          <Text style={styles.headerBtn}>Xem thêm</Text>
-        </TouchableOpacity>
-      </View>
+    <View
+      style={{
+        backgroundColor: COLORS.primary
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Sản phẩm hot</Text>
+          <TouchableOpacity>
+            <Text style={styles.headerBtn}>Xem thêm</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.cardsContainer}>
-        {isLoading ? (
-          <ActivityIndicator size='large' color={COLORS.primary} />
-        ) : error ? (
-          <Text>Something went wrong</Text>
-        ) : (
-          <FlatList
-            data={products}
-            renderItem={({ item }) => (
-              <Text>{item.title}</Text>
-            )}
-            keyExtractor={(item) => item.job_id}
-            contentContainerStyle={{ columnGap: SIZES.medium }}
-            showsHorizontalScrollIndicator={false}
-            horizontal
-          />
-        )}
+        <View style={styles.cardsContainer}>
+          {isLoading ? (
+            <ActivityIndicator size='large' color={COLORS.primary} />
+          ) : error ? (
+            <Text>Something went wrong</Text>
+          ) : (
+            <FlatList
+              data={products}
+              renderItem={({ item }) => (
+                <CarouselCard product={item} />
+              )}
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              horizontal
+            />
+          )}
+        </View>
       </View>
     </View>
   )
@@ -49,7 +55,7 @@ const getNewProduct = () => {
 
     try {
       const response = await axios.get(`https://fakestoreapi.com/products?limit=5`);
-      
+
       setProducts(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -77,14 +83,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerTitle: {
+    fontFamily: FONTS.bold,
     fontSize: SIZES.large,
-    fontFamily: FONTS.medium,
-    color: COLORS.primary,
+    color: COLORS.white,
   },
   headerBtn: {
     fontSize: SIZES.small,
     fontFamily: FONTS.medium,
-    color: COLORS.gray,
+    color: COLORS.white,
   },
   cardsContainer: {
     marginTop: SIZES.medium,

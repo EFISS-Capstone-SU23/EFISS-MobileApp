@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
-import { View, SafeAreaView, StyleSheet, ScrollView, Modal } from 'react-native'
+import { View, SafeAreaView, StyleSheet, ScrollView, Modal, StatusBar } from 'react-native'
 
 import { COLORS } from '../../constants'
 import { HomeHeader, FocusStatusBar, ModalPicker, Welcome, Category, NewProductCarousel, PopularProductCarousel } from '../../components'
@@ -14,7 +14,7 @@ const Home = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <FocusStatusBar background={COLORS.primary} />
+            <StatusBar backgroundColor={COLORS.primary} />
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View

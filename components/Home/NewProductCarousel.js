@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios";
 
 import { FONTS, SIZES, COLORS } from '../../constants'
+import CarouselCard from '../Common/CarouselCard';
 
 const NewProductCarousel = () => {
 
@@ -26,10 +27,9 @@ const NewProductCarousel = () => {
           <FlatList
             data={products}
             renderItem={({ item }) => (
-              <Text>{item.title}</Text>
+              <CarouselCard product={item} />
             )}
-            keyExtractor={(item) => item.job_id}
-            contentContainerStyle={{ columnGap: SIZES.medium }}
+            keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
             horizontal
           />
@@ -49,7 +49,7 @@ const getNewProduct = () => {
 
     try {
       const response = await axios.get(`https://fakestoreapi.com/products?limit=5`);
-      
+
       setProducts(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerTitle: {
+    fontFamily: FONTS.bold,
     fontSize: SIZES.large,
-    fontFamily: FONTS.medium,
     color: COLORS.primary,
   },
   headerBtn: {
