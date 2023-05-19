@@ -90,8 +90,8 @@ const HomeHeader = ({ onSearch, onPicture }) => {
             />
           </TouchableOpacity>
           <TextInput
-            placeholder='What are you looking for?'
-            style={{ flex: 1 }}
+            placeholder='Bạn đang tìm kiếm sản phẩm gì?'
+            style={{ flex: 1, marginLeft: SIZES.base / 2, color: COLORS.gray }}
             onChangeText={() => { }}
           />
           <TouchableOpacity onPress={onPicture}>

@@ -21,7 +21,7 @@ const CarouselCard = ({ product, navigation }) => {
                     />
                 </TouchableOpacity>
             </View>
-            <View style={{ padding: SIZES.base, borderTopColor: COLORS.primary, borderTopWidth: 0.5}}>
+            <View style={{ padding: SIZES.base, borderTopColor: COLORS.black, borderTopWidth: 0.5}}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title} numberOfLines={1}>
                         {product.title}

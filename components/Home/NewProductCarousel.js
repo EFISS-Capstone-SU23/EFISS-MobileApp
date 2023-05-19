@@ -48,7 +48,7 @@ const getNewProduct = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`https://fakestoreapi.com/products?limit=5`);
+      const response = await axios.get(`https://fakestoreapi.com/products?limit=8`);
 
       setProducts(response.data);
       setIsLoading(false);
@@ -69,7 +69,7 @@ const getNewProduct = () => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: SIZES.base,
+    margin: SIZES.small,
   },
   header: {
     flexDirection: "row",
@@ -84,7 +84,10 @@ const styles = StyleSheet.create({
   headerBtn: {
     fontSize: SIZES.small,
     fontFamily: FONTS.medium,
-    color: COLORS.gray,
+    color: COLORS.white,
+    backgroundColor: COLORS.primary,
+    borderRadius: SIZES.small,
+    padding: SIZES.base / 2
   },
   cardsContainer: {
     marginTop: SIZES.medium,
