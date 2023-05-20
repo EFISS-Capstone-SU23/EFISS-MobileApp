@@ -7,52 +7,31 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 const Login = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome to EFISS</Text>
-      <Text style={styles.subtitle}>Login to your account</Text>
+      <Text style={styles.title}>Chào mừng bạn đến với EFISS</Text>
+      <Text style={styles.subtitle}>Đăng nhập bằng tài khoản của bạn</Text>
       <View style={{ marginTop: SIZES.font, alignItems: 'center' }}>
         <View style={styles.input}>
           <TextInput
-            placeholder='Email/Mobile Number'
+            placeholder='Email/Số điện thoại của bạn'
             placeholderTextColor={COLORS.white}
-            style={{ flex: 1 }}
+            style={{ flex: 1, color: COLORS.white }}
             onChangeText={() => { }}
           />
         </View>
         <View style={styles.input}>
           <TextInput
-            placeholder='Password'
+            placeholder='Mật khẩu'
+            secureTextEntry={true}
             placeholderTextColor={COLORS.white}
-            style={{ flex: 1 }}
+            style={{ flex: 1, color: COLORS.white }}
             onChangeText={() => { }}
           />
         </View>
         <View>
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.white,
-              padding: SIZES.medium,
-              marginTop: SIZES.base,
-              marginBottom: SIZES.base,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 20,
-            }}
-          >
-            <Text style={{
-              color: COLORS.primary,
-              fontSize: SIZES.medium,
-              fontFamily: FONTS.bold,
-              textAlign: 'center'
-            }}>
-              Login
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View>
           <Text style={styles.subtitle}>
-            Don't have an account? {' '}
+            Chưa có tài khoản? {' '}
             <Text style={[styles.subtitle, { fontFamily: FONTS.bold }]}>
-              Sign Up
+              Đăng ký ngay
             </Text>
           </Text>
         </View>
