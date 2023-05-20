@@ -12,7 +12,7 @@ const NewProductCarousel = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Sản phẩm mới</Text>
+        <Text style={styles.headerTitle}>Có thể bạn sẽ thích</Text>
         <TouchableOpacity>
           <Text style={styles.headerBtn}>Xem thêm</Text>
         </TouchableOpacity>

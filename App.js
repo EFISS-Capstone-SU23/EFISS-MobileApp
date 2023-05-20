@@ -1,9 +1,11 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { useFonts } from "expo-font";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { COLORS } from './constants';
 
 // Screens
 import HomeStack from './navigations/HomeStack';
@@ -25,7 +27,7 @@ const App = () => {
 
   if (!loaded) return (
     <View style={styles.container}>
-      <Text>Welcome to React Native</Text>
+      <ActivityIndicator size="large" colors={COLORS.primary} />
       <StatusBar style="auto" />
     </View>
   );

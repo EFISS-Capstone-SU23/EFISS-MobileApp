@@ -17,7 +17,7 @@ const PopularProductCarousel = () => {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Sản phẩm hot</Text>
+          <Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
           <TouchableOpacity>
             <Text style={styles.headerBtn}>Xem thêm</Text>
           </TouchableOpacity>

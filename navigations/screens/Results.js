@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar } from 'react-native'
 import axios from "axios";
 
 import { COLORS, SIZES, FONTS } from '../../constants'
@@ -13,7 +13,7 @@ const Results = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-
+      <StatusBar backgroundColor={COLORS.primary} />
       <View
         style={{
           flex: 1,
