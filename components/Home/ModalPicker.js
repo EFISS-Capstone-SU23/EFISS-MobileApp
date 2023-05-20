@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import {
     View, Text, StyleSheet,
-    TouchableOpacity, Dimensions, ScrollView
+    SafeAreaView, Button
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 
-import { COLORS, FONTS } from '../../constants';
+import { COLORS, FONTS, SIZES } from '../../constants';
 
-const OPTIONS = ['Take a picture', 'Upload from gallery', 'Cancel']
-const WIDTH = Dimensions.get('window').width * 4 / 5
-const HEIGHT = Dimensions.get('window').height / 4
+const OPTIONS = [
+    {
+        id: 1,
+        action: 'Chụp ảnh'
+    },
+    {
+        id: 2,
+        action: 'Chọn ảnh từ thư viện'
+    },
+    {
+        id: 3,
+        action: 'Quay lại'
+    }
+]
 
 const ModalPicker = (props) => {
 
@@ -37,10 +48,10 @@ const ModalPicker = (props) => {
     const onPressItem = (option) => {
         props.changeModalVisibility(false)
         switch (option) {
-            case 'Take a picture':
+            case 1:
                 navigation.navigate("TakePicture")
                 break;
-            case 'Upload from gallery':
+            case 2:
                 showImagePicker();
                 break;
             default:
@@ -50,30 +61,30 @@ const ModalPicker = (props) => {
 
     const option = OPTIONS.map((item, index) => {
         return (
-            <TouchableOpacity
+            <View
+                style={{
+                    margin: SIZES.base
+                }}
                 key={index}
-                onPress={() => onPressItem(item)}
-                style={styles.option}
             >
-                <Text style={styles.text}>
-                    {item}
-                </Text>
-            </TouchableOpacity>
+                <Button
+                    onPress={() => onPressItem(item.id)}
+                    color={COLORS.primary}
+                    style={styles.option}
+                    title={item.action}
+                />
+            </View>
         )
     })
 
     return (
-        <View
+        <SafeAreaView
             style={styles.container}
         >
-            <View style={[styles.modal, { width: WIDTH, height: HEIGHT }]}>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    {option}
-                </ScrollView>
+            <View style={styles.modal}>
+                {option}
             </View>
-        </View>
+        </SafeAreaView >
     )
 }
 
@@ -81,30 +92,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     modal: {
         backgroundColor: COLORS.white,
         borderRadius: 10,
         borderColor: COLORS.gray,
-        borderWidth: 1
+        borderWidth: 1,
+        paddingVertical: SIZES.base,
+        paddingHorizontal: SIZES.font,
+        justifyContent: 'space-between', // Space between vertically
+        flexDirection: 'column', // Optional: Default is column
     },
-    option: {
-        width: WIDTH - 20,
-        height: HEIGHT / 3 - 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.primary,
-        borderRadius: 5,
-        marginHorizontal: 10,
-        marginVertical: 10
-    },
-    text: {
-        fontSize: 16,
-        fontFamily: FONTS.bold,
-        color: COLORS.white
-    }
+});
 
-})
 
 export default ModalPicker

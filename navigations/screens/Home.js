@@ -23,7 +23,6 @@ const Home = () => {
                     }}
                 >
                     <HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
-                    <Welcome />
                     <Category />
                     <NewProductCarousel />
                     <PopularProductCarousel />

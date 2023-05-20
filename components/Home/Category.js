@@ -17,6 +17,9 @@ const categories = [
 const Category = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Danh mục sản phẩm</Text>
+      </View>
       <View style={styles.row}>
         {categories.slice(0, 4).map((category, index) => (
           <TouchableOpacity key={index} style={styles.square}>
@@ -43,6 +46,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: SIZES.font * 2 / 3
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: SIZES.base
+  },
+  headerTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.large,
+    color: COLORS.primary,
   },
   row: {
     flexDirection: 'row',
