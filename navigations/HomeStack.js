@@ -9,11 +9,9 @@ import Settings from './screens/Settings';
 import { COLORS } from '../constants';
 
 // TABS
-const homeTab = 'Home'
-const loginTab = 'Login'
-const settingsTab = 'Settings'
-const dashBoardTab = 'Dashboard'
-const browserTab = 'Browser'
+const homeTab = 'Trang chủ'
+const loginTab = 'Đăng nhập'
+const settingsTab = 'Cài đặt'
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +21,9 @@ const HomeStack = () => {
       initialRouteName={homeTab}
       backBehavior='initialRoute'
       screenOptions={({ route }) => ({
+        tabBarInactiveTintColor: COLORS.gray,
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

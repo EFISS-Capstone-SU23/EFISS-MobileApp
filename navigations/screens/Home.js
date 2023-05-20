@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View, SafeAreaView, StyleSheet, ScrollView, Modal, StatusBar } from 'react-native'
 
 import { COLORS } from '../../constants'
-import { HomeHeader, FocusStatusBar, ModalPicker, Welcome, Category, NewProductCarousel, PopularProductCarousel } from '../../components'
+import { HomeHeader, ModalPicker, Category, NewProductCarousel, PopularProductCarousel } from '../../components'
 
 const Home = () => {
     const navigation = useNavigation();

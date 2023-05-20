@@ -56,8 +56,6 @@ const getResults = (imageUrl) => {
 
     try {
       const response = await axios.post(`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`, { encodedImage: imageUrl });
-      
-      console.log(response.data)
 
       setProducts(response.data);
       setIsLoading(false);

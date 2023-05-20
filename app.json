@@ -4,7 +4,7 @@
     "slug": "EFISS-FE-APP",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/logo-color.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo-color.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.evolting.EFISSFEAPP"

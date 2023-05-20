@@ -1,83 +1,83 @@
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
+import { Entypo } from '@expo/vector-icons';
 
-import { COLORS, FONTS, SIZES } from '../../constants'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { FONTS, SIZES, COLORS } from '../../constants';
+import logo from '../../assets/images/logo-no-background.png';
 
 const Login = () => {
+  const navigation = useNavigation();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Chào mừng bạn đến với EFISS</Text>
-      <Text style={styles.subtitle}>Đăng nhập bằng tài khoản của bạn</Text>
-      <View style={{ marginTop: SIZES.font, alignItems: 'center' }}>
-        <View style={styles.input}>
+    <View style={styles.container}>
+      <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ alignItems: 'center' }}>
+          <Image source={logo} style={{ width: '100%' }} resizeMode='contain' />
+        </View>
+        <Text
+          style={{
+            fontFamily: FONTS.bold,
+            fontSize: SIZES.extraLarge,
+            fontWeight: '500',
+            color: COLORS.primary,
+            marginBottom: 30,
+            textAlign: 'center',
+          }}
+        >
+          Đăng nhập
+        </Text>
+        <View style={{ flexDirection: 'row', borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: SIZES.base, marginBottom: 25 }}>
+          <Entypo name={'email'} size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
           <TextInput
             placeholder='Email/Số điện thoại của bạn'
-            placeholderTextColor={COLORS.white}
-            style={{ flex: 1, color: COLORS.white }}
-            onChangeText={() => { }}
+            style={{ flex: 1, paddingVertical: 0 }}
+            keyboardType='email-address'
           />
         </View>
-        <View style={styles.input}>
+        <View style={{ flexDirection: 'row', borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: SIZES.base, marginBottom: 25 }}>
+          <Entypo name={'key'} size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
           <TextInput
             placeholder='Mật khẩu'
+            style={{ flex: 1, paddingVertical: 0 }}
             secureTextEntry={true}
-            placeholderTextColor={COLORS.white}
-            style={{ flex: 1, color: COLORS.white }}
-            onChangeText={() => { }}
           />
         </View>
-        <View>
-          <Text style={styles.subtitle}>
-            Chưa có tài khoản? {' '}
-            <Text style={[styles.subtitle, { fontFamily: FONTS.bold }]}>
-              Đăng ký ngay
-            </Text>
-          </Text>
+        <TouchableOpacity
+          onPress={() => { }}
+          style={{
+            backgroundColor: COLORS.primary,
+            padding: 20,
+            borderRadius: 10,
+            marginBottom: 30,
+          }}
+        >
+          <Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng nhập</Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text>Chưa có tài khoản?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+            <Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}> Đăng ký</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.primary,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  title: {
-    color: COLORS.white,
-    fontSize: SIZES.extraLarge,
-    fontFamily: FONTS.bold,
-    textAlign: 'center'
-  },
-  subtitle: {
-    color: COLORS.white,
-    fontSize: SIZES.small,
-    fontFamily: FONTS.regular,
-    textAlign: 'center'
-  },
-  input: {
-    width: "80%",
-    borderRadius: SIZES.extraLarge,
-    borderColor: COLORS.white,
-    borderWidth: 1,
-    flexDirection: 'row',
-    paddingHorizontal: SIZES.font,
-    paddingVertical: SIZES.base,
-    marginTop: SIZES.small,
-  },
-  button: {
+    backgroundColor: '#fff',
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    borderColor: COLORS.white,
-    borderWidth: 1,
-    marginHorizontal: 10,
-    marginVertical: 10
-  }
+  },
 });
 
 export default Login
