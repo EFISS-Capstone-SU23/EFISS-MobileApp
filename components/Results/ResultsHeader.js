@@ -32,19 +32,19 @@ const ResultsHeader = ({ navigation }) => {
                 alignItems: 'center'
             }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.button, { flex: 0 }]}>
-                    <Entypo name={'chevron-left'} size={28} color={'#f1f1f1'} />
+                    <Entypo name={'chevron-left'} size={28} color={COLORS.primary} />
                 </TouchableOpacity>
 
                 <Text
                     style={{
                         fontFamily: FONTS.bold,
-                        fontSize: SIZES.extraLarge,
+                        fontSize: SIZES.large,
                         color: COLORS.white,
                         textAlign: 'center',
                         flex: 1
                     }}
                 >
-                    Kết quả
+                    Kết quả tìm kiếm
                 </Text>
             </View>
 
@@ -69,9 +69,14 @@ const ResultsHeader = ({ navigation }) => {
 const styles = StyleSheet.create({
     button: {
         height: 40,
+        width: 40,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'absolute',
+        left: 2,
+        backgroundColor: COLORS.white,
+        borderRadius: SIZES.small
     },
     text: {
         fontWeight: 'bold',
