@@ -7,15 +7,15 @@ import ResultsHeaderTag from './ResultsHeaderTag'
 
 const TAGS = [
     {
-        title: 'Sort by',
+        title: 'Bộ lọc',
         icon: 'bar-graph'
     },
     {
-        title: 'Location',
+        title: 'Địa điểm',
         icon: 'map'
     },
     {
-        title: 'Category',
+        title: 'Phân loại',
         icon: 'list'
     }
 ]
@@ -32,7 +32,7 @@ const ResultsHeader = ({ navigation }) => {
                 alignItems: 'center'
             }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.button, { flex: 0 }]}>
-                    <Entypo name={'arrow-left'} size={28} color={'#f1f1f1'} />
+                    <Entypo name={'chevron-left'} size={28} color={'#f1f1f1'} />
                 </TouchableOpacity>
 
                 <Text
@@ -44,7 +44,7 @@ const ResultsHeader = ({ navigation }) => {
                         flex: 1
                     }}
                 >
-                    Results
+                    Kết quả
                 </Text>
             </View>
 

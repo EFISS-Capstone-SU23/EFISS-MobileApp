@@ -17,12 +17,12 @@ const Results = ({ route, navigation }) => {
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           width: '100%',
         }}
       >
         {isLoading ? (
-          <ActivityIndicator size="large" colors={COLORS.primary} />
+          <ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
         ) : error ? (
           <Text>Something went wrong</Text>
         ) : (
@@ -35,7 +35,7 @@ const Results = ({ route, navigation }) => {
             keyExtractor={item => item?._id}
             contentContainerStyle={{ columnGap: SIZES.medium }}
             ListHeaderComponent={<ResultsHeader navigation={navigation} />}
-            ListFooterComponent={<Text style={{textAlign: 'center', fontFamily: FONTS.bold}}>No more results found</Text>}
+            ListFooterComponent={<Text style={{textAlign: 'center', fontFamily: FONTS.bold}}>Không còn sản phẩm nào phù hợp</Text>}
             stickyHeaderIndices={[0]}
             showsVerticalScrollIndicator={false}
           />

@@ -40,7 +40,7 @@ const ProductCard = ({ product, navigation }) => {
                             fontSize: SIZES.small
                         }}
                         numberOfLines={1}
-                        onPress={() => navigation.navigate("Details", { productId: product.id })}
+                        onPress={() => navigation.navigate("Details", { data: product })}
                     >
                         {product.title}
                     </Text>
@@ -65,7 +65,7 @@ const ProductCard = ({ product, navigation }) => {
                                 marginLeft: SIZES.base / 2
                             }}
                         >
-                            {product.price}
+                            {product.price.replace(/(\r\n|\n|\r)/gm, " ")}
                         </Text>
                     </View>
                 </View>
