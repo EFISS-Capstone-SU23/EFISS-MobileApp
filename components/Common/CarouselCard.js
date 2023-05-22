@@ -14,10 +14,10 @@ const CarouselCard = ({ product, navigation }) => {
                 <TouchableOpacity>
                     <Image
                         source={{
-                            uri: product.image,
+                            uri: 'https://storage.googleapis.com/efiss/data' + product.images[0].substring(1),
                         }}
                         resizeMode='contain'
-                        style={{ height: '90%', borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small, padding: SIZES.base }}
+                        style={{ height: '100%', borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small, padding: SIZES.base }}
                     />
                 </TouchableOpacity>
             </View>
