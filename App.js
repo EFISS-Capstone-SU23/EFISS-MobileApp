@@ -4,25 +4,27 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { useFonts } from "expo-font";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Provider } from 'react-redux';
 
-import { COLORS } from './constants';
+import { store } from './src/redux/store'
+import { COLORS } from './src/constants';
 
 // Screens
-import HomeStack from './navigations/HomeStack';
-import Details from './navigations/screens/Details';
-import Results from './navigations/screens/Results';
-import TakePicture from './navigations/screens/TakePicture';
-import SignUp from './navigations/screens/SignUp';
+import HomeStack from './src/tabs/HomeStack';
+import Details from './src/screens/Details';
+import Results from './src/screens/Results';
+import TakePicture from './src/screens/TakePicture';
+import SignUp from './src/screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [loaded] = useFonts({
-    InterBold: require("./assets/fonts/Inter-Bold.ttf"),
-    InterLight: require("./assets/fonts/Inter-Light.ttf"),
-    InterMedium: require("./assets/fonts/Inter-Medium.ttf"),
-    InterRegular: require("./assets/fonts/Inter-Regular.ttf"),
-    InterSemiBold: require("./assets/fonts/Inter-SemiBold.ttf")
+    InterBold: require("./src/assets/fonts/Inter-Bold.ttf"),
+    InterLight: require("./src/assets/fonts/Inter-Light.ttf"),
+    InterMedium: require("./src/assets/fonts/Inter-Medium.ttf"),
+    InterRegular: require("./src/assets/fonts/Inter-Regular.ttf"),
+    InterSemiBold: require("./src/assets/fonts/Inter-SemiBold.ttf")
   })
 
   if (!loaded) return (
@@ -33,18 +35,21 @@ const App = () => {
   );
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="HomeStack"
-      >
-        <Stack.Screen name="HomeStack" component={HomeStack} />
-        <Stack.Screen name="Details" component={Details} />
-        <Stack.Screen name="Results" component={Results} />
-        <Stack.Screen name="TakePicture" component={TakePicture} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="HomeStack"
+        >
+          <Stack.Screen name="HomeStack" component={HomeStack} />
+          <Stack.Screen name="Details" component={Details} />
+          <Stack.Screen name="Results" component={Results} />
+          <Stack.Screen name="TakePicture" component={TakePicture} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+
   );
 }
 
