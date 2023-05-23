@@ -31,8 +31,8 @@ const ResultsHeader = ({ navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.button, { flex: 0 }]}>
-                    <Entypo name={'chevron-left'} size={28} color={COLORS.primary} />
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+                    <Entypo name={'chevron-with-circle-left'} size={28} color={COLORS.white} />
                 </TouchableOpacity>
 
                 <Text
@@ -75,8 +75,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'absolute',
         left: 2,
-        backgroundColor: COLORS.white,
-        borderRadius: SIZES.small
     },
     text: {
         fontWeight: 'bold',

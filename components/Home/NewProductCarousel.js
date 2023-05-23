@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { FONTS, SIZES, COLORS } from '../../constants'
 import CarouselCard from '../Common/CarouselCard';
 
 const NewProductCarousel = () => {
 
-  const { products, isLoading, error } = getNewProduct()
+  const { products, isLoading, error } = getProductRecommend()
 
   return (
     <View style={styles.container}>
@@ -29,7 +30,7 @@ const NewProductCarousel = () => {
             renderItem={({ item }) => (
               <CarouselCard product={item} />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             showsHorizontalScrollIndicator={false}
             horizontal
           />
@@ -39,7 +40,7 @@ const NewProductCarousel = () => {
   )
 }
 
-const getNewProduct = () => {
+const getProductRecommend = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,16 +49,25 @@ const getNewProduct = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`https://fakestoreapi.com/products?limit=8`);
-
-      setProducts(response.data);
-      setIsLoading(false);
+      const value = await AsyncStorage.getItem('product_history');
+      if (value !== null) {
+        var product_history = JSON.parse(value);
+        setProducts(product_history.reverse());
+        setIsLoading(false);
+      }
+      else {
+        setProducts([]);
+        setIsLoading(false);
+      }
+      setError(null);
     } catch (error) {
       setError(error);
       console.log(error)
-    } finally {
+    }
+    finally {
       setIsLoading(false);
     }
+
   };
 
   useEffect(() => {

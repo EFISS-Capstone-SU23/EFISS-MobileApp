@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { FONTS, SIZES, COLORS } from '../../constants'
 import CarouselCard from '../Common/CarouselCard';
 
 const PopularProductCarousel = () => {
 
-  const { products, isLoading, error } = getNewProduct()
+  const { products, isLoading, error } = getProductHistory()
 
   return (
     <View
@@ -18,23 +18,26 @@ const PopularProductCarousel = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
-          <TouchableOpacity>
-            <Text style={styles.headerBtn}>Xem thêm</Text>
-          </TouchableOpacity>
+          {!error && (
+            <TouchableOpacity>
+              <Text style={styles.headerBtn}>Xem thêm</Text>
+            </TouchableOpacity>
+          )}
+
         </View>
 
         <View style={styles.cardsContainer}>
           {isLoading ? (
             <ActivityIndicator size='large' color={COLORS.primary} />
           ) : error ? (
-            <Text>Something went wrong</Text>
+            <Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
           ) : (
             <FlatList
               data={products}
               renderItem={({ item }) => (
                 <CarouselCard product={item} />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               showsHorizontalScrollIndicator={false}
               horizontal
             />
@@ -45,7 +48,7 @@ const PopularProductCarousel = () => {
   )
 }
 
-const getNewProduct = () => {
+const getProductHistory = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,16 +57,25 @@ const getNewProduct = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`https://fakestoreapi.com/products?limit=8`);
-
-      setProducts(response.data);
-      setIsLoading(false);
+      const value = await AsyncStorage.getItem('product_history');
+      if (value !== null) {
+        var product_history = JSON.parse(value);
+        setProducts(product_history.reverse());
+        setIsLoading(false);
+      }
+      else {
+        setProducts([]);
+        setIsLoading(false);
+      }
+      setError(null);
     } catch (error) {
       setError(error);
       console.log(error)
-    } finally {
+    }
+    finally {
       setIsLoading(false);
     }
+
   };
 
   useEffect(() => {

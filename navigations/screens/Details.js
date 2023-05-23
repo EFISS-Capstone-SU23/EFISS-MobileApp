@@ -8,8 +8,6 @@ import { COLORS, FONTS, SIZES } from '../../constants'
 const Details = ({ route, navigation }) => {
     const { data } = route.params
 
-    console.log(data)
-
     const scrollX = new Animated.Value(0)
 
     let position = Animated.divide(scrollX, SIZES.WIDTH)
@@ -51,6 +49,7 @@ const Details = ({ route, navigation }) => {
                     </View>
                     <FlatList
                         data={data.images ? data.images : null}
+                        keyExtractor={(item, index) => 'key'+index}
                         horizontal
                         renderItem={renderImageItem}
                         showsHorizontalScrollIndicator={false}

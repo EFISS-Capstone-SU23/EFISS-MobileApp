@@ -14,15 +14,27 @@ const HomeHeader = ({ onSearch, onPicture }) => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Text 
-          style={{
-            fontFamily: FONTS.bold,
-            fontSize: SIZES.extraLarge,
-            color: COLORS.white
-          }}
-        >
-          EFISS
-        </Text>
+        <View style={{ marginVertical: SIZES.font }}>
+          <Text
+            style={{
+              fontFamily: FONTS.regular,
+              fontSize: SIZES.small,
+              color: COLORS.white
+            }}
+          >
+            EFISS
+          </Text>
+          <Text
+            style={{
+              fontFamily: FONTS.bold,
+              fontSize: SIZES.large,
+              color: COLORS.white,
+              marginTop: SIZES.base / 2
+            }}
+          >
+            Let’s Fashion Talks!
+          </Text>
+        </View>
 
         <View style={{ width: 45, height: 45 }}>
           <Image
@@ -47,27 +59,7 @@ const HomeHeader = ({ onSearch, onPicture }) => {
         </View>
       </View>
 
-      <View style={{ marginVertical: SIZES.font }}>
-        <Text
-          style={{
-            fontFamily: FONTS.regular,
-            fontSize: SIZES.small,
-            color: COLORS.white
-          }}
-        >
-          Hello, EFISS User
-        </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.bold,
-            fontSize: SIZES.large,
-            color: COLORS.white,
-            marginTop: SIZES.base / 2
-          }}
-        >
-          Let’s Fashion Talks!
-        </Text>
-      </View>
+
 
       <View style={{ marginTop: SIZES.font }}>
         <View style={{
