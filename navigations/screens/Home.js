@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View, SafeAreaView, StyleSheet, ScrollView, Modal, StatusBar } from 'react-native'
 
 import { COLORS } from '../../constants'
-import { HomeHeader, ModalPicker, Category, NewProductCarousel, PopularProductCarousel } from '../../components'
+import { HomeHeader, ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel } from '../../components'
 
 const Home = () => {
     const navigation = useNavigation();
@@ -24,8 +24,8 @@ const Home = () => {
                 >
                     <HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
                     <Category />
-                    <NewProductCarousel />
-                    <PopularProductCarousel />
+                    <ProductRecommendCarousel navigation={navigation} />
+                    <ProductHistoryCarousel navigation={navigation} />
                 </View>
             </ScrollView>
 

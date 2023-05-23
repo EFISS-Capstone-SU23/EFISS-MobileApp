@@ -2,12 +2,12 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList }
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
 import { FONTS, SIZES, COLORS } from '../../constants'
 import CarouselCard from '../Common/CarouselCard';
 
-const NewProductCarousel = () => {
-
+const ProductRecommendCarousel = ({ navigation }) => {
   const { products, isLoading, error } = getProductRecommend()
 
   return (
@@ -28,7 +28,7 @@ const NewProductCarousel = () => {
           <FlatList
             data={products}
             renderItem={({ item }) => (
-              <CarouselCard product={item} />
+              <CarouselCard product={item} navigation={navigation} />
             )}
             keyExtractor={(item) => item._id}
             showsHorizontalScrollIndicator={false}
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewProductCarousel
+export default ProductRecommendCarousel

@@ -11,7 +11,9 @@ const CarouselCard = ({ product, navigation }) => {
     return (
         <View style={styles.card}>
             <View style={{ width: "100%", height: 150, justifyContent: 'center' }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate("Details", { data: product })
+                }}>
                     <Image
                         source={{
                             uri: 'https://storage.googleapis.com/efiss/data' + product.images[0].substring(1),
@@ -21,9 +23,11 @@ const CarouselCard = ({ product, navigation }) => {
                     />
                 </TouchableOpacity>
             </View>
-            <View style={{ padding: SIZES.base, borderTopColor: COLORS.black, borderTopWidth: 0.5}}>
+            <View style={{ padding: SIZES.base, borderTopColor: COLORS.black, borderTopWidth: 0.5 }}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title} numberOfLines={1}>
+                    <Text style={styles.title} numberOfLines={1} onPress={() => {
+                        navigation.navigate("Details", { data: product })
+                    }}>
                         {product.title}
                     </Text>
                 </View>
