@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import { searchProductsReducer } from "./productsReducer";
+import { searchProductsReducer } from './productsReducer';
 
 const reducer = combineReducers({
-    searchProducts: searchProductsReducer
-})
+	searchProducts: searchProductsReducer,
+});
 
 export default (state, action) => reducer(state, action);
