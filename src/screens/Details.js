@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { COLORS, FONTS, SIZES } from '../constants'
+import { RenderImageItem } from '../components';
 
 const Details = ({ route, navigation }) => {
     const { data } = route.params
@@ -11,17 +12,6 @@ const Details = ({ route, navigation }) => {
     const scrollX = new Animated.Value(0)
 
     let position = Animated.divide(scrollX, SIZES.WIDTH)
-
-    const renderImageItem = ({ item, index }) => {
-        return (
-            <View key={index} style={styles.imgContainer} >
-                <Image
-                    source={{ uri: 'https://storage.googleapis.com/efiss/data' + item.substring(1), }}
-                    style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-                />
-            </View>
-        )
-    }
 
     return (
         <View style={styles.container}>
@@ -49,9 +39,11 @@ const Details = ({ route, navigation }) => {
                     </View>
                     <FlatList
                         data={data.images ? data.images : null}
-                        keyExtractor={(item, index) => 'key'+index}
                         horizontal
-                        renderItem={renderImageItem}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <RenderImageItem item={item} />
+                        )}
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={0.8}
                         snapToInterval={SIZES.WIDTH}
@@ -178,10 +170,10 @@ const styles = StyleSheet.create({
         marginHorizontal: SIZES.base / 2,
         borderRadius: 100
     }),
-    category: { 
-        fontSize: SIZES.font, 
-        color: COLORS.black, 
-        fontFamily: FONTS.regular 
+    category: {
+        fontSize: SIZES.font,
+        color: COLORS.black,
+        fontFamily: FONTS.regular
     },
     titleContainer: {
         flexDirection: 'row',

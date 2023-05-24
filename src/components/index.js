@@ -3,6 +3,8 @@ import FocusStatusBar from "./Common/FocusStatusBar";
 import ProductCard from "./Common/ProductCard";
 import CarouselCard from "./Common/CarouselCard";
 
+import RenderImageItem from "./Details/RenderImageItem";
+
 import Category from "./Home/Category";
 import HomeHeader from "./Home/HomeHeader";
 import ModalPicker from "./Home/ModalPicker";
@@ -27,6 +29,7 @@ export {
     ProductCard,
     CircleButton,
     RectButton,
-    CarouselCard
+    CarouselCard, 
+    RenderImageItem
 }
 
