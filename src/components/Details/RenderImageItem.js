@@ -1,7 +1,17 @@
 import { View, Image, StyleSheet } from 'react-native';
 import React from 'react';
 
-import { COLORS, FONTS, SIZES } from '../../constants';
+import { COLORS, SIZES } from '../../constants';
+
+const styles = StyleSheet.create({
+	imgContainer: {
+		width: SIZES.WIDTH,
+		height: (SIZES.HEIGHT * 2) / 5,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLORS.black,
+	},
+});
 
 function RenderImageItem({ item }) {
 	return (
@@ -14,15 +24,5 @@ function RenderImageItem({ item }) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	imgContainer: {
-		width: SIZES.WIDTH,
-		height: SIZES.HEIGHT * 2 / 5,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLORS.black,
-	},
-});
 
 export default RenderImageItem;

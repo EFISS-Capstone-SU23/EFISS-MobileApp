@@ -9,7 +9,48 @@ import {
 } from '../../constants';
 
 const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
+// const HEIGHT = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+	card: {
+		flex: 1,
+		width: (WIDTH * 2) / 5,
+		backgroundColor: COLORS.white,
+		borderRadius: SIZES.font,
+		borderColor: COLORS.gray,
+		borderWidth: 1,
+		margin: SIZES.base,
+		...SHADOWS.medium,
+		shadowColor: COLORS.white,
+	},
+	titleContainer: {
+		flex: 1,
+	},
+	title: {
+		fontSize: SIZES.font,
+		fontFamily: FONTS.semiBold,
+		color: COLORS.black,
+	},
+	priceContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
+	price: {
+		color: COLORS.primary,
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.small,
+		marginLeft: SIZES.base / 2,
+	},
+	button: {
+		height: 30,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLORS.primary,
+		borderRadius: SIZES.small,
+	},
+});
 
 function CarouselCard({ product, navigation }) {
 	return (
@@ -52,46 +93,5 @@ function CarouselCard({ product, navigation }) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	card: {
-		flex: 1,
-		width: WIDTH * 2 / 5,
-		backgroundColor: COLORS.white,
-		borderRadius: SIZES.font,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
-		margin: SIZES.base,
-		...SHADOWS.medium,
-		shadowColor: COLORS.white,
-	},
-	titleContainer: {
-		flex: 1,
-	},
-	title: {
-		fontSize: SIZES.font,
-		fontFamily: FONTS.semiBold,
-		color: COLORS.black,
-	},
-	priceContainer: {
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-	},
-	price: {
-		color: COLORS.primary,
-		fontFamily: FONTS.semiBold,
-		fontSize: SIZES.small,
-		marginLeft: SIZES.base / 2,
-	},
-	button: {
-		height: 30,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLORS.primary,
-		borderRadius: SIZES.small,
-	},
-});
 
 export default CarouselCard;

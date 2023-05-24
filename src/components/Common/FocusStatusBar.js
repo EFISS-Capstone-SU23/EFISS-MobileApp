@@ -1,4 +1,5 @@
-import { View, Text, StatusBar } from 'react-native';
+/* eslint-disable react/jsx-props-no-spreading */
+import { StatusBar } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 function FocusStatusBar(props) {

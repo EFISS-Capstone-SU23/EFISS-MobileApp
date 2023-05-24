@@ -16,6 +16,21 @@ const settingsTab = 'Cài đặt';
 const Tab = createBottomTabNavigator();
 
 function HomeStack() {
+	const getTabBarIcon = (focused, size, route) => {
+		let iconName;
+		const rn = route.name;
+
+		if (rn === homeTab) {
+			iconName = focused ? 'home' : 'home-outline';
+		} else if (rn === loginTab) {
+			iconName = focused ? 'person' : 'person-outline';
+		} else if (rn === settingsTab) {
+			iconName = focused ? 'settings' : 'settings-outline';
+		}
+
+		return <Ionicons name={iconName} size={size} color={COLORS.primary} />;
+	};
+
 	return (
 		<Tab.Navigator
 			initialRouteName={homeTab}
@@ -25,20 +40,7 @@ function HomeStack() {
 				tabBarActiveTintColor: COLORS.primary,
 				tabBarHideOnKeyboard: true,
 				headerShown: false,
-				tabBarIcon: ({ focused, color, size }) => {
-					let iconName;
-					const rn = route.name;
-
-					if (rn === homeTab) {
-						iconName = focused ? 'home' : 'home-outline';
-					} else if (rn === loginTab) {
-						iconName = focused ? 'person' : 'person-outline';
-					} else if (rn === settingsTab) {
-						iconName = focused ? 'settings' : 'settings-outline';
-					}
-
-					return <Ionicons name={iconName} size={size} color={COLORS.primary} />;
-				},
+				tabBarIcon: ({ focused, size }) => getTabBarIcon(focused, size, route),
 			})}
 		>
 			<Tab.Screen name={loginTab} component={Login} />

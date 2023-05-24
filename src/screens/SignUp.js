@@ -1,12 +1,20 @@
 import {
 	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo-no-background.png';
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+	},
+});
 
 function SignUp({ navigation }) {
 	return (
@@ -97,13 +105,5 @@ function SignUp({ navigation }) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		justifyContent: 'center',
-	},
-});
 
 export default SignUp;

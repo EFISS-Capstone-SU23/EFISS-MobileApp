@@ -7,82 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FONTS, SIZES, COLORS } from '../../constants';
 import CarouselCard from '../Common/CarouselCard';
 
-function ProductHistoryCarousel({ navigation }) {
-	const { products, isLoading, error } = getProductHistory();
-
-	return (
-		<View
-			style={{
-				backgroundColor: COLORS.primary,
-			}}
-		>
-			<View style={styles.container}>
-				<View style={styles.header}>
-					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
-					{!error && (
-						<TouchableOpacity>
-							<Text style={styles.headerBtn}>Xem thêm</Text>
-						</TouchableOpacity>
-					)}
-
-				</View>
-
-				<View style={styles.cardsContainer}>
-					{isLoading ? (
-						<ActivityIndicator size="large" color={COLORS.primary} />
-					) : error ? (
-						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
-					) : (
-						<FlatList
-							data={products}
-							renderItem={({ item }) => (
-								<CarouselCard product={item} navigation={navigation} />
-							)}
-							keyExtractor={(item) => item._id}
-							showsHorizontalScrollIndicator={false}
-							horizontal
-						/>
-					)}
-				</View>
-			</View>
-		</View>
-	);
-}
-
-const getProductHistory = () => {
-	const [products, setProducts] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState(null);
-
-	const fetchData = async () => {
-		setIsLoading(true);
-
-		try {
-			const value = await AsyncStorage.getItem('product_history');
-			if (value !== null) {
-				const product_history = JSON.parse(value);
-				setProducts(product_history.reverse());
-				setIsLoading(false);
-			} else {
-				setProducts([]);
-				setIsLoading(false);
-			}
-			setError(null);
-		} catch (error) {
-			setError(error);
-			console.log(error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		fetchData();
-	}, []);
-
-	return { products, isLoading, error };
-};
-
 const styles = StyleSheet.create({
 	container: {
 		margin: SIZES.small,
@@ -109,5 +33,83 @@ const styles = StyleSheet.create({
 		marginTop: SIZES.medium,
 	},
 });
+
+const getProductHistory = () => {
+	const [products, setProducts] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	const fetchData = async () => {
+		setIsLoading(true);
+
+		try {
+			const value = await AsyncStorage.getItem('product_history');
+			if (value !== null) {
+				const productHistory = JSON.parse(value);
+				setProducts(productHistory.reverse());
+				setIsLoading(false);
+			} else {
+				setProducts([]);
+				setIsLoading(false);
+			}
+			setError(null);
+		} catch (errorCatch) {
+			setError(errorCatch);
+			console.log(errorCatch);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
+	return { products, isLoading, error };
+};
+
+function ProductHistoryCarousel({ navigation }) {
+	const { products, isLoading, error } = getProductHistory();
+
+	const result = 	error ? (
+		<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+	) : (
+		<FlatList
+			data={products}
+			renderItem={({ item }) => (
+				<CarouselCard product={item} navigation={navigation} />
+			)}
+			keyExtractor={(item) => item._id}
+			showsHorizontalScrollIndicator={false}
+			horizontal
+		/>
+	);
+
+	return (
+		<View
+			style={{
+				backgroundColor: COLORS.primary,
+			}}
+		>
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
+					{!error && (
+						<TouchableOpacity>
+							<Text style={styles.headerBtn}>Xem thêm</Text>
+						</TouchableOpacity>
+					)}
+
+				</View>
+
+				<View style={styles.cardsContainer}>
+					{isLoading ? (
+						<ActivityIndicator size="large" color={COLORS.primary} />
+					) : result}
+				</View>
+			</View>
+		</View>
+	);
+}
 
 export default ProductHistoryCarousel;

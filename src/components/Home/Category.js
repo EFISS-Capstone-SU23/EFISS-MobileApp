@@ -4,8 +4,51 @@ import {
 import React from 'react';
 
 import {
-	COLORS, FONTS, SIZES, assets,
+	COLORS, FONTS, SIZES,
 } from '../../constants';
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		margin: (SIZES.font * 2) / 3,
+	},
+	header: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: SIZES.base,
+	},
+	headerTitle: {
+		fontFamily: FONTS.bold,
+		fontSize: SIZES.large,
+		color: COLORS.primary,
+	},
+	row: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: SIZES.base / 4,
+	},
+	square: {
+		width: '25%',
+		aspectRatio: 1,
+		backgroundColor: COLORS.primary,
+		marginHorizontal: SIZES.base / 8,
+	},
+	category: {
+		color: COLORS.white,
+		fontFamily: FONTS.light,
+		backgroundColor: 'rgba(52, 52, 52, 0.4)',
+	},
+	imageBackground: {
+		flex: 1,
+		resizeMode: 'cover',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		aspectRatio: 1,
+		borderRadius: 8,
+	},
+});
 
 const categories = [
 	{ title: 'Quần jeans', image: 'https://sc04.alicdn.com/kf/HTB1ejCGb1UXBuNjt_a0q6AysXXao.jpg' },
@@ -46,46 +89,4 @@ function Category() {
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		margin: SIZES.font * 2 / 3,
-	},
-	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: SIZES.base,
-	},
-	headerTitle: {
-		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
-		color: COLORS.primary,
-	},
-	row: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		marginBottom: SIZES.base / 4,
-	},
-	square: {
-		width: '25%',
-		aspectRatio: 1,
-		backgroundColor: COLORS.primary,
-		marginHorizontal: SIZES.base / 8,
-	},
-	category: {
-		color: COLORS.white,
-		fontFamily: FONTS.light,
-		backgroundColor: 'rgba(52, 52, 52, 0.4)',
-	},
-	imageBackground: {
-		flex: 1,
-		resizeMode: 'cover',
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '100%',
-		aspectRatio: 1,
-		borderRadius: 8,
-	},
-});
 export default Category;

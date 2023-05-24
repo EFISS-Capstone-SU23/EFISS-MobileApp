@@ -1,11 +1,11 @@
 import {
-	View, Text, Image, TouchableOpacity, StyleSheet, FlatList,
+	View, Text, TouchableOpacity, StyleSheet, FlatList,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 
 import {
-	COLORS, FONTS, SIZES, assets,
+	COLORS, FONTS, SIZES,
 } from '../../constants';
 import ResultsHeaderTag from './ResultsHeaderTag';
 
@@ -23,6 +23,29 @@ const TAGS = [
 		icon: 'list',
 	},
 ];
+
+const styles = StyleSheet.create({
+	button: {
+		marginRight: 10,
+		backgroundColor: COLORS.white,
+		borderRadius: 20,
+		color: COLORS.primary,
+		padding: 12,
+	},
+	text: {
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.white,
+		textAlign: 'center',
+		flex: 0.8,
+	},
+	tabsContainer: {
+		width: '100%',
+		marginTop: SIZES.base,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+});
 
 function ResultsHeader({ navigation }) {
 	return (
@@ -60,28 +83,5 @@ function ResultsHeader({ navigation }) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	button: {
-		marginRight: 10,
-		backgroundColor: COLORS.white,
-		borderRadius: 20,
-		color: COLORS.primary,
-		padding: 12,
-	},
-	text: {
-		fontFamily: FONTS.semiBold,
-		fontSize: SIZES.extraLarge,
-		color: COLORS.white,
-		textAlign: 'center',
-		flex: 0.8,
-	},
-	tabsContainer: {
-		width: '100%',
-		marginTop: SIZES.base,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-});
 
 export default ResultsHeader;

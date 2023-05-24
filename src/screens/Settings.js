@@ -1,16 +1,8 @@
+/* eslint-disable react/style-prop-object */
 import {
 	View, Text, StyleSheet, StatusBar,
 } from 'react-native';
 import React from 'react';
-
-function Settings() {
-	return (
-		<View style={styles.container}>
-			<Text>Settings</Text>
-			<StatusBar style="auto" />
-		</View>
-	);
-}
 
 const styles = StyleSheet.create({
 	container: {
@@ -20,5 +12,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 });
+
+function Settings() {
+	return (
+		<View style={styles.container}>
+			<Text>Settings</Text>
+			<StatusBar style="auto" />
+		</View>
+	);
+}
 
 export default Settings;

@@ -1,5 +1,6 @@
 import {
-	View, Image, Text, TouchableOpacity, StyleSheet,
+	View, Image, Text, TouchableOpacity,
+	// StyleSheet,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -9,19 +10,32 @@ import {
 	COLORS, SHADOWS, SIZES, FONTS,
 } from '../../constants';
 
+// const styles = StyleSheet.create({
+// 	button: {
+// 		height: 30,
+// 		flexDirection: 'row',
+// 		alignItems: 'center',
+// 		justifyContent: 'center',
+// 		backgroundColor: COLORS.primary,
+// 		borderRadius: SIZES.small,
+// 	},
+// });
+
 function ProductCard({ product, navigation }) {
-	const setProductHistory = async (product) => {
+	const setProductHistory = async (productParram) => {
 		try {
 			const value = await AsyncStorage.getItem('product_history');
 			if (value !== null) {
-				const product_history = JSON.parse(value).filter((obj) => obj._id !== product._id).concat([product]);
+				const productHistory = JSON.parse(value)
+					.filter((obj) => obj._id !== productParram._id)
+					.concat([productParram]);
 
-				if (product_history.length > 50) product_history.shift();
+				if (productHistory.length > 50) productHistory.shift();
 
-				await AsyncStorage.setItem('product_history', JSON.stringify(product_history));
+				await AsyncStorage.setItem('product_history', JSON.stringify(productHistory));
 			} else {
-				const product_history = [product];
-				await AsyncStorage.setItem('product_history', JSON.stringify(product_history));
+				const productHistory = [productParram];
+				await AsyncStorage.setItem('product_history', JSON.stringify(productHistory));
 			}
 		} catch (error) {
 			console.error(error);
@@ -105,19 +119,8 @@ function ProductCard({ product, navigation }) {
 	);
 }
 
-const DetailsView = (id, navigation) => {
-	navigation.navigate('Details', { productId: id });
-};
-
-const styles = StyleSheet.create({
-	button: {
-		height: 30,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLORS.primary,
-		borderRadius: SIZES.small,
-	},
-});
+// const DetailsView = (id, navigation) => {
+// 	navigation.navigate('Details', { productId: id });
+// };
 
 export default ProductCard;

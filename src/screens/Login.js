@@ -8,6 +8,14 @@ import { Entypo } from '@expo/vector-icons';
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo-no-background.png';
 
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+	},
+});
+
 function Login() {
 	const navigation = useNavigation();
 
@@ -79,13 +87,5 @@ function Login() {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		justifyContent: 'center',
-	},
-});
 
 export default Login;

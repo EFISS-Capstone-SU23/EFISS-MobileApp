@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import {
-	View, Text, StyleSheet,
+	View, StyleSheet,
 	SafeAreaView, Button,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
-import { COLORS, FONTS, SIZES } from '../../constants';
+import { COLORS, SIZES } from '../../constants';
 
 const OPTIONS = [
 	{
@@ -23,8 +23,26 @@ const OPTIONS = [
 	},
 ];
 
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	modal: {
+		backgroundColor: COLORS.white,
+		borderRadius: 10,
+		borderColor: COLORS.gray,
+		borderWidth: 1,
+		paddingVertical: SIZES.base,
+		paddingHorizontal: SIZES.font,
+		justifyContent: 'space-between', // Space between vertically
+		flexDirection: 'column', // Optional: Default is column
+	},
+});
+
 function ModalPicker({ changeModalVisibility, navigation }) {
-	const [image, setImage] = useState(null);
+	// const [image, setImage] = useState(null);
 
 	// This function is triggered when the "Select an image" button pressed
 	const showImagePicker = async () => {
@@ -37,7 +55,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 		});
 
 		if (!result.canceled) {
-			setImage(result.assets[0].base64);
+			// setImage(result.assets[0].base64);
 
 			navigation.navigate('Results', { imageUrl: result.assets[0].base64 });
 		}
@@ -83,23 +101,5 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 		</SafeAreaView>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	modal: {
-		backgroundColor: COLORS.white,
-		borderRadius: 10,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
-		paddingVertical: SIZES.base,
-		paddingHorizontal: SIZES.font,
-		justifyContent: 'space-between', // Space between vertically
-		flexDirection: 'column', // Optional: Default is column
-	},
-});
 
 export default ModalPicker;

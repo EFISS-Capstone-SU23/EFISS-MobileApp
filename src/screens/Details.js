@@ -1,5 +1,5 @@
 import {
-	View, Text, StatusBar, TouchableOpacity, FlatList, Image, Animated, Linking, StyleSheet,
+	View, Text, StatusBar, TouchableOpacity, FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -7,115 +7,6 @@ import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
-
-function Details({ route, navigation }) {
-	const { data } = route.params;
-
-	const scrollX = new Animated.Value(0);
-
-	const position = Animated.divide(scrollX, SIZES.WIDTH);
-
-	return (
-		<View style={styles.container}>
-			<StatusBar backgroundColor={COLORS.primary} />
-			<ScrollView>
-				<View style={styles.scrollSection}>
-					<View style={styles.buttonBar}>
-						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.button} />
-						</TouchableOpacity>
-						<View
-							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								paddingHorizontal: SIZES.medium,
-							}}
-						>
-							<TouchableOpacity style={{ marginLeft: 5 }}>
-								<Entypo name="heart" style={styles.button} />
-							</TouchableOpacity>
-							<TouchableOpacity style={{ marginLeft: 5 }} onPress={() => { Linking.openURL(data.url); }}>
-								<Entypo name="share" style={styles.button} />
-							</TouchableOpacity>
-						</View>
-					</View>
-					<FlatList
-						data={data.images ? data.images : null}
-						horizontal
-						keyExtractor={(item, index) => index.toString()}
-						renderItem={({ item }) => (
-							<RenderImageItem item={item} />
-						)}
-						showsHorizontalScrollIndicator={false}
-						decelerationRate={0.8}
-						snapToInterval={SIZES.WIDTH}
-						bounces={false}
-						onScroll={Animated.event(
-							[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-							{ useNativeDriver: false },
-						)}
-					/>
-					<View style={styles.imgIndicatorContainer}>
-						{
-							data.images
-								? data.images.map((img, index) => {
-									const opacity = position.interpolate({
-										inputRange: [index - 1, index, index + 1],
-										outputRange: [0.2, 1, 0.2],
-										extrapolate: 'clamp',
-									});
-
-									return (
-										<Animated.View style={styles.imgIndicator(opacity)} />
-									);
-								}) : null
-						}
-					</View>
-				</View>
-				<View style={{ margin: SIZES.font }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo
-							name="shopping-cart"
-							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
-						/>
-						<Text style={styles.category}>
-							Shopping
-						</Text>
-					</View>
-					<View style={styles.titleContainer}>
-						<Text style={styles.title}>
-							{data.title}
-						</Text>
-						<Ionicons name="link-outline" style={styles.copyButton} />
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
-						<Text style={styles.price}>
-							{data.price.replace(/(\r\n|\n|\r)/gm, ' ')}
-						</Text>
-					</View>
-					<View style={styles.locationContainer}>
-						<View style={{ flexDirection: 'row', width: '80%', alignItems: 'center' }}>
-							<View style={styles.location}>
-								<Entypo name="location-pin" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
-							</View>
-							<Text>Hanoi</Text>
-						</View>
-						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
-					</View>
-					<View>
-						<Text style={{ fontSize: SIZES.medium, color: COLORS.primary, fontFamily: FONTS.bold }}>
-							Mô tả sản phẩm:
-						</Text>
-						<Text style={styles.description}>
-							{data.description}
-						</Text>
-					</View>
-				</View>
-			</ScrollView>
-		</View>
-	);
-}
 
 const styles = StyleSheet.create({
 	container: {
@@ -152,7 +43,7 @@ const styles = StyleSheet.create({
 	},
 	imgContainer: {
 		width: SIZES.WIDTH,
-		height: SIZES.HEIGHT * 2 / 5,
+		height: (SIZES.HEIGHT * 2) / 5,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: COLORS.black,
@@ -236,5 +127,117 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 	},
 });
+
+function Details({ route, navigation }) {
+	const { data } = route.params;
+
+	const scrollX = new Animated.Value(0);
+
+	const position = Animated.divide(scrollX, SIZES.WIDTH);
+
+	return (
+		<View style={styles.container}>
+			<StatusBar backgroundColor={COLORS.primary} />
+			<ScrollView>
+				<View style={styles.scrollSection}>
+					<View style={styles.buttonBar}>
+						<TouchableOpacity onPress={() => navigation.goBack()}>
+							<Entypo name="chevron-left" style={styles.button} />
+						</TouchableOpacity>
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								paddingHorizontal: SIZES.medium,
+							}}
+						>
+							<TouchableOpacity style={{ marginLeft: 5 }}>
+								<Entypo name="heart" style={styles.button} />
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={{ marginLeft: 5 }}
+								onPress={() => { Linking.openURL(data.url); }}
+							>
+								<Entypo name="share" style={styles.button} />
+							</TouchableOpacity>
+						</View>
+					</View>
+					<FlatList
+						data={data.images ? data.images : null}
+						horizontal
+						keyExtractor={(item, index) => index.toString()}
+						renderItem={({ item }) => (
+							<RenderImageItem item={item} />
+						)}
+						showsHorizontalScrollIndicator={false}
+						decelerationRate={0.8}
+						snapToInterval={SIZES.WIDTH}
+						bounces={false}
+						onScroll={Animated.event(
+							[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+							{ useNativeDriver: false },
+						)}
+					/>
+					<View style={styles.imgIndicatorContainer}>
+						{
+							data.images
+								? data.images.map((img, index) => {
+									const opacity = position.interpolate({
+										inputRange: [index - 1, index, index + 1],
+										outputRange: [0.2, 1, 0.2],
+										extrapolate: 'clamp',
+									});
+
+									return (
+										<Animated.View style={styles.imgIndicator(opacity)} />
+									);
+								}) : null
+						}
+					</View>
+				</View>
+				<View style={{ margin: SIZES.font }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Entypo
+							name="shopping-cart"
+							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
+						/>
+						<Text style={styles.category}>
+							Shopping
+						</Text>
+					</View>
+					<View style={styles.titleContainer}>
+						<Text style={styles.title}>
+							{data.title}
+						</Text>
+						<Ionicons name="link-outline" style={styles.copyButton} />
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
+						<Text style={styles.price}>
+							{data.price.replace(/(\r\n|\n|\r)/gm, ' ')}
+						</Text>
+					</View>
+					<View style={styles.locationContainer}>
+						<View style={{ flexDirection: 'row', width: '80%', alignItems: 'center' }}>
+							<View style={styles.location}>
+								<Entypo name="location-pin" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
+							</View>
+							<Text>Hanoi</Text>
+						</View>
+						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
+					</View>
+					<View>
+						<Text style={{ fontSize: SIZES.medium, color: COLORS.primary, fontFamily: FONTS.bold }}>
+							Mô tả sản phẩm:
+						</Text>
+						<Text style={styles.description}>
+							{data.description}
+						</Text>
+					</View>
+				</View>
+			</ScrollView>
+		</View>
+	);
+}
 
 export default Details;

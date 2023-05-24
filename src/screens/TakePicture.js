@@ -1,17 +1,30 @@
 import {
 	StyleSheet, Text, View, Image,
 } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera } from 'expo-camera';
 import React, { useState, useEffect, useRef } from 'react';
 import * as FileSystem from 'expo-file-system';
 
 import { CameraButton } from '../components';
 
-function TakePicture({ route, navigation }) {
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#000',
+		justifyContent: 'center',
+		paddingBottom: 15,
+	},
+	camera: {
+		flex: 1,
+		borderRadius: 20,
+	},
+});
+
+function TakePicture({ navigation }) {
 	const [hasCameraPermisson, setHasCameraPermissons] = useState(null);
 	const [image, setImage] = useState(null);
 	const [image64, setImage64] = useState(null);
-	const [type, setType] = useState(Camera.Constants.Type.back);
+	// const [type, setType] = useState(Camera.Constants.Type.back);
 	const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
 	const cameraRef = useRef(null);
 
@@ -26,10 +39,10 @@ function TakePicture({ route, navigation }) {
 		if (cameraRef) {
 			try {
 				const data = await cameraRef.current.takePictureAsync();
-				var base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
+				// const base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
 
 				setImage(data.uri);
-				var base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
+				const base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' });
 				setImage64(base64);
 			} catch (error) {
 				console.log(error);
@@ -51,7 +64,7 @@ function TakePicture({ route, navigation }) {
 				? (
 					<Camera
 						style={styles.camera}
-						type={type}
+						type={Camera.Constants.Type.back}
 						flashMode={flash}
 						ref={cameraRef}
 						ratio="16:9"
@@ -70,7 +83,8 @@ function TakePicture({ route, navigation }) {
 								icon="flash"
 								color={flash === Camera.Constants.FlashMode.off ? '#f1f1f1' : 'yellow'}
 								onPress={() => {
-									setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off);
+									const { FlashMode } = Camera.Constants;
+									setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off);
 								}}
 							/>
 						</View>
@@ -104,16 +118,3 @@ function TakePicture({ route, navigation }) {
 }
 
 export default TakePicture;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#000',
-		justifyContent: 'center',
-		paddingBottom: 15,
-	},
-	camera: {
-		flex: 1,
-		borderRadius: 20,
-	},
-});

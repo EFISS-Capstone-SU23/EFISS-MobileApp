@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
 	View, SafeAreaView, StyleSheet, ScrollView, Modal, StatusBar,
 } from 'react-native';
@@ -8,6 +8,13 @@ import { COLORS } from '../constants';
 import {
 	HomeHeader, ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel,
 } from '../components';
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+});
 
 function Home() {
 	const navigation = useNavigation();
@@ -46,10 +53,3 @@ function Home() {
 }
 
 export default Home;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-	},
-});
