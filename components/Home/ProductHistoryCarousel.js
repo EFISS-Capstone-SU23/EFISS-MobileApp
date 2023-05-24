@@ -2,47 +2,55 @@ import {
 	View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 import { FONTS, SIZES, COLORS } from '../../constants';
 import CarouselCard from '../Common/CarouselCard';
 
-function ProductRecommendCarousel({ navigation }) {
-	const { products, isLoading, error } = getProductRecommend();
+function ProductHistoryCarousel({ navigation }) {
+	const { products, isLoading, error } = getProductHistory();
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Có thể bạn sẽ thích</Text>
-				<TouchableOpacity>
-					<Text style={styles.headerBtn}>Xem thêm</Text>
-				</TouchableOpacity>
-			</View>
+		<View
+			style={{
+				backgroundColor: COLORS.primary,
+			}}
+		>
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
+					{!error && (
+						<TouchableOpacity>
+							<Text style={styles.headerBtn}>Xem thêm</Text>
+						</TouchableOpacity>
+					)}
 
-			<View style={styles.cardsContainer}>
-				{isLoading ? (
-					<ActivityIndicator size="large" color={COLORS.primary} />
-				) : error ? (
-					<Text>Something went wrong</Text>
-				) : (
-					<FlatList
-						data={products}
-						renderItem={({ item }) => (
-							<CarouselCard product={item} navigation={navigation} />
-						)}
-						keyExtractor={(item) => item._id}
-						showsHorizontalScrollIndicator={false}
-						horizontal
-					/>
-				)}
+				</View>
+
+				<View style={styles.cardsContainer}>
+					{isLoading ? (
+						<ActivityIndicator size="large" color={COLORS.primary} />
+					) : error ? (
+						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+					) : (
+						<FlatList
+							data={products}
+							renderItem={({ item }) => (
+								<CarouselCard product={item} navigation={navigation} />
+							)}
+							keyExtractor={(item) => item._id}
+							showsHorizontalScrollIndicator={false}
+							horizontal
+						/>
+					)}
+				</View>
 			</View>
 		</View>
 	);
 }
 
-const getProductRecommend = () => {
+const getProductHistory = () => {
 	const [products, setProducts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -88,13 +96,13 @@ const styles = StyleSheet.create({
 	headerTitle: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.large,
-		color: COLORS.primary,
+		color: COLORS.white,
 	},
 	headerBtn: {
 		fontSize: SIZES.small,
 		fontFamily: FONTS.medium,
-		color: COLORS.white,
-		backgroundColor: COLORS.primary,
+		color: COLORS.primary,
+		backgroundColor: COLORS.white,
 		borderRadius: SIZES.small,
 		padding: SIZES.base / 2,
 	},
@@ -103,4 +111,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ProductRecommendCarousel;
+export default ProductHistoryCarousel;
