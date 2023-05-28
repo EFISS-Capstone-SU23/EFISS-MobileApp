@@ -71,20 +71,6 @@ const getProductHistory = () => {
 function ProductHistoryCarousel({ navigation }) {
 	const { products, isLoading, error } = getProductHistory();
 
-	const result = 	error ? (
-		<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
-	) : (
-		<FlatList
-			data={products}
-			renderItem={({ item }) => (
-				<CarouselCard product={item} navigation={navigation} />
-			)}
-			keyExtractor={(item) => item._id}
-			showsHorizontalScrollIndicator={false}
-			horizontal
-		/>
-	);
-
 	return (
 		<View
 			style={{
@@ -105,7 +91,19 @@ function ProductHistoryCarousel({ navigation }) {
 				<View style={styles.cardsContainer}>
 					{isLoading ? (
 						<ActivityIndicator size="large" color={COLORS.primary} />
-					) : result}
+					) : error ? (
+						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+					) : (
+						<FlatList
+							data={products}
+							renderItem={({ item }) => (
+								<CarouselCard product={item} navigation={navigation} />
+							)}
+							keyExtractor={(item) => item._id}
+							showsHorizontalScrollIndicator={false}
+							horizontal
+						/>
+					)}
 				</View>
 			</View>
 		</View>

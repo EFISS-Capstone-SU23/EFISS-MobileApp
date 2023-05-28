@@ -189,7 +189,7 @@ function Details({ route, navigation }) {
 									});
 
 									return (
-										<Animated.View style={styles.imgIndicator(opacity)} />
+										<Animated.View key={index} style={styles.imgIndicator(opacity)} />
 									);
 								}) : null
 						}

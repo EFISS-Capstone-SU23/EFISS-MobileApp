@@ -73,20 +73,6 @@ const getProductRecommend = () => {
 function ProductRecommendCarousel({ navigation }) {
 	const { products, isLoading, error } = getProductRecommend();
 
-	const result = error ? (
-		<Text style={{ textAlign: 'center', color: COLORS.white }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
-	) : (
-		<FlatList
-			data={products}
-			renderItem={({ item }) => (
-				<CarouselCard product={item} navigation={navigation} />
-			)}
-			keyExtractor={(item) => item._id}
-			showsHorizontalScrollIndicator={false}
-			horizontal
-		/>
-	);
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -99,7 +85,19 @@ function ProductRecommendCarousel({ navigation }) {
 			<View style={styles.cardsContainer}>
 				{isLoading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
-				) : result }
+				) : error ? (
+					<Text style={{ textAlign: 'center', color: COLORS.white }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+				) : (
+					<FlatList
+						data={products}
+						renderItem={({ item }) => (
+							<CarouselCard product={item} navigation={navigation} />
+						)}
+						keyExtractor={(item) => item._id}
+						showsHorizontalScrollIndicator={false}
+						horizontal
+					/>
+				)}
 			</View>
 		</View>
 	);

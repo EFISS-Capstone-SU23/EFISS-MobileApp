@@ -2,11 +2,12 @@ import {
 	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo-no-background.png';
+import { AuthContext } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
 	container: {
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
 
 function Login() {
 	const navigation = useNavigation();
+	const { login } = useContext(AuthContext);
 
 	return (
 		<View style={styles.container}>
@@ -60,7 +62,7 @@ function Login() {
 					/>
 				</View>
 				<TouchableOpacity
-					onPress={() => { }}
+					onPress={() => { login(); }}
 					style={{
 						backgroundColor: COLORS.primary,
 						padding: 20,
