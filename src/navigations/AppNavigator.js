@@ -7,6 +7,7 @@ import Results from '../screens/Results';
 import TakePicture from '../screens/TakePicture';
 import SignUp from '../screens/SignUp';
 import EditProfile from '../screens/EditProfile';
+import ChangePassword from '../screens/ChangePassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ function AppNavigator() {
 			<Stack.Screen name="TakePicture" component={TakePicture} />
 			<Stack.Screen name="SignUp" component={SignUp} />
 			<Stack.Screen name="EditProfile" component={EditProfile} />
+			<Stack.Screen name="ChangePassword" component={ChangePassword} />
 		</Stack.Navigator>
 	);
 }

@@ -1,20 +1,44 @@
-import React, { createContext, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { createContext, useState, useEffect } from 'react';
+
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-	// eslint-disable-next-line no-unused-vars
-	const [isLoading, setIsLoading] = useState(true);
-	// eslint-disable-next-line no-unused-vars
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
 	const [userToken, setUserToken] = useState(null);
+	const [userInfo, setUserInfo] = useState(null);
 
-	const login = () => {
-		setUserToken('myTestToken');
-		setIsLoading(false);
+	const login = async () => {
+		setIsLoading(true);
+
+		try {
+			const response = await axios.post(
+				'https://dummyjson.com/auth/login',
+				{
+					username: 'kminchelle',
+					password: '0lelplR',
+				},
+			);
+
+			console.log(response.data);
+
+			setUserToken(response.data.token);
+			setUserInfo(response.data);
+			setIsLoading(false);
+		} catch (err) {
+			setError(err);
+			console.log(err);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	const logout = () => {
 		setUserToken(null);
+		setUserInfo(null);
 		setIsLoading(false);
 	};
 
@@ -24,7 +48,9 @@ export function AuthProvider({ children }) {
 			login,
 			logout,
 			isLoading,
+			error,
 			userToken,
+			userInfo,
 		}}
 		>
 			{children}

@@ -1,5 +1,5 @@
 import {
-	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
+	View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
@@ -19,7 +19,11 @@ const styles = StyleSheet.create({
 
 function Login() {
 	const navigation = useNavigation();
-	const { login } = useContext(AuthContext);
+	const { isLoading, login } = useContext(AuthContext);
+
+	if (isLoading) {
+		return <ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />;
+	}
 
 	return (
 		<View style={styles.container}>

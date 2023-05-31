@@ -1,13 +1,12 @@
 import {
-	View, Text, TouchableOpacity, Image, TextInput, StyleSheet, Modal,
+	View, Text, TouchableOpacity, Image, TextInput, StyleSheet, SafeAreaView,
 } from 'react-native';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useContext } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
 
+import { AuthContext } from '../context/AuthContext';
 import { COLORS, FONTS, SIZES } from '../constants';
 
 const styles = StyleSheet.create({
@@ -62,64 +61,25 @@ const styles = StyleSheet.create({
 		paddingVertical: 6,
 		justifyContent: 'center',
 	},
-	datePickerContainer: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	datePicker: {
-		margin: 20,
-		backgroundColor: COLORS.primary,
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 20,
-		padding: 35,
-		width: '90%',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5,
-	},
-	closeButton: {
-		borderRadius: 10,
-		borderWidth: 1,
-		borderColor: COLORS.white,
-		padding: 5,
-	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
 		height: 44,
 		borderRadius: 6,
 		alignItems: 'center',
 		justifyContent: 'center',
+		marginTop: SIZES.extraLarge,
 	},
 });
 
 function EditProfile({ navigation }) {
-	const [selectedImage, setSelectedImage] = useState('https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg');
-	const [name, setName] = useState('John Doe');
-	const [email, setEmail] = useState('johndoe@gmail.com');
-	const [phone, setPhone] = useState('0963487538');
-	const [password, setPassword] = useState('iachay567');
-	const [birthday, setBirthday] = useState('2001/02/05');
+	const {
+		userInfo,
+	} = useContext(AuthContext);
 
-	const [openDatePicker, setOpenDatePicker] = useState(false);
-
-	// set the last date selection allowed on the datepicker is today.
-	const today = new Date();
-	const lastDateAllowed = getFormatedDate(
-		today.setDate(today.getDate() + 1),
-		'YYYY/MM/DD',
-	);
-
-	// This function opens/closes the datepicker
-	const handleOnPressDatePicker = () => {
-		setOpenDatePicker(!openDatePicker);
-	};
+	const [selectedImage, setSelectedImage] = useState(userInfo.image);
+	const [email, setEmail] = useState(userInfo.email);
+	const [firstName, setFirstName] = useState(userInfo.firstName);
+	const [lastName, setLastName] = useState(userInfo.lastName);
 
 	// This function is triggered when the avatar is pressed
 	const handleImageSelection = async () => {
@@ -135,46 +95,6 @@ function EditProfile({ navigation }) {
 			setSelectedImage(result.assets[0].uri);
 		}
 	};
-
-	// This function render the datepicker layout
-	function renderDatePicker() {
-		// Show the date picker
-		return (
-			<Modal
-				animationType="slide"
-				transparent
-				visible={openDatePicker}
-			>
-				<View style={styles.datePickerContainer}>
-					<View style={styles.datePicker}>
-						<DatePicker
-							mode="calendar"
-							maximumDate={lastDateAllowed}
-							selected={birthday}
-							current={birthday}
-							onSelectedChange={(date) => setBirthday(date)}
-							options={{
-								backgroundColor: COLORS.primary,
-								textHeaderColor: COLORS.white,
-								textDefaultColor: COLORS.white,
-								selectedTextColor: COLORS.primary,
-								mainColor: COLORS.white,
-								textSecondaryColor: COLORS.white,
-								borderColor: 'rgba(122,146,165,0.1)',
-							}}
-						/>
-
-						<TouchableOpacity
-							onPress={handleOnPressDatePicker}
-							style={styles.closeButton}
-						>
-							<Text style={{ color: COLORS.white }}>Close</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</Modal>
-		);
-	}
 
 	return (
 		// eslint-disable-next-line react/self-closing-comp
@@ -216,12 +136,24 @@ function EditProfile({ navigation }) {
 
 				<View style={{ marginHorizontal: 22 }}>
 					<View style={styles.inputField}>
-						<Text style={styles.inputTitle}>Tên người dùng</Text>
+						<Text style={styles.inputTitle}>Họ và tên đệm:</Text>
 						<View style={styles.textInputContainer}>
 							<TextInput
-								value={name}
-								onChangeText={(text) => setName(text)}
-								color={COLORS.primary}
+								value={lastName}
+								onChangeText={(text) => setLastName(text)}
+								color={COLORS.black}
+								editable
+							/>
+						</View>
+					</View>
+
+					<View style={styles.inputField}>
+						<Text style={styles.inputTitle}>Tên của bạn:</Text>
+						<View style={styles.textInputContainer}>
+							<TextInput
+								value={firstName}
+								onChangeText={(text) => setFirstName(text)}
+								color={COLORS.black}
 								editable
 							/>
 						</View>
@@ -233,43 +165,8 @@ function EditProfile({ navigation }) {
 							<TextInput
 								value={email}
 								onChangeText={(text) => setEmail(text)}
-								color={COLORS.primary}
+								color={COLORS.black}
 								editable
-							/>
-						</View>
-					</View>
-
-					<View style={styles.inputField}>
-						<Text style={styles.inputTitle}>Ngày sinh</Text>
-						<TouchableOpacity
-							onPress={handleOnPressDatePicker}
-							style={styles.textInputContainer}
-						>
-							<Text style={{ color: COLORS.primary }}>{birthday}</Text>
-						</TouchableOpacity>
-					</View>
-
-					<View style={styles.inputField}>
-						<Text style={styles.inputTitle}>Số điện thoại</Text>
-						<View style={styles.textInputContainer}>
-							<TextInput
-								value={phone}
-								onChangeText={(text) => setPhone(text)}
-								color={COLORS.primary}
-								editable
-							/>
-						</View>
-					</View>
-
-					<View style={styles.inputField}>
-						<Text style={styles.inputTitle}>Mật khẩu</Text>
-						<View style={styles.textInputContainer}>
-							<TextInput
-								value={password}
-								onChangeText={(text) => setPassword(text)}
-								color={COLORS.primary}
-								editable
-								secureTextEntry
 							/>
 						</View>
 					</View>
@@ -279,8 +176,6 @@ function EditProfile({ navigation }) {
 							Lưu thay đổi
 						</Text>
 					</TouchableOpacity>
-
-					{renderDatePicker()}
 
 				</View>
 

@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import React, { useContext } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -20,17 +19,8 @@ const settingsTab = 'Cài đặt';
 
 const Tab = createBottomTabNavigator();
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: COLORS.white,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
-
 function HomeStack() {
-	const { isLoading, userToken } = useContext(AuthContext);
+	const { userToken } = useContext(AuthContext);
 
 	const getTabBarIcon = (focused, size, route) => {
 		let iconName;
@@ -48,10 +38,6 @@ function HomeStack() {
 
 		return <Ionicons name={iconName} size={size} color={COLORS.primary} />;
 	};
-
-	if (isLoading) {
-		<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />;
-	}
 
 	return (
 		<Tab.Navigator

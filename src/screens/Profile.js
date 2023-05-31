@@ -1,158 +1,107 @@
+/* eslint-disable react/style-prop-object */
 import {
-	View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image,
+	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import { Entypo } from '@expo/vector-icons';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { AuthContext } from '../context/AuthContext';
+import { Action } from '../components';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	header: {
+		paddingLeft: SIZES.extraLarge,
+		paddingRight: SIZES.extraLarg,
+		marginVertical: SIZES.large,
+	},
+	title: {
+		fontSize: 32,
+		fontFamily: FONTS.semiBold,
+		color: COLORS.primary,
+		marginBottom: 6,
+	},
+	profileInfos: {
+		marginVertical: SIZES.large,
+		paddingHorizontal: 29,
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		backgroundColor: COLORS.primary,
-		paddingTop: 20,
-		width: '90%',
-	},
-	headerTitle: {
-		fontFamily: FONTS.bold,
-		fontSize: SIZES.extraLarge,
-		color: COLORS.white,
-	},
-	profile: {
-		flexDirection: 'row',
-		marginTop: SIZES.extraLarge * 2,
-		marginBottom: SIZES.extraLarge,
-		width: '90%',
-	},
-	profileText: {
-		fontFamily: FONTS.light,
-		fontSize: SIZES.medium,
-		color: COLORS.white,
+		alignItems: 'center',
 	},
 	avatar: {
-		height: 100,
-		width: 100,
-		borderRadius: 85,
-		borderWidth: 2,
-		borderColor: COLORS.white,
+		width: 120,
+		height: 120,
+		borderRadius: 60,
+		borderColor: COLORS.primary,
+		borderWidth: 1,
 	},
-	option: {
-		marginVertical: SIZES.font,
+	nameSection: {
+		marginLeft: SIZES.medium,
 	},
 	text: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.light,
 		fontSize: SIZES.medium,
-		color: COLORS.gray,
-	},
-	modal: {
-		backgroundColor: COLORS.white,
-		borderRadius: 10,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
-		paddingVertical: SIZES.base,
-		paddingHorizontal: SIZES.font,
-		justifyContent: 'space-between', // Space between vertically
-		flexDirection: 'column', // Optional: Default is column
-		width: '90%',
-		marginBottom: SIZES.large,
-	},
-	saveButton: {
-		backgroundColor: COLORS.red,
-		height: 44,
-		borderRadius: 6,
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '90%',
-	},
-	logoutButton: {
-		color: COLORS.white,
-		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
 	},
 });
 
 function Profile() {
 	const navigation = useNavigation();
 
-	const { logout } = useContext(AuthContext);
+	const {
+		error, isLoading, userInfo, logout,
+	} = useContext(AuthContext);
 
 	return (
 		<SafeAreaView style={styles.container}>
-
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>
-					Hồ sơ cá nhân
-				</Text>
-				<View>
-					<TouchableOpacity style={{ marginLeft: 5 }}>
-						<Entypo name="heart" color={COLORS.red} size={SIZES.extraLarge * 1.5} />
-					</TouchableOpacity>
-				</View>
+				<Text style={styles.title}>Tài khoản của bạn</Text>
 			</View>
-
-			<View style={styles.profile}>
-				<View style={{
-					marginRight: SIZES.medium,
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					paddingBottom: 29,
 				}}
-				>
-					<Image
-						source={{ uri: 'https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg' }}
-						style={styles.avatar}
-					/>
-				</View>
-				<View style={{
-					justifyContent: 'center',
-				}}
-				>
-					<Text style={[styles.profileText, { fontFamily: FONTS.bold }]}>John Doe</Text>
-					<Text style={styles.profileText}>0963487538</Text>
-					<Text style={styles.profileText}>johndoe@gmail.com</Text>
-				</View>
-			</View>
-
-			<View style={styles.modal}>
-				<TouchableOpacity style={styles.option} onPress={() => navigation.navigate('EditProfile')}>
-					<Text style={styles.text}>Chỉnh sửa hồ sơ</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.option} onPress={() => console.log('Language')}>
-					<Text style={styles.text}>Ngôn ngữ</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.option} onPress={() => console.log('Feedback')}>
-					<Text style={styles.text}>Đánh giá ứng dụng</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.option} onPress={() => console.log('Term & Conditions')}>
-					<Text style={styles.text}>Điều khoản & dịch vụ</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.option} onPress={() => console.log('Report a bug')}>
-					<Text style={styles.text}>Báo cáo lỗi</Text>
-				</TouchableOpacity>
-			</View>
-
-			<TouchableOpacity style={styles.saveButton} onPress={logout}>
-				<Text style={styles.logoutButton}>
-					Đăng xuất
-				</Text>
-			</TouchableOpacity>
-
-			<View style={{
-				position: 'absolute',
-				top: 0,
-				left: 0,
-				right: 0,
-				bottom: 0,
-				zIndex: -1,
-			}}
 			>
-				<View style={{ height: '50%', backgroundColor: COLORS.primary }} />
-			</View>
+				{isLoading ? (
+					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
+				) : error ? (
+					<Text>Something went wrong</Text>
+				) : (
+					<View style={styles.profileInfos}>
+						<View style={{
+							marginRight: SIZES.medium,
+						}}
+						>
+							<Image
+								source={{ uri: userInfo.image }}
+								style={styles.avatar}
+							/>
+						</View>
+						<View style={styles.nameSection}>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo.firstName} ${userInfo.lastName}`}</Text>
+							<Text style={styles.text}>{userInfo.email}</Text>
+						</View>
+					</View>
+				)}
+				<View style={styles.actions}>
+					<Action
+						title="Chỉnh sửa thông tin"
+						icon="edit"
+						onPress={() => navigation.navigate('EditProfile')}
+					/>
+					<Action title="Wishlist" icon="heart" />
+					<Action
+						title="Đổi mật khẩu"
+						icon="dial-pad"
+						onPress={() => navigation.navigate('ChangePassword')}
+					/>
+					<Action title="Đăng xuất" icon="log-out" onPress={logout} />
+				</View>
+			</ScrollView>
 		</SafeAreaView>
 	);
 }
