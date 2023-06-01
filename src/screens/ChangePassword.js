@@ -45,6 +45,14 @@ const styles = StyleSheet.create({
 		paddingVertical: 6,
 		justifyContent: 'center',
 	},
+	saveButton: {
+		backgroundColor: COLORS.primary,
+		height: 44,
+		borderRadius: 6,
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: SIZES.extraLarge,
+	},
 });
 
 function ChangePassword({ navigation }) {
@@ -108,6 +116,12 @@ function ChangePassword({ navigation }) {
 							/>
 						</View>
 					</View>
+
+					<TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
+						<Text style={{ color: COLORS.white }}>
+							Lưu thay đổi
+						</Text>
+					</TouchableOpacity>
 				</View>
 			</ScrollView>
 		</SafeAreaView>

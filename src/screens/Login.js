@@ -15,6 +15,38 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		justifyContent: 'center',
 	},
+	title: {
+		fontFamily: FONTS.bold,
+		fontSize: SIZES.extraLarge,
+		fontWeight: '500',
+		color: COLORS.primary,
+		marginBottom: 30,
+		textAlign: 'center',
+	},
+	inputField: {
+		flexDirection: 'row',
+		borderBottomColor: '#ccc',
+		borderBottomWidth: 1,
+		paddingBottom: SIZES.base,
+		marginBottom: 25,
+	},
+	loginBtn: {
+		backgroundColor: COLORS.primary,
+		padding: 20,
+		borderRadius: 10,
+		marginBottom: 30,
+	},
+	loginBtnTitle: {
+		color: COLORS.white,
+		fontFamily: FONTS.bold,
+		textAlign: 'center',
+	},
+	textLink: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginVertical: SIZES.base,
+	},
 });
 
 function Login() {
@@ -31,22 +63,10 @@ function Login() {
 				<View style={{ alignItems: 'center' }}>
 					<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
 				</View>
-				<Text
-					style={{
-						fontFamily: FONTS.bold,
-						fontSize: SIZES.extraLarge,
-						fontWeight: '500',
-						color: COLORS.primary,
-						marginBottom: 30,
-						textAlign: 'center',
-					}}
-				>
+				<Text style={styles.title}>
 					Đăng nhập
 				</Text>
-				<View style={{
-					flexDirection: 'row', borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: SIZES.base, marginBottom: 25,
-				}}
-				>
+				<View style={styles.inputField}>
 					<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 					<TextInput
 						placeholder="Email/Số điện thoại của bạn"
@@ -54,10 +74,7 @@ function Login() {
 						keyboardType="email-address"
 					/>
 				</View>
-				<View style={{
-					flexDirection: 'row', borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: SIZES.base, marginBottom: 25,
-				}}
-				>
+				<View style={styles.inputField}>
 					<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 					<TextInput
 						placeholder="Mật khẩu"
@@ -65,25 +82,17 @@ function Login() {
 						secureTextEntry
 					/>
 				</View>
-				<TouchableOpacity
-					onPress={() => { login(); }}
-					style={{
-						backgroundColor: COLORS.primary,
-						padding: 20,
-						borderRadius: 10,
-						marginBottom: 30,
-					}}
-				>
-					<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng nhập</Text>
+				<TouchableOpacity onPress={() => { login(); }} style={styles.loginBtn}>
+					<Text style={styles.loginBtnTitle}>Đăng nhập</Text>
 				</TouchableOpacity>
 
-				<View
-					style={{
-						flexDirection: 'row',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
+				<View style={styles.textLink}>
+					<TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+						<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}>Quên mật khẩu?</Text>
+					</TouchableOpacity>
+				</View>
+
+				<View style={styles.textLink}>
 					<Text>Chưa có tài khoản?</Text>
 					<TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
 						<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}> Đăng ký</Text>
