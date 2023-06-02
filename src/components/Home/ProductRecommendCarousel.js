@@ -1,13 +1,13 @@
 import {
 	View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import axios from 'axios';
-// import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 import { FONTS, SIZES, COLORS } from '../../constants';
 import CarouselCard from '../Common/CarouselCard';
+import { productHistoryLoad } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -36,42 +36,17 @@ const styles = StyleSheet.create({
 	},
 });
 
-const getProductRecommend = () => {
-	const [products, setProducts] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState(null);
-
-	const fetchData = async () => {
-		setIsLoading(true);
-
-		try {
-			const value = await AsyncStorage.getItem('product_history');
-			if (value !== null) {
-				const productHistory = JSON.parse(value);
-				setProducts(productHistory.reverse());
-				setIsLoading(false);
-			} else {
-				setProducts([]);
-				setIsLoading(false);
-			}
-			setError(null);
-		} catch (errorCatch) {
-			setError(errorCatch);
-			console.log(errorCatch);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+function ProductRecommendCarousel({ navigation }) {
+	const dispatch = useDispatch();
+	const historyProduct = useSelector((state) => state.loadProductHistory);
+	const { products, loading, error } = historyProduct;
+	const isFocused = useIsFocused();
 
 	useEffect(() => {
-		fetchData();
-	}, []);
-
-	return { products, isLoading, error };
-};
-
-function ProductRecommendCarousel({ navigation }) {
-	const { products, isLoading, error } = getProductRecommend();
+		if (isFocused) {
+			dispatch(productHistoryLoad());
+		}
+	}, [dispatch, isFocused]);
 
 	return (
 		<View style={styles.container}>
@@ -83,7 +58,7 @@ function ProductRecommendCarousel({ navigation }) {
 			</View>
 
 			<View style={styles.cardsContainer}>
-				{isLoading ? (
+				{loading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
 					<Text style={{ textAlign: 'center', color: COLORS.white }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>

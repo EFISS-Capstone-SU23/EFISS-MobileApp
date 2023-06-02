@@ -16,6 +16,8 @@ import Action from './Profile/Action';
 
 import CameraButton from './TakePicture/CameraButton';
 
+import WishlistHeader from './Wishlist/WishlistHeader';
+
 import ResultsHeader from './Results/ResultsHeader';
 
 export {
@@ -34,4 +36,5 @@ export {
 	CarouselCard,
 	RenderImageItem,
 	Action,
+	WishlistHeader,
 };

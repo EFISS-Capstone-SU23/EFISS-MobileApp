@@ -3,10 +3,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import {
 	COLORS, SHADOWS, SIZES, FONTS,
 } from '../../constants';
+import { productHistorySet } from '../../actions/productActions';
 
 const WIDTH = Dimensions.get('window').width;
 // const HEIGHT = Dimensions.get('window').height;
@@ -53,10 +55,13 @@ const styles = StyleSheet.create({
 });
 
 function CarouselCard({ product, navigation }) {
+	const dispatch = useDispatch();
+
 	return (
 		<View style={styles.card}>
 			<View style={{ width: '100%', height: 150, justifyContent: 'center' }}>
 				<TouchableOpacity onPress={() => {
+					dispatch(productHistorySet(product));
 					navigation.navigate('Details', { data: product });
 				}}
 				>
@@ -77,6 +82,7 @@ function CarouselCard({ product, navigation }) {
 						style={styles.title}
 						numberOfLines={1}
 						onPress={() => {
+							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { data: product });
 						}}
 					>
@@ -86,7 +92,7 @@ function CarouselCard({ product, navigation }) {
 				<View style={styles.priceContainer}>
 					<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
 					<Text style={styles.price}>
-						{product.price}
+						{product.price.replace(/(\r\n|\n|\r)/gm, ' ')}
 					</Text>
 				</View>
 			</View>

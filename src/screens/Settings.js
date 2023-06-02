@@ -73,14 +73,6 @@ const styles = StyleSheet.create({
 
 const SECTIONS = [
 	{
-		header: 'Tùy chỉnh',
-		items: [
-			{
-				id: 'language', icon: 'globe', label: 'Ngôn ngữ', type: 'select',
-			},
-		],
-	},
-	{
 		header: 'Trợ giúp',
 		items: [
 			{

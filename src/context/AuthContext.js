@@ -11,22 +11,21 @@ export function AuthProvider({ children }) {
 	const [userToken, setUserToken] = useState(null);
 	const [userInfo, setUserInfo] = useState(null);
 
-	const login = async () => {
+	const login = async (username, password) => {
 		setIsLoading(true);
 
 		try {
 			const response = await axios.post(
 				'https://dummyjson.com/auth/login',
 				{
-					username: 'kminchelle',
-					password: '0lelplR',
+					username,
+					password,
 				},
 			);
 
-			console.log(response.data);
-
 			setUserToken(response.data.token);
 			setUserInfo(response.data);
+			setError(null);
 			setIsLoading(false);
 		} catch (err) {
 			setError(err);
@@ -39,6 +38,7 @@ export function AuthProvider({ children }) {
 	const logout = () => {
 		setUserToken(null);
 		setUserInfo(null);
+		setError(null);
 		setIsLoading(false);
 	};
 

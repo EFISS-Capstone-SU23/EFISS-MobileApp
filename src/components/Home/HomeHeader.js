@@ -1,13 +1,29 @@
 import {
-	View, Text, Image, TouchableOpacity,
+	View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
+
+import { AuthContext } from '../../context/AuthContext';
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../../constants';
 
+const styles = StyleSheet.create({
+	avatar: {
+		width: '100%',
+		height: '100%',
+		borderRadius: 60,
+		borderColor: COLORS.white,
+		borderWidth: 1,
+	},
+});
+
 function HomeHeader({ onSearch, onPicture }) {
+	const {
+		error, isLoading, userInfo,
+	} = useContext(AuthContext);
+
 	return (
 		<View style={{
 			backgroundColor: COLORS.primary,
@@ -42,27 +58,19 @@ function HomeHeader({ onSearch, onPicture }) {
 					</Text>
 				</View>
 
-				<View style={{ width: 45, height: 45 }}>
-					<Image
-						source={assets.person01}
-						resizeMode="contain"
-						style={{
-							width: '100%',
-							height: '100%',
-						}}
-					/>
-					<Image
-						source={assets.badge}
-						resizeMode="contain"
-						style={{
-							position: 'absolute',
-							width: 15,
-							height: 15,
-							bottom: 0,
-							right: 0,
-						}}
-					/>
-				</View>
+				{isLoading ? (
+					<ActivityIndicator colors={COLORS.white} />
+				) : error ? (
+					<Text>Something went wrong</Text>
+				) : (
+					<View style={{ width: 45, height: 45 }}>
+						<Image
+							source={{ uri: userInfo ? userInfo.image : 'https://static.thenounproject.com/png/5034901-200.png' }}
+							resizeMode="contain"
+							style={styles.avatar}
+						/>
+					</View>
+				)}
 			</View>
 
 			<View style={{ marginTop: SIZES.font }}>

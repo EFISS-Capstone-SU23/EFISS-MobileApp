@@ -1,63 +1,63 @@
 import {
-	View, Image, Text, TouchableOpacity,
-	// StyleSheet,
+	View, Image, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 
+import { productHistorySet } from '../../actions/productActions';
 import {
 	COLORS, SHADOWS, SIZES, FONTS,
 } from '../../constants';
 
-// const styles = StyleSheet.create({
-// 	button: {
-// 		height: 30,
-// 		flexDirection: 'row',
-// 		alignItems: 'center',
-// 		justifyContent: 'center',
-// 		backgroundColor: COLORS.primary,
-// 		borderRadius: SIZES.small,
-// 	},
-// });
+const styles = StyleSheet.create({
+	container: {
+		width: '46%',
+		backgroundColor: COLORS.white,
+		borderRadius: SIZES.font,
+		borderColor: COLORS.gray,
+		borderWidth: 0.5,
+		marginBottom: SIZES.small,
+		margin: SIZES.base,
+		...SHADOWS.dark,
+	},
+	productImage: {
+		height: '100%',
+		borderTopLeftRadius: SIZES.small,
+		borderTopRightRadius: SIZES.small,
+	},
+	productTitle: {
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.small,
+	},
+	priceSection: {
+		marginTop: SIZES.font,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	priceContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	productPrice: {
+		color: COLORS.primary,
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.small,
+		marginLeft: SIZES.base / 2,
+	},
+});
 
 function ProductCard({ product, navigation }) {
-	const setProductHistory = async (productParram) => {
-		try {
-			const value = await AsyncStorage.getItem('product_history');
-			if (value !== null) {
-				const productHistory = JSON.parse(value)
-					.filter((obj) => obj._id !== productParram._id)
-					.concat([productParram]);
-
-				if (productHistory.length > 50) productHistory.shift();
-
-				await AsyncStorage.setItem('product_history', JSON.stringify(productHistory));
-			} else {
-				const productHistory = [productParram];
-				await AsyncStorage.setItem('product_history', JSON.stringify(productHistory));
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	const dispatch = useDispatch();
 
 	return (
-		<View style={{
-			width: '46%',
-			backgroundColor: COLORS.white,
-			borderRadius: SIZES.font,
-			borderColor: COLORS.gray,
-			borderWidth: 0.5,
-			marginBottom: SIZES.small,
-			margin: SIZES.base,
-			...SHADOWS.dark,
-		}}
-		>
+		<View style={styles.container}>
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
-						setProductHistory(product);
+						dispatch(productHistorySet(product));
 						navigation.navigate('Details', { data: product });
 					}}
 				>
@@ -66,7 +66,7 @@ function ProductCard({ product, navigation }) {
 							uri: `https://storage.googleapis.com/efiss/data${product.images[0].substring(1)}`,
 						}}
 						resizeMode="contain"
-						style={{ height: '100%', borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small }}
+						style={styles.productImage}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -75,41 +75,20 @@ function ProductCard({ product, navigation }) {
 			>
 				<View>
 					<Text
-						style={{
-							fontFamily: FONTS.semiBold,
-							fontSize: SIZES.small,
-						}}
+						style={styles.productTitle}
 						numberOfLines={1}
 						onPress={() => {
-							setProductHistory(product);
+							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { data: product });
 						}}
 					>
 						{product.title}
 					</Text>
 				</View>
-				<View style={{
-					marginTop: SIZES.font,
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-				}}
-				>
-					<View style={{
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-					>
+				<View style={styles.priceSection}>
+					<View style={styles.priceContainer}>
 						<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
-						<Text
-							style={{
-								color: COLORS.primary,
-								fontFamily: FONTS.semiBold,
-								fontSize: SIZES.small,
-								marginLeft: SIZES.base / 2,
-							}}
-						>
+						<Text style={styles.productPrice}>
 							{product.price.replace(/(\r\n|\n|\r)/gm, ' ')}
 						</Text>
 					</View>
@@ -118,9 +97,5 @@ function ProductCard({ product, navigation }) {
 		</View>
 	);
 }
-
-// const DetailsView = (id, navigation) => {
-// 	navigation.navigate('Details', { productId: id });
-// };
 
 export default ProductCard;

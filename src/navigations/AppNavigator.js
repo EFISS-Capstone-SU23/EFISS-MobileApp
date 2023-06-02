@@ -8,6 +8,7 @@ import TakePicture from '../screens/TakePicture';
 import SignUp from '../screens/SignUp';
 import EditProfile from '../screens/EditProfile';
 import ChangePassword from '../screens/ChangePassword';
+import Wishlist from '../screens/Wishlist';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function AppNavigator() {
 			<Stack.Screen name="SignUp" component={SignUp} />
 			<Stack.Screen name="EditProfile" component={EditProfile} />
 			<Stack.Screen name="ChangePassword" component={ChangePassword} />
+			<Stack.Screen name="Wishlist" component={Wishlist} />
 		</Stack.Navigator>
 	);
 }

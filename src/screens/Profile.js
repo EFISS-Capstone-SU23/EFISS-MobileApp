@@ -93,7 +93,12 @@ function Profile() {
 						icon="edit"
 						onPress={() => navigation.navigate('EditProfile')}
 					/>
-					<Action title="Wishlist" icon="heart" />
+					<Action
+						title="Wishlist"
+						icon="heart"
+						onPress={() => navigation.navigate('Wishlist')}
+					/>
+					<Action title="Xác minh email" icon="email" />
 					<Action
 						title="Đổi mật khẩu"
 						icon="dial-pad"
