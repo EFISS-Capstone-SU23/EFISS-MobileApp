@@ -89,7 +89,7 @@ function ProductCard({ product, navigation }) {
 					<View style={styles.priceContainer}>
 						<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
 						<Text style={styles.productPrice}>
-							{product.price.replace(/(\r\n|\n|\r)/gm, ' ')}
+							{product.price}
 						</Text>
 					</View>
 				</View>

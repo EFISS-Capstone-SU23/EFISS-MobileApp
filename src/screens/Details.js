@@ -214,7 +214,7 @@ function Details({ route, navigation }) {
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
 						<Text style={styles.price}>
-							{data.price.replace(/(\r\n|\n|\r)/gm, ' ')}
+							{data.price}
 						</Text>
 					</View>
 					<View style={styles.locationContainer}>
