@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar,
 } from 'react-native';
@@ -8,6 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { COLORS, SIZES, FONTS } from '../constants';
 import { WishlistHeader, ProductCard } from '../components';
 import { wishlistLoad } from '../actions/productActions';
+import { AuthContext } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
 	container: {
@@ -16,17 +17,24 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	footer: {
+		textAlign: 'center',
+		fontFamily: FONTS.bold,
+		color: COLORS.primary,
+		marginTop: SIZES.medium,
+	},
 });
 
 function Wishlist({ navigation }) {
 	const dispatch = useDispatch();
+	const { userToken } = useContext(AuthContext);
 	const loadWishlist = useSelector((state) => state.loadWishlist);
 	const { loading, error, products } = loadWishlist;
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		if (isFocused) {
-			dispatch(wishlistLoad());
+			dispatch(wishlistLoad(userToken));
 		}
 	}, [dispatch, isFocused]);
 
@@ -54,7 +62,7 @@ function Wishlist({ navigation }) {
 						keyExtractor={(item) => item?._id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
 						ListHeaderComponent={<WishlistHeader navigation={navigation} />}
-						ListFooterComponent={<Text style={{ textAlign: 'center', fontFamily: FONTS.bold, color: COLORS.primary }}>Không còn kết quả nào khác</Text>}
+						ListFooterComponent={<Text style={styles.footer}>Không còn kết quả nào khác</Text>}
 						stickyHeaderIndices={[0]}
 						showsVerticalScrollIndicator={false}
 					/>

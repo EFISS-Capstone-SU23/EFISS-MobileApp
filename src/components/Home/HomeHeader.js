@@ -10,12 +10,27 @@ import {
 } from '../../constants';
 
 const styles = StyleSheet.create({
+	container: {
+		backgroundColor: COLORS.primary,
+		padding: SIZES.font,
+	},
+	header: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	greeting: {
+		fontFamily: FONTS.regular,
+		fontSize: SIZES.small,
+		color: COLORS.white,
+	},
 	avatar: {
 		width: '100%',
 		height: '100%',
 		borderRadius: 60,
 		borderColor: COLORS.white,
 		borderWidth: 1,
+		backgroundColor: COLORS.white,
 	},
 });
 
@@ -25,25 +40,10 @@ function HomeHeader({ onSearch, onPicture }) {
 	} = useContext(AuthContext);
 
 	return (
-		<View style={{
-			backgroundColor: COLORS.primary,
-			padding: SIZES.font,
-		}}
-		>
-			<View style={{
-				flexDirection: 'row',
-				justifyContent: 'space-between',
-				alignItems: 'center',
-			}}
-			>
+		<View style={styles.container}>
+			<View style={styles.header}>
 				<View style={{ marginVertical: SIZES.font }}>
-					<Text
-						style={{
-							fontFamily: FONTS.regular,
-							fontSize: SIZES.small,
-							color: COLORS.white,
-						}}
-					>
+					<Text style={styles.greeting}>
 						EFISS
 					</Text>
 					<Text
@@ -60,12 +60,18 @@ function HomeHeader({ onSearch, onPicture }) {
 
 				{isLoading ? (
 					<ActivityIndicator colors={COLORS.white} />
-				) : error ? (
-					<Text>Something went wrong</Text>
+				) : error || userInfo === null ? (
+					<View style={{ width: 45, height: 45 }}>
+						<Image
+							source={{ uri: 'https://static.thenounproject.com/png/5034901-200.png' }}
+							resizeMode="contain"
+							style={styles.avatar}
+						/>
+					</View>
 				) : (
 					<View style={{ width: 45, height: 45 }}>
 						<Image
-							source={{ uri: userInfo ? userInfo.image : 'https://static.thenounproject.com/png/5034901-200.png' }}
+							source={assets.avatar}
 							resizeMode="contain"
 							style={styles.avatar}
 						/>

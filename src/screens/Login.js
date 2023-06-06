@@ -154,14 +154,17 @@ function Login() {
 						</TouchableOpacity>
 
 						<View style={styles.textLink}>
-							<TouchableOpacity onPress={() => navigation.goBack()}>
+							<TouchableOpacity onPress={() => { }}>
 								<Text style={styles.text}>Quên mật khẩu?</Text>
 							</TouchableOpacity>
 						</View>
 
 						<View style={styles.textLink}>
 							<Text>Chưa có tài khoản?</Text>
-							<TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+							<TouchableOpacity onPress={() => {
+								navigation.navigate('SignUp');
+							}}
+							>
 								<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}> Đăng ký</Text>
 							</TouchableOpacity>
 						</View>

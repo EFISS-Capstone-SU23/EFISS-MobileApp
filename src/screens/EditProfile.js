@@ -4,10 +4,11 @@ import {
 import React, { useState, useContext } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
-import * as ImagePicker from 'expo-image-picker';
 
 import { AuthContext } from '../context/AuthContext';
-import { COLORS, FONTS, SIZES } from '../constants';
+import {
+	COLORS, FONTS, SIZES, assets,
+} from '../constants';
 
 const styles = StyleSheet.create({
 	header: {
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
 		borderRadius: 85,
 		borderWidth: 2,
 		borderColor: COLORS.primary,
+		resizeMode: 'contain',
 	},
 	cameraIcon: {
 		position: 'absolute',
@@ -76,25 +78,9 @@ function EditProfile({ navigation }) {
 		userInfo,
 	} = useContext(AuthContext);
 
-	const [selectedImage, setSelectedImage] = useState(userInfo.image);
 	const [email, setEmail] = useState(userInfo.email);
 	const [firstName, setFirstName] = useState(userInfo.firstName);
 	const [lastName, setLastName] = useState(userInfo.lastName);
-
-	// This function is triggered when the avatar is pressed
-	const handleImageSelection = async () => {
-		// No permissions request is necessary for launching the image library
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 1,
-		});
-
-		if (!result.canceled) {
-			setSelectedImage(result.assets[0].uri);
-		}
-	};
 
 	return (
 		// eslint-disable-next-line react/self-closing-comp
@@ -118,20 +104,12 @@ function EditProfile({ navigation }) {
 
 			<ScrollView>
 				<View style={{ alignItems: 'center', marginVertical: 22 }}>
-					<TouchableOpacity onPress={handleImageSelection}>
+					<View>
 						<Image
-							source={{ uri: selectedImage }}
+							source={assets.avatar}
 							style={styles.avatar}
 						/>
-
-						<View style={styles.cameraIcon}>
-							<MaterialIcons
-								name="photo-camera"
-								size={32}
-								color={COLORS.primary}
-							/>
-						</View>
-					</TouchableOpacity>
+					</View>
 				</View>
 
 				<View style={{ marginHorizontal: 22 }}>

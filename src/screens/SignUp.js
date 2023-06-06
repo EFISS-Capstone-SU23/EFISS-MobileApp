@@ -2,7 +2,7 @@
 import {
 	View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -48,15 +48,20 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginBottom: 30,
 	},
+	loadingIndicator: {
+		flex: 1, // Take full height
+		alignSelf: 'stretch', // Stretch to fill the parent container horizontally
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: SIZES.HEIGHT,
+	},
 });
 
 const SignupSchema = Yup.object().shape({
 	firstName: Yup.string()
-		.min(2, 'Quá ngắn')
 		.max(50, 'Quá dài!')
 		.required('Không được bỏ trống'),
 	lastName: Yup.string()
-		.min(2, 'Quá ngắn')
 		.max(50, 'Quá dài!')
 		.required('Không được bỏ trống'),
 	email: Yup.string().email('Email không hợp lệ').required('Không được bỏ trống'),
@@ -82,12 +87,14 @@ function SignUp({ navigation }) {
 	const userRegister = useSelector((state) => state.userRegister);
 	const { loading, userInfo } = userRegister;
 
-	if (loading) {
-		return <ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />;
-	}
+	const [isWaiting, setIsWaiting] = useState(false);
 
+	// If user pressed the submit button and
+	// the registration completed successfully,
+	// return to login screen
 	useEffect(() => {
-		if (userInfo) {
+		if (userInfo && isWaiting) {
+			setIsWaiting(false);
 			navigation.goBack();
 		}
 	}, [userInfo]);
@@ -104,7 +111,8 @@ function SignUp({ navigation }) {
 			}}
 			validationSchema={SignupSchema}
 			onSubmit={(values) => {
-				dispatch(register(JSON.stringify(values)));
+				setIsWaiting(true);
+				dispatch(register(values));
 			}}
 		>
 			{({
@@ -112,149 +120,155 @@ function SignUp({ navigation }) {
 			}) => (
 				<ScrollView>
 					<View style={styles.container}>
-						<View style={{ paddingHorizontal: 25 }}>
-							<View style={{ alignItems: 'center' }}>
-								<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
+						{loading ? (
+							<View style={styles.loadingIndicator}>
+								<ActivityIndicator size="large" color={COLORS.primary} />
 							</View>
-							<Text style={styles.title}>Đăng ký</Text>
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Email của bạn"
-										style={{ flex: 1, paddingVertical: 0 }}
-										keyboardType="email-address"
-										value={values.email}
-										onChangeText={handleChange('email')}
-										onBlur={() => setFieldTouched('email')}
-										autoCapitalize="none"
-									/>
+						) : (
+							<View style={{ paddingHorizontal: 25 }}>
+								<View style={{ alignItems: 'center' }}>
+									<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
 								</View>
-								<View style={styles.errorContainer}>
-									{touched.email && errors.email && (
-										<Text style={styles.errorMessage}>{errors.email}</Text>
-									)}
+								<Text style={styles.title}>Đăng ký</Text>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Email của bạn"
+											style={{ flex: 1, paddingVertical: 0 }}
+											keyboardType="email-address"
+											value={values.email}
+											onChangeText={handleChange('email')}
+											onBlur={() => setFieldTouched('email')}
+											autoCapitalize="none"
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.email && errors.email && (
+											<Text style={styles.errorMessage}>{errors.email}</Text>
+										)}
+									</View>
+
 								</View>
 
-							</View>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Tên đăng nhập"
+											style={{ flex: 1, paddingVertical: 0 }}
+											value={values.username}
+											onChangeText={handleChange('username')}
+											onBlur={() => setFieldTouched('username')}
+											autoCapitalize="none"
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.username && errors.username && (
+											<Text style={styles.errorMessage}>{errors.username}</Text>
+										)}
+									</View>
+								</View>
 
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Tên đăng nhập"
-										style={{ flex: 1, paddingVertical: 0 }}
-										value={values.username}
-										onChangeText={handleChange('username')}
-										onBlur={() => setFieldTouched('username')}
-										autoCapitalize="none"
-									/>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="text-document" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Họ và tên đệm"
+											style={{ flex: 1, paddingVertical: 0 }}
+											value={values.lastName}
+											onChangeText={handleChange('lastName')}
+											onBlur={() => setFieldTouched('lastName')}
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.lastName && errors.lastName && (
+											<Text style={styles.errorMessage}>{errors.lastName}</Text>
+										)}
+									</View>
 								</View>
-								<View style={styles.errorContainer}>
-									{touched.username && errors.username && (
-										<Text style={styles.errorMessage}>{errors.username}</Text>
-									)}
-								</View>
-							</View>
 
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="text-document" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Họ và tên đệm"
-										style={{ flex: 1, paddingVertical: 0 }}
-										value={values.lastName}
-										onChangeText={handleChange('lastName')}
-										onBlur={() => setFieldTouched('lastName')}
-									/>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="text-document-inverted" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Tên của bạn"
+											style={{ flex: 1, paddingVertical: 0 }}
+											value={values.firstName}
+											onChangeText={handleChange('firstName')}
+											onBlur={() => setFieldTouched('firstName')}
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.firstName && errors.firstName && (
+											<Text style={styles.errorMessage}>{errors.firstName}</Text>
+										)}
+									</View>
 								</View>
-								<View style={styles.errorContainer}>
-									{touched.lastName && errors.lastName && (
-										<Text style={styles.errorMessage}>{errors.lastName}</Text>
-									)}
-								</View>
-							</View>
 
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="text-document-inverted" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Tên của bạn"
-										style={{ flex: 1, paddingVertical: 0 }}
-										value={values.firstName}
-										onChangeText={handleChange('firstName')}
-										onBlur={() => setFieldTouched('firstName')}
-									/>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Mật khẩu"
+											style={{ flex: 1, paddingVertical: 0 }}
+											value={values.password}
+											onChangeText={handleChange('password')}
+											onBlur={() => setFieldTouched('password')}
+											secureTextEntry
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.password && errors.password && (
+											<Text style={styles.errorMessage}>{errors.password}</Text>
+										)}
+									</View>
 								</View>
-								<View style={styles.errorContainer}>
-									{touched.firstName && errors.firstName && (
-										<Text style={styles.errorMessage}>{errors.firstName}</Text>
-									)}
-								</View>
-							</View>
 
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Mật khẩu"
-										style={{ flex: 1, paddingVertical: 0 }}
-										value={values.password}
-										onChangeText={handleChange('password')}
-										onBlur={() => setFieldTouched('password')}
-										secureTextEntry
-									/>
+								<View style={styles.inputContainer}>
+									<View style={styles.inputField}>
+										<Entypo name="flag" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
+										<TextInput
+											placeholder="Nhập lại mật khẩu"
+											style={{ flex: 1, paddingVertical: 0 }}
+											value={values.confirmPassword}
+											onChangeText={handleChange('confirmPassword')}
+											onBlur={() => setFieldTouched('confirmPassword')}
+											secureTextEntry
+										/>
+									</View>
+									<View style={styles.errorContainer}>
+										{touched.confirmPassword && errors.confirmPassword && (
+											<Text style={styles.errorMessage}>{errors.confirmPassword}</Text>
+										)}
+									</View>
 								</View>
-								<View style={styles.errorContainer}>
-									{touched.password && errors.password && (
-										<Text style={styles.errorMessage}>{errors.password}</Text>
-									)}
-								</View>
-							</View>
 
-							<View style={styles.inputContainer}>
-								<View style={styles.inputField}>
-									<Entypo name="flag" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
-									<TextInput
-										placeholder="Nhập lại mật khẩu"
-										style={{ flex: 1, paddingVertical: 0 }}
-										value={values.confirmPassword}
-										onChangeText={handleChange('confirmPassword')}
-										onBlur={() => setFieldTouched('confirmPassword')}
-										secureTextEntry
-									/>
-								</View>
-								<View style={styles.errorContainer}>
-									{touched.confirmPassword && errors.confirmPassword && (
-										<Text style={styles.errorMessage}>{errors.confirmPassword}</Text>
-									)}
-								</View>
-							</View>
-
-							<TouchableOpacity
-								onPress={handleSubmit}
-								disabled={!isValid}
-								style={
-									[styles.submitBtn,
-										{ backgroundColor: isValid ? COLORS.primary : COLORS.lightGray },
-									]
-								}
-							>
-								<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng ký</Text>
-							</TouchableOpacity>
-
-							<View
-								style={{
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-							>
-								<TouchableOpacity onPress={() => navigation.goBack()}>
-									<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}>Quay lại</Text>
+								<TouchableOpacity
+									onPress={handleSubmit}
+									disabled={!isValid || loading}
+									style={
+										[styles.submitBtn,
+											{ backgroundColor: isValid ? COLORS.primary : COLORS.lightGray },
+										]
+									}
+								>
+									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng ký</Text>
 								</TouchableOpacity>
+
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+								>
+									<TouchableOpacity onPress={() => navigation.goBack()}>
+										<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}>Quay lại</Text>
+									</TouchableOpacity>
+								</View>
 							</View>
-						</View>
+						)}
 					</View>
 				</ScrollView>
 			)}

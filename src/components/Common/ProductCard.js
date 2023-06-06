@@ -63,7 +63,7 @@ function ProductCard({ product, navigation }) {
 				>
 					<Image
 						source={{
-							uri: `https://storage.googleapis.com/efiss/data${product.images[0].substring(1)}`,
+							uri: product.images[0],
 						}}
 						resizeMode="contain"
 						style={styles.productImage}

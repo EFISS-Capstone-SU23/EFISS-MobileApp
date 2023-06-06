@@ -5,7 +5,9 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 
-import { COLORS, FONTS, SIZES } from '../constants';
+import {
+	COLORS, FONTS, SIZES, assets,
+} from '../constants';
 import { AuthContext } from '../context/AuthContext';
 import { Action } from '../components';
 
@@ -38,6 +40,7 @@ const styles = StyleSheet.create({
 		borderRadius: 60,
 		borderColor: COLORS.primary,
 		borderWidth: 1,
+		resizeMode: 'contain',
 	},
 	nameSection: {
 		marginLeft: SIZES.medium,
@@ -77,12 +80,12 @@ function Profile() {
 						}}
 						>
 							<Image
-								source={{ uri: userInfo.image }}
+								source={assets.avatar}
 								style={styles.avatar}
 							/>
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo.firstName} ${userInfo.lastName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo.lastName} ${userInfo.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo.email}</Text>
 						</View>
 					</View>

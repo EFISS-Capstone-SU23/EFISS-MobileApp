@@ -3,6 +3,8 @@ import { combineReducers } from 'redux';
 import {
 	searchProductsReducer,
 	loadWishlistReducer,
+	addWishlistReducer,
+	removeWishlistReducer,
 	setProductHistoryReducer,
 	loadProductHistoryReducer,
 } from './productReducers';
@@ -12,6 +14,8 @@ const reducer = combineReducers({
 	searchProducts: searchProductsReducer,
 	userRegister: userRegisterReducer,
 	loadWishlist: loadWishlistReducer,
+	addWishlist: addWishlistReducer,
+	removeWishlist: removeWishlistReducer,
 	setProductHistory: setProductHistoryReducer,
 	loadProductHistory: loadProductHistoryReducer,
 });

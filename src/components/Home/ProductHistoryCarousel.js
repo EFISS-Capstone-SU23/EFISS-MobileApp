@@ -1,5 +1,5 @@
 import {
-	View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList,
+	View, Text, StyleSheet, ActivityIndicator, FlatList,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,18 +57,14 @@ function ProductHistoryCarousel({ navigation }) {
 			<View style={styles.container}>
 				<View style={styles.header}>
 					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
-					{!error && (
-						<TouchableOpacity>
-							<Text style={styles.headerBtn}>Xem thêm</Text>
-						</TouchableOpacity>
-					)}
-
 				</View>
 
 				<View style={styles.cardsContainer}>
 					{loading ? (
 						<ActivityIndicator size="large" color={COLORS.primary} />
 					) : error ? (
+						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+					) : (products.length === 0) ? (
 						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
 					) : (
 						<FlatList
