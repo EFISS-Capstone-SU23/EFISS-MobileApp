@@ -104,7 +104,7 @@ export function AuthProvider({ children }) {
 
 				// if the access token is expired, get a new one by refreshToken
 				if (isExpired) {
-					console.log('Get a new Token');
+					console.log('Get a new acess Token');
 					const response = await axios.post(
 						`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
 						{
