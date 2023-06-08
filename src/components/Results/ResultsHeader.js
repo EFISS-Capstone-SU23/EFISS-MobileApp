@@ -15,10 +15,6 @@ const TAGS = [
 		icon: 'bar-graph',
 	},
 	{
-		title: 'Địa điểm',
-		icon: 'map',
-	},
-	{
 		title: 'Phân loại',
 		icon: 'list',
 	},

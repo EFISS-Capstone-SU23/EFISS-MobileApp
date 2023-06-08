@@ -1,14 +1,15 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar,
+	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar, RefreshControl,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
+import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import { WishlistHeader, ProductCard } from '../components';
 import { wishlistLoad } from '../actions/productActions';
 import { AuthContext } from '../context/AuthContext';
+import { config } from '../../config';
 
 const styles = StyleSheet.create({
 	container: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontFamily: FONTS.bold,
 		color: COLORS.primary,
-		marginTop: SIZES.medium,
+		marginVertical: SIZES.medium,
 	},
 });
 
@@ -29,14 +30,24 @@ function Wishlist({ navigation }) {
 	const dispatch = useDispatch();
 	const { userToken } = useContext(AuthContext);
 	const loadWishlist = useSelector((state) => state.loadWishlist);
-	const { loading, error, products } = loadWishlist;
-	const isFocused = useIsFocused();
+	const {
+		loading, error, products, totalPages,
+	} = loadWishlist;
+
+	const [items, setItems] = useState([]);
+	const [pageNum, setPageNum] = useState(1);
+	const [refreshControl, setRefreshControl] = useState(false);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	useEffect(() => {
-		if (isFocused) {
-			dispatch(wishlistLoad(userToken));
+		dispatch(wishlistLoad(userToken, 1));
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (products) {
+			setItems(products);
 		}
-	}, [dispatch, isFocused]);
+	}, [products]);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -54,7 +65,7 @@ function Wishlist({ navigation }) {
 					<Text>Something went wrong</Text>
 				) : (
 					<FlatList
-						data={products}
+						data={items}
 						renderItem={({ item }) => (
 							<ProductCard product={item} navigation={navigation} />
 						)}
@@ -62,12 +73,43 @@ function Wishlist({ navigation }) {
 						keyExtractor={(item) => item?._id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
 						ListHeaderComponent={<WishlistHeader navigation={navigation} />}
-						ListFooterComponent={<Text style={styles.footer}>Không còn kết quả nào khác</Text>}
+						// eslint-disable-next-line react/no-unstable-nested-components
+						ListFooterComponent={() => (
+							isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
+						)}
 						stickyHeaderIndices={[0]}
 						showsVerticalScrollIndicator={false}
-						onEndReached={() => {
-							console.log('End reached');
+						refreshControl={(
+							<RefreshControl
+								refreshing={refreshControl}
+								onRefresh={() => {
+									setRefreshControl(true);
+									dispatch(wishlistLoad(userToken, 1));
+									setPageNum(1);
+									setRefreshControl(false);
+								}}
+							/>
+						)}
+						onEndReached={async () => {
+							if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
+								setIsLoadingMore(true);
+								try {
+									const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
+										headers: {
+											Authorization: `Bearer ${userToken}`,
+										},
+									});
+									console.log('loaded: ', pageNum + 1);
+									setPageNum(pageNum + 1);
+									setItems([...items, ...data.products]);
+								} catch (err) {
+									console.log('wishlistLoad error: ', err);
+								} finally {
+									setIsLoadingMore(false);
+								}
+							}
 						}}
+						onEndReachedThreshold={0.1}
 					/>
 				)}
 			</View>

@@ -56,8 +56,6 @@ export function AuthProvider({ children }) {
 			setUserToken(response.data.token);
 			await AsyncStorage.setItem('userToken', response.data.token);
 			await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
-			dispatch(wishlistLoad(response.data.token));
-			dispatch(loadUserProfile(response.data.token));
 
 			setError(null);
 			setIsLoading(false);
@@ -77,19 +75,7 @@ export function AuthProvider({ children }) {
 		setError(null);
 		setIsLoading(false);
 	};
-	// try {
-	// 	setIsLoading(true);
 
-	// 	const token = await AsyncStorage.getItem('userToken');
-	// 	if (token !== null) {
-	// 		setUserToken(token);
-	// 		dispatch(wishlistLoad(token));
-	// 		dispatch(loadUserProfile(token));
-	// 	}
-	// 	setIsLoading(false);
-	// } catch (err) {
-	// 	console.log(`isLoggedIn: ${err.message}`);
-	// }
 	const isLoggedIn = async () => {
 		try {
 			setIsLoading(true);
@@ -115,13 +101,10 @@ export function AuthProvider({ children }) {
 
 					setUserToken(response.data.token);
 					await AsyncStorage.setItem('userToken', response.data.token);
-					dispatch(wishlistLoad(response.data.token));
-					dispatch(loadUserProfile(response.data.token));
 				} else {
 					console.log('Token still valid');
 					setUserToken(token);
-					dispatch(loadUserProfile(token));
-					dispatch(wishlistLoad(token));
+					console.log('Token: ', token);
 				}
 			} else logout();
 			setIsLoading(false);

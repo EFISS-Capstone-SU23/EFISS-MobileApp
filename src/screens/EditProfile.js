@@ -1,5 +1,6 @@
 import {
-	View, Text, TouchableOpacity, Image, TextInput, StyleSheet, SafeAreaView, ActivityIndicator,
+	View, Text, TouchableOpacity, Image, TextInput,
+	StyleSheet, SafeAreaView, ActivityIndicator, ToastAndroid,
 } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -112,13 +113,23 @@ function EditProfile({ navigation }) {
 
 	// if the user update success, return to the previous screen
 	const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-	const { loading, success } = userUpdateProfile;
+	const { loading, success, error } = userUpdateProfile;
 	useEffect(() => {
 		if (success) {
 			dispatch({ type: USER_UPDATE_PROFILE_RESET });
 			navigation.goBack();
 		}
 	}, [dispatch, success]);
+
+	useEffect(() => {
+		if (error) {
+			ToastAndroid.show(
+				error.response.data.message,
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	}, [error]);
 
 	return (
 		<Formik

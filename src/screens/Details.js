@@ -1,15 +1,15 @@
 import {
 	View, Text, StatusBar, TouchableOpacity, FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
-import { wishlistLoad, wishlistAdd, wishlistRemove } from '../actions/productActions';
+import { wishlistAdd } from '../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -132,22 +132,10 @@ const styles = StyleSheet.create({
 
 function Details({ route, navigation }) {
 	const { userToken } = useContext(AuthContext);
-
 	const dispatch = useDispatch();
-	const loadWishlist = useSelector((state) => state.loadWishlist);
-	const { products } = loadWishlist;
-
-	// check if this product is already in the wishlist
-	const isInWishlist = (data) => {
-		const elementExists = products?.some((product) => product._id === data._id);
-		return !!elementExists;
-	};
 
 	// product data extracted from the results screen
 	const { data } = route.params;
-
-	// if this product is already in the wishlist, the heart is red, otherwise it is primary color
-	const [heartColor, setHeartColor] = useState(isInWishlist(data) ? COLORS.red : COLORS.primary);
 
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
@@ -173,17 +161,10 @@ function Details({ route, navigation }) {
 								<TouchableOpacity
 									style={{ marginLeft: 5 }}
 									onPress={() => {
-										if (isInWishlist(data)) {
-											dispatch(wishlistRemove(userToken, data._id));
-											setHeartColor(COLORS.primary);
-										} else {
-											dispatch(wishlistAdd(userToken, data._id));
-											setHeartColor(COLORS.red);
-										}
-										dispatch(wishlistLoad(userToken));
+										dispatch(wishlistAdd(userToken, data._id));
 									}}
 								>
-									<Entypo name="heart" color={heartColor} style={styles.button} />
+									<Entypo name="heart" color={COLORS.primary} style={styles.button} />
 								</TouchableOpacity>
 							)}
 

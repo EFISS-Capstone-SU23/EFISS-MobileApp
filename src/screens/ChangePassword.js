@@ -1,5 +1,6 @@
 import {
-	View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, SafeAreaView, ActivityIndicator,
+	View, Text, TouchableOpacity, ScrollView, TextInput,
+	StyleSheet, SafeAreaView, ActivityIndicator, ToastAndroid,
 } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -105,14 +106,24 @@ function ChangePassword({ navigation }) {
 	const dispatch = useDispatch();
 	const { userToken } = useContext(AuthContext);
 	const changePassword = useSelector((state) => state.changePassword);
-	const { loading, success } = changePassword;
+	const { loading, success, error } = changePassword;
 
 	useEffect(() => {
-		if	(success) {
+		if (success) {
 			dispatch({ type: USER_CHANGE_PASSWORD_RESET });
 			navigation.goBack();
 		}
 	}, [dispatch, success]);
+
+	useEffect(() => {
+		if (error) {
+			ToastAndroid.show(
+				error.response.data.message,
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	}, [error]);
 
 	return (
 		<Formik

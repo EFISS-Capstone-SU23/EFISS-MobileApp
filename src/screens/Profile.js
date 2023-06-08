@@ -1,10 +1,10 @@
 /* eslint-disable react/style-prop-object */
 import {
-	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image,
+	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image, RefreshControl,
 } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
 	COLORS, FONTS, SIZES, assets,
@@ -54,21 +54,19 @@ const styles = StyleSheet.create({
 });
 
 function Profile() {
-	const navigation = useNavigation();
-	const dispatch = useDispatch();
-	const userLoadProfile = useSelector((state) => state.userLoadProfile);
-	const { loading, error, userInfo } = userLoadProfile;
 	const {
 		userToken, logout,
 	} = useContext(AuthContext);
+	const navigation = useNavigation();
+	const [refreshControl, setRefreshControl] = useState(false);
 
-	const isFocused = useIsFocused();
+	const dispatch = useDispatch();
+	const userLoadProfile = useSelector((state) => state.userLoadProfile);
+	const { loading, error, userInfo } = userLoadProfile;
 
 	useEffect(() => {
-		if (isFocused) {
-			dispatch(loadUserProfile(userToken));
-		}
-	}, [dispatch, isFocused]);
+		dispatch(loadUserProfile(userToken));
+	}, [dispatch]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -80,6 +78,16 @@ function Profile() {
 				contentContainerStyle={{
 					paddingBottom: 29,
 				}}
+				refreshControl={(
+					<RefreshControl
+						refreshing={refreshControl}
+						onRefresh={() => {
+							setRefreshControl(true);
+							dispatch(loadUserProfile(userToken));
+							setRefreshControl(false);
+						}}
+					/>
+				)}
 			>
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
@@ -97,8 +105,8 @@ function Profile() {
 							/>
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo.lastName} ${userInfo.firstName}`}</Text>
-							<Text style={styles.text}>{userInfo.email}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={styles.text}>{userInfo?.email}</Text>
 						</View>
 					</View>
 				)}

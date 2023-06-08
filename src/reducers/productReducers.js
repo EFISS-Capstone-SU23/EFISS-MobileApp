@@ -27,7 +27,9 @@ export const loadWishlistReducer = (state = { loading: true }, action) => {
 	case PRODUCT_WISHLIST_LOAD_REQUEST:
 		return { loading: true };
 	case PRODUCT_WISHLIST_LOAD_SUCCESS:
-		return { loading: false, products: action.payload };
+		return {
+			loading: false, products: action.payload.products, totalPages: action.payload.totalPages,
+		};
 	case PRODUCT_WISHLIST_LOAD_FAIL:
 		console.log('error');
 		return { loading: false, error: action.payload };
