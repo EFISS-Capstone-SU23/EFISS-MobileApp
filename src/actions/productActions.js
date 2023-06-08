@@ -14,7 +14,15 @@ import { config } from '../../config';
 export const productsSearch = (imageURL) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
-		const { data } = await axios.post(`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`, { encodedImage: imageURL });
+		const { data } = await axios.post(
+			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
+			{
+				encodedImage: imageURL,
+				limit: 10,
+				sortBy: 'relevance',
+				category: 'all',
+			},
+		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });
 	} catch (error) {
 		console.log('productsSearch error: ', error);
@@ -23,7 +31,6 @@ export const productsSearch = (imageURL) => async (dispatch) => {
 };
 
 export const wishlistLoad = (userToken) => async (dispatch) => {
-	console.log('Loading wishlist');
 	dispatch({ type: PRODUCT_WISHLIST_LOAD_REQUEST });
 	try {
 		const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`, {
