@@ -2,14 +2,16 @@
 import {
 	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext, useEffect } from 'react';
 
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../constants';
 import { AuthContext } from '../context/AuthContext';
 import { Action } from '../components';
+import { loadUserProfile } from '../actions/userActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -53,10 +55,20 @@ const styles = StyleSheet.create({
 
 function Profile() {
 	const navigation = useNavigation();
-
+	const dispatch = useDispatch();
+	const userLoadProfile = useSelector((state) => state.userLoadProfile);
+	const { loading, error, userInfo } = userLoadProfile;
 	const {
-		error, isLoading, userInfo, logout,
+		userToken, logout,
 	} = useContext(AuthContext);
+
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		if (isFocused) {
+			dispatch(loadUserProfile(userToken));
+		}
+	}, [dispatch, isFocused]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -69,7 +81,7 @@ function Profile() {
 					paddingBottom: 29,
 				}}
 			>
-				{isLoading ? (
+				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
 				) : error ? (
 					<Text>Something went wrong</Text>

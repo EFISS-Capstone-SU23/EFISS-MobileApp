@@ -8,7 +8,12 @@ import {
 	setProductHistoryReducer,
 	loadProductHistoryReducer,
 } from './productReducers';
-import { userRegisterReducer } from './userReducers';
+import {
+	userRegisterReducer,
+	userUpdateProfileReducer,
+	userLoadProfileReducer,
+	changePasswordReducer,
+} from './userReducers';
 
 const reducer = combineReducers({
 	searchProducts: searchProductsReducer,
@@ -18,6 +23,9 @@ const reducer = combineReducers({
 	removeWishlist: removeWishlistReducer,
 	setProductHistory: setProductHistoryReducer,
 	loadProductHistory: loadProductHistoryReducer,
+	userUpdateProfile: userUpdateProfileReducer,
+	userLoadProfile: userLoadProfileReducer,
+	changePassword: changePasswordReducer,
 });
 
 export default (state, action) => reducer(state, action);

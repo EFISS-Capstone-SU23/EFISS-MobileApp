@@ -8,15 +8,12 @@ import { COLORS, FONTS, SIZES } from '../../constants';
 
 const styles = StyleSheet.create({
 	action: {
-		marginTop: SIZES.extraLarge,
+		marginTop: SIZES.base,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		marginHorizontal: SIZES.font,
-		borderWidth: 0.5,
-		borderColor: COLORS.primary,
 		padding: SIZES.base,
-		borderRadius: 6,
 	},
 	iconContainer: {
 		width: 40,

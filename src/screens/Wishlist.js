@@ -65,6 +65,9 @@ function Wishlist({ navigation }) {
 						ListFooterComponent={<Text style={styles.footer}>Không còn kết quả nào khác</Text>}
 						stickyHeaderIndices={[0]}
 						showsVerticalScrollIndicator={false}
+						onEndReached={() => {
+							console.log('End reached');
+						}}
 					/>
 				)}
 			</View>
