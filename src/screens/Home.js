@@ -28,11 +28,7 @@ function Home() {
 			<StatusBar backgroundColor={COLORS.primary} />
 
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<View
-					style={{
-						flex: 1,
-					}}
-				>
+				<View style={{ flex: 1 }}>
 					<HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
 					<Category />
 					<ProductRecommendCarousel navigation={navigation} />

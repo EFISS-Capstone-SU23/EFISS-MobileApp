@@ -12,7 +12,11 @@ import ProductRecommendCarousel from './Home/ProductRecommendCarousel';
 import ProductHistoryCarousel from './Home/ProductHistoryCarousel';
 import Welcome from './Home/Welcome';
 
+import Action from './Profile/Action';
+
 import CameraButton from './TakePicture/CameraButton';
+
+import WishlistHeader from './Wishlist/WishlistHeader';
 
 import ResultsHeader from './Results/ResultsHeader';
 
@@ -31,4 +35,6 @@ export {
 	RectButton,
 	CarouselCard,
 	RenderImageItem,
+	Action,
+	WishlistHeader,
 };

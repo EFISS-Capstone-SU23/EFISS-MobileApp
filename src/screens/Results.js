@@ -27,24 +27,6 @@ function Results({ route, navigation }) {
 		dispatch(productsSearch(imageUrl));
 	}, [dispatch, imageUrl]);
 
-	const result = error ? (
-		<Text>Something went wrong</Text>
-	) : (
-		<FlatList
-			data={products.searchResults}
-			renderItem={({ item }) => (
-				<ProductCard product={item} navigation={navigation} />
-			)}
-			numColumns={2}
-			keyExtractor={(item) => item?._id}
-			contentContainerStyle={{ columnGap: SIZES.medium }}
-			ListHeaderComponent={<ResultsHeader navigation={navigation} />}
-			ListFooterComponent={<Text style={{ textAlign: 'center', fontFamily: FONTS.bold, color: COLORS.primary }}>Không còn sản phẩm nào phù hợp</Text>}
-			stickyHeaderIndices={[0]}
-			showsVerticalScrollIndicator={false}
-		/>
-	);
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<StatusBar backgroundColor={COLORS.primary} />
@@ -57,8 +39,23 @@ function Results({ route, navigation }) {
 			>
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
-				) : result}
-
+				) : error ? (
+					<Text>Something went wrong</Text>
+				) : (
+					<FlatList
+						data={products.searchResults}
+						renderItem={({ item }) => (
+							<ProductCard product={item} navigation={navigation} />
+						)}
+						numColumns={2}
+						keyExtractor={(item) => item?._id}
+						contentContainerStyle={{ columnGap: SIZES.medium }}
+						ListHeaderComponent={<ResultsHeader navigation={navigation} />}
+						ListFooterComponent={<Text style={{ textAlign: 'center', fontFamily: FONTS.bold, color: COLORS.primary }}>Không còn sản phẩm nào phù hợp</Text>}
+						stickyHeaderIndices={[0]}
+						showsVerticalScrollIndicator={false}
+					/>
+				)}
 			</View>
 		</SafeAreaView>
 	);

@@ -26,7 +26,8 @@
 		"react/react-in-jsx-scope": "off",
 		"no-underscore-dangle": "off",
 		"react/no-array-index-key": "off",
-		"default-param-last": "off"
+		"default-param-last": "off",
+		"no-nested-ternary": "off"
 	},
 	"settings": {
 		"import/core-modules": [

@@ -1,12 +1,15 @@
 import {
 	View, Text, StatusBar, TouchableOpacity, FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
+import { AuthContext } from '../context/AuthContext';
+import { wishlistLoad, wishlistAdd, wishlistRemove } from '../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -36,7 +39,6 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		fontSize: SIZES.large,
-		color: COLORS.primary,
 		padding: 12,
 		backgroundColor: COLORS.white,
 		borderRadius: 20,
@@ -129,10 +131,26 @@ const styles = StyleSheet.create({
 });
 
 function Details({ route, navigation }) {
+	const { userToken } = useContext(AuthContext);
+
+	const dispatch = useDispatch();
+	const loadWishlist = useSelector((state) => state.loadWishlist);
+	const { products } = loadWishlist;
+
+	// check if this product is already in the wishlist
+	const isInWishlist = (data) => {
+		const elementExists = products?.some((product) => product._id === data._id);
+		return !!elementExists;
+	};
+
+	// product data extracted from the results screen
 	const { data } = route.params;
 
-	const scrollX = new Animated.Value(0);
+	// if this product is already in the wishlist, the heart is red, otherwise it is primary color
+	const [heartColor, setHeartColor] = useState(isInWishlist(data) ? COLORS.red : COLORS.primary);
 
+	// image carousel swipe configuration
+	const scrollX = new Animated.Value(0);
 	const position = Animated.divide(scrollX, SIZES.WIDTH);
 
 	return (
@@ -151,9 +169,24 @@ function Details({ route, navigation }) {
 								paddingHorizontal: SIZES.medium,
 							}}
 						>
-							<TouchableOpacity style={{ marginLeft: 5 }}>
-								<Entypo name="heart" style={styles.button} />
-							</TouchableOpacity>
+							{userToken !== null && (
+								<TouchableOpacity
+									style={{ marginLeft: 5 }}
+									onPress={() => {
+										if (isInWishlist(data)) {
+											dispatch(wishlistRemove(userToken, data._id));
+											setHeartColor(COLORS.primary);
+										} else {
+											dispatch(wishlistAdd(userToken, data._id));
+											setHeartColor(COLORS.red);
+										}
+										dispatch(wishlistLoad(userToken));
+									}}
+								>
+									<Entypo name="heart" color={heartColor} style={styles.button} />
+								</TouchableOpacity>
+							)}
+
 							<TouchableOpacity
 								style={{ marginLeft: 5 }}
 								onPress={() => { Linking.openURL(data.url); }}
@@ -189,7 +222,7 @@ function Details({ route, navigation }) {
 									});
 
 									return (
-										<Animated.View style={styles.imgIndicator(opacity)} />
+										<Animated.View key={index} style={styles.imgIndicator(opacity)} />
 									);
 								}) : null
 						}
@@ -202,7 +235,7 @@ function Details({ route, navigation }) {
 							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
 						/>
 						<Text style={styles.category}>
-							Shopping
+							{data.group}
 						</Text>
 					</View>
 					<View style={styles.titleContainer}>
@@ -214,7 +247,7 @@ function Details({ route, navigation }) {
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
 						<Text style={styles.price}>
-							{data.price.replace(/(\r\n|\n|\r)/gm, ' ')}
+							{data.price}
 						</Text>
 					</View>
 					<View style={styles.locationContainer}>
