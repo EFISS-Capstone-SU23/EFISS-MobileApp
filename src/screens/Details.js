@@ -1,15 +1,19 @@
 import {
-	View, Text, StatusBar, TouchableOpacity, FlatList, Animated, Linking, StyleSheet,
+	View, Text, StatusBar, TouchableOpacity,
+	FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
-import { wishlistAdd } from '../actions/productActions';
+import { wishlistAdd, wishlistRemove } from '../actions/productActions';
+import { config } from '../../config';
+import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -133,13 +137,46 @@ const styles = StyleSheet.create({
 function Details({ route, navigation }) {
 	const { userToken } = useContext(AuthContext);
 	const dispatch = useDispatch();
-
 	// product data extracted from the results screen
-	const { data } = route.params;
+	const { productData } = route.params;
 
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
 	const position = Animated.divide(scrollX, SIZES.WIDTH);
+
+	const [inWishlist, setInWishlist] = useState(false);
+	const isInWishlist = async (token, productId) => {
+		try {
+			const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}/${productId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			setInWishlist(data.existed);
+		} catch (error) {
+			console.log('isInWishlist error: ', error);
+		}
+	};
+	useEffect(() => {
+		isInWishlist(userToken, productData._id);
+	}, [dispatch]);
+
+	// if the product is added/removed successfully,
+	// then change color of the heart icon and toast a message
+	const addWishlist = useSelector((state) => state.addWishlist);
+	const { successAddWishlist } = addWishlist;
+	const removeWishlist = useSelector((state) => state.removeWishlist);
+	const { successRemoveWishlist } = removeWishlist;
+	useEffect(() => {
+		if (successAddWishlist) {
+			isInWishlist(userToken, productData._id);
+			dispatch({ type: PRODUCT_WISHLIST_ADD_RESET });
+		}
+		if (successRemoveWishlist) {
+			isInWishlist(userToken, productData._id);
+			dispatch({ type: PRODUCT_WISHLIST_REMOVE_RESET });
+		}
+	}, [successAddWishlist, successRemoveWishlist]);
 
 	return (
 		<View style={styles.container}>
@@ -161,23 +198,24 @@ function Details({ route, navigation }) {
 								<TouchableOpacity
 									style={{ marginLeft: 5 }}
 									onPress={() => {
-										dispatch(wishlistAdd(userToken, data._id));
+										if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
+										else dispatch(wishlistRemove(userToken, productData._id));
 									}}
 								>
-									<Entypo name="heart" color={COLORS.primary} style={styles.button} />
+									<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.primary} style={styles.button} />
 								</TouchableOpacity>
 							)}
 
 							<TouchableOpacity
 								style={{ marginLeft: 5 }}
-								onPress={() => { Linking.openURL(data.url); }}
+								onPress={() => { Linking.openURL(productData.url); }}
 							>
 								<Entypo name="share" style={styles.button} />
 							</TouchableOpacity>
 						</View>
 					</View>
 					<FlatList
-						data={data.images ? data.images : null}
+						data={productData.images ? productData.images : null}
 						horizontal
 						keyExtractor={(item, index) => index.toString()}
 						renderItem={({ item }) => (
@@ -194,8 +232,8 @@ function Details({ route, navigation }) {
 					/>
 					<View style={styles.imgIndicatorContainer}>
 						{
-							data.images
-								? data.images.map((img, index) => {
+							productData.images
+								? productData.images.map((img, index) => {
 									const opacity = position.interpolate({
 										inputRange: [index - 1, index, index + 1],
 										outputRange: [0.2, 1, 0.2],
@@ -216,19 +254,19 @@ function Details({ route, navigation }) {
 							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
 						/>
 						<Text style={styles.category}>
-							{data.group}
+							{productData.group}
 						</Text>
 					</View>
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>
-							{data.title}
+							{productData.title}
 						</Text>
 						<Ionicons name="link-outline" style={styles.copyButton} />
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
 						<Text style={styles.price}>
-							{data.price}
+							{productData.price}
 						</Text>
 					</View>
 					<View style={styles.locationContainer}>
@@ -245,7 +283,7 @@ function Details({ route, navigation }) {
 							Mô tả sản phẩm:
 						</Text>
 						<Text style={styles.description}>
-							{data.description}
+							{productData.description}
 						</Text>
 					</View>
 				</View>

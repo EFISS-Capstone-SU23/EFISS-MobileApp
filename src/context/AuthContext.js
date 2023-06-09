@@ -53,6 +53,7 @@ export function AuthProvider({ children }) {
 
 			storeLastOnlineTime();
 
+			console.log('Token: ', response.data.token);
 			setUserToken(response.data.token);
 			await AsyncStorage.setItem('userToken', response.data.token);
 			await AsyncStorage.setItem('refreshToken', response.data.refreshToken);

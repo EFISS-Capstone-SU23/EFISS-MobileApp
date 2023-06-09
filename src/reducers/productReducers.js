@@ -3,8 +3,10 @@ import {
 	PRODUCT_WISHLIST_LOAD_REQUEST, PRODUCT_WISHLIST_LOAD_SUCCESS, PRODUCT_WISHLIST_LOAD_FAIL,
 	PRODUCT_HISTORY_LOAD_REQUEST, PRODUCT_HISTORY_LOAD_SUCCESS, PRODUCT_HISTORY_LOAD_FAIL,
 	PRODUCT_HISTORY_SET_REQUEST, PRODUCT_HISTORY_SET_SUCCESS, PRODUCT_HISTORY_SET_FAIL,
-	PRODUCT_WISHLIST_ADD_REQUEST, PRODUCT_WISHLIST_ADD_SUCCESS, PRODUCT_WISHLIST_ADD_FAIL,
-	PRODUCT_WISHLIST_REMOVE_REQUEST, PRODUCT_WISHLIST_REMOVE_SUCCESS, PRODUCT_WISHLIST_REMOVE_FAIL,
+	PRODUCT_WISHLIST_ADD_REQUEST, PRODUCT_WISHLIST_ADD_SUCCESS,
+	PRODUCT_WISHLIST_ADD_FAIL, PRODUCT_WISHLIST_ADD_RESET,
+	PRODUCT_WISHLIST_REMOVE_REQUEST, PRODUCT_WISHLIST_REMOVE_SUCCESS,
+	PRODUCT_WISHLIST_REMOVE_FAIL, PRODUCT_WISHLIST_REMOVE_RESET,
 } from '../constants/productConstants';
 
 // product search
@@ -39,28 +41,32 @@ export const loadWishlistReducer = (state = { loading: true }, action) => {
 };
 
 // wishlist add
-export const addWishlistReducer = (state = { loading: true }, action) => {
+export const addWishlistReducer = (state = { loadingAddWishlist: true }, action) => {
 	switch (action.type) {
 	case PRODUCT_WISHLIST_ADD_REQUEST:
-		return { loading: true };
+		return { loadingAddWishlist: true };
 	case PRODUCT_WISHLIST_ADD_SUCCESS:
-		return { loading: false, products: action.payload };
+		return { loadingAddWishlist: false, successAddWishlist: action.payload };
 	case PRODUCT_WISHLIST_ADD_FAIL:
-		return { loading: false, error: action.payload };
+		return { loadingAddWishlist: false, errorAddWishlist: action.payload };
+	case PRODUCT_WISHLIST_ADD_RESET:
+		return { };
 	default:
 		return state;
 	}
 };
 
 // wishlist remove
-export const removeWishlistReducer = (state = { loading: true }, action) => {
+export const removeWishlistReducer = (state = { loadingRemoveWishlist: true }, action) => {
 	switch (action.type) {
 	case PRODUCT_WISHLIST_REMOVE_REQUEST:
-		return { loading: true };
+		return { loadingRemoveWishlist: true };
 	case PRODUCT_WISHLIST_REMOVE_SUCCESS:
-		return { loading: false, products: action.payload };
+		return { loadingRemoveWishlist: false, successRemoveWishlist: action.payload };
 	case PRODUCT_WISHLIST_REMOVE_FAIL:
-		return { loading: false, error: action.payload };
+		return { loadingRemoveWishlist: false, errorRemoveWishlist: action.payload };
+	case PRODUCT_WISHLIST_REMOVE_RESET:
+		return { };
 	default:
 		return state;
 	}

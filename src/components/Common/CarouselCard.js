@@ -62,7 +62,7 @@ function CarouselCard({ product, navigation }) {
 			<View style={{ width: '100%', height: 150, justifyContent: 'center' }}>
 				<TouchableOpacity onPress={() => {
 					dispatch(productHistorySet(product));
-					navigation.navigate('Details', { data: product });
+					navigation.navigate('Details', { productData: product });
 				}}
 				>
 					<Image
@@ -83,7 +83,7 @@ function CarouselCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { data: product });
+							navigation.navigate('Details', { productData: product });
 						}}
 					>
 						{product.title}
