@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 	headerTitle: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.large,
-		color: COLORS.primary,
+		color: COLORS.tertiary,
 	},
 	row: {
 		flexDirection: 'row',

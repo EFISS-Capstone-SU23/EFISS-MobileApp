@@ -16,18 +16,19 @@ import { loadUserProfile } from '../actions/userActions';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 	},
 	header: {
 		paddingLeft: SIZES.extraLarge,
-		paddingRight: SIZES.extraLarg,
-		marginVertical: SIZES.large,
+		paddingRight: SIZES.extraLarge,
+		paddingVertical: SIZES.base,
+		backgroundColor: COLORS.primary,
 	},
 	title: {
 		fontSize: 32,
 		fontFamily: FONTS.semiBold,
-		color: COLORS.primary,
+		color: COLORS.white,
 		marginBottom: 6,
 	},
 	profileInfos: {
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontFamily: FONTS.light,
 		fontSize: SIZES.medium,
+		color: COLORS.quaternary,
 	},
 });
 
@@ -105,7 +107,7 @@ function Profile() {
 							/>
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.quaternary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo?.email}</Text>
 						</View>
 					</View>

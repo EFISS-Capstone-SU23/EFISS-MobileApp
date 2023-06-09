@@ -25,6 +25,8 @@ import person04 from '../assets/images/person04.png';
 
 import avatar from '../assets/images/avatar-EFISS.jpg';
 
+import placeholder from '../assets/images/default-placeholder.png';
+
 export default {
 	badge,
 	eth,
@@ -52,4 +54,5 @@ export default {
 	person04,
 
 	avatar,
+	placeholder,
 };

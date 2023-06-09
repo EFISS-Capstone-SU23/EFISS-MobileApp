@@ -12,7 +12,7 @@ import {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.secondary,
 	},
 });
 
@@ -27,7 +27,9 @@ function Home() {
 		<SafeAreaView style={styles.container}>
 			<StatusBar backgroundColor={COLORS.primary} />
 
-			<ScrollView showsVerticalScrollIndicator={false}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+			>
 				<View style={{ flex: 1 }}>
 					<HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
 					<Category />

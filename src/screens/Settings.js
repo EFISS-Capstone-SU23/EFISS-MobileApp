@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 	sectionHeaderText: {
 		fontSize: SIZES.font,
 		fontWeight: '600',
-		color: '#a7a7a7',
+		color: COLORS.tertiary,
 		textTransform: 'uppercase',
 		letterSpacing: 1.2,
 	},
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 	rowLabel: {
 		fontSize: SIZES.medium,
 		fontWeight: '500',
-		color: COLORS.gray,
+		color: COLORS.primary,
 	},
 	rowSpacer: {
 		flexGrow: 1,
@@ -90,7 +90,7 @@ const SECTIONS = [
 
 export default function Example() {
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
 			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.header}>
 					<Text style={styles.title}>Cài đặt</Text>

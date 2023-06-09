@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 6,
 		justifyContent: 'center',
+		backgroundColor: COLORS.white,
 	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
@@ -146,7 +147,7 @@ function EditProfile({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				// eslint-disable-next-line react/self-closing-comp
-				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
 					<View style={styles.header}>
 						<TouchableOpacity
 							onPress={() => navigation.goBack()}

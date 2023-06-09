@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: SIZES.font,
 		fontFamily: FONTS.semiBold,
-		color: COLORS.black,
+		color: COLORS.tertiary,
 	},
 	priceContainer: {
 		flexDirection: 'row',
@@ -76,7 +76,7 @@ function CarouselCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ padding: SIZES.base, borderTopColor: COLORS.black, borderTopWidth: 0.5 }}>
+			<View style={{ padding: SIZES.base, borderTopColor: COLORS.quaternary, borderTopWidth: 0.5 }}>
 				<View style={styles.titleContainer}>
 					<Text
 						style={styles.title}
@@ -90,7 +90,7 @@ function CarouselCard({ product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceContainer}>
-					<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
+					<Entypo name="colours" size={SIZES.small} color={COLORS.quaternary} />
 					<Text style={styles.price}>
 						{product.price}
 					</Text>

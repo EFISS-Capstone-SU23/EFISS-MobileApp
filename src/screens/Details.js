@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: SIZES.extraLarge,
-		color: COLORS.primary,
+		color: COLORS.tertiary,
 		fontFamily: FONTS.bold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.medium,
 		fontFamily: FONTS.semiBold,
 		maxWidth: '85%',
-		color: COLORS.black,
+		color: COLORS.primary,
 		opacity: 0.7,
 	},
 	locationContainer: {
@@ -158,7 +158,9 @@ function Details({ route, navigation }) {
 		}
 	};
 	useEffect(() => {
-		isInWishlist(userToken, productData._id);
+		if (userToken) {
+			isInWishlist(userToken, productData._id);
+		}
 	}, [dispatch]);
 
 	// if the product is added/removed successfully,
@@ -185,7 +187,7 @@ function Details({ route, navigation }) {
 				<View style={styles.scrollSection}>
 					<View style={styles.buttonBar}>
 						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.button} />
+							<Entypo name="chevron-left" style={styles.button} color={COLORS.primary} />
 						</TouchableOpacity>
 						<View
 							style={{
@@ -202,7 +204,7 @@ function Details({ route, navigation }) {
 										else dispatch(wishlistRemove(userToken, productData._id));
 									}}
 								>
-									<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.primary} style={styles.button} />
+									<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.black} style={styles.button} />
 								</TouchableOpacity>
 							)}
 
@@ -210,7 +212,7 @@ function Details({ route, navigation }) {
 								style={{ marginLeft: 5 }}
 								onPress={() => { Linking.openURL(productData.url); }}
 							>
-								<Entypo name="share" style={styles.button} />
+								<Entypo name="share" style={styles.button} color={COLORS.primary} />
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -264,7 +266,7 @@ function Details({ route, navigation }) {
 						<Ionicons name="link-outline" style={styles.copyButton} />
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
+						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.quaternary }} />
 						<Text style={styles.price}>
 							{productData.price}
 						</Text>

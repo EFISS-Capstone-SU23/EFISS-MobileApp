@@ -14,7 +14,7 @@ import { config } from '../../config';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.secondary,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -34,9 +34,10 @@ function Wishlist({ navigation }) {
 		loading, error, products, totalPages,
 	} = loadWishlist;
 
-	const [items, setItems] = useState([]);
-	const [pageNum, setPageNum] = useState(1);
 	const [refreshControl, setRefreshControl] = useState(false);
+
+	const [pageNum, setPageNum] = useState(1);
+	const [items, setItems] = useState([]);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	useEffect(() => {
