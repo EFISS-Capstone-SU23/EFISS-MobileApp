@@ -1,7 +1,8 @@
 import {
 	View, Text, TouchableOpacity, Image, TextInput,
-	StyleSheet, SafeAreaView, ActivityIndicator, ToastAndroid,
+	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';

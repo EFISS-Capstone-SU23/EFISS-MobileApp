@@ -1,7 +1,8 @@
 /* eslint-disable react/style-prop-object */
 import {
-	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image, RefreshControl,
+	SafeAreaView, View, Text, StyleSheet, ScrollView, Image, RefreshControl,
 } from 'react-native';
+import { ActivityIndicator, AppBar } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useContext, useEffect, useState } from 'react';
@@ -20,9 +21,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	header: {
-		paddingLeft: SIZES.extraLarge,
-		paddingRight: SIZES.extraLarge,
-		paddingVertical: SIZES.base,
 		backgroundColor: COLORS.primary,
 	},
 	title: {
@@ -72,9 +70,7 @@ function Profile() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.title}>Tài khoản của bạn</Text>
-			</View>
+			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ textAlign: 'center' }} />
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
@@ -92,7 +88,7 @@ function Profile() {
 				)}
 			>
 				{loading ? (
-					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
+					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (

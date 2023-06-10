@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-	View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator,
+	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -83,7 +84,7 @@ function Login() {
 	const { isLoading, login } = useContext(AuthContext);
 
 	if (isLoading) {
-		return <ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />;
+		return <ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />;
 	}
 
 	return (

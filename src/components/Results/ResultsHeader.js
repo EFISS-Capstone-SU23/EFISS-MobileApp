@@ -1,8 +1,9 @@
 import {
-	View, Text, TouchableOpacity, StyleSheet, FlatList,
+	View, Text, StyleSheet, FlatList,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
+import { IconButton } from '@react-native-material/core';
 
 import {
 	COLORS, FONTS, SIZES,
@@ -53,9 +54,7 @@ function ResultsHeader({ navigation }) {
 				paddingHorizontal: 5,
 			}}
 			>
-				<TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-					<Entypo name="chevron-left" color={COLORS.primary} size={20} />
-				</TouchableOpacity>
+				<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />} />
 
 				<Text style={styles.text}>
 					Kết quả

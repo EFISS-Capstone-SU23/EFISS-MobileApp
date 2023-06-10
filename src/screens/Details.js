@@ -1,11 +1,12 @@
 import {
-	View, Text, StatusBar, TouchableOpacity,
+	View, Text, StatusBar,
 	FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@react-native-material/core';
 import axios from 'axios';
 
 import { COLORS, FONTS, SIZES } from '../constants';
@@ -186,9 +187,7 @@ function Details({ route, navigation }) {
 			<ScrollView>
 				<View style={styles.scrollSection}>
 					<View style={styles.buttonBar}>
-						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.button} color={COLORS.primary} />
-						</TouchableOpacity>
+						<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />} />
 						<View
 							style={{
 								flexDirection: 'row',
@@ -197,23 +196,18 @@ function Details({ route, navigation }) {
 							}}
 						>
 							{userToken !== null && (
-								<TouchableOpacity
-									style={{ marginLeft: 5 }}
+								<IconButton
 									onPress={() => {
 										if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
 										else dispatch(wishlistRemove(userToken, productData._id));
 									}}
-								>
-									<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.black} style={styles.button} />
-								</TouchableOpacity>
+									icon={<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.black} size={30} />}
+								/>
 							)}
-
-							<TouchableOpacity
-								style={{ marginLeft: 5 }}
+							<IconButton
 								onPress={() => { Linking.openURL(productData.url); }}
-							>
-								<Entypo name="share" style={styles.button} color={COLORS.primary} />
-							</TouchableOpacity>
+								icon={<Entypo name="share" color={COLORS.white} size={30} />}
+							/>
 						</View>
 					</View>
 					<FlatList

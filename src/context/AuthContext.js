@@ -77,46 +77,9 @@ export function AuthProvider({ children }) {
 		setIsLoading(false);
 	};
 
-	const isLoggedIn = async () => {
-		try {
-			setIsLoading(true);
-			const refToken = await AsyncStorage.getItem('refreshToken');
-			const token = await AsyncStorage.getItem('userToken');
-			if (refToken !== null && token !== null) {
-				const lastOnline = await AsyncStorage.getItem('lastOnline');
-				console.log('Last token retrieved:', lastOnline);
-				const isExpired = isTokenExpired(lastOnline);
-				console.log('Is access token expired?', isExpired);
-				// Do further actions based on the expiration status
-
-				// if the access token is expired, get a new one by refreshToken
-				if (isExpired) {
-					console.log('Get a new acess Token');
-					const response = await axios.post(
-						`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
-						{
-							refreshToken: refToken,
-						},
-					);
-					storeLastOnlineTime();
-
-					setUserToken(response.data.token);
-					await AsyncStorage.setItem('userToken', response.data.token);
-				} else {
-					console.log('Token still valid');
-					setUserToken(token);
-					console.log('Token: ', token);
-				}
-			} else logout();
-			setIsLoading(false);
-		} catch (err) {
-			console.log('Error retrieving last online time:', err);
-		}
-	};
-
-	useEffect(() => {
-		isLoggedIn();
-	}, []);
+	// useEffect(() => {
+	// 	isLoggedIn();
+	// }, []);
 
 	return (
 		// eslint-disable-next-line react/jsx-no-constructed-context-values

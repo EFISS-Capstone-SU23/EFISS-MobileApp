@@ -36,7 +36,8 @@ function HomeStack() {
 			iconName = focused ? 'settings' : 'settings-outline';
 		}
 
-		return <Ionicons name={iconName} size={size} color={COLORS.primary} />;
+		// eslint-disable-next-line no-return-assign, max-len
+		return <Ionicons name={iconName} size={size} color={iconName = focused ? COLORS.primary : COLORS.quaternary} />;
 	};
 
 	return (
@@ -44,7 +45,7 @@ function HomeStack() {
 			initialRouteName={homeTab}
 			backBehavior="initialRoute"
 			screenOptions={({ route }) => ({
-				tabBarInactiveTintColor: COLORS.gray,
+				tabBarInactiveTintColor: COLORS.quaternary,
 				tabBarActiveTintColor: COLORS.primary,
 				tabBarHideOnKeyboard: true,
 				headerShown: false,

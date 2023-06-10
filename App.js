@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import {
-	StyleSheet, View, ActivityIndicator,
+	StyleSheet, View,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
@@ -38,7 +39,7 @@ function App() {
 	if (!loaded) {
 		return (
 			<View style={styles.container}>
-				<ActivityIndicator size="large" colors={COLORS.primary} />
+				<ActivityIndicator size="large" color={COLORS.primary} />
 			</View>
 		);
 	}

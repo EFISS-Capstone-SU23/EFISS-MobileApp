@@ -1,7 +1,8 @@
 import {
 	View, Text, TouchableOpacity, ScrollView, TextInput,
-	StyleSheet, SafeAreaView, ActivityIndicator, ToastAndroid,
+	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';

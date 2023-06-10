@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: SIZES.font,
 		fontFamily: FONTS.semiBold,
-		color: COLORS.tertiary,
+		color: COLORS.quaternary,
 	},
 	priceContainer: {
 		flexDirection: 'row',

@@ -1,6 +1,7 @@
 import {
-	View, Text, StyleSheet, ActivityIndicator, FlatList,
+	View, Text, StyleSheet, FlatList,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';

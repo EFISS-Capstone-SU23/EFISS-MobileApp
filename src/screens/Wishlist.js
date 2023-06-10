@@ -61,7 +61,7 @@ function Wishlist({ navigation }) {
 				}}
 			>
 				{loading ? (
-					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
+					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (

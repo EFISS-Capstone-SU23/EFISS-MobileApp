@@ -1,10 +1,8 @@
 import {
-	View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet,
+	View, Text, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import React, { useContext } from 'react';
+import React from 'react';
 import { TextInput } from 'react-native-gesture-handler';
-
-import { AuthContext } from '../../context/AuthContext';
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../../constants';
@@ -35,10 +33,6 @@ const styles = StyleSheet.create({
 });
 
 function HomeHeader({ onSearch, onPicture }) {
-	const {
-		error, isLoading, userInfo,
-	} = useContext(AuthContext);
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -57,26 +51,6 @@ function HomeHeader({ onSearch, onPicture }) {
 						Let’s Fashion Talks!
 					</Text>
 				</View>
-
-				{isLoading ? (
-					<ActivityIndicator colors={COLORS.white} />
-				) : error || userInfo === null ? (
-					<View style={{ width: 45, height: 45 }}>
-						<Image
-							source={{ uri: 'https://static.thenounproject.com/png/5034901-200.png' }}
-							resizeMode="contain"
-							style={styles.avatar}
-						/>
-					</View>
-				) : (
-					<View style={{ width: 45, height: 45 }}>
-						<Image
-							source={assets.avatar}
-							resizeMode="contain"
-							style={styles.avatar}
-						/>
-					</View>
-				)}
 			</View>
 
 			<View style={{ marginTop: SIZES.font }}>

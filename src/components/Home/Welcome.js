@@ -1,6 +1,7 @@
 import {
-	View, Text, StyleSheet, ActivityIndicator, FlatList,
+	View, Text, StyleSheet, FlatList,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
