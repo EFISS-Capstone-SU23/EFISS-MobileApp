@@ -12,7 +12,7 @@ import { productHistoryLoad } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
-		margin: SIZES.small,
+		margin: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
-		color: COLORS.tertiary,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.black,
 	},
 	headerBtn: {
 		fontSize: SIZES.small,

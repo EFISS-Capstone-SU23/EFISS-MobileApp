@@ -93,7 +93,10 @@ export const productHistoryLoad = () => async (dispatch) => {
 		const value = await AsyncStorage.getItem('product_history');
 		if (value !== null) {
 			const productHistory = JSON.parse(value);
-			dispatch({ type: PRODUCT_HISTORY_LOAD_SUCCESS, payload: productHistory.reverse() });
+			dispatch({
+				type: PRODUCT_HISTORY_LOAD_SUCCESS,
+				payload: productHistory.reverse().slice(0, 10),
+			});
 		} else {
 			dispatch({ type: PRODUCT_HISTORY_LOAD_SUCCESS, payload: [] });
 		}

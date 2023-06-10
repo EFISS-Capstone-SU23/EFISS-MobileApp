@@ -2,15 +2,19 @@ import {
 	View, Text, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import React from 'react';
+import { HStack, IconButton } from '@react-native-material/core';
+import { Entypo } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
+
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../../constants';
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: COLORS.primary,
-		padding: SIZES.font,
+		backgroundColor: COLORS.white,
+		paddingHorizontal: SIZES.font,
+		paddingBottom: SIZES.font,
 	},
 	header: {
 		flexDirection: 'row',
@@ -22,6 +26,11 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.small,
 		color: COLORS.white,
 	},
+	motto: {
+		fontFamily: FONTS.bold,
+		fontSize: SIZES.large * 2,
+		color: COLORS.primary,
+	},
 	avatar: {
 		width: '100%',
 		height: '100%',
@@ -30,39 +39,39 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		backgroundColor: COLORS.white,
 	},
+	searchContainer: {
+		width: '100%',
+		borderWidth: 1,
+		borderRadius: SIZES.extraLarge,
+		backgroundColor: COLORS.white,
+		flexDirection: 'row',
+		paddingHorizontal: SIZES.font,
+		paddingVertical: SIZES.font,
+	},
 });
 
-function HomeHeader({ onSearch, onPicture }) {
+function HomeHeader({
+	onSearch, onPicture, onWishlist,
+}) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<View style={{ marginVertical: SIZES.font }}>
-					<Text style={styles.greeting}>
+				<View style={{ marginTop: SIZES.font }}>
+					<Text style={styles.motto}>
 						EFISS
 					</Text>
-					<Text
-						style={{
-							fontFamily: FONTS.bold,
-							fontSize: SIZES.large,
-							color: COLORS.white,
-							marginTop: SIZES.base / 2,
-						}}
-					>
-						Let’s Fashion Talks!
-					</Text>
+				</View>
+				<View style={{ marginTop: SIZES.font }}>
+					<HStack spacing={6}>
+						<IconButton icon={<Entypo name="bell" size={SIZES.extraLarge} color={COLORS.black} />} />
+						<IconButton icon={<Entypo name="back-in-time" size={SIZES.extraLarge} color={COLORS.black} />} />
+						<IconButton onPress={onWishlist} icon={<Entypo name="heart" size={SIZES.extraLarge} color={COLORS.black} />} />
+					</HStack>
 				</View>
 			</View>
 
 			<View style={{ marginTop: SIZES.font }}>
-				<View style={{
-					width: '100%',
-					borderRadius: SIZES.extraLarge,
-					backgroundColor: COLORS.white,
-					flexDirection: 'row',
-					paddingHorizontal: SIZES.font,
-					paddingVertical: SIZES.font,
-				}}
-				>
+				<View style={styles.searchContainer}>
 					<TouchableOpacity onPress={onSearch}>
 						<Image
 							source={assets.search}

@@ -1,15 +1,14 @@
 import {
-	View, Text, StatusBar,
-	FlatList, Animated, Linking, StyleSheet,
+	View, StatusBar, ScrollView, TouchableOpacity,
+	FlatList, Animated, Linking, StyleSheet, ToastAndroid,
 } from 'react-native';
-import React, { useContext, useState, useEffect } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { Text } from '@react-native-material/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { IconButton } from '@react-native-material/core';
 import axios from 'axios';
 
-import { COLORS, FONTS, SIZES } from '../constants';
+import { COLORS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
 import { wishlistAdd, wishlistRemove } from '../actions/productActions';
@@ -20,40 +19,25 @@ const styles = StyleSheet.create({
 	container: {
 		width: '100%',
 		height: '100%',
+		backgroundColor: COLORS.white,
 		position: 'relative',
 	},
-	scrollSection: {
+	imgContainer: {
 		width: '100%',
 		backgroundColor: COLORS.black,
-		borderBottomRightRadius: 10,
-		borderBottomLeftRadius: 10,
+		borderBottomRightRadius: 20,
+		borderBottomLeftRadius: 20,
 		position: 'relative',
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginBottom: 4,
+		paddingTop: 5,
 	},
-	buttonBar: {
-		width: '100%',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingTop: SIZES.base,
-		paddingLeft: 16,
-		marginBottom: SIZES.base,
-		paddingBottom: SIZES.base,
-		backgroundColor: COLORS.primary,
-	},
-	button: {
-		fontSize: SIZES.large,
+	btnAction: {
+		fontSize: 18,
+		color: COLORS.primary,
 		padding: 12,
-		backgroundColor: COLORS.white,
-		borderRadius: 20,
-	},
-	imgContainer: {
-		width: SIZES.WIDTH,
-		height: (SIZES.HEIGHT * 2) / 5,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLORS.black,
+		borderRadius: 10,
 	},
 	imgIndicatorContainer: {
 		width: '100%',
@@ -71,10 +55,40 @@ const styles = StyleSheet.create({
 		marginHorizontal: SIZES.base / 2,
 		borderRadius: 100,
 	}),
-	category: {
+	returnContainer: {
+		position: 'absolute',
+		top: 5,
+		left: 15,
+		zIndex: 1,
+	},
+	wishlistContainer: {
+		position: 'absolute',
+		top: 5,
+		right: 15,
+		zIndex: 1,
+	},
+	touchableOpacity: {
+		borderRadius: 20,
+		backgroundColor: COLORS.white,
+	},
+	infoContainer: {
+		paddingHorizontal: 16,
+		marginTop: 6,
+		marginBottom: SIZES.HEIGHT * (10 / 100),
+	},
+	groupContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginVertical: 14,
+	},
+	groupIcon: {
+		fontSize: 18,
+		color: COLORS.primary,
+		marginRight: 6,
+	},
+	groupLabel: {
 		fontSize: SIZES.font,
 		color: COLORS.black,
-		fontFamily: FONTS.regular,
 	},
 	titleContainer: {
 		flexDirection: 'row',
@@ -83,55 +97,83 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	title: {
-		fontSize: SIZES.extraLarge,
-		color: COLORS.tertiary,
-		fontFamily: FONTS.bold,
+		fontSize: 24,
+		fontWeight: 600,
 		letterSpacing: 0.5,
 		marginVertical: 4,
+		color: COLORS.black,
 		maxWidth: '84%',
 	},
-	copyButton: {
-		fontSize: SIZES.extraLarge,
+	linkIcon: {
+		fontSize: 18,
 		color: COLORS.primary,
 		marginRight: 6,
-		backgroundColor: COLORS.lightGray,
-		padding: 8,
-		borderRadius: 100,
+		backgroundColor: COLORS.backroundLight,
+		padding: 12,
+		borderRadius: 20,
 	},
-	price: {
-		fontSize: SIZES.medium,
-		fontFamily: FONTS.semiBold,
-		maxWidth: '85%',
-		color: COLORS.primary,
-		opacity: 0.7,
+	description: {
+		fontSize: SIZES.small,
+		color: COLORS.black,
+		fontWeight: '400',
+		letterSpacing: 1,
+		opacity: 0.5,
+		lineHeight: 20,
+		maxWidth: '84%',
+		marginBottom: 18,
 	},
 	locationContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginVertical: SIZES.medium,
-		borderTopColor: COLORS.primary,
-		borderTopWidth: 1,
-		borderBottomColor: COLORS.primary,
+		marginVertical: 14,
+		borderBottomColor: COLORS.backroundLight,
 		borderBottomWidth: 1,
-		paddingVertical: SIZES.base,
+		paddingBottom: 20,
 	},
 	location: {
+		flexDirection: 'row',
+		width: '80%',
+		alignItems: 'center',
+	},
+	locationSection: {
 		color: COLORS.primary,
-		backgroundColor: COLORS.lightGray,
+		backgroundColor: COLORS.backroundLight,
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 12,
 		borderRadius: 100,
 		marginRight: 10,
 	},
-	description: {
-		fontSize: SIZES.font,
+	priceContainer: {
+		fontSize: 18,
+		fontWeight: '500',
+		maxWidth: '84%',
 		color: COLORS.black,
-		fontFamily: FONTS.regular,
+		marginBottom: 4,
+	},
+	floatButtonContainer: {
+		position: 'absolute',
+		bottom: 10,
+		height: '8%',
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	floatButton: {
+		width: '86%',
+		height: '90%',
+		backgroundColor: COLORS.primary,
+		borderRadius: 20,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	floatButtonLabel: {
+		fontSize: 12,
+		fontWeight: '500',
 		letterSpacing: 1,
-		opacity: 0.5,
-		lineHeight: 20,
+		color: COLORS.white,
+		textTransform: 'uppercase',
 	},
 });
 
@@ -173,43 +215,50 @@ function Details({ route, navigation }) {
 	useEffect(() => {
 		if (successAddWishlist) {
 			isInWishlist(userToken, productData._id);
+			ToastAndroid.showWithGravity(
+				'Đã thêm vào wishlist',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
 			dispatch({ type: PRODUCT_WISHLIST_ADD_RESET });
 		}
 		if (successRemoveWishlist) {
 			isInWishlist(userToken, productData._id);
+			ToastAndroid.showWithGravity(
+				'Đã xóa khỏi wishlist',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
 			dispatch({ type: PRODUCT_WISHLIST_REMOVE_RESET });
 		}
 	}, [successAddWishlist, successRemoveWishlist]);
 
 	return (
 		<View style={styles.container}>
-			<StatusBar backgroundColor={COLORS.primary} />
+			<StatusBar backgroundColor={COLORS.black} barStyle="dark-content" />
 			<ScrollView>
-				<View style={styles.scrollSection}>
-					<View style={styles.buttonBar}>
-						<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />} />
-						<View
-							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								paddingHorizontal: SIZES.medium,
-							}}
-						>
-							{userToken !== null && (
-								<IconButton
-									onPress={() => {
-										if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
-										else dispatch(wishlistRemove(userToken, productData._id));
-									}}
-									icon={<Entypo name="heart" color={inWishlist ? COLORS.red : COLORS.black} size={30} />}
-								/>
-							)}
-							<IconButton
-								onPress={() => { Linking.openURL(productData.url); }}
-								icon={<Entypo name="share" color={COLORS.white} size={30} />}
-							/>
-						</View>
+				<View style={styles.imgContainer}>
+					<View style={styles.returnContainer}>
+						<TouchableOpacity style={styles.touchableOpacity} onPress={() => navigation.goBack()}>
+							<Entypo name="chevron-left" style={styles.btnAction} />
+						</TouchableOpacity>
 					</View>
+					{userToken !== null && (
+						<View style={styles.wishlistContainer}>
+							<TouchableOpacity
+								style={styles.touchableOpacity}
+								onPress={() => {
+									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
+									else dispatch(wishlistRemove(userToken, productData._id));
+								}}
+							>
+								<Entypo
+									name={inWishlist ? 'heart' : 'heart-outlined'}
+									style={styles.btnAction}
+								/>
+							</TouchableOpacity>
+						</View>
+					)}
 					<FlatList
 						data={productData.images ? productData.images : null}
 						horizontal
@@ -243,13 +292,10 @@ function Details({ route, navigation }) {
 						}
 					</View>
 				</View>
-				<View style={{ margin: SIZES.font }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo
-							name="shopping-cart"
-							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
-						/>
-						<Text style={styles.category}>
+				<View style={styles.infoContainer}>
+					<View style={styles.groupContainer}>
+						<Entypo name="shopping-cart" style={styles.groupIcon} />
+						<Text style={styles.groupLabel}>
 							{productData.group}
 						</Text>
 					</View>
@@ -257,33 +303,43 @@ function Details({ route, navigation }) {
 						<Text style={styles.title}>
 							{productData.title}
 						</Text>
-						<Ionicons name="link-outline" style={styles.copyButton} />
+						<Entypo name="link" style={styles.linkIcon} />
 					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.quaternary }} />
-						<Text style={styles.price}>
-							{productData.price}
-						</Text>
-					</View>
+					<Text style={styles.description}>
+						{productData.description}
+					</Text>
 					<View style={styles.locationContainer}>
-						<View style={{ flexDirection: 'row', width: '80%', alignItems: 'center' }}>
-							<View style={styles.location}>
-								<Entypo name="location-pin" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
+						<View style={styles.location}>
+							<View style={styles.locationSection}>
+								<Entypo name="location-pin" style={{ fontSize: 16, color: COLORS.primary }} />
 							</View>
-							<Text>Hanoi</Text>
+							<Text>
+								Rustaveli Ave 57,
+								{'\n'}
+								17-001, Batume
+							</Text>
 						</View>
 						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
 					</View>
-					<View>
-						<Text style={{ fontSize: SIZES.medium, color: COLORS.primary, fontFamily: FONTS.bold }}>
-							Mô tả sản phẩm:
-						</Text>
-						<Text style={styles.description}>
-							{productData.description}
+					<View style={{ paddingHorizontal: 16 }}>
+						<Text style={styles.priceContainer}>
+							<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
+							{productData.price}
 						</Text>
 					</View>
 				</View>
 			</ScrollView>
+
+			<View style={styles.floatButtonContainer}>
+				<TouchableOpacity
+					style={styles.floatButton}
+					onPress={() => { Linking.openURL(productData.url); }}
+				>
+					<Text style={styles.floatButtonLabel}>
+						Đi tới cửa hàng
+					</Text>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }

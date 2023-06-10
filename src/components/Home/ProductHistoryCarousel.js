@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
-		color: COLORS.white,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.black,
 	},
 	headerBtn: {
 		fontSize: SIZES.small,
@@ -50,11 +50,7 @@ function ProductHistoryCarousel({ navigation }) {
 	}, [dispatch, isFocused]);
 
 	return (
-		<View
-			style={{
-				backgroundColor: COLORS.primary,
-			}}
-		>
+		<View>
 			<View style={styles.container}>
 				<View style={styles.header}>
 					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>

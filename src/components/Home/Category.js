@@ -4,7 +4,7 @@ import {
 import React from 'react';
 
 import {
-	COLORS, FONTS, SIZES,
+	COLORS, FONTS, SHADOWS, SIZES,
 } from '../../constants';
 
 const styles = StyleSheet.create({
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
-		color: COLORS.tertiary,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.black,
 	},
 	row: {
 		flexDirection: 'row',
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 		aspectRatio: 1,
 		backgroundColor: COLORS.primary,
 		marginHorizontal: SIZES.base / 8,
+		...SHADOWS.dark,
 	},
 	category: {
 		color: COLORS.white,
