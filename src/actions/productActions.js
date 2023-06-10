@@ -30,15 +30,15 @@ export const productsSearch = (imageURL) => async (dispatch) => {
 	}
 };
 
-export const wishlistLoad = (userToken) => async (dispatch) => {
+export const wishlistLoad = (userToken, pageNum) => async (dispatch) => {
 	dispatch({ type: PRODUCT_WISHLIST_LOAD_REQUEST });
 	try {
-		const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`, {
+		const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum}`, {
 			headers: {
 				Authorization: `Bearer ${userToken}`,
 			},
 		});
-		dispatch({ type: PRODUCT_WISHLIST_LOAD_SUCCESS, payload: data.products });
+		dispatch({ type: PRODUCT_WISHLIST_LOAD_SUCCESS, payload: data });
 	} catch (error) {
 		console.log('wishlistLoad error: ', error);
 		dispatch({ type: PRODUCT_WISHLIST_LOAD_FAIL, payload: error });
@@ -93,7 +93,10 @@ export const productHistoryLoad = () => async (dispatch) => {
 		const value = await AsyncStorage.getItem('product_history');
 		if (value !== null) {
 			const productHistory = JSON.parse(value);
-			dispatch({ type: PRODUCT_HISTORY_LOAD_SUCCESS, payload: productHistory.reverse() });
+			dispatch({
+				type: PRODUCT_HISTORY_LOAD_SUCCESS,
+				payload: productHistory.reverse().slice(0, 10),
+			});
 		} else {
 			dispatch({ type: PRODUCT_HISTORY_LOAD_SUCCESS, payload: [] });
 		}

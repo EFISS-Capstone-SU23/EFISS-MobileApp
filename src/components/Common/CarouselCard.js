@@ -6,7 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import {
-	COLORS, SHADOWS, SIZES, FONTS,
+	COLORS, SIZES, FONTS,
 } from '../../constants';
 import { productHistorySet } from '../../actions/productActions';
 
@@ -17,19 +17,14 @@ const styles = StyleSheet.create({
 	card: {
 		flex: 1,
 		width: (WIDTH * 2) / 5,
-		backgroundColor: COLORS.white,
-		borderRadius: SIZES.font,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
 		margin: SIZES.base,
-		...SHADOWS.medium,
-		shadowColor: COLORS.white,
+		borderRadius: 5,
 	},
 	titleContainer: {
 		flex: 1,
 	},
 	title: {
-		fontSize: SIZES.font,
+		fontSize: SIZES.small,
 		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 	},
@@ -39,10 +34,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	price: {
-		color: COLORS.primary,
+		color: COLORS.secondary,
 		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.small,
-		marginLeft: SIZES.base / 2,
 	},
 	button: {
 		height: 30,
@@ -51,6 +45,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: COLORS.primary,
 		borderRadius: SIZES.small,
+	},
+	groupContainer: {
+		marginBottom: SIZES.base / 2,
+	},
+	group: {
+		color: COLORS.secondary,
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.small,
 	},
 });
 
@@ -62,35 +64,40 @@ function CarouselCard({ product, navigation }) {
 			<View style={{ width: '100%', height: 150, justifyContent: 'center' }}>
 				<TouchableOpacity onPress={() => {
 					dispatch(productHistorySet(product));
-					navigation.navigate('Details', { data: product });
+					navigation.navigate('Details', { productData: product });
 				}}
 				>
 					<Image
 						source={{
 							uri: product.images[0],
 						}}
-						resizeMode="contain"
+						resizeMode="cover"
 						style={{
-							height: '100%', borderTopLeftRadius: SIZES.small, borderTopRightRadius: SIZES.small, padding: SIZES.base,
+							height: '100%',
 						}}
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ padding: SIZES.base, borderTopColor: COLORS.black, borderTopWidth: 0.5 }}>
+			<View style={{ paddingTop: SIZES.base }}>
+				<View style={styles.groupContainer}>
+					<Text style={styles.group}>
+						{product.group}
+					</Text>
+				</View>
 				<View style={styles.titleContainer}>
 					<Text
 						style={styles.title}
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { data: product });
+							navigation.navigate('Details', { productData: product });
 						}}
 					>
 						{product.title}
 					</Text>
 				</View>
 				<View style={styles.priceContainer}>
-					<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
+					<Entypo name="credit" size={SIZES.small} color={COLORS.primary} />
 					<Text style={styles.price}>
 						{product.price}
 					</Text>

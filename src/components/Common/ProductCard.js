@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 	productTitle: {
 		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.small,
+		color: COLORS.quaternary,
 	},
 	priceSection: {
 		marginTop: SIZES.font,
@@ -58,12 +59,12 @@ function ProductCard({ product, navigation }) {
 				<TouchableOpacity
 					onPress={() => {
 						dispatch(productHistorySet(product));
-						navigation.navigate('Details', { data: product });
+						navigation.navigate('Details', { productData: product });
 					}}
 				>
 					<Image
 						source={{
-							uri: product.images[0],
+							uri: product.images[0] ? product.images[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
 						}}
 						resizeMode="contain"
 						style={styles.productImage}
@@ -79,7 +80,7 @@ function ProductCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { data: product });
+							navigation.navigate('Details', { productData: product });
 						}}
 					>
 						{product.title}
@@ -87,7 +88,7 @@ function ProductCard({ product, navigation }) {
 				</View>
 				<View style={styles.priceSection}>
 					<View style={styles.priceContainer}>
-						<Entypo name="colours" size={SIZES.small} color={COLORS.primary} />
+						<Entypo name="colours" size={SIZES.small} color={COLORS.quaternary} />
 						<Text style={styles.productPrice}>
 							{product.price}
 						</Text>

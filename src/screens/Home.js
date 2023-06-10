@@ -12,7 +12,7 @@ import {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.white,
 	},
 });
 
@@ -25,11 +25,18 @@ function Home() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<StatusBar backgroundColor={COLORS.primary} />
+			<StatusBar backgroundColor={COLORS.white} />
 
-			<ScrollView showsVerticalScrollIndicator={false}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+			>
 				<View style={{ flex: 1 }}>
-					<HomeHeader onSearch={() => {}} onPicture={() => changeModalVisibility(true)} />
+					<HomeHeader
+						onSearch={() => {}}
+						onPicture={() => changeModalVisibility(true)}
+						onHistory={() => {}}
+						onWishlist={() => navigation.navigate('Wishlist')}
+					/>
 					<Category />
 					<ProductRecommendCarousel navigation={navigation} />
 					<ProductHistoryCarousel navigation={navigation} />

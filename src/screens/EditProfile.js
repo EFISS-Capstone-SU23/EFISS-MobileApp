@@ -1,6 +1,8 @@
 import {
-	View, Text, TouchableOpacity, Image, TextInput, StyleSheet, SafeAreaView, ActivityIndicator,
+	View, Text, TouchableOpacity, Image, TextInput,
+	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -67,6 +69,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 6,
 		justifyContent: 'center',
+		backgroundColor: COLORS.white,
 	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
@@ -112,13 +115,23 @@ function EditProfile({ navigation }) {
 
 	// if the user update success, return to the previous screen
 	const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-	const { loading, success } = userUpdateProfile;
+	const { loading, success, error } = userUpdateProfile;
 	useEffect(() => {
 		if (success) {
 			dispatch({ type: USER_UPDATE_PROFILE_RESET });
 			navigation.goBack();
 		}
 	}, [dispatch, success]);
+
+	useEffect(() => {
+		if (error) {
+			ToastAndroid.show(
+				error.response.data.message,
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	}, [error]);
 
 	return (
 		<Formik
@@ -135,7 +148,7 @@ function EditProfile({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				// eslint-disable-next-line react/self-closing-comp
-				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
 					<View style={styles.header}>
 						<TouchableOpacity
 							onPress={() => navigation.goBack()}

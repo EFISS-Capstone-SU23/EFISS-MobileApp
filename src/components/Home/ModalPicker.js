@@ -1,9 +1,8 @@
-// import React, { useState } from 'react';
 import {
 	View, StyleSheet,
-	SafeAreaView, Button,
+	SafeAreaView,
 } from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
+import { Button } from '@react-native-material/core';
 import * as ImagePicker from 'expo-image-picker';
 
 import { COLORS, SIZES } from '../../constants';
@@ -87,6 +86,9 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				color={COLORS.primary}
 				style={styles.option}
 				title={item.action}
+				titleStyle={{
+					color: COLORS.white,
+				}}
 			/>
 		</View>
 	));

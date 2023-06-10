@@ -1,6 +1,7 @@
 import {
-	View, Text, StyleSheet, ActivityIndicator, FlatList,
+	View, Text, StyleSheet, FlatList,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -11,7 +12,7 @@ import { productHistoryLoad } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
-		margin: SIZES.small,
+		margin: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',
@@ -20,8 +21,8 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
-		fontSize: SIZES.large,
-		color: COLORS.primary,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.black,
 	},
 	headerBtn: {
 		fontSize: SIZES.small,
@@ -58,9 +59,9 @@ function ProductRecommendCarousel({ navigation }) {
 				{loading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.tertiary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (products.length === 0) ? (
-					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.tertiary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (
 					<FlatList
 						data={products}

@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-	View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator,
+	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -15,7 +16,7 @@ import { AuthContext } from '../context/AuthContext';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 		paddingBottom: SIZES.medium,
 	},
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
-		color: COLORS.primary,
+		color: COLORS.tertiary,
 		marginBottom: 30,
 		textAlign: 'center',
 	},
@@ -34,6 +35,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		borderBottomColor: '#ccc',
 		borderBottomWidth: 1,
+		backgroundColor: COLORS.white,
+		borderRadius: SIZES.base,
+		paddingVertical: SIZES.font,
+		paddingHorizontal: SIZES.font,
 	},
 	errorContainer: {
 		marginTop: 5,
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
 		marginVertical: SIZES.base,
 	},
 	text: {
-		color: COLORS.primary,
+		color: COLORS.tertiary,
 		fontFamily: FONTS.bold,
 	},
 });
@@ -79,7 +84,7 @@ function Login() {
 	const { isLoading, login } = useContext(AuthContext);
 
 	if (isLoading) {
-		return <ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />;
+		return <ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />;
 	}
 
 	return (
@@ -165,7 +170,7 @@ function Login() {
 								navigation.navigate('SignUp');
 							}}
 							>
-								<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}> Đăng ký</Text>
+								<Text style={{ color: COLORS.tertiary, fontFamily: FONTS.bold }}> Đăng ký</Text>
 							</TouchableOpacity>
 						</View>
 					</View>

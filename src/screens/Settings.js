@@ -7,12 +7,14 @@ import {
 	Text,
 	TouchableOpacity,
 } from 'react-native';
+import { AppBar } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
+
 import { COLORS, FONTS, SIZES } from '../constants';
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: SIZES.extraLarge,
+		paddingBottom: SIZES.extraLarge,
 	},
 	section: {
 		paddingTop: SIZES.small,
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
 	sectionHeaderText: {
 		fontSize: SIZES.font,
 		fontWeight: '600',
-		color: '#a7a7a7',
+		color: COLORS.tertiary,
 		textTransform: 'uppercase',
 		letterSpacing: 1.2,
 	},
@@ -34,13 +36,12 @@ const styles = StyleSheet.create({
 		borderColor: COLORS.primary,
 	},
 	header: {
-		paddingLeft: SIZES.extraLarge,
-		paddingRight: SIZES.extraLarge,
+		backgroundColor: COLORS.primary,
 	},
 	title: {
 		fontSize: 32,
 		fontFamily: FONTS.semiBold,
-		color: COLORS.primary,
+		color: COLORS.white,
 		marginBottom: 6,
 	},
 	row: {
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
 	rowLabel: {
 		fontSize: SIZES.medium,
 		fontWeight: '500',
-		color: COLORS.gray,
+		color: COLORS.primary,
 	},
 	rowSpacer: {
 		flexGrow: 1,
@@ -90,11 +91,9 @@ const SECTIONS = [
 
 export default function Example() {
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
 			<ScrollView contentContainerStyle={styles.container}>
-				<View style={styles.header}>
-					<Text style={styles.title}>Cài đặt</Text>
-				</View>
+				<AppBar title="Cài đặt" style={styles.header} titleStyle={{ textAlign: 'center' }} />
 
 				{SECTIONS.map(({ header, items }) => (
 					<View style={styles.section} key={header}>

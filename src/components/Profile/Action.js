@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	actionTitle: {
-		color: COLORS.black,
+		color: COLORS.quaternary,
 		fontFamily: FONTS.semiBold,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,

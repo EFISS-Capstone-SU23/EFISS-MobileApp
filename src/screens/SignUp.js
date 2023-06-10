@@ -15,7 +15,7 @@ import { register } from '../actions/userActions';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 		paddingBottom: SIZES.medium,
 	},
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
-		color: COLORS.primary,
+		color: COLORS.tertiary,
 		marginBottom: 30,
 		textAlign: 'center',
 	},
@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		borderBottomColor: '#ccc',
 		borderBottomWidth: 1,
+		backgroundColor: COLORS.white,
+		borderRadius: SIZES.base,
+		paddingVertical: SIZES.font,
+		paddingHorizontal: SIZES.font,
 	},
 	errorContainer: {
 		marginTop: 5,
@@ -264,7 +268,7 @@ function SignUp({ navigation }) {
 									}}
 								>
 									<TouchableOpacity onPress={() => navigation.goBack()}>
-										<Text style={{ color: COLORS.primary, fontFamily: FONTS.bold }}>Quay lại</Text>
+										<Text style={{ color: COLORS.tertiary, fontFamily: FONTS.bold }}>Quay lại</Text>
 									</TouchableOpacity>
 								</View>
 							</View>

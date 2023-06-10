@@ -1,6 +1,8 @@
 import {
-	View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, SafeAreaView, ActivityIndicator,
+	View, Text, TouchableOpacity, ScrollView, TextInput,
+	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
+import { ActivityIndicator } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 6,
 		justifyContent: 'center',
+		backgroundColor: COLORS.white,
 	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
@@ -105,14 +108,24 @@ function ChangePassword({ navigation }) {
 	const dispatch = useDispatch();
 	const { userToken } = useContext(AuthContext);
 	const changePassword = useSelector((state) => state.changePassword);
-	const { loading, success } = changePassword;
+	const { loading, success, error } = changePassword;
 
 	useEffect(() => {
-		if	(success) {
+		if (success) {
 			dispatch({ type: USER_CHANGE_PASSWORD_RESET });
 			navigation.goBack();
 		}
 	}, [dispatch, success]);
+
+	useEffect(() => {
+		if (error) {
+			ToastAndroid.show(
+				error.response.data.message,
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	}, [error]);
 
 	return (
 		<Formik
@@ -129,7 +142,7 @@ function ChangePassword({ navigation }) {
 			{({
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
-				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
 					<View style={styles.header}>
 						<TouchableOpacity
 							onPress={() => navigation.goBack()}

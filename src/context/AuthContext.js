@@ -53,11 +53,10 @@ export function AuthProvider({ children }) {
 
 			storeLastOnlineTime();
 
+			console.log('Token: ', response.data.token);
 			setUserToken(response.data.token);
 			await AsyncStorage.setItem('userToken', response.data.token);
 			await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
-			dispatch(wishlistLoad(response.data.token));
-			dispatch(loadUserProfile(response.data.token));
 
 			setError(null);
 			setIsLoading(false);
@@ -77,62 +76,10 @@ export function AuthProvider({ children }) {
 		setError(null);
 		setIsLoading(false);
 	};
-	// try {
-	// 	setIsLoading(true);
 
-	// 	const token = await AsyncStorage.getItem('userToken');
-	// 	if (token !== null) {
-	// 		setUserToken(token);
-	// 		dispatch(wishlistLoad(token));
-	// 		dispatch(loadUserProfile(token));
-	// 	}
-	// 	setIsLoading(false);
-	// } catch (err) {
-	// 	console.log(`isLoggedIn: ${err.message}`);
-	// }
-	const isLoggedIn = async () => {
-		try {
-			setIsLoading(true);
-			const refToken = await AsyncStorage.getItem('refreshToken');
-			const token = await AsyncStorage.getItem('userToken');
-			if (refToken !== null && token !== null) {
-				const lastOnline = await AsyncStorage.getItem('lastOnline');
-				console.log('Last token retrieved:', lastOnline);
-				const isExpired = isTokenExpired(lastOnline);
-				console.log('Is access token expired?', isExpired);
-				// Do further actions based on the expiration status
-
-				// if the access token is expired, get a new one by refreshToken
-				if (isExpired) {
-					console.log('Get a new acess Token');
-					const response = await axios.post(
-						`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
-						{
-							refreshToken: refToken,
-						},
-					);
-					storeLastOnlineTime();
-
-					setUserToken(response.data.token);
-					await AsyncStorage.setItem('userToken', response.data.token);
-					dispatch(wishlistLoad(response.data.token));
-					dispatch(loadUserProfile(response.data.token));
-				} else {
-					console.log('Token still valid');
-					setUserToken(token);
-					dispatch(loadUserProfile(token));
-					dispatch(wishlistLoad(token));
-				}
-			} else logout();
-			setIsLoading(false);
-		} catch (err) {
-			console.log('Error retrieving last online time:', err);
-		}
-	};
-
-	useEffect(() => {
-		isLoggedIn();
-	}, []);
+	// useEffect(() => {
+	// 	isLoggedIn();
+	// }, []);
 
 	return (
 		// eslint-disable-next-line react/jsx-no-constructed-context-values

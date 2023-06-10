@@ -1,10 +1,11 @@
 /* eslint-disable react/style-prop-object */
 import {
-	SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator, Image,
+	SafeAreaView, View, Text, StyleSheet, ScrollView, Image, RefreshControl,
 } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { ActivityIndicator, AppBar } from '@react-native-material/core';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
 	COLORS, FONTS, SIZES, assets,
@@ -16,18 +17,16 @@ import { loadUserProfile } from '../actions/userActions';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 	},
 	header: {
-		paddingLeft: SIZES.extraLarge,
-		paddingRight: SIZES.extraLarg,
-		marginVertical: SIZES.large,
+		backgroundColor: COLORS.primary,
 	},
 	title: {
 		fontSize: 32,
 		fontFamily: FONTS.semiBold,
-		color: COLORS.primary,
+		color: COLORS.white,
 		marginBottom: 6,
 	},
 	profileInfos: {
@@ -50,39 +49,46 @@ const styles = StyleSheet.create({
 	text: {
 		fontFamily: FONTS.light,
 		fontSize: SIZES.medium,
+		color: COLORS.quaternary,
 	},
 });
 
 function Profile() {
-	const navigation = useNavigation();
-	const dispatch = useDispatch();
-	const userLoadProfile = useSelector((state) => state.userLoadProfile);
-	const { loading, error, userInfo } = userLoadProfile;
 	const {
 		userToken, logout,
 	} = useContext(AuthContext);
+	const navigation = useNavigation();
+	const [refreshControl, setRefreshControl] = useState(false);
 
-	const isFocused = useIsFocused();
+	const dispatch = useDispatch();
+	const userLoadProfile = useSelector((state) => state.userLoadProfile);
+	const { loading, error, userInfo } = userLoadProfile;
 
 	useEffect(() => {
-		if (isFocused) {
-			dispatch(loadUserProfile(userToken));
-		}
-	}, [dispatch, isFocused]);
+		dispatch(loadUserProfile(userToken));
+	}, [dispatch]);
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.title}>Tài khoản của bạn</Text>
-			</View>
+			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ textAlign: 'center' }} />
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingBottom: 29,
 				}}
+				refreshControl={(
+					<RefreshControl
+						refreshing={refreshControl}
+						onRefresh={() => {
+							setRefreshControl(true);
+							dispatch(loadUserProfile(userToken));
+							setRefreshControl(false);
+						}}
+					/>
+				)}
 			>
 				{loading ? (
-					<ActivityIndicator style={styles.container} size="large" colors={COLORS.primary} />
+					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (
@@ -97,8 +103,8 @@ function Profile() {
 							/>
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.primary }]}>{`${userInfo.lastName} ${userInfo.firstName}`}</Text>
-							<Text style={styles.text}>{userInfo.email}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.quaternary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={styles.text}>{userInfo?.email}</Text>
 						</View>
 					</View>
 				)}

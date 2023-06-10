@@ -1,54 +1,43 @@
 import {
-	View, Text, StatusBar, TouchableOpacity, FlatList, Animated, Linking, StyleSheet,
+	View, StatusBar, ScrollView, TouchableOpacity,
+	FlatList, Animated, Linking, StyleSheet, ToastAndroid,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { Text } from '@react-native-material/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
-import { COLORS, FONTS, SIZES } from '../constants';
+import { COLORS, SIZES } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
-import { wishlistLoad, wishlistAdd, wishlistRemove } from '../actions/productActions';
+import { wishlistAdd, wishlistRemove } from '../actions/productActions';
+import { config } from '../../config';
+import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
 
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
 		height: '100%',
+		backgroundColor: COLORS.white,
 		position: 'relative',
 	},
-	scrollSection: {
+	imgContainer: {
 		width: '100%',
 		backgroundColor: COLORS.black,
-		borderBottomRightRadius: 10,
-		borderBottomLeftRadius: 10,
+		borderBottomRightRadius: 20,
+		borderBottomLeftRadius: 20,
 		position: 'relative',
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginBottom: 4,
+		paddingTop: 5,
 	},
-	buttonBar: {
-		width: '100%',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingTop: SIZES.base,
-		paddingLeft: 16,
-		marginBottom: SIZES.base,
-		paddingBottom: SIZES.base,
-		backgroundColor: COLORS.primary,
-	},
-	button: {
-		fontSize: SIZES.large,
+	btnAction: {
+		fontSize: 18,
+		color: COLORS.primary,
 		padding: 12,
-		backgroundColor: COLORS.white,
-		borderRadius: 20,
-	},
-	imgContainer: {
-		width: SIZES.WIDTH,
-		height: (SIZES.HEIGHT * 2) / 5,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLORS.black,
+		borderRadius: 10,
 	},
 	imgIndicatorContainer: {
 		width: '100%',
@@ -66,10 +55,40 @@ const styles = StyleSheet.create({
 		marginHorizontal: SIZES.base / 2,
 		borderRadius: 100,
 	}),
-	category: {
+	returnContainer: {
+		position: 'absolute',
+		top: 5,
+		left: 15,
+		zIndex: 1,
+	},
+	wishlistContainer: {
+		position: 'absolute',
+		top: 5,
+		right: 15,
+		zIndex: 1,
+	},
+	touchableOpacity: {
+		borderRadius: 20,
+		backgroundColor: COLORS.white,
+	},
+	infoContainer: {
+		paddingHorizontal: 16,
+		marginTop: 6,
+		marginBottom: SIZES.HEIGHT * (10 / 100),
+	},
+	groupContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginVertical: 14,
+	},
+	groupIcon: {
+		fontSize: 18,
+		color: COLORS.primary,
+		marginRight: 6,
+	},
+	groupLabel: {
 		fontSize: SIZES.font,
 		color: COLORS.black,
-		fontFamily: FONTS.regular,
 	},
 	titleContainer: {
 		flexDirection: 'row',
@@ -78,125 +97,170 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	title: {
-		fontSize: SIZES.extraLarge,
-		color: COLORS.primary,
-		fontFamily: FONTS.bold,
+		fontSize: 24,
+		fontWeight: 600,
 		letterSpacing: 0.5,
 		marginVertical: 4,
+		color: COLORS.black,
 		maxWidth: '84%',
 	},
-	copyButton: {
-		fontSize: SIZES.extraLarge,
+	linkIcon: {
+		fontSize: 18,
 		color: COLORS.primary,
 		marginRight: 6,
-		backgroundColor: COLORS.lightGray,
-		padding: 8,
-		borderRadius: 100,
+		backgroundColor: COLORS.backroundLight,
+		padding: 12,
+		borderRadius: 20,
 	},
-	price: {
-		fontSize: SIZES.medium,
-		fontFamily: FONTS.semiBold,
-		maxWidth: '85%',
+	description: {
+		fontSize: SIZES.small,
 		color: COLORS.black,
-		opacity: 0.7,
+		fontWeight: '400',
+		letterSpacing: 1,
+		opacity: 0.5,
+		lineHeight: 20,
+		maxWidth: '84%',
+		marginBottom: 18,
 	},
 	locationContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginVertical: SIZES.medium,
-		borderTopColor: COLORS.primary,
-		borderTopWidth: 1,
-		borderBottomColor: COLORS.primary,
+		marginVertical: 14,
+		borderBottomColor: COLORS.backroundLight,
 		borderBottomWidth: 1,
-		paddingVertical: SIZES.base,
+		paddingBottom: 20,
 	},
 	location: {
+		flexDirection: 'row',
+		width: '80%',
+		alignItems: 'center',
+	},
+	locationSection: {
 		color: COLORS.primary,
-		backgroundColor: COLORS.lightGray,
+		backgroundColor: COLORS.backroundLight,
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 12,
 		borderRadius: 100,
 		marginRight: 10,
 	},
-	description: {
-		fontSize: SIZES.font,
+	priceContainer: {
+		fontSize: 18,
+		fontWeight: '500',
+		maxWidth: '84%',
 		color: COLORS.black,
-		fontFamily: FONTS.regular,
+		marginBottom: 4,
+	},
+	floatButtonContainer: {
+		position: 'absolute',
+		bottom: 10,
+		height: '8%',
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	floatButton: {
+		width: '86%',
+		height: '90%',
+		backgroundColor: COLORS.primary,
+		borderRadius: 20,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	floatButtonLabel: {
+		fontSize: 12,
+		fontWeight: '500',
 		letterSpacing: 1,
-		opacity: 0.5,
-		lineHeight: 20,
+		color: COLORS.white,
+		textTransform: 'uppercase',
 	},
 });
 
 function Details({ route, navigation }) {
 	const { userToken } = useContext(AuthContext);
-
 	const dispatch = useDispatch();
-	const loadWishlist = useSelector((state) => state.loadWishlist);
-	const { products } = loadWishlist;
-
-	// check if this product is already in the wishlist
-	const isInWishlist = (data) => {
-		const elementExists = products?.some((product) => product._id === data._id);
-		return !!elementExists;
-	};
-
 	// product data extracted from the results screen
-	const { data } = route.params;
-
-	// if this product is already in the wishlist, the heart is red, otherwise it is primary color
-	const [heartColor, setHeartColor] = useState(isInWishlist(data) ? COLORS.red : COLORS.primary);
+	const { productData } = route.params;
 
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
 	const position = Animated.divide(scrollX, SIZES.WIDTH);
 
+	const [inWishlist, setInWishlist] = useState(false);
+	const isInWishlist = async (token, productId) => {
+		try {
+			const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}/${productId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			setInWishlist(data.existed);
+		} catch (error) {
+			console.log('isInWishlist error: ', error);
+		}
+	};
+	useEffect(() => {
+		if (userToken) {
+			isInWishlist(userToken, productData._id);
+		}
+	}, [dispatch]);
+
+	// if the product is added/removed successfully,
+	// then change color of the heart icon and toast a message
+	const addWishlist = useSelector((state) => state.addWishlist);
+	const { successAddWishlist } = addWishlist;
+	const removeWishlist = useSelector((state) => state.removeWishlist);
+	const { successRemoveWishlist } = removeWishlist;
+	useEffect(() => {
+		if (successAddWishlist) {
+			isInWishlist(userToken, productData._id);
+			ToastAndroid.showWithGravity(
+				'Đã thêm vào wishlist',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_WISHLIST_ADD_RESET });
+		}
+		if (successRemoveWishlist) {
+			isInWishlist(userToken, productData._id);
+			ToastAndroid.showWithGravity(
+				'Đã xóa khỏi wishlist',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_WISHLIST_REMOVE_RESET });
+		}
+	}, [successAddWishlist, successRemoveWishlist]);
+
 	return (
 		<View style={styles.container}>
-			<StatusBar backgroundColor={COLORS.primary} />
+			<StatusBar backgroundColor={COLORS.black} barStyle="dark-content" />
 			<ScrollView>
-				<View style={styles.scrollSection}>
-					<View style={styles.buttonBar}>
-						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.button} />
+				<View style={styles.imgContainer}>
+					<View style={styles.returnContainer}>
+						<TouchableOpacity style={styles.touchableOpacity} onPress={() => navigation.goBack()}>
+							<Entypo name="chevron-left" style={styles.btnAction} />
 						</TouchableOpacity>
-						<View
-							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								paddingHorizontal: SIZES.medium,
-							}}
-						>
-							{userToken !== null && (
-								<TouchableOpacity
-									style={{ marginLeft: 5 }}
-									onPress={() => {
-										if (isInWishlist(data)) {
-											dispatch(wishlistRemove(userToken, data._id));
-											setHeartColor(COLORS.primary);
-										} else {
-											dispatch(wishlistAdd(userToken, data._id));
-											setHeartColor(COLORS.red);
-										}
-										dispatch(wishlistLoad(userToken));
-									}}
-								>
-									<Entypo name="heart" color={heartColor} style={styles.button} />
-								</TouchableOpacity>
-							)}
-
+					</View>
+					{userToken !== null && (
+						<View style={styles.wishlistContainer}>
 							<TouchableOpacity
-								style={{ marginLeft: 5 }}
-								onPress={() => { Linking.openURL(data.url); }}
+								style={styles.touchableOpacity}
+								onPress={() => {
+									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
+									else dispatch(wishlistRemove(userToken, productData._id));
+								}}
 							>
-								<Entypo name="share" style={styles.button} />
+								<Entypo
+									name={inWishlist ? 'heart' : 'heart-outlined'}
+									style={styles.btnAction}
+								/>
 							</TouchableOpacity>
 						</View>
-					</View>
+					)}
 					<FlatList
-						data={data.images ? data.images : null}
+						data={productData.images ? productData.images : null}
 						horizontal
 						keyExtractor={(item, index) => index.toString()}
 						renderItem={({ item }) => (
@@ -213,8 +277,8 @@ function Details({ route, navigation }) {
 					/>
 					<View style={styles.imgIndicatorContainer}>
 						{
-							data.images
-								? data.images.map((img, index) => {
+							productData.images
+								? productData.images.map((img, index) => {
 									const opacity = position.interpolate({
 										inputRange: [index - 1, index, index + 1],
 										outputRange: [0.2, 1, 0.2],
@@ -228,47 +292,54 @@ function Details({ route, navigation }) {
 						}
 					</View>
 				</View>
-				<View style={{ margin: SIZES.font }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo
-							name="shopping-cart"
-							style={{ fontSize: SIZES.large, color: COLORS.primary, marginRight: 6 }}
-						/>
-						<Text style={styles.category}>
-							{data.group}
+				<View style={styles.infoContainer}>
+					<View style={styles.groupContainer}>
+						<Entypo name="shopping-cart" style={styles.groupIcon} />
+						<Text style={styles.groupLabel}>
+							{productData.group}
 						</Text>
 					</View>
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>
-							{data.title}
+							{productData.title}
 						</Text>
-						<Ionicons name="link-outline" style={styles.copyButton} />
+						<Entypo name="link" style={styles.linkIcon} />
 					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Entypo name="credit" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
-						<Text style={styles.price}>
-							{data.price}
-						</Text>
-					</View>
+					<Text style={styles.description}>
+						{productData.description}
+					</Text>
 					<View style={styles.locationContainer}>
-						<View style={{ flexDirection: 'row', width: '80%', alignItems: 'center' }}>
-							<View style={styles.location}>
-								<Entypo name="location-pin" style={{ fontSize: SIZES.medium, color: COLORS.primary }} />
+						<View style={styles.location}>
+							<View style={styles.locationSection}>
+								<Entypo name="location-pin" style={{ fontSize: 16, color: COLORS.primary }} />
 							</View>
-							<Text>Hanoi</Text>
+							<Text>
+								Rustaveli Ave 57,
+								{'\n'}
+								17-001, Batume
+							</Text>
 						</View>
 						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
 					</View>
-					<View>
-						<Text style={{ fontSize: SIZES.medium, color: COLORS.primary, fontFamily: FONTS.bold }}>
-							Mô tả sản phẩm:
-						</Text>
-						<Text style={styles.description}>
-							{data.description}
+					<View style={{ paddingHorizontal: 16 }}>
+						<Text style={styles.priceContainer}>
+							<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
+							{productData.price}
 						</Text>
 					</View>
 				</View>
 			</ScrollView>
+
+			<View style={styles.floatButtonContainer}>
+				<TouchableOpacity
+					style={styles.floatButton}
+					onPress={() => { Linking.openURL(productData.url); }}
+				>
+					<Text style={styles.floatButtonLabel}>
+						Đi tới cửa hàng
+					</Text>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }
