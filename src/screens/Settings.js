@@ -5,12 +5,11 @@ import {
 	ScrollView,
 	View,
 	Text,
-	TouchableOpacity,
 } from 'react-native';
 import { AppBar } from '@react-native-material/core';
-import { Ionicons } from '@expo/vector-icons';
 
 import { COLORS, FONTS, SIZES } from '../constants';
+import { Action } from '../components';
 
 const styles = StyleSheet.create({
 	container: {
@@ -31,12 +30,10 @@ const styles = StyleSheet.create({
 		letterSpacing: 1.2,
 	},
 	sectionBody: {
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		borderColor: COLORS.primary,
+
 	},
 	header: {
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.white,
 	},
 	title: {
 		fontSize: 32,
@@ -83,7 +80,7 @@ const SECTIONS = [
 				id: 'contact', icon: 'mail', label: 'Liên hệ với chúng tôi', type: 'link',
 			},
 			{
-				id: 'rating', icon: 'star-half', label: 'Đánh giá ứng dụng', type: 'link',
+				id: 'rating', icon: 'price-ribbon', label: 'Đánh giá ứng dụng', type: 'link',
 			},
 		],
 	},
@@ -91,9 +88,9 @@ const SECTIONS = [
 
 export default function Example() {
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
-				<AppBar title="Cài đặt" style={styles.header} titleStyle={{ textAlign: 'center' }} />
+				<AppBar title="Cài đặt" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 
 				{SECTIONS.map(({ header, items }) => (
 					<View style={styles.section} key={header}>
@@ -101,34 +98,13 @@ export default function Example() {
 							<Text style={styles.sectionHeaderText}>{header}</Text>
 						</View>
 						<View style={styles.sectionBody}>
-							{items.map(({ id, label, icon }, index) => (
-								<View
+							{items.map(({ id, label, icon }) => (
+								<Action
 									key={id}
-									style={[
-										styles.rowWrapper,
-										index === 0 && { borderTopWidth: 0 },
-									]}
-								>
-									<TouchableOpacity
-										onPress={() => {
-											// handle onPress
-										}}
-									>
-										<View style={styles.row}>
-											<Ionicons
-												color={COLORS.primary}
-												name={icon}
-												style={styles.rowIcon}
-												size={22}
-											/>
-
-											<Text style={styles.rowLabel}>{label}</Text>
-
-											<View style={styles.rowSpacer} />
-
-										</View>
-									</TouchableOpacity>
-								</View>
+									title={label}
+									icon={icon}
+									onPress={() => {}}
+								/>
 							))}
 						</View>
 					</View>

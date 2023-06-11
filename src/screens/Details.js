@@ -2,7 +2,7 @@ import {
 	View, StatusBar, ScrollView, TouchableOpacity,
 	FlatList, Animated, Linking, StyleSheet, ToastAndroid,
 } from 'react-native';
-import { Text } from '@react-native-material/core';
+import { Text, IconButton } from '@react-native-material/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
 	imgContainer: {
 		width: '100%',
 		backgroundColor: COLORS.black,
-		borderBottomRightRadius: 20,
-		borderBottomLeftRadius: 20,
 		position: 'relative',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -34,10 +32,10 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	btnAction: {
-		fontSize: 18,
+		fontSize: 28,
 		color: COLORS.primary,
-		padding: 12,
-		borderRadius: 10,
+		padding: 8,
+		backgroundColor: COLORS.white,
 	},
 	imgIndicatorContainer: {
 		width: '100%',
@@ -239,24 +237,32 @@ function Details({ route, navigation }) {
 			<ScrollView>
 				<View style={styles.imgContainer}>
 					<View style={styles.returnContainer}>
-						<TouchableOpacity style={styles.touchableOpacity} onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.btnAction} />
-						</TouchableOpacity>
+						<IconButton
+							onPress={() => navigation.goBack()}
+							icon={<Entypo name="chevron-left" size={30} color={COLORS.primary} />}
+							contentContainerStyle={{
+								backgroundColor: COLORS.white,
+							}}
+						/>
 					</View>
 					{userToken !== null && (
 						<View style={styles.wishlistContainer}>
-							<TouchableOpacity
-								style={styles.touchableOpacity}
+							<IconButton
 								onPress={() => {
 									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
 									else dispatch(wishlistRemove(userToken, productData._id));
 								}}
-							>
-								<Entypo
-									name={inWishlist ? 'heart' : 'heart-outlined'}
-									style={styles.btnAction}
-								/>
-							</TouchableOpacity>
+								icon={(
+									<Entypo
+										name={inWishlist ? 'heart' : 'heart-outlined'}
+										size={30}
+										color={COLORS.primary}
+									/>
+								)}
+								contentContainerStyle={{
+									backgroundColor: COLORS.white,
+								}}
+							/>
 						</View>
 					)}
 					<FlatList

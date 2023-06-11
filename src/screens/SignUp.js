@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-	View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator,
+	View, ScrollView, Text, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
+import { ActivityIndicator, TextInput } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
@@ -15,7 +16,7 @@ import { register } from '../actions/userActions';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.white,
 		justifyContent: 'center',
 		paddingBottom: SIZES.medium,
 	},
@@ -32,12 +33,6 @@ const styles = StyleSheet.create({
 	},
 	inputField: {
 		flexDirection: 'row',
-		borderBottomColor: '#ccc',
-		borderBottomWidth: 1,
-		backgroundColor: COLORS.white,
-		borderRadius: SIZES.base,
-		paddingVertical: SIZES.font,
-		paddingHorizontal: SIZES.font,
 	},
 	errorContainer: {
 		marginTop: 5,
@@ -49,7 +44,6 @@ const styles = StyleSheet.create({
 	},
 	submitBtn: {
 		padding: 20,
-		borderRadius: 10,
 		marginBottom: 30,
 	},
 	loadingIndicator: {
@@ -136,10 +130,13 @@ function SignUp({ navigation }) {
 								<Text style={styles.title}>Đăng ký</Text>
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Email của bạn"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Email của bạn"
+											leading={<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											keyboardType="email-address"
 											value={values.email}
 											onChangeText={handleChange('email')}
@@ -157,10 +154,13 @@ function SignUp({ navigation }) {
 
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Tên đăng nhập"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Tên đăng nhập"
+											leading={<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											value={values.username}
 											onChangeText={handleChange('username')}
 											onBlur={() => setFieldTouched('username')}
@@ -176,10 +176,13 @@ function SignUp({ navigation }) {
 
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="text-document" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Họ và tên đệm"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Họ và tên đệm"
+											leading={<Entypo name="text-document" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											value={values.lastName}
 											onChangeText={handleChange('lastName')}
 											onBlur={() => setFieldTouched('lastName')}
@@ -194,10 +197,13 @@ function SignUp({ navigation }) {
 
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="text-document-inverted" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Tên của bạn"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Tên của bạn"
+											leading={<Entypo name="text-document-inverted" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											value={values.firstName}
 											onChangeText={handleChange('firstName')}
 											onBlur={() => setFieldTouched('firstName')}
@@ -212,10 +218,13 @@ function SignUp({ navigation }) {
 
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Mật khẩu"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Mật khẩu"
+											leading={<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											value={values.password}
 											onChangeText={handleChange('password')}
 											onBlur={() => setFieldTouched('password')}
@@ -231,10 +240,13 @@ function SignUp({ navigation }) {
 
 								<View style={styles.inputContainer}>
 									<View style={styles.inputField}>
-										<Entypo name="flag" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 										<TextInput
-											placeholder="Nhập lại mật khẩu"
-											style={{ flex: 1, paddingVertical: 0 }}
+											style={{
+												width: '100%',
+											}}
+											label="Nhập lại mật khẩu"
+											leading={<Entypo name="flag" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											color={COLORS.primary}
 											value={values.confirmPassword}
 											onChangeText={handleChange('confirmPassword')}
 											onBlur={() => setFieldTouched('confirmPassword')}
@@ -251,11 +263,7 @@ function SignUp({ navigation }) {
 								<TouchableOpacity
 									onPress={handleSubmit}
 									disabled={!isValid || loading}
-									style={
-										[styles.submitBtn,
-											{ backgroundColor: isValid ? COLORS.primary : COLORS.lightGray },
-										]
-									}
+									style={[styles.submitBtn, { backgroundColor: COLORS.primary }]}
 								>
 									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng ký</Text>
 								</TouchableOpacity>

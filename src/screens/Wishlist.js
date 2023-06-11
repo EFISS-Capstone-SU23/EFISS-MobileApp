@@ -14,7 +14,7 @@ import { config } from '../../config';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.white,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -110,7 +110,7 @@ function Wishlist({ navigation }) {
 								}
 							}
 						}}
-						onEndReachedThreshold={0.1}
+						onEndReachedThreshold={0.2}
 					/>
 				)}
 			</View>

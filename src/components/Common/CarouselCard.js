@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
 	card: {
 		flex: 1,
 		width: (WIDTH * 2) / 5,
-		margin: SIZES.base,
+		marginRight: SIZES.small,
 		borderRadius: 5,
 	},
 	titleContainer: {
 		flex: 1,
 	},
 	title: {
-		fontSize: SIZES.small,
+		fontSize: SIZES.font,
 		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 	},
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 	price: {
 		color: COLORS.secondary,
 		fontFamily: FONTS.semiBold,
-		fontSize: SIZES.small,
+		fontSize: 10,
 	},
 	button: {
 		height: 30,
@@ -47,12 +47,13 @@ const styles = StyleSheet.create({
 		borderRadius: SIZES.small,
 	},
 	groupContainer: {
-		marginBottom: SIZES.base / 2,
+		marginBottom: SIZES.base / 4,
 	},
 	group: {
 		color: COLORS.secondary,
 		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.small,
+		opacity: 0.5,
 	},
 });
 
@@ -78,7 +79,7 @@ function CarouselCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ paddingTop: SIZES.base }}>
+			<View style={{ paddingTop: 2 }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
 						{product.group}

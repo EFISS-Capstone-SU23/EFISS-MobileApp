@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-	View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
+	View, Text, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
-import { ActivityIndicator } from '@react-native-material/core';
+import { ActivityIndicator, TextInput } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ import { AuthContext } from '../context/AuthContext';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.white,
 		justifyContent: 'center',
 		paddingBottom: SIZES.medium,
 	},
@@ -33,12 +33,7 @@ const styles = StyleSheet.create({
 	},
 	inputField: {
 		flexDirection: 'row',
-		borderBottomColor: '#ccc',
-		borderBottomWidth: 1,
-		backgroundColor: COLORS.white,
 		borderRadius: SIZES.base,
-		paddingVertical: SIZES.font,
-		paddingHorizontal: SIZES.font,
 	},
 	errorContainer: {
 		marginTop: 5,
@@ -50,7 +45,6 @@ const styles = StyleSheet.create({
 	},
 	submitBtn: {
 		padding: 20,
-		borderRadius: 10,
 		marginBottom: 30,
 	},
 	textLink: {
@@ -60,7 +54,6 @@ const styles = StyleSheet.create({
 		marginVertical: SIZES.base,
 	},
 	text: {
-		color: COLORS.tertiary,
 		fontFamily: FONTS.bold,
 	},
 });
@@ -110,10 +103,13 @@ function Login() {
 
 						<View style={styles.inputContainer}>
 							<View style={styles.inputField}>
-								<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 								<TextInput
-									placeholder="Tên đăng nhập"
-									style={{ flex: 1, paddingVertical: 0 }}
+									style={{
+										width: '100%',
+									}}
+									label="Tên đăng nhập"
+									leading={<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+									color={COLORS.primary}
 									value={values.username}
 									onChangeText={handleChange('username')}
 									onBlur={() => setFieldTouched('username')}
@@ -129,10 +125,13 @@ function Login() {
 
 						<View style={styles.inputContainer}>
 							<View style={styles.inputField}>
-								<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />
 								<TextInput
-									placeholder="Mật khẩu"
-									style={{ flex: 1, paddingVertical: 0 }}
+									style={{
+										width: '100%',
+									}}
+									label="Mật khẩu"
+									leading={<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+									color={COLORS.primary}
 									value={values.password}
 									onChangeText={handleChange('password')}
 									onBlur={() => setFieldTouched('password')}
@@ -149,11 +148,7 @@ function Login() {
 						<TouchableOpacity
 							onPress={handleSubmit}
 							disabled={!isValid}
-							style={
-								[styles.submitBtn,
-									{ backgroundColor: isValid ? COLORS.primary : COLORS.lightGray },
-								]
-							}
+							style={[styles.submitBtn, { backgroundColor: COLORS.primary }]}
 						>
 							<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng nhập</Text>
 						</TouchableOpacity>
@@ -170,7 +165,7 @@ function Login() {
 								navigation.navigate('SignUp');
 							}}
 							>
-								<Text style={{ color: COLORS.tertiary, fontFamily: FONTS.bold }}> Đăng ký</Text>
+								<Text style={{ fontFamily: FONTS.bold }}> Đăng ký</Text>
 							</TouchableOpacity>
 						</View>
 					</View>

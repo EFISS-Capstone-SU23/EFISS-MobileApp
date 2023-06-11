@@ -7,6 +7,7 @@ export const COLORS = {
 	backroundLight: '#E9E3E3',
 	black: '#000000',
 	white: '#FFF',
+	red: '#FF0000',
 };
 
 export const SIZES = {

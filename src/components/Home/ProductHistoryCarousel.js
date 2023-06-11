@@ -12,7 +12,7 @@ import CarouselCard from '../Common/CarouselCard';
 
 const styles = StyleSheet.create({
 	container: {
-		margin: SIZES.small,
+		margin: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',
