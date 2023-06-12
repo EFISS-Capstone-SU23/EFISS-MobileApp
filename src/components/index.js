@@ -11,6 +11,7 @@ import ModalPicker from './Home/ModalPicker';
 import ProductRecommendCarousel from './Home/ProductRecommendCarousel';
 import ProductHistoryCarousel from './Home/ProductHistoryCarousel';
 import Welcome from './Home/Welcome';
+import AdsBar from './Home/AdsBar';
 
 import Action from './Profile/Action';
 
@@ -37,4 +38,5 @@ export {
 	RenderImageItem,
 	Action,
 	WishlistHeader,
+	AdsBar,
 };

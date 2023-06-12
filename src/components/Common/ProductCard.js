@@ -4,11 +4,13 @@ import {
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+import { Badge } from '@react-native-material/core';
 
 import { productHistorySet } from '../../actions/productActions';
 import {
-	COLORS, SHADOWS, SIZES, FONTS,
+	COLORS, SIZES, FONTS,
 } from '../../constants';
+import { formatNumber } from '../../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -17,14 +19,17 @@ const styles = StyleSheet.create({
 		borderColor: COLORS.gray,
 		marginBottom: SIZES.small,
 		margin: SIZES.base,
-		...SHADOWS.dark,
+		borderTopLeftRadius: SIZES.base,
+		borderTopRightRadius: SIZES.base,
 	},
 	productImage: {
 		height: '100%',
+		borderTopLeftRadius: SIZES.base,
+		borderTopRightRadius: SIZES.base,
 	},
 	productTitle: {
-		fontSize: SIZES.font,
-		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.medium,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -39,18 +44,30 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	productPrice: {
-		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
-		fontSize: 10,
+		color: COLORS.white,
+		fontFamily: FONTS.medium,
+		fontSize: 12,
 	},
 	groupContainer: {
 		marginBottom: SIZES.base / 4,
 	},
 	group: {
 		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.light,
 		fontSize: SIZES.small,
-		opacity: 0.5,
+		opacity: 0.8,
+	},
+	ratingContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 5,
+	},
+	productRating: {
+		color: COLORS.secondary,
+		fontFamily: FONTS.semiBold,
+		fontSize: 12,
+		marginLeft: 2,
 	},
 });
 
@@ -75,9 +92,7 @@ function ProductCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View
-				style={{ width: '100%', padding: SIZES.small }}
-			>
+			<View style={{ width: '100%', padding: SIZES.base }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
 						{product.group}
@@ -96,11 +111,18 @@ function ProductCard({ product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceSection}>
-					<View style={styles.priceContainer}>
-						<Entypo name="credit" size={SIZES.small} color={COLORS.primary} />
-						<Text style={styles.productPrice}>
-							{product.price}
+					<View style={styles.ratingContainer}>
+						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
+						<Text style={styles.productRating}>
+							4.5
 						</Text>
+					</View>
+					<View style={styles.priceContainer}>
+						<Badge
+							label={formatNumber(product.price)}
+							color={COLORS.primary}
+							labelStyle={styles.productPrice}
+						/>
 					</View>
 				</View>
 			</View>

@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 		height: 44,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: SIZES.base,
 	},
 	errorContainer: {
 		height: SIZES.extraLarge,

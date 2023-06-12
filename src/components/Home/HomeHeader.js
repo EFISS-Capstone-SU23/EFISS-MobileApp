@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 	searchContainer: {
 		width: '100%',
 		borderWidth: 1,
+		borderRadius: SIZES.base,
 		backgroundColor: COLORS.white,
 		flexDirection: 'row',
 		paddingHorizontal: SIZES.font,

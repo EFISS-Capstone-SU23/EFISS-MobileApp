@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop: SIZES.base,
+		borderRadius: SIZES.base,
 	},
 	errorContainer: {
 		marginTop: 5,

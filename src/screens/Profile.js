@@ -1,11 +1,14 @@
 /* eslint-disable react/style-prop-object */
 import {
-	SafeAreaView, View, Text, StyleSheet, ScrollView, RefreshControl,
+	SafeAreaView, View, StyleSheet, ScrollView, RefreshControl, TouchableOpacity,
 } from 'react-native';
-import { ActivityIndicator, AppBar, Avatar } from '@react-native-material/core';
+import {
+	ActivityIndicator, AppBar, Avatar, Text,
+} from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useContext, useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 import {
 	COLORS, FONTS, SIZES,
@@ -51,6 +54,11 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.light,
 		fontSize: SIZES.medium,
 		color: COLORS.quaternary,
+	},
+	actionTitle: {
+		color: COLORS.primary,
+		fontFamily: FONTS.bold,
+		fontSize: SIZES.medium,
 	},
 });
 
@@ -101,8 +109,11 @@ function Profile() {
 							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.quaternary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo?.email}</Text>
+							<TouchableOpacity style={{ marginTop: SIZES.base }} onPress={logout}>
+								<Text style={styles.actionTitle}>Đăng xuất</Text>
+							</TouchableOpacity>
 						</View>
 					</View>
 				)}
@@ -123,7 +134,6 @@ function Profile() {
 						icon="dial-pad"
 						onPress={() => navigation.navigate('ChangePassword')}
 					/>
-					<Action title="Đăng xuất" icon="log-out" onPress={logout} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>

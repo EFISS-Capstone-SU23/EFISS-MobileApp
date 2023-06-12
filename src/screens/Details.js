@@ -8,12 +8,13 @@ import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES, FONTS } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
 import { wishlistAdd, wishlistRemove } from '../actions/productActions';
 import { config } from '../../config';
 import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
+import { formatNumber } from '../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -25,6 +26,8 @@ const styles = StyleSheet.create({
 	imgContainer: {
 		width: '100%',
 		backgroundColor: COLORS.black,
+		borderBottomRightRadius: 20,
+		borderBottomLeftRadius: 20,
 		position: 'relative',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -32,9 +35,9 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	btnAction: {
-		fontSize: 28,
+		fontSize: 20,
 		color: COLORS.primary,
-		padding: 8,
+		padding: 5,
 		backgroundColor: COLORS.white,
 	},
 	imgIndicatorContainer: {
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: 600,
+		fontFamily: FONTS.bold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
 	description: {
 		fontSize: SIZES.small,
 		color: COLORS.black,
-		fontWeight: '400',
+		fontFamily: FONTS.medium,
 		letterSpacing: 1,
 		opacity: 0.5,
 		lineHeight: 20,
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
 	},
 	priceContainer: {
 		fontSize: 18,
-		fontWeight: '500',
+		fontFamily: FONTS.semiBold,
 		maxWidth: '84%',
 		color: COLORS.black,
 		marginBottom: 4,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
 	},
 	floatButtonLabel: {
 		fontSize: 12,
-		fontWeight: '500',
+		fontFamily: FONTS.bold,
 		letterSpacing: 1,
 		color: COLORS.white,
 		textTransform: 'uppercase',
@@ -239,9 +242,10 @@ function Details({ route, navigation }) {
 					<View style={styles.returnContainer}>
 						<IconButton
 							onPress={() => navigation.goBack()}
-							icon={<Entypo name="chevron-left" size={30} color={COLORS.primary} />}
+							icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
 							contentContainerStyle={{
 								backgroundColor: COLORS.white,
+								opacity: 0.8,
 							}}
 						/>
 					</View>
@@ -255,12 +259,13 @@ function Details({ route, navigation }) {
 								icon={(
 									<Entypo
 										name={inWishlist ? 'heart' : 'heart-outlined'}
-										size={30}
+										size={24}
 										color={COLORS.primary}
 									/>
 								)}
 								contentContainerStyle={{
 									backgroundColor: COLORS.white,
+									opacity: 0.8,
 								}}
 							/>
 						</View>
@@ -327,10 +332,10 @@ function Details({ route, navigation }) {
 						</View>
 						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
 					</View>
-					<View style={{ paddingHorizontal: 16 }}>
+					<View>
 						<Text style={styles.priceContainer}>
 							<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
-							{productData.price}
+							{formatNumber(productData.price)}
 						</Text>
 					</View>
 				</View>

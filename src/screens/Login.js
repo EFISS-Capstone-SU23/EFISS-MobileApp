@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
 	submitBtn: {
 		padding: 20,
 		marginBottom: 30,
+		borderRadius: SIZES.base,
 	},
 	textLink: {
 		flexDirection: 'row',

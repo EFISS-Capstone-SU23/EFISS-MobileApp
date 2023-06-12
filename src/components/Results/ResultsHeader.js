@@ -41,13 +41,13 @@ function ResultsHeader({ navigation }) {
 				paddingHorizontal: 5,
 			}}
 			>
-				<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />} />
+				<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />} />
 
 				<Text style={styles.text}>
 					Kết quả
 				</Text>
 
-				<IconButton onPress={() => {}} icon={<Entypo name="bar-graph" color={COLORS.white} size={30} />} />
+				<IconButton onPress={() => {}} icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />} />
 			</View>
 
 		</View>

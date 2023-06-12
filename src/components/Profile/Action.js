@@ -21,10 +21,11 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.primary,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: SIZES.base,
 	},
 	actionTitle: {
 		color: COLORS.quaternary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,
 	},

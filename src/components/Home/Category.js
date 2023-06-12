@@ -1,6 +1,7 @@
 import {
 	View, Text, StyleSheet, TouchableOpacity, ImageBackground,
 } from 'react-native';
+import { HStack, VStack } from '@react-native-material/core';
 import React from 'react';
 
 import {
@@ -10,7 +11,7 @@ import {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		margin: (SIZES.font * 2) / 3,
+		margin: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',
@@ -32,13 +33,21 @@ const styles = StyleSheet.create({
 		width: '25%',
 		aspectRatio: 1,
 		backgroundColor: COLORS.primary,
-		marginHorizontal: SIZES.base / 8,
-		...SHADOWS.dark,
+		borderRadius: SIZES.base,
+		...SHADOWS.light,
+	},
+	textContainer: {
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(52, 52, 52, 0.4)',
+		borderRadius: 10,
 	},
 	category: {
+		textAlign: 'center',
 		color: COLORS.white,
 		fontFamily: FONTS.light,
-		backgroundColor: 'rgba(52, 52, 52, 0.4)',
+		fontSize: SIZES.medium,
 	},
 	imageBackground: {
 		flex: 1,
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		aspectRatio: 1,
-		borderRadius: 8,
+		borderRadius: SIZES.base,
 	},
 });
 
@@ -68,24 +77,38 @@ function Category() {
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>Danh mục sản phẩm</Text>
 			</View>
-			<View style={styles.row}>
-				{categories.slice(0, 4).map((category, index) => (
-					<TouchableOpacity key={index} style={styles.square}>
-						<ImageBackground source={{ uri: category.image }} style={styles.imageBackground}>
-							<Text style={styles.category}>{category.title}</Text>
-						</ImageBackground>
-					</TouchableOpacity>
-				))}
-			</View>
-			<View style={styles.row}>
-				{categories.slice(4, 8).map((category, index) => (
-					<TouchableOpacity key={index} style={styles.square}>
-						<ImageBackground source={{ uri: category.image }} style={styles.imageBackground}>
-							<Text style={styles.category}>{category.title}</Text>
-						</ImageBackground>
-					</TouchableOpacity>
-				))}
-			</View>
+			<VStack spacing={5} center m={SIZES.base}>
+				<HStack spacing={5}>
+					{categories.slice(0, 4).map((category, index) => (
+						<TouchableOpacity key={index} style={styles.square}>
+							<ImageBackground
+								source={{ uri: category.image }}
+								style={styles.imageBackground}
+								imageStyle={{ borderRadius: SIZES.base }}
+							>
+								<View style={styles.textContainer}>
+									<Text style={styles.category}>{category.title}</Text>
+								</View>
+							</ImageBackground>
+						</TouchableOpacity>
+					))}
+				</HStack>
+				<HStack spacing={5}>
+					{categories.slice(4, 8).map((category, index) => (
+						<TouchableOpacity key={index} style={styles.square}>
+							<ImageBackground
+								source={{ uri: category.image }}
+								style={styles.imageBackground}
+								imageStyle={{ borderRadius: SIZES.base }}
+							>
+								<View style={styles.textContainer}>
+									<Text style={styles.category}>{category.title}</Text>
+								</View>
+							</ImageBackground>
+						</TouchableOpacity>
+					))}
+				</HStack>
+			</VStack>
 		</View>
 	);
 }

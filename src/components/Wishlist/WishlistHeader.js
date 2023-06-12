@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.primary,
 		padding: SIZES.base,
 		flexDirection: 'row',
-		justifyContent: 'flex-start',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
 	button: {
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.extraLarge,
 		color: COLORS.white,
 		textAlign: 'center',
-		flex: 0.85,
 	},
 	tabsContainer: {
 		width: '100%',
@@ -49,6 +48,8 @@ function WishlistHeader({ navigation }) {
 			<Text style={styles.text}>
 				Wishlist
 			</Text>
+
+			<IconButton onPress={() => {}} icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />} />
 		</View>
 	);
 }
