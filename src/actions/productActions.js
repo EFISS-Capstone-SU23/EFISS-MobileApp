@@ -11,7 +11,7 @@ import {
 } from '../constants/productConstants';
 import { config } from '../../config';
 
-export const productsSearch = (imageURL, lmt, sB, ct) => async (dispatch) => {
+export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
 	console.log('Searching image');
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
@@ -19,9 +19,9 @@ export const productsSearch = (imageURL, lmt, sB, ct) => async (dispatch) => {
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
 			{
 				encodedImage: imageURL,
-				limit: lmt,
-				sortBy: sB,
-				category: ct,
+				limit: _limit,
+				sortBy: _sortBy,
+				category: _category,
 			},
 		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });
