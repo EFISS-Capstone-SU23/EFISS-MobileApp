@@ -6,7 +6,7 @@ import {
 
 import { COLORS } from '../constants';
 import {
-	HomeHeader, ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel,
+	HomeHeader, ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel, AdsBar,
 } from '../components';
 
 const styles = StyleSheet.create({
@@ -37,6 +37,7 @@ function Home() {
 						onHistory={() => {}}
 						onWishlist={() => navigation.navigate('Wishlist')}
 					/>
+					<AdsBar />
 					<Category />
 					<ProductRecommendCarousel navigation={navigation} />
 					<ProductHistoryCarousel navigation={navigation} />

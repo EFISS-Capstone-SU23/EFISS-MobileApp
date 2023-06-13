@@ -1,11 +1,12 @@
 import {
-	View, Text, TouchableOpacity, Image, TextInput,
+	View, Text, TouchableOpacity,
 	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
-import { ActivityIndicator } from '@react-native-material/core';
+import {
+	ActivityIndicator, AppBar, Avatar, TextInput,
+} from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MaterialIcons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -13,16 +14,13 @@ import * as Yup from 'yup';
 import { AuthContext } from '../context/AuthContext';
 import { updateUserProfile } from '../actions/userActions';
 import {
-	COLORS, FONTS, SIZES, assets,
+	COLORS, FONTS, SIZES,
 } from '../constants';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		backgroundColor: COLORS.primary,
-		padding: 20,
+		backgroundColor: COLORS.white,
 	},
 	backButton: {
 		position: 'absolute',
@@ -39,12 +37,13 @@ const styles = StyleSheet.create({
 		marginLeft: 12,
 	},
 	avatar: {
-		height: 170,
-		width: 170,
-		borderRadius: 85,
-		borderWidth: 2,
+		width: 120,
+		height: 120,
+		borderRadius: 60,
 		borderColor: COLORS.primary,
+		borderWidth: 1,
 		resizeMode: 'contain',
+		backgroundColor: COLORS.primary,
 	},
 	cameraIcon: {
 		position: 'absolute',
@@ -54,33 +53,24 @@ const styles = StyleSheet.create({
 	},
 	inputField: {
 		flexDirection: 'column',
-		marginBottom: SIZES.base,
 	},
 	inputTitle: {
 		fontFamily: FONTS.bold,
-		color: COLORS.primary,
+		color: COLORS.black,
 	},
 	textInputContainer: {
-		height: 44,
 		width: '100%',
-		borderColor: COLORS.lightGray,
-		borderWidth: 1,
-		borderRadius: 4,
-		paddingHorizontal: 12,
-		paddingVertical: 6,
 		justifyContent: 'center',
 		backgroundColor: COLORS.white,
 	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
 		height: 44,
-		borderRadius: 6,
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: SIZES.extraLarge,
+		borderRadius: SIZES.base,
 	},
 	errorContainer: {
-		marginTop: 5,
 		height: SIZES.extraLarge,
 	},
 	errorMessage: {
@@ -148,23 +138,8 @@ function EditProfile({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				// eslint-disable-next-line react/self-closing-comp
-				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
-					<View style={styles.header}>
-						<TouchableOpacity
-							onPress={() => navigation.goBack()}
-							style={styles.backButton}
-						>
-							<MaterialIcons
-								name="keyboard-arrow-left"
-								size={24}
-								color={COLORS.primary}
-							/>
-						</TouchableOpacity>
-
-						<Text style={styles.headerTitle}>
-							Chỉnh sửa hồ sơ cá nhân
-						</Text>
-					</View>
+				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+					<AppBar title="Chỉnh sửa hồ sơ cá nhân" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 					{loading ? (
 						<View style={styles.loadingIndicator}>
 							<ActivityIndicator size="large" color={COLORS.primary} />
@@ -173,12 +148,7 @@ function EditProfile({ navigation }) {
 						<ScrollView>
 
 							<View style={{ alignItems: 'center', marginVertical: 22 }}>
-								<View>
-									<Image
-										source={assets.avatar}
-										style={styles.avatar}
-									/>
-								</View>
+								<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
 							</View>
 
 							<View style={{ marginHorizontal: 22 }}>
@@ -188,6 +158,7 @@ function EditProfile({ navigation }) {
 										<TextInput
 											placeholder="Họ và tên đệm"
 											style={{ flex: 1, paddingVertical: 0 }}
+											color={COLORS.primary}
 											value={values.lastName}
 											onChangeText={handleChange('lastName')}
 											onBlur={() => setFieldTouched('lastName')}
@@ -206,6 +177,7 @@ function EditProfile({ navigation }) {
 										<TextInput
 											placeholder="Tên của bạn"
 											style={{ flex: 1, paddingVertical: 0 }}
+											color={COLORS.primary}
 											value={values.firstName}
 											onChangeText={handleChange('firstName')}
 											onBlur={() => setFieldTouched('firstName')}
@@ -223,11 +195,24 @@ function EditProfile({ navigation }) {
 									style={styles.saveButton}
 									onPress={handleSubmit}
 								>
-									<Text style={{ color: COLORS.white }}>
+									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold }}>
 										Lưu thay đổi
 									</Text>
 								</TouchableOpacity>
 
+								<TouchableOpacity
+									onPress={() => navigation.goBack()}
+									style={{
+										height: 44,
+										alignItems: 'center',
+										justifyContent: 'center',
+										marginTop: 10,
+									}}
+								>
+									<Text style={{ color: COLORS.black, fontFamily: FONTS.bold }}>
+										Quay lại
+									</Text>
+								</TouchableOpacity>
 							</View>
 
 						</ScrollView>

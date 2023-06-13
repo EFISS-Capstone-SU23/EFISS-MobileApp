@@ -1,12 +1,14 @@
 import { Dimensions } from 'react-native';
 
 export const COLORS = {
-	primary: '#F4717F',
+	primary: '#33907C',
 	secondary: '#544E50',
 	backroundDark: '#544E50',
 	backroundLight: '#E9E3E3',
 	black: '#000000',
 	white: '#FFF',
+	red: '#FF0000',
+	yellow: '#FFBF00',
 };
 
 export const SIZES = {
@@ -21,11 +23,11 @@ export const SIZES = {
 };
 
 export const FONTS = {
-	bold: 'InterBold',
-	semiBold: 'InterSemiBold',
-	medium: 'InterMedium',
-	regular: 'InterRegular',
-	light: 'InterLight',
+	bold: 'RobotoBold',
+	semiBold: 'RobotoSemiBold',
+	medium: 'RobotoMedium',
+	regular: 'RobotoRegular',
+	light: 'RobotoLight',
 };
 
 export const SHADOWS = {

@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
 	},
 	modal: {
 		backgroundColor: COLORS.white,
-		borderRadius: 10,
 		borderColor: COLORS.gray,
 		borderWidth: 1,
 		paddingVertical: SIZES.base,

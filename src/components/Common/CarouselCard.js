@@ -1,6 +1,7 @@
 import {
 	View, Image, Text, TouchableOpacity, StyleSheet, Dimensions,
 } from 'react-native';
+import { Badge } from '@react-native-material/core';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
@@ -9,6 +10,7 @@ import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
 import { productHistorySet } from '../../actions/productActions';
+import { formatNumber } from '../../utils/utils';
 
 const WIDTH = Dimensions.get('window').width;
 // const HEIGHT = Dimensions.get('window').height;
@@ -17,16 +19,22 @@ const styles = StyleSheet.create({
 	card: {
 		flex: 1,
 		width: (WIDTH * 2) / 5,
-		margin: SIZES.base,
-		borderRadius: 5,
+		marginRight: SIZES.small,
+		borderRadius: SIZES.base,
 	},
 	titleContainer: {
 		flex: 1,
 	},
 	title: {
-		fontSize: SIZES.small,
-		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.medium,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
+	},
+	priceSection: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginTop: 2,
 	},
 	priceContainer: {
 		flexDirection: 'row',
@@ -34,9 +42,21 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	price: {
+		color: COLORS.white,
+		fontFamily: FONTS.medium,
+		fontSize: 12,
+	},
+	ratingContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 5,
+	},
+	rating: {
 		color: COLORS.secondary,
 		fontFamily: FONTS.semiBold,
-		fontSize: SIZES.small,
+		fontSize: 12,
+		marginLeft: 2,
 	},
 	button: {
 		height: 30,
@@ -47,12 +67,13 @@ const styles = StyleSheet.create({
 		borderRadius: SIZES.small,
 	},
 	groupContainer: {
-		marginBottom: SIZES.base / 2,
+		marginBottom: SIZES.base / 4,
 	},
 	group: {
 		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.light,
 		fontSize: SIZES.small,
+		opacity: 0.8,
 	},
 });
 
@@ -74,11 +95,13 @@ function CarouselCard({ product, navigation }) {
 						resizeMode="cover"
 						style={{
 							height: '100%',
+							borderTopLeftRadius: SIZES.base,
+							borderTopRightRadius: SIZES.base,
 						}}
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ paddingTop: SIZES.base }}>
+			<View style={{ paddingTop: 2 }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
 						{product.group}
@@ -96,11 +119,20 @@ function CarouselCard({ product, navigation }) {
 						{product.title}
 					</Text>
 				</View>
-				<View style={styles.priceContainer}>
-					<Entypo name="credit" size={SIZES.small} color={COLORS.primary} />
-					<Text style={styles.price}>
-						{product.price}
-					</Text>
+				<View style={styles.priceSection}>
+					<View style={styles.ratingContainer}>
+						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
+						<Text style={styles.rating}>
+							4.5
+						</Text>
+					</View>
+					<View style={styles.priceContainer}>
+						<Badge
+							label={formatNumber(product.price)}
+							color={COLORS.primary}
+							labelStyle={styles.price}
+						/>
+					</View>
 				</View>
 			</View>
 		</View>

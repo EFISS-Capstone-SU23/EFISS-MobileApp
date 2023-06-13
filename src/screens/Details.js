@@ -2,18 +2,19 @@ import {
 	View, StatusBar, ScrollView, TouchableOpacity,
 	FlatList, Animated, Linking, StyleSheet, ToastAndroid,
 } from 'react-native';
-import { Text } from '@react-native-material/core';
+import { Text, IconButton } from '@react-native-material/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES, FONTS } from '../constants';
 import { RenderImageItem } from '../components';
 import { AuthContext } from '../context/AuthContext';
 import { wishlistAdd, wishlistRemove } from '../actions/productActions';
 import { config } from '../../config';
 import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
+import { formatNumber } from '../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -34,10 +35,10 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	btnAction: {
-		fontSize: 18,
+		fontSize: 20,
 		color: COLORS.primary,
-		padding: 12,
-		borderRadius: 10,
+		padding: 5,
+		backgroundColor: COLORS.white,
 	},
 	imgIndicatorContainer: {
 		width: '100%',
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: 600,
+		fontFamily: FONTS.bold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
 	description: {
 		fontSize: SIZES.small,
 		color: COLORS.black,
-		fontWeight: '400',
+		fontFamily: FONTS.medium,
 		letterSpacing: 1,
 		opacity: 0.5,
 		lineHeight: 20,
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
 	},
 	priceContainer: {
 		fontSize: 18,
-		fontWeight: '500',
+		fontFamily: FONTS.semiBold,
 		maxWidth: '84%',
 		color: COLORS.black,
 		marginBottom: 4,
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
 	},
 	floatButtonLabel: {
 		fontSize: 12,
-		fontWeight: '500',
+		fontFamily: FONTS.bold,
 		letterSpacing: 1,
 		color: COLORS.white,
 		textTransform: 'uppercase',
@@ -239,24 +240,34 @@ function Details({ route, navigation }) {
 			<ScrollView>
 				<View style={styles.imgContainer}>
 					<View style={styles.returnContainer}>
-						<TouchableOpacity style={styles.touchableOpacity} onPress={() => navigation.goBack()}>
-							<Entypo name="chevron-left" style={styles.btnAction} />
-						</TouchableOpacity>
+						<IconButton
+							onPress={() => navigation.goBack()}
+							icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
+							contentContainerStyle={{
+								backgroundColor: COLORS.white,
+								opacity: 0.8,
+							}}
+						/>
 					</View>
 					{userToken !== null && (
 						<View style={styles.wishlistContainer}>
-							<TouchableOpacity
-								style={styles.touchableOpacity}
+							<IconButton
 								onPress={() => {
 									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
 									else dispatch(wishlistRemove(userToken, productData._id));
 								}}
-							>
-								<Entypo
-									name={inWishlist ? 'heart' : 'heart-outlined'}
-									style={styles.btnAction}
-								/>
-							</TouchableOpacity>
+								icon={(
+									<Entypo
+										name={inWishlist ? 'heart' : 'heart-outlined'}
+										size={24}
+										color={COLORS.primary}
+									/>
+								)}
+								contentContainerStyle={{
+									backgroundColor: COLORS.white,
+									opacity: 0.8,
+								}}
+							/>
 						</View>
 					)}
 					<FlatList
@@ -321,10 +332,10 @@ function Details({ route, navigation }) {
 						</View>
 						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
 					</View>
-					<View style={{ paddingHorizontal: 16 }}>
+					<View>
 						<Text style={styles.priceContainer}>
 							<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
-							{productData.price}
+							{formatNumber(productData.price)}
 						</Text>
 					</View>
 				</View>

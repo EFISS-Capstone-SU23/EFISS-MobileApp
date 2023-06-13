@@ -11,11 +11,12 @@ import { store } from './src/redux/store';
 import { COLORS } from './src/constants';
 import { AuthProvider } from './src/context/AuthContext';
 
-import InterBold from './src/assets/fonts/Inter-Bold.ttf';
-import InterLight from './src/assets/fonts/Inter-Light.ttf';
-import InterMedium from './src/assets/fonts/Inter-Medium.ttf';
-import InterRegular from './src/assets/fonts/Inter-Regular.ttf';
-import InterSemiBold from './src/assets/fonts/Inter-SemiBold.ttf';
+import RobotoBold from './src/assets/fonts/Roboto-Bold.ttf';
+import RobotoSemiBold from './src/assets/fonts/Roboto-SemiBold.ttf';
+import RobotoLight from './src/assets/fonts/Roboto-Light.ttf';
+import RobotoMedium from './src/assets/fonts/Roboto-Medium.ttf';
+import RobotoRegular from './src/assets/fonts/Roboto-Regular.ttf';
+
 import AppNavigator from './src/navigations/AppNavigator';
 
 const styles = StyleSheet.create({
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
 
 function App() {
 	const [loaded] = useFonts({
-		InterBold,
-		InterLight,
-		InterMedium,
-		InterRegular,
-		InterSemiBold,
+		RobotoBold,
+		RobotoLight,
+		RobotoMedium,
+		RobotoRegular,
+		RobotoSemiBold,
 	});
 
 	if (!loaded) {

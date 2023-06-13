@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
 	iconContainer: {
 		width: 40,
 		height: 40,
-		borderRadius: 6,
 		backgroundColor: COLORS.primary,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: SIZES.base,
 	},
 	actionTitle: {
 		color: COLORS.quaternary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,
 	},

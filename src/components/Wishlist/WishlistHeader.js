@@ -1,6 +1,7 @@
 import {
-	View, Text, TouchableOpacity, StyleSheet,
+	View, Text, StyleSheet,
 } from 'react-native';
+import { IconButton } from '@react-native-material/core';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 
@@ -9,9 +10,15 @@ import {
 } from '../../constants';
 
 const styles = StyleSheet.create({
+	container: {
+		backgroundColor: COLORS.primary,
+		padding: SIZES.base,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
 	button: {
 		marginRight: 10,
-		backgroundColor: COLORS.white,
 		borderRadius: 20,
 		color: COLORS.primary,
 		padding: 12,
@@ -21,7 +28,6 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.extraLarge,
 		color: COLORS.white,
 		textAlign: 'center',
-		flex: 0.8,
 	},
 	tabsContainer: {
 		width: '100%',
@@ -33,23 +39,17 @@ const styles = StyleSheet.create({
 
 function WishlistHeader({ navigation }) {
 	return (
-		<View style={{ backgroundColor: COLORS.primary, padding: SIZES.small }}>
-			<View style={{
-				flexDirection: 'row',
-				justifyContent: 'flex-start',
-				alignItems: 'center',
-				paddingHorizontal: 5,
-			}}
-			>
-				<TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-					<Entypo name="chevron-left" color={COLORS.primary} size={20} />
-				</TouchableOpacity>
+		<View style={styles.container}>
+			<IconButton
+				onPress={() => navigation.goBack()}
+				icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />}
+			/>
 
-				<Text style={styles.text}>
-					Wishlist
-				</Text>
-			</View>
+			<Text style={styles.text}>
+				Wishlist
+			</Text>
 
+			<IconButton onPress={() => {}} icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />} />
 		</View>
 	);
 }

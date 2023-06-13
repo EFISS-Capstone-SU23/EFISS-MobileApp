@@ -1,10 +1,11 @@
 import {
-	View, Text, TouchableOpacity, ScrollView, TextInput,
+	View, Text, TouchableOpacity, ScrollView,
 	StyleSheet, SafeAreaView, ToastAndroid,
 } from 'react-native';
-import { ActivityIndicator } from '@react-native-material/core';
+import {
+	ActivityIndicator, AppBar, TextInput,
+} from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,10 +17,7 @@ import { USER_CHANGE_PASSWORD_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		backgroundColor: COLORS.primary,
-		padding: 20,
+		backgroundColor: COLORS.white,
 	},
 	backButton: {
 		position: 'absolute',
@@ -37,30 +35,23 @@ const styles = StyleSheet.create({
 	},
 	inputField: {
 		flexDirection: 'column',
-		marginBottom: SIZES.base,
 	},
 	inputTitle: {
 		fontFamily: FONTS.bold,
-		color: COLORS.primary,
+		color: COLORS.black,
 	},
 	textInputContainer: {
-		height: 44,
 		width: '100%',
-		borderColor: COLORS.lightGray,
-		borderWidth: 1,
-		borderRadius: 4,
-		paddingHorizontal: 12,
-		paddingVertical: 6,
 		justifyContent: 'center',
 		backgroundColor: COLORS.white,
 	},
 	saveButton: {
 		backgroundColor: COLORS.primary,
 		height: 44,
-		borderRadius: 6,
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: SIZES.extraLarge,
+		marginTop: SIZES.base,
+		borderRadius: SIZES.base,
 	},
 	errorContainer: {
 		marginTop: 5,
@@ -142,23 +133,8 @@ function ChangePassword({ navigation }) {
 			{({
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
-				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondary }}>
-					<View style={styles.header}>
-						<TouchableOpacity
-							onPress={() => navigation.goBack()}
-							style={styles.backButton}
-						>
-							<MaterialIcons
-								name="keyboard-arrow-left"
-								size={24}
-								color={COLORS.primary}
-							/>
-						</TouchableOpacity>
-
-						<Text style={styles.headerTitle}>
-							Đổi mật khẩu
-						</Text>
-					</View>
+				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+					<AppBar title="Chỉnh sửa hồ sơ cá nhân" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 
 					<ScrollView>
 						{loading ? (
@@ -173,6 +149,7 @@ function ChangePassword({ navigation }) {
 										<TextInput
 											placeholder="Mật khẩu hiện tại"
 											style={{ flex: 1, paddingVertical: 0 }}
+											color={COLORS.primary}
 											value={values.oldPassword}
 											onChangeText={handleChange('oldPassword')}
 											onBlur={() => setFieldTouched('oldPassword')}
@@ -192,6 +169,7 @@ function ChangePassword({ navigation }) {
 										<TextInput
 											placeholder="Mật khẩu mới"
 											style={{ flex: 1, paddingVertical: 0 }}
+											color={COLORS.primary}
 											value={values.newPassword}
 											onChangeText={handleChange('newPassword')}
 											onBlur={() => setFieldTouched('newPassword')}
@@ -211,6 +189,7 @@ function ChangePassword({ navigation }) {
 										<TextInput
 											placeholder="Nhập lại mật khẩu mới"
 											style={{ flex: 1, paddingVertical: 0 }}
+											color={COLORS.primary}
 											value={values.confirmNewPassword}
 											onChangeText={handleChange('confirmNewPassword')}
 											onBlur={() => setFieldTouched('confirmNewPassword')}
@@ -229,8 +208,22 @@ function ChangePassword({ navigation }) {
 									onPress={handleSubmit}
 									disabled={!isValid}
 								>
-									<Text style={{ color: COLORS.white }}>
+									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold }}>
 										Lưu thay đổi
+									</Text>
+								</TouchableOpacity>
+
+								<TouchableOpacity
+									onPress={() => navigation.goBack()}
+									style={{
+										height: 44,
+										alignItems: 'center',
+										justifyContent: 'center',
+										marginTop: 10,
+									}}
+								>
+									<Text style={{ color: COLORS.black, fontFamily: FONTS.bold }}>
+										Quay lại
 									</Text>
 								</TouchableOpacity>
 							</View>

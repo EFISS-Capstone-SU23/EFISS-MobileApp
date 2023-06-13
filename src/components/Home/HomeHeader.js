@@ -1,7 +1,7 @@
 import {
 	View, Text, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { HStack, IconButton } from '@react-native-material/core';
 import { Entypo } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../../constants';
+import { AuthContext } from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
 	container: {
@@ -42,17 +43,31 @@ const styles = StyleSheet.create({
 	searchContainer: {
 		width: '100%',
 		borderWidth: 1,
-		borderRadius: SIZES.extraLarge,
+		borderRadius: SIZES.base,
 		backgroundColor: COLORS.white,
 		flexDirection: 'row',
 		paddingHorizontal: SIZES.font,
 		paddingVertical: SIZES.font,
+	},
+	btnIcon: {
+		width: 25,
+		height: 25,
+		marginRight: SIZES.base / 2,
+	},
+	textInput: {
+		flex: 1,
+		marginLeft: SIZES.base / 2,
+		color: COLORS.gray,
 	},
 });
 
 function HomeHeader({
 	onSearch, onPicture, onWishlist,
 }) {
+	const {
+		userToken,
+	} = useContext(AuthContext);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -63,9 +78,11 @@ function HomeHeader({
 				</View>
 				<View style={{ marginTop: SIZES.font }}>
 					<HStack spacing={6}>
+						{userToken && (
+							<IconButton onPress={onWishlist} icon={<Entypo name="heart" size={SIZES.extraLarge} color={COLORS.black} />} />
+						)}
 						<IconButton icon={<Entypo name="bell" size={SIZES.extraLarge} color={COLORS.black} />} />
 						<IconButton icon={<Entypo name="back-in-time" size={SIZES.extraLarge} color={COLORS.black} />} />
-						<IconButton onPress={onWishlist} icon={<Entypo name="heart" size={SIZES.extraLarge} color={COLORS.black} />} />
 					</HStack>
 				</View>
 			</View>
@@ -76,27 +93,19 @@ function HomeHeader({
 						<Image
 							source={assets.search}
 							resizeMode="contain"
-							style={{
-								width: 25,
-								height: 25,
-								marginRight: SIZES.base / 2,
-							}}
+							style={styles.btnIcon}
 						/>
 					</TouchableOpacity>
 					<TextInput
 						placeholder="Bạn đang tìm kiếm sản phẩm gì?"
-						style={{ flex: 1, marginLeft: SIZES.base / 2, color: COLORS.gray }}
+						style={styles.textInput}
 						onChangeText={() => { }}
 					/>
 					<TouchableOpacity onPress={onPicture}>
 						<Image
 							source={assets.camera}
 							resizeMode="contain"
-							style={{
-								width: 25,
-								height: 25,
-								marginRight: SIZES.base / 2,
-							}}
+							style={styles.btnIcon}
 						/>
 					</TouchableOpacity>
 				</View>

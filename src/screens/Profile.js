@@ -1,14 +1,17 @@
 /* eslint-disable react/style-prop-object */
 import {
-	SafeAreaView, View, Text, StyleSheet, ScrollView, Image, RefreshControl,
+	SafeAreaView, View, StyleSheet, ScrollView, RefreshControl, TouchableOpacity,
 } from 'react-native';
-import { ActivityIndicator, AppBar } from '@react-native-material/core';
+import {
+	ActivityIndicator, AppBar, Avatar, Text,
+} from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useContext, useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 import {
-	COLORS, FONTS, SIZES, assets,
+	COLORS, FONTS, SIZES,
 } from '../constants';
 import { AuthContext } from '../context/AuthContext';
 import { Action } from '../components';
@@ -17,11 +20,11 @@ import { loadUserProfile } from '../actions/userActions';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.white,
 		justifyContent: 'center',
 	},
 	header: {
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.white,
 	},
 	title: {
 		fontSize: 32,
@@ -42,6 +45,7 @@ const styles = StyleSheet.create({
 		borderColor: COLORS.primary,
 		borderWidth: 1,
 		resizeMode: 'contain',
+		backgroundColor: COLORS.primary,
 	},
 	nameSection: {
 		marginLeft: SIZES.medium,
@@ -50,6 +54,11 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.light,
 		fontSize: SIZES.medium,
 		color: COLORS.quaternary,
+	},
+	actionTitle: {
+		color: COLORS.primary,
+		fontFamily: FONTS.bold,
+		fontSize: SIZES.medium,
 	},
 });
 
@@ -70,7 +79,7 @@ function Profile() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ textAlign: 'center' }} />
+			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
@@ -97,14 +106,14 @@ function Profile() {
 							marginRight: SIZES.medium,
 						}}
 						>
-							<Image
-								source={assets.avatar}
-								style={styles.avatar}
-							/>
+							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.quaternary }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo?.email}</Text>
+							<TouchableOpacity style={{ marginTop: SIZES.base }} onPress={logout}>
+								<Text style={styles.actionTitle}>Đăng xuất</Text>
+							</TouchableOpacity>
 						</View>
 					</View>
 				)}
@@ -125,7 +134,6 @@ function Profile() {
 						icon="dial-pad"
 						onPress={() => navigation.navigate('ChangePassword')}
 					/>
-					<Action title="Đăng xuất" icon="log-out" onPress={logout} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>
