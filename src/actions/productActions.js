@@ -11,16 +11,17 @@ import {
 } from '../constants/productConstants';
 import { config } from '../../config';
 
-export const productsSearch = (imageURL) => async (dispatch) => {
+export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
+	console.log('Searching image');
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const { data } = await axios.post(
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
 			{
 				encodedImage: imageURL,
-				limit: 10,
-				sortBy: 'relevance',
-				category: 'all',
+				limit: _limit,
+				sortBy: _sortBy,
+				category: _category,
 			},
 		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });

@@ -39,8 +39,15 @@ function Results({ route, navigation }) {
 	const [remainingProductIds, setRemainingProductIds] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 
+	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
+	const changeSort = (sortOption) => {
+		setSortBy(sortOption);
+		setPageNum(1);
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, ['']));
+	};
+
 	useEffect(() => {
-		dispatch(productsSearch(imageUrl));
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
 	}, [dispatch, imageUrl]);
 
 	useEffect(() => {
@@ -49,7 +56,7 @@ function Results({ route, navigation }) {
 			setRemainingProductIds(products.remainingProductIds);
 			const totalProducts = products.searchResults.length + products.remainingProductIds.length;
 			console.log(totalProducts);
-			setTotalPages(Math.ceil(totalProducts / 10));
+			setTotalPages(Math.ceil(totalProducts / config.PAGE_SIZE));
 		}
 	}, [products]);
 
@@ -70,7 +77,7 @@ function Results({ route, navigation }) {
 						numColumns={2}
 						keyExtractor={(item) => item?._id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
-						ListHeaderComponent={<ResultsHeader navigation={navigation} />}
+						ListHeaderComponent={<ResultsHeader navigation={navigation} handleSort={changeSort} />}
 						// eslint-disable-next-line react/no-unstable-nested-components
 						ListFooterComponent={() => (
 							isLoadingMore ? <ResultsFooter /> : null
@@ -82,7 +89,7 @@ function Results({ route, navigation }) {
 								refreshing={refreshControl}
 								onRefresh={() => {
 									setRefreshControl(true);
-									dispatch(productsSearch(imageUrl));
+									dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
 									setPageNum(1);
 									setRefreshControl(false);
 								}}
@@ -91,8 +98,8 @@ function Results({ route, navigation }) {
 						onEndReached={async () => {
 							if (!isLoadingMore && (pageNum + 1) <= totalPages) {
 								setIsLoadingMore(true);
-								const startId = (pageNum - 1) * 10;
-								const endId = startId + 10;
+								const startId = (pageNum - 1) * config.PAGE_SIZE;
+								const endId = startId + config.PAGE_SIZE;
 								const itemsToLoadIds = remainingProductIds.slice(startId, endId);
 								try {
 									const { data } = await axios.post(
