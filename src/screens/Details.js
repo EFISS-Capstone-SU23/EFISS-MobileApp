@@ -1,8 +1,8 @@
 import {
-	View, StatusBar, ScrollView, TouchableOpacity,
-	FlatList, Animated, Linking, StyleSheet, ToastAndroid,
+	View, StatusBar, ScrollView, ToastAndroid,
+	FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
-import { Text, IconButton } from '@react-native-material/core';
+import { Text, IconButton, Button } from '@react-native-material/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 	groupContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginVertical: 14,
+		marginVertical: 5,
 	},
 	groupIcon: {
 		fontSize: 18,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 	},
 	floatButtonContainer: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: 5,
 		height: '8%',
 		width: '100%',
 		justifyContent: 'center',
@@ -165,11 +165,9 @@ const styles = StyleSheet.create({
 	},
 	floatButton: {
 		width: '86%',
-		height: '90%',
 		backgroundColor: COLORS.primary,
 		borderRadius: 20,
 		justifyContent: 'center',
-		alignItems: 'center',
 	},
 	floatButtonLabel: {
 		fontSize: 12,
@@ -308,14 +306,14 @@ function Details({ route, navigation }) {
 				<View style={styles.infoContainer}>
 					{productData.metadata?.color && (
 						<View style={styles.groupContainer}>
-							<Entypo name="shopping-cart" style={styles.groupIcon} />
+							<Entypo name="colours" style={styles.groupIcon} />
 							<Text style={styles.groupLabel}>
 								{productData.metadata.color}
 							</Text>
 						</View>
 					)}
 					<View style={styles.titleContainer}>
-						<Text style={styles.title}>
+						<Text variant="button" style={styles.title}>
 							{productData.title}
 						</Text>
 						<Entypo name="link" style={styles.linkIcon} />
@@ -326,9 +324,9 @@ function Details({ route, navigation }) {
 					<View style={styles.locationContainer}>
 						<View style={styles.location}>
 							<View style={styles.locationSection}>
-								<Entypo name="location-pin" style={{ fontSize: 16, color: COLORS.primary }} />
+								<Entypo name="shop" style={{ fontSize: 20, color: COLORS.primary }} />
 							</View>
-							<Text>
+							<Text variant="overline" style={{ fontSize: SIZES.font }}>
 								{productData.group}
 							</Text>
 						</View>
@@ -344,14 +342,12 @@ function Details({ route, navigation }) {
 			</ScrollView>
 
 			<View style={styles.floatButtonContainer}>
-				<TouchableOpacity
-					style={styles.floatButton}
+				<Button
+					title="Đi tới cửa hàng"
+					color={COLORS.primary}
 					onPress={() => { Linking.openURL(productData.url); }}
-				>
-					<Text style={styles.floatButtonLabel}>
-						Đi tới cửa hàng
-					</Text>
-				</TouchableOpacity>
+					style={styles.floatButton}
+				/>
 			</View>
 		</View>
 	);
