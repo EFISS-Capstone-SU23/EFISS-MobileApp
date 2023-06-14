@@ -1,8 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-	View, ScrollView, Text, StyleSheet, TouchableOpacity, Image,
+	View, ScrollView, StyleSheet, Image,
 } from 'react-native';
-import { ActivityIndicator, TextInput } from '@react-native-material/core';
+import {
+	ActivityIndicator, TextInput, Button, Divider, Text,
+} from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
@@ -42,9 +44,10 @@ const styles = StyleSheet.create({
 		color: COLORS.red,
 		fontSize: 10,
 	},
-	submitBtn: {
-		padding: 20,
-		marginBottom: 30,
+	saveButton: {
+		marginBottom: SIZES.medium,
+		borderRadius: SIZES.base,
+		justifyContent: 'center',
 	},
 	loadingIndicator: {
 		flex: 1, // Take full height
@@ -260,25 +263,21 @@ function SignUp({ navigation }) {
 									</View>
 								</View>
 
-								<TouchableOpacity
+								<Button
+									title="Đăng ký"
+									color={COLORS.primary}
+									disabled={!isValid}
 									onPress={handleSubmit}
-									disabled={!isValid || loading}
-									style={[styles.submitBtn, { backgroundColor: COLORS.primary }]}
-								>
-									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng ký</Text>
-								</TouchableOpacity>
-
-								<View
-									style={{
-										flexDirection: 'row',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-								>
-									<TouchableOpacity onPress={() => navigation.goBack()}>
-										<Text style={{ color: COLORS.tertiary, fontFamily: FONTS.bold }}>Quay lại</Text>
-									</TouchableOpacity>
-								</View>
+									style={styles.saveButton}
+								/>
+								<Divider style={{ marginBottom: SIZES.medium }} />
+								<Button
+									title="Quay lại"
+									variant="outlined"
+									color={COLORS.black}
+									onPress={() => navigation.goBack()}
+									style={styles.saveButton}
+								/>
 							</View>
 						)}
 					</View>
