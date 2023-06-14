@@ -1,9 +1,10 @@
 import {
-	View, Text, TouchableOpacity,
-	StyleSheet, SafeAreaView, ToastAndroid,
+	View, ToastAndroid,
+	StyleSheet, SafeAreaView,
 } from 'react-native';
 import {
-	ActivityIndicator, AppBar, Avatar, TextInput,
+	ActivityIndicator, AppBar, Avatar,
+	Button, Text, Divider, TextInput,
 } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,11 +65,9 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	saveButton: {
-		backgroundColor: COLORS.primary,
-		height: 44,
-		alignItems: 'center',
-		justifyContent: 'center',
+		marginBottom: SIZES.medium,
 		borderRadius: SIZES.base,
+		justifyContent: 'center',
 	},
 	errorContainer: {
 		height: SIZES.extraLarge,
@@ -190,29 +189,21 @@ function EditProfile({ navigation }) {
 									</View>
 								</View>
 
-								<TouchableOpacity
+								<Button
+									title="Lưu thay đổi"
+									color={COLORS.primary}
 									disabled={!isValid}
-									style={styles.saveButton}
 									onPress={handleSubmit}
-								>
-									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold }}>
-										Lưu thay đổi
-									</Text>
-								</TouchableOpacity>
-
-								<TouchableOpacity
+									style={styles.saveButton}
+								/>
+								<Divider style={{ marginBottom: SIZES.medium }} />
+								<Button
+									title="Quay lại"
+									variant="outlined"
+									color={COLORS.black}
 									onPress={() => navigation.goBack()}
-									style={{
-										height: 44,
-										alignItems: 'center',
-										justifyContent: 'center',
-										marginTop: 10,
-									}}
-								>
-									<Text style={{ color: COLORS.black, fontFamily: FONTS.bold }}>
-										Quay lại
-									</Text>
-								</TouchableOpacity>
+									style={styles.saveButton}
+								/>
 							</View>
 
 						</ScrollView>
