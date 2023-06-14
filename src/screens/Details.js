@@ -90,6 +90,8 @@ const styles = StyleSheet.create({
 	groupLabel: {
 		fontSize: SIZES.font,
 		color: COLORS.black,
+		letterSpacing: 1,
+		opacity: 0.8,
 	},
 	titleContainer: {
 		flexDirection: 'row',
@@ -304,12 +306,14 @@ function Details({ route, navigation }) {
 					</View>
 				</View>
 				<View style={styles.infoContainer}>
-					<View style={styles.groupContainer}>
-						<Entypo name="shopping-cart" style={styles.groupIcon} />
-						<Text style={styles.groupLabel}>
-							{productData.group}
-						</Text>
-					</View>
+					{productData.metadata?.color && (
+						<View style={styles.groupContainer}>
+							<Entypo name="shopping-cart" style={styles.groupIcon} />
+							<Text style={styles.groupLabel}>
+								{productData.metadata.color}
+							</Text>
+						</View>
+					)}
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>
 							{productData.title}
@@ -325,9 +329,7 @@ function Details({ route, navigation }) {
 								<Entypo name="location-pin" style={{ fontSize: 16, color: COLORS.primary }} />
 							</View>
 							<Text>
-								Rustaveli Ave 57,
-								{'\n'}
-								17-001, Batume
+								{productData.group}
 							</Text>
 						</View>
 						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
