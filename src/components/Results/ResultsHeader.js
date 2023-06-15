@@ -1,9 +1,11 @@
 import {
-	View, Text, StyleSheet, TouchableOpacity,
+	View, StyleSheet, TouchableOpacity,
 } from 'react-native';
+import {
+	Text, IconButton,
+} from '@react-native-material/core';
 import React, { useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
-import { IconButton } from '@react-native-material/core';
 
 import {
 	COLORS, FONTS, SIZES,
@@ -87,7 +89,7 @@ function ResultsHeader({ navigation, handleSort }) {
 			>
 				<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />} />
 
-				<Text style={styles.text}>Kết quả</Text>
+				<Text variant="button" color={COLORS.white} style={{ fontSize: SIZES.extraLarge }}>Kết quả</Text>
 
 				<TouchableOpacity onPress={handleToggleDropdown}>
 					<Entypo name="bar-graph" color={COLORS.white} size={28} />

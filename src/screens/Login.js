@@ -2,7 +2,9 @@
 import {
 	View, Text, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
-import { ActivityIndicator, TextInput } from '@react-native-material/core';
+import {
+	ActivityIndicator, Button, TextInput,
+} from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -44,9 +46,8 @@ const styles = StyleSheet.create({
 		fontSize: 10,
 	},
 	submitBtn: {
-		padding: 20,
-		marginBottom: 30,
-		borderRadius: SIZES.base,
+		justifyContent: 'center',
+		marginBottom: SIZES.extraLarge,
 	},
 	textLink: {
 		flexDirection: 'row',
@@ -146,13 +147,16 @@ function Login() {
 							</View>
 						</View>
 
-						<TouchableOpacity
+						<Button
+							title="Đăng nhập"
 							onPress={handleSubmit}
 							disabled={!isValid}
-							style={[styles.submitBtn, { backgroundColor: COLORS.primary }]}
-						>
-							<Text style={{ color: COLORS.white, fontFamily: FONTS.bold, textAlign: 'center' }}>Đăng nhập</Text>
-						</TouchableOpacity>
+							color={COLORS.primary}
+							style={styles.submitBtn}
+							contentContainerStyle={{
+								height: 50,
+							}}
+						/>
 
 						<View style={styles.textLink}>
 							<TouchableOpacity onPress={() => { }}>

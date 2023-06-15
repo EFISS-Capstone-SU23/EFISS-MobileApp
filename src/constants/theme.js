@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 
 export const COLORS = {
-	primary: '#33907C',
+	primary: '#0D6992',
 	secondary: '#544E50',
 	backroundDark: '#544E50',
 	backroundLight: '#E9E3E3',

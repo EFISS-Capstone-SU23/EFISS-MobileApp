@@ -1,9 +1,10 @@
 import {
-	View, Text, TouchableOpacity, ScrollView,
-	StyleSheet, SafeAreaView, ToastAndroid,
+	View, ScrollView, ToastAndroid,
+	StyleSheet, SafeAreaView,
 } from 'react-native';
 import {
 	ActivityIndicator, AppBar, TextInput,
+	Text, Button, Divider,
 } from '@react-native-material/core';
 import React, { useContext, useEffect } from 'react';
 import { Formik } from 'formik';
@@ -19,14 +20,6 @@ const styles = StyleSheet.create({
 	header: {
 		backgroundColor: COLORS.white,
 	},
-	backButton: {
-		position: 'absolute',
-		left: 20,
-		top: 10,
-		padding: 10,
-		backgroundColor: COLORS.white,
-		borderRadius: 10,
-	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.medium,
@@ -39,6 +32,7 @@ const styles = StyleSheet.create({
 	inputTitle: {
 		fontFamily: FONTS.bold,
 		color: COLORS.black,
+		marginBottom: 5,
 	},
 	textInputContainer: {
 		width: '100%',
@@ -46,20 +40,12 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	saveButton: {
-		backgroundColor: COLORS.primary,
-		height: 44,
-		alignItems: 'center',
-		justifyContent: 'center',
-		marginTop: SIZES.base,
+		marginBottom: SIZES.medium,
 		borderRadius: SIZES.base,
+		justifyContent: 'center',
 	},
 	errorContainer: {
-		marginTop: 5,
 		height: SIZES.extraLarge,
-	},
-	errorMessage: {
-		color: COLORS.red,
-		fontSize: 10,
 	},
 	loadingIndicator: {
 		flex: 1, // Take full height
@@ -158,7 +144,7 @@ function ChangePassword({ navigation }) {
 									</View>
 									<View style={styles.errorContainer}>
 										{touched.oldPassword && errors.oldPassword && (
-											<Text style={styles.errorMessage}>{errors.oldPassword}</Text>
+											<Text variant="caption" color={COLORS.red}>{errors.oldPassword}</Text>
 										)}
 									</View>
 								</View>
@@ -178,7 +164,7 @@ function ChangePassword({ navigation }) {
 									</View>
 									<View style={styles.errorContainer}>
 										{touched.newPassword && errors.newPassword && (
-											<Text style={styles.errorMessage}>{errors.newPassword}</Text>
+											<Text variant="caption" color={COLORS.red}>{errors.newPassword}</Text>
 										)}
 									</View>
 								</View>
@@ -198,34 +184,27 @@ function ChangePassword({ navigation }) {
 									</View>
 									<View style={styles.errorContainer}>
 										{touched.confirmNewPassword && errors.confirmNewPassword && (
-											<Text style={styles.errorMessage}>{errors.confirmNewPassword}</Text>
+											<Text variant="caption" color={COLORS.red}>{errors.confirmNewPassword}</Text>
 										)}
 									</View>
 								</View>
 
-								<TouchableOpacity
-									style={styles.saveButton}
-									onPress={handleSubmit}
+								<Button
+									title="Lưu thay đổi"
+									color={COLORS.primary}
 									disabled={!isValid}
-								>
-									<Text style={{ color: COLORS.white, fontFamily: FONTS.bold }}>
-										Lưu thay đổi
-									</Text>
-								</TouchableOpacity>
-
-								<TouchableOpacity
+									onPress={handleSubmit}
+									style={styles.saveButton}
+								/>
+								<Divider style={{ marginBottom: SIZES.medium }} />
+								<Button
+									title="Quay lại"
+									variant="outlined"
+									color={COLORS.black}
 									onPress={() => navigation.goBack()}
-									style={{
-										height: 44,
-										alignItems: 'center',
-										justifyContent: 'center',
-										marginTop: 10,
-									}}
-								>
-									<Text style={{ color: COLORS.black, fontFamily: FONTS.bold }}>
-										Quay lại
-									</Text>
-								</TouchableOpacity>
+									style={styles.saveButton}
+								/>
+
 							</View>
 						)}
 					</ScrollView>

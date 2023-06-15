@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ActivityIndicator,
+	View, SafeAreaView, StyleSheet, ActivityIndicator,
 	FlatList, StatusBar, RefreshControl,
 } from 'react-native';
+import {
+	Text,
+} from '@react-native-material/core';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 

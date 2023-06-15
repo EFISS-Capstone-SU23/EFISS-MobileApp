@@ -1,10 +1,10 @@
 import {
-	View, Image, Text, TouchableOpacity, StyleSheet,
+	View, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import { Badge } from '@react-native-material/core';
+import { Badge, Text } from '@react-native-material/core';
 
 import { productHistorySet } from '../../actions/productActions';
 import {
@@ -98,9 +98,9 @@ function ProductCard({ product, navigation }) {
 						{product.group}
 					</Text>
 				</View>
-				<View>
+				<View style={{ marginBottom: SIZES.base }}>
 					<Text
-						style={styles.productTitle}
+						variant="subtitle2"
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
