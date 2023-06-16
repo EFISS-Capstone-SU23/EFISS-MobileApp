@@ -41,7 +41,7 @@ function Wishlist({ navigation }) {
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	useEffect(() => {
-		dispatch(wishlistLoad(userToken, 1));
+		dispatch(wishlistLoad(1));
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ function Wishlist({ navigation }) {
 								refreshing={refreshControl}
 								onRefresh={() => {
 									setRefreshControl(true);
-									dispatch(wishlistLoad(userToken, 1));
+									dispatch(wishlistLoad(1));
 									setPageNum(1);
 									setRefreshControl(false);
 								}}

@@ -87,7 +87,12 @@ function ResultsHeader({ navigation, handleSort }) {
 					paddingHorizontal: 5,
 				}}
 			>
-				<IconButton onPress={() => navigation.goBack()} icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />} />
+				<IconButton
+					onPress={() => {
+						navigation.goBack();
+					}}
+					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
+				/>
 
 				<Text variant="button" color={COLORS.white} style={{ fontSize: SIZES.extraLarge }}>Kết quả</Text>
 

@@ -64,12 +64,16 @@ const styles = StyleSheet.create({
 
 function Profile() {
 	const {
-		userToken, logout,
+		logout,
 	} = useContext(AuthContext);
 	const navigation = useNavigation();
 	const [refreshControl, setRefreshControl] = useState(false);
 
 	const dispatch = useDispatch();
+
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
+
 	const userLoadProfile = useSelector((state) => state.userLoadProfile);
 	const { loading, error, userInfo } = userLoadProfile;
 

@@ -6,13 +6,12 @@ import {
 	ActivityIndicator, AppBar, TextInput,
 	Text, Button, Divider,
 } from '@react-native-material/core';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
-import { AuthContext } from '../context/AuthContext';
 import { passwordChange } from '../actions/userActions';
 import { USER_CHANGE_PASSWORD_RESET } from '../constants/userConstants';
 
@@ -83,7 +82,10 @@ const ChangePasswordSchema = Yup.object().shape({
 
 function ChangePassword({ navigation }) {
 	const dispatch = useDispatch();
-	const { userToken } = useContext(AuthContext);
+
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
+
 	const changePassword = useSelector((state) => state.changePassword);
 	const { loading, success, error } = changePassword;
 

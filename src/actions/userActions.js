@@ -2,11 +2,13 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
 	USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL,
+	USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNOUT,
 	USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
 	USER_LOAD_PROFILE_REQUEST, USER_LOAD_PROFILE_SUCCESS, USER_LOAD_PROFILE_FAIL,
 	USER_CHANGE_PASSWORD_REQUEST, USER_CHANGE_PASSWORD_SUCCESS, USER_CHANGE_PASSWORD_FAIL,
 } from '../constants/userConstants';
 import { config } from '../../config';
+import { storeNewUserToken, storeNewRefreshToken } from '../utils/utils';
 
 export const register = (registerData) => async (dispatch) => {
 	dispatch({ type: USER_REGISTER_REQUEST, payload: registerData });
@@ -17,6 +19,38 @@ export const register = (registerData) => async (dispatch) => {
 		console.log('register error: ', error.response.data.message);
 		dispatch({ type: USER_REGISTER_FAIL, payload: error });
 	}
+};
+
+export const signin = (username, password) => async (dispatch) => {
+	dispatch({ type: USER_SIGNIN_REQUEST, payload: { username, password } });
+	try {
+		const { data } = await axios.post(
+			`${config.BE_BASE_API}/${config.SIGNIN_ROUTER}`,
+			{
+				username,
+				password,
+			},
+		);
+		await storeNewUserToken(data.token);
+		await storeNewRefreshToken(data.refreshToken);
+		dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.token });
+	} catch (error) {
+		dispatch({
+			type: USER_SIGNIN_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const signout = () => async (dispatch) => {
+	await AsyncStorage.removeItem('userToken');
+	await AsyncStorage.removeItem('refreshToken');
+	await AsyncStorage.removeItem('userTokenInitTime');
+	await AsyncStorage.removeItem('refreshTokenInitTime');
+	dispatch({ type: USER_SIGNOUT });
 };
 
 export const loadUserProfile = (userToken) => async (dispatch) => {

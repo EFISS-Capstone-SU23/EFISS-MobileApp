@@ -3,7 +3,7 @@ import {
 	View, Text, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import {
-	ActivityIndicator, Button, TextInput,
+	Button, TextInput,
 } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
@@ -76,11 +76,7 @@ const SigninSchema = Yup.object().shape({
 
 function Login() {
 	const navigation = useNavigation();
-	const { isLoading, login } = useContext(AuthContext);
-
-	if (isLoading) {
-		return <ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />;
-	}
+	const { login } = useContext(AuthContext);
 
 	return (
 		<Formik

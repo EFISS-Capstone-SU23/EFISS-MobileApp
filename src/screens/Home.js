@@ -25,7 +25,7 @@ function Home() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<StatusBar backgroundColor={COLORS.white} />
+			<StatusBar backgroundColor={COLORS.black} />
 
 			<ScrollView
 				showsVerticalScrollIndicator={false}
