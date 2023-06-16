@@ -6,13 +6,12 @@ import {
 	ActivityIndicator, AppBar, Avatar,
 	Button, Text, Divider, TextInput,
 } from '@react-native-material/core';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { AuthContext } from '../context/AuthContext';
 import { updateUserProfile } from '../actions/userActions';
 import {
 	COLORS, FONTS, SIZES,
@@ -98,7 +97,6 @@ function EditProfile({ navigation }) {
 	const dispatch = useDispatch();
 
 	// get the user information
-	const { userToken } = useContext(AuthContext);
 	const userLoadProfile = useSelector((state) => state.userLoadProfile);
 	const { userInfo } = userLoadProfile;
 
@@ -130,7 +128,7 @@ function EditProfile({ navigation }) {
 			}}
 			validationSchema={EditProfileSchema}
 			onSubmit={(values) => {
-				dispatch(updateUserProfile(userToken, values));
+				dispatch(updateUserProfile(values));
 			}}
 		>
 			{({

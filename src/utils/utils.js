@@ -44,10 +44,10 @@ export const storeNewRefreshToken = async (token) => {
 
 export const isTokenStillValid = async () => {
 	const userTokenInitTime = await AsyncStorage.getItem('userTokenInitTime');
-	const userTokenLifetime = 5 * 1000; // Convert 6 hours to milliseconds
+	const userTokenLifetime = 6 * 60 * 60 * 1000; // Convert 6 hours to milliseconds
 
 	const refreshTokenInitTime = await AsyncStorage.getItem('refreshTokenInitTime');
-	const refreshTokenLifetime = 10 * 1000; // Convert 30 days to milliseconds
+	const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // Convert 30 days to milliseconds
 
 	const currentTime = new Date().getTime(); // Get the current time in milliseconds
 

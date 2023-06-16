@@ -266,8 +266,8 @@ function Details({ route, navigation }) {
 						<View style={styles.wishlistContainer}>
 							<IconButton
 								onPress={() => {
-									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
-									else dispatch(wishlistRemove(userToken, productData._id));
+									if (!inWishlist) dispatch(wishlistAdd(productData._id));
+									else dispatch(wishlistRemove(productData._id));
 								}}
 								icon={(
 									<Entypo

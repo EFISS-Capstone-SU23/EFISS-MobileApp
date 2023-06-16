@@ -83,9 +83,6 @@ const ChangePasswordSchema = Yup.object().shape({
 function ChangePassword({ navigation }) {
 	const dispatch = useDispatch();
 
-	const userSignin = useSelector((state) => state.userSignin);
-	const { userToken } = userSignin;
-
 	const changePassword = useSelector((state) => state.changePassword);
 	const { loading, success, error } = changePassword;
 
@@ -115,7 +112,7 @@ function ChangePassword({ navigation }) {
 			}}
 			validationSchema={ChangePasswordSchema}
 			onSubmit={(values) => {
-				dispatch(passwordChange(userToken, values));
+				dispatch(passwordChange(values));
 			}}
 		>
 			{({

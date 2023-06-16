@@ -8,7 +8,10 @@ import {
 	USER_CHANGE_PASSWORD_REQUEST, USER_CHANGE_PASSWORD_SUCCESS, USER_CHANGE_PASSWORD_FAIL,
 } from '../constants/userConstants';
 import { config } from '../../config';
-import { storeNewUserToken, storeNewRefreshToken } from '../utils/utils';
+import {
+	storeNewUserToken, storeNewRefreshToken,
+	isTokenStillValid, showSessionExpiredAlert,
+} from '../utils/utils';
 
 export const register = (registerData) => async (dispatch) => {
 	dispatch({ type: USER_REGISTER_REQUEST, payload: registerData });
@@ -53,64 +56,85 @@ export const signout = () => async (dispatch) => {
 	dispatch({ type: USER_SIGNOUT });
 };
 
-export const loadUserProfile = (userToken) => async (dispatch) => {
-	dispatch({ type: USER_LOAD_PROFILE_REQUEST, payload: userToken });
-	try {
-		const { data } = await axios.get(
-			`${config.BE_BASE_API}/${config.PROFILE_ROUTER}`,
-			{
-				headers: {
-					Authorization: `Bearer ${userToken}`,
+export const loadUserProfile = () => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: USER_LOAD_PROFILE_REQUEST, payload: userToken });
+		try {
+			const { data } = await axios.get(
+				`${config.BE_BASE_API}/${config.PROFILE_ROUTER}`,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
 				},
-			},
-		);
-		dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.user });
-	} catch (error) {
-		console.log('loadUserProfile error: ', error.response.data.message);
-		dispatch({ type: USER_LOAD_PROFILE_FAIL, payload: error });
+			);
+			dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.user });
+		} catch (error) {
+			console.log('loadUserProfile error: ', error.response.data.message);
+			dispatch({ type: USER_LOAD_PROFILE_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
 
-export const updateUserProfile = (userToken, userData) => async (dispatch) => {
-	dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: userData });
-	try {
-		const { data } = await axios.put(
-			`${config.BE_BASE_API}/${config.PROFILE_ROUTER}`,
-			userData,
-			{
-				headers: {
-					Authorization: `Bearer ${userToken}`,
+export const updateUserProfile = (userData) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: userData });
+		try {
+			const { data } = await axios.put(
+				`${config.BE_BASE_API}/${config.PROFILE_ROUTER}`,
+				userData,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
 				},
-			},
-		);
-		let info = await AsyncStorage.getItem('userInfo');
-		info = JSON.parse(info); // Parse the info string into an object
-		info = { ...info, ...userData }; // Update using spread operator
-		info = JSON.stringify(info); // Convert the updated info object back to a string
-		await AsyncStorage.setItem('userInfo', info); // Store the updated info string in AsyncStorage
-		dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
-	} catch (error) {
-		console.log('updateUserProfile error: ', error.response.data.message);
-		dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: error });
+			);
+			let info = await AsyncStorage.getItem('userInfo');
+			info = JSON.parse(info); // Parse the info string into an object
+			info = { ...info, ...userData }; // Update using spread operator
+			info = JSON.stringify(info); // Convert the updated info object back to a string
+			await AsyncStorage.setItem('userInfo', info); // Store the updated info string in AsyncStorage
+			dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('updateUserProfile error: ', error.response.data.message);
+			dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
 
-export const passwordChange = (userToken, values) => async (dispatch) => {
-	dispatch({ type: USER_CHANGE_PASSWORD_REQUEST, payload: values });
-	try {
-		console.log(values);
-		const { data } = await axios.post(
-			`${config.BE_BASE_API}/${config.CHANGE_PASSWORD_ROUTER}`,
-			values,
-			{
-				headers: {
-					Authorization: `Bearer ${userToken}`,
+export const passwordChange = (values) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: USER_CHANGE_PASSWORD_REQUEST, payload: values });
+		try {
+			console.log(values);
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${config.CHANGE_PASSWORD_ROUTER}`,
+				values,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
 				},
-			},
-		);
-		dispatch({ type: USER_CHANGE_PASSWORD_SUCCESS, payload: data });
-	} catch (error) {
-		console.log('passwordChange error: ', error.response.data.message);
-		dispatch({ type: USER_CHANGE_PASSWORD_FAIL, payload: error });
+			);
+			dispatch({ type: USER_CHANGE_PASSWORD_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('passwordChange error: ', error.response.data.message);
+			dispatch({ type: USER_CHANGE_PASSWORD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
