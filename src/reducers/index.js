@@ -10,6 +10,7 @@ import {
 } from './productReducers';
 import {
 	userRegisterReducer,
+	userSigninReducer,
 	userUpdateProfileReducer,
 	userLoadProfileReducer,
 	changePasswordReducer,
@@ -18,6 +19,7 @@ import {
 const reducer = combineReducers({
 	searchProducts: searchProductsReducer,
 	userRegister: userRegisterReducer,
+	userSignin: userSigninReducer,
 	loadWishlist: loadWishlistReducer,
 	addWishlist: addWishlistReducer,
 	removeWishlist: removeWishlistReducer,

@@ -1,6 +1,7 @@
 import {
 	View, Text, StyleSheet,
 } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { IconButton } from '@react-native-material/core';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -41,7 +42,17 @@ function WishlistHeader({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<IconButton
-				onPress={() => navigation.goBack()}
+				onPress={() => {
+					if (navigation.canGoBack()) navigation.goBack();
+					else {
+						navigation.dispatch(
+							CommonActions.reset({
+								index: 0,
+								routes: [{ name: 'HomeStack' }],
+							}),
+						);
+					}
+				}}
 				icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />}
 			/>
 
@@ -49,7 +60,7 @@ function WishlistHeader({ navigation }) {
 				Wishlist
 			</Text>
 
-			<IconButton onPress={() => {}} icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />} />
+			<IconButton onPress={() => { }} icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />} />
 		</View>
 	);
 }

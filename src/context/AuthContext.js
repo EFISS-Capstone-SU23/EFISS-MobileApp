@@ -1,37 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { createContext, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 
-import { wishlistLoad } from '../actions/productActions';
-import { config } from '../../config';
-import { loadUserProfile } from '../actions/userActions';
+import {
+	isTokenStillValid,
+} from '../utils/utils';
+import { signin, signout } from '../actions/userActions';
+import { USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS } from '../constants/userConstants';
 
 export const AuthContext = createContext();
-
-const getCurrentTime = () => {
-	const currentTime = new Date().toISOString(); // Get the current time in ISO 8601 format
-	return currentTime;
-};
-
-const storeLastOnlineTime = async () => {
-	try {
-		const currentTime = getCurrentTime();
-		await AsyncStorage.setItem('lastOnline', currentTime);
-		console.log('Last online time stored:', currentTime);
-	} catch (error) {
-		console.log('Error storing last online time:', error);
-	}
-};
-
-const isTokenExpired = (lastOnline) => {
-	const oneHourInMilliseconds = 60 * 60 * 1000; // Convert 1 hour to milliseconds
-	const currentTime = new Date().getTime(); // Get the current time in milliseconds
-	const storedTime = new Date(lastOnline).getTime(); // Convert the stored time to milliseconds
-
-	return (currentTime - storedTime) > oneHourInMilliseconds;
-};
 
 export function AuthProvider({ children }) {
 	const dispatch = useDispatch();
@@ -40,55 +18,34 @@ export function AuthProvider({ children }) {
 	const [userToken, setUserToken] = useState(null);
 
 	const login = async (username, password) => {
-		setIsLoading(true);
-
-		try {
-			const response = await axios.post(
-				`${config.BE_BASE_API}/${config.SIGNIN_ROUTER}`,
-				{
-					username,
-					password,
-				},
-			);
-
-			storeLastOnlineTime();
-
-			console.log('Token: ', response.data.token);
-			setUserToken(response.data.token);
-			await AsyncStorage.setItem('userToken', response.data.token);
-			await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
-
-			setError(null);
-			setIsLoading(false);
-		} catch (err) {
-			setError(err);
-			console.log(err);
-		} finally {
-			setIsLoading(false);
-		}
+		dispatch(signin(username, password));
 	};
 
 	const logout = async () => {
-		setUserToken(null);
-		await AsyncStorage.removeItem('userToken');
-		await AsyncStorage.removeItem('refreshToken');
-		await AsyncStorage.removeItem('lastOnline');
-		setError(null);
-		setIsLoading(false);
+		dispatch(signout());
 	};
 
-	// useEffect(() => {
-	// 	isLoggedIn();
-	// }, []);
+	const isLoggedIn = async () => {
+		dispatch({ type: USER_SIGNIN_REQUEST });
+		const tokenIsValid = await isTokenStillValid();
+		if (!tokenIsValid) {
+			logout();
+		} else {
+			const token = await AsyncStorage.getItem('userToken');
+			dispatch({ type: USER_SIGNIN_SUCCESS, payload: token });
+		}
+	};
+
+	// eslint-disable-next-line consistent-return
+	useEffect(() => {
+		isLoggedIn();
+	}, []);
 
 	return (
 		// eslint-disable-next-line react/jsx-no-constructed-context-values
 		<AuthContext.Provider value={{
 			login,
 			logout,
-			isLoading,
-			error,
-			userToken,
 		}}
 		>
 			{children}

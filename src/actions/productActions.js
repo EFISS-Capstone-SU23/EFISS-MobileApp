@@ -10,6 +10,7 @@ import {
 	PRODUCT_WISHLIST_REMOVE_REQUEST, PRODUCT_WISHLIST_REMOVE_SUCCESS, PRODUCT_WISHLIST_REMOVE_FAIL,
 } from '../constants/productConstants';
 import { config } from '../../config';
+import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
 	console.log('Searching image');
@@ -31,60 +32,81 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (d
 	}
 };
 
-export const wishlistLoad = (userToken, pageNum) => async (dispatch) => {
-	dispatch({ type: PRODUCT_WISHLIST_LOAD_REQUEST });
-	try {
-		const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum}`, {
-			headers: {
-				Authorization: `Bearer ${userToken}`,
-			},
-		});
-		dispatch({ type: PRODUCT_WISHLIST_LOAD_SUCCESS, payload: data });
-	} catch (error) {
-		console.log('wishlistLoad error: ', error);
-		dispatch({ type: PRODUCT_WISHLIST_LOAD_FAIL, payload: error });
-	}
-};
+export const wishlistLoad = (pageNum) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
 
-export const wishlistAdd = (userToken, id) => async (dispatch) => {
-	dispatch({ type: PRODUCT_WISHLIST_ADD_REQUEST, payload: id });
-	try {
-		const { data } = await axios.post(
-			`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
-			{
-				productId: id,
-			},
-			{
+		dispatch({ type: PRODUCT_WISHLIST_LOAD_REQUEST });
+
+		try {
+			const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum}`, {
 				headers: {
 					Authorization: `Bearer ${userToken}`,
 				},
-			},
-		);
-		dispatch({ type: PRODUCT_WISHLIST_ADD_SUCCESS, payload: data });
-	} catch (error) {
-		console.log('wishlistAdd error: ', error);
-		dispatch({ type: PRODUCT_WISHLIST_ADD_FAIL, payload: error });
+			});
+			dispatch({ type: PRODUCT_WISHLIST_LOAD_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('wishlistLoad error: ', error);
+			dispatch({ type: PRODUCT_WISHLIST_LOAD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
 
-export const wishlistRemove = (userToken, id) => async (dispatch) => {
-	dispatch({ type: PRODUCT_WISHLIST_REMOVE_REQUEST, payload: id });
-	try {
-		const { data } = await axios.delete(
-			`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
-			{
-				data: {
+export const wishlistAdd = (id) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: PRODUCT_WISHLIST_ADD_REQUEST, payload: id });
+		try {
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
+				{
 					productId: id,
 				},
-				headers: {
-					Authorization: `Bearer ${userToken}`,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
 				},
-			},
-		);
-		dispatch({ type: PRODUCT_WISHLIST_REMOVE_SUCCESS, payload: data });
-	} catch (error) {
-		console.log('wishlistRemove error: ', error);
-		dispatch({ type: PRODUCT_WISHLIST_REMOVE_FAIL, payload: error });
+			);
+			dispatch({ type: PRODUCT_WISHLIST_ADD_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('wishlistAdd error: ', error);
+			dispatch({ type: PRODUCT_WISHLIST_ADD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const wishlistRemove = (id) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+		dispatch({ type: PRODUCT_WISHLIST_REMOVE_REQUEST, payload: id });
+		try {
+			const { data } = await axios.delete(
+				`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
+				{
+					data: {
+						productId: id,
+					},
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			dispatch({ type: PRODUCT_WISHLIST_REMOVE_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('wishlistRemove error: ', error);
+			dispatch({ type: PRODUCT_WISHLIST_REMOVE_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
 

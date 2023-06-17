@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar, RefreshControl,
 } from 'react-native';
@@ -8,7 +8,6 @@ import axios from 'axios';
 import { COLORS, SIZES, FONTS } from '../constants';
 import { WishlistHeader, ProductCard } from '../components';
 import { wishlistLoad } from '../actions/productActions';
-import { AuthContext } from '../context/AuthContext';
 import { config } from '../../config';
 
 const styles = StyleSheet.create({
@@ -28,7 +27,9 @@ const styles = StyleSheet.create({
 
 function Wishlist({ navigation }) {
 	const dispatch = useDispatch();
-	const { userToken } = useContext(AuthContext);
+
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
 	const loadWishlist = useSelector((state) => state.loadWishlist);
 	const {
 		loading, error, products, totalPages,
@@ -41,7 +42,7 @@ function Wishlist({ navigation }) {
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	useEffect(() => {
-		dispatch(wishlistLoad(userToken, 1));
+		dispatch(wishlistLoad(1));
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -85,7 +86,7 @@ function Wishlist({ navigation }) {
 								refreshing={refreshControl}
 								onRefresh={() => {
 									setRefreshControl(true);
-									dispatch(wishlistLoad(userToken, 1));
+									dispatch(wishlistLoad(1));
 									setPageNum(1);
 									setRefreshControl(false);
 								}}

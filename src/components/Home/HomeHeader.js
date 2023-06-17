@@ -1,7 +1,8 @@
 import {
 	View, Text, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import React from 'react';
 import { HStack, IconButton } from '@react-native-material/core';
 import { Entypo } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
@@ -9,7 +10,6 @@ import { TextInput } from 'react-native-gesture-handler';
 import {
 	COLORS, FONTS, SIZES, assets,
 } from '../../constants';
-import { AuthContext } from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
 	container: {
@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
 function HomeHeader({
 	onSearch, onPicture, onWishlist,
 }) {
-	const {
-		userToken,
-	} = useContext(AuthContext);
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
 
 	return (
 		<View style={styles.container}>

@@ -1,5 +1,5 @@
 import {
-	StyleSheet, Text, View, Image,
+	StyleSheet, Text, View, Image, CommonActions,
 } from 'react-native';
 import { Camera } from 'expo-camera';
 import React, { useState, useEffect, useRef } from 'react';
@@ -77,7 +77,17 @@ function TakePicture({ navigation }) {
 						>
 							<CameraButton
 								icon="arrow-left"
-								onPress={() => navigation.goBack()}
+								onPress={() => {
+									if (navigation.canGoBack()) navigation.goBack();
+									else {
+										navigation.dispatch(
+											CommonActions.reset({
+												index: 0,
+												routes: [{ name: 'HomeStack' }],
+											}),
+										);
+									}
+								}}
 							/>
 							<CameraButton
 								icon="flash"
@@ -104,7 +114,17 @@ function TakePicture({ navigation }) {
 							<CameraButton
 								icon="arrow-left"
 								title="Cancel"
-								onPress={() => navigation.goBack()}
+								onPress={() => {
+									if (navigation.canGoBack()) navigation.goBack();
+									else {
+										navigation.dispatch(
+											CommonActions.reset({
+												index: 0,
+												routes: [{ name: 'HomeStack' }],
+											}),
+										);
+									}
+								}}
 							/>
 							<CameraButton title="Re-take" icon="ccw" onPress={() => setImage(null)} />
 							<CameraButton title="Search" icon="magnifying-glass" onPress={() => navigation.navigate('Results', { imageUrl: image64 })} />

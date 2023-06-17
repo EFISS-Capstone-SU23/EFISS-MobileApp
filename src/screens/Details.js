@@ -2,15 +2,15 @@ import {
 	View, StatusBar, ScrollView, ToastAndroid,
 	FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { Text, IconButton, Button } from '@react-native-material/core';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import { RenderImageItem } from '../components';
-import { AuthContext } from '../context/AuthContext';
 import { wishlistAdd, wishlistRemove } from '../actions/productActions';
 import { config } from '../../config';
 import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
@@ -179,8 +179,11 @@ const styles = StyleSheet.create({
 });
 
 function Details({ route, navigation }) {
-	const { userToken } = useContext(AuthContext);
 	const dispatch = useDispatch();
+
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
+
 	// product data extracted from the results screen
 	const { productData } = route.params;
 
@@ -241,7 +244,17 @@ function Details({ route, navigation }) {
 				<View style={styles.imgContainer}>
 					<View style={styles.returnContainer}>
 						<IconButton
-							onPress={() => navigation.goBack()}
+							onPress={() => {
+								if (navigation.canGoBack()) navigation.goBack();
+								else {
+									navigation.dispatch(
+										CommonActions.reset({
+											index: 0,
+											routes: [{ name: 'HomeStack' }],
+										}),
+									);
+								}
+							}}
 							icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
 							contentContainerStyle={{
 								backgroundColor: COLORS.white,
@@ -249,12 +262,12 @@ function Details({ route, navigation }) {
 							}}
 						/>
 					</View>
-					{userToken !== null && (
+					{userToken !== undefined && userToken !== null && (
 						<View style={styles.wishlistContainer}>
 							<IconButton
 								onPress={() => {
-									if (!inWishlist) dispatch(wishlistAdd(userToken, productData._id));
-									else dispatch(wishlistRemove(userToken, productData._id));
+									if (!inWishlist) dispatch(wishlistAdd(productData._id));
+									else dispatch(wishlistRemove(productData._id));
 								}}
 								icon={(
 									<Entypo

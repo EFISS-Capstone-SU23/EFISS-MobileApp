@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
-import React, { useContext } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSelector } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/Home';
@@ -9,7 +10,6 @@ import Settings from '../screens/Settings';
 import Profile from '../screens/Profile';
 
 import { COLORS } from '../constants';
-import { AuthContext } from '../context/AuthContext';
 
 // TABS
 const homeTab = 'Trang chủ';
@@ -20,7 +20,8 @@ const settingsTab = 'Cài đặt';
 const Tab = createBottomTabNavigator();
 
 function HomeStack() {
-	const { userToken } = useContext(AuthContext);
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
 
 	const getTabBarIcon = (focused, size, route) => {
 		let iconName;
@@ -52,7 +53,7 @@ function HomeStack() {
 				tabBarIcon: ({ focused, size }) => getTabBarIcon(focused, size, route),
 			})}
 		>
-			{userToken !== null
+			{userToken && userToken !== null
 				? <Tab.Screen name={profileTab} component={Profile} />
 				: <Tab.Screen name={loginTab} component={Login} />}
 			<Tab.Screen name={homeTab} component={Home} />
