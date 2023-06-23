@@ -1,18 +1,19 @@
 import {
 	StyleSheet, Text, View, Image, CommonActions,
+	ToastAndroid,
 } from 'react-native';
 import { Camera } from 'expo-camera';
 import React, { useState, useEffect, useRef } from 'react';
 import * as FileSystem from 'expo-file-system';
 
 import { CameraButton } from '../components';
+import { COLORS } from '../constants';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#000',
+		backgroundColor: COLORS.black,
 		justifyContent: 'center',
-		paddingBottom: 15,
 	},
 	camera: {
 		flex: 1,
@@ -26,6 +27,7 @@ function TakePicture({ navigation }) {
 	const [image64, setImage64] = useState(null);
 	// const [type, setType] = useState(Camera.Constants.Type.back);
 	const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+	const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
 	const cameraRef = useRef(null);
 
 	useEffect(() => {
@@ -64,7 +66,7 @@ function TakePicture({ navigation }) {
 				? (
 					<Camera
 						style={styles.camera}
-						type={Camera.Constants.Type.back}
+						type={cameraType}
 						flashMode={flash}
 						ref={cameraRef}
 						ratio="16:9"
@@ -89,18 +91,10 @@ function TakePicture({ navigation }) {
 									}
 								}}
 							/>
-							<CameraButton
-								icon="flash"
-								color={flash === Camera.Constants.FlashMode.off ? '#f1f1f1' : 'yellow'}
-								onPress={() => {
-									const { FlashMode } = Camera.Constants;
-									setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off);
-								}}
-							/>
 						</View>
 					</Camera>
 				)
-				:				<Image source={{ uri: image }} style={styles.camera} />}
+				: <Image source={{ uri: image }} style={styles.camera} />}
 
 			<View>
 				{image
@@ -130,7 +124,42 @@ function TakePicture({ navigation }) {
 							<CameraButton title="Search" icon="magnifying-glass" onPress={() => navigation.navigate('Results', { imageUrl: image64 })} />
 						</View>
 					)
-					:					<CameraButton title="Take a picture" icon="camera" onPress={takePicture} />}
+					: (
+						<View style={{
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							paddingHorizontal: 30,
+							paddingVertical: 5,
+						}}
+						>
+							<CameraButton
+								icon="retweet"
+								onPress={() => {
+									const { Type } = Camera.Constants;
+									setCameraType(cameraType === Type.back ? Type.front : Type.back);
+									ToastAndroid.showWithGravity(
+										'Chuyển camera',
+										ToastAndroid.SHORT,
+										ToastAndroid.BOTTOM,
+									);
+								}}
+							/>
+							<CameraButton icon="camera" onPress={takePicture} />
+							<CameraButton
+								icon="flash"
+								color={flash === Camera.Constants.FlashMode.off ? '#f1f1f1' : 'yellow'}
+								onPress={() => {
+									const { FlashMode } = Camera.Constants;
+									setFlash(flash === FlashMode.off ? FlashMode.on : FlashMode.off);
+									ToastAndroid.showWithGravity(
+										flash === FlashMode.off ? 'Bật flash' : 'Tắt flash',
+										ToastAndroid.SHORT,
+										ToastAndroid.BOTTOM,
+									);
+								}}
+							/>
+						</View>
+					)}
 
 			</View>
 		</View>
