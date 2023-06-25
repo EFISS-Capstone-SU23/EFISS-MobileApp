@@ -1,9 +1,14 @@
+import React from 'react';
 import {
-	View, StyleSheet,
+	View,
+	StyleSheet,
 	SafeAreaView,
+	ToastAndroid,
+	PermissionsAndroid,
 } from 'react-native';
 import { Button } from '@react-native-material/core';
-import * as ImagePicker from 'expo-image-picker';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as ImagePicker from 'react-native-image-crop-picker';
 
 import { COLORS, SIZES } from '../../constants';
 
@@ -34,28 +39,119 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		paddingVertical: SIZES.base,
 		paddingHorizontal: SIZES.font,
-		justifyContent: 'space-between', // Space between vertically
-		flexDirection: 'column', // Optional: Default is column
+		justifyContent: 'space-between',
+		flexDirection: 'column',
 	},
 });
 
+const checkCameraPermission = async () => {
+	try {
+		const granted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.CAMERA,
+			{
+				title: 'Quyền truy cập camera',
+				message: 'EFISS cần truy cập Camera của bạn',
+				buttonPositive: 'OK',
+			},
+		);
+
+		if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+			ToastAndroid.show(
+				'Không thể truy cập Camera. Vào Cài đặt để cấp quyền',
+				ToastAndroid.LONG,
+			);
+			return false;
+		}
+
+		return true;
+	} catch (error) {
+		ToastAndroid.showWithGravity(
+			error.message,
+			ToastAndroid.LONG,
+			ToastAndroid.BOTTOM,
+		);
+		return false;
+	}
+};
+
+const checkPickerPermission = async () => {
+	try {
+		const granted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.ACCESS_MEDIA_LOCATION,
+			{
+				title: 'Quyền truy kho ảnh',
+				message: 'EFISS cần truy cập kho ảnh của bạn',
+				buttonPositive: 'OK',
+			},
+		);
+
+		if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+			ToastAndroid.show(
+				'Không thể truy cập kho ảnh. Vào Cài đặt để cấp quyền',
+				ToastAndroid.LONG,
+			);
+			return false;
+		}
+
+		return true;
+	} catch (error) {
+		ToastAndroid.showWithGravity(
+			error.message,
+			ToastAndroid.LONG,
+			ToastAndroid.BOTTOM,
+		);
+		return false;
+	}
+};
+
 function ModalPicker({ changeModalVisibility, navigation }) {
-	// const [image, setImage] = useState(null);
-
-	// This function is triggered when the "Select an image" button pressed
 	const showImagePicker = async () => {
-		// No permissions request is necessary for launching the image library
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			quality: 1,
-			base64: true,
-		});
+		const hasStoragePermission = await checkPickerPermission();
 
-		if (!result.canceled) {
-			// setImage(result.assets[0].base64);
+		if (!hasStoragePermission) {
+			return;
+		}
 
-			navigation.navigate('Results', { imageUrl: result.assets[0].base64 });
+		try {
+			const image = await ImagePicker.openPicker({
+				cropping: true,
+				enableRotationGesture: false,
+				cropperCircleOverlay: false,
+				cropperToolbarTitle: 'Cắt ảnh',
+				includeBase64: true,
+			});
+			navigation.navigate('Results', { imageUrl: image.data });
+		} catch (error) {
+			ToastAndroid.showWithGravity(
+				error.message,
+				ToastAndroid.LONG,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	};
+
+	const takePicture = async () => {
+		const hasCameraPermission = await checkCameraPermission();
+
+		if (!hasCameraPermission) {
+			return;
+		}
+
+		try {
+			const image = await ImagePicker.openCamera({
+				cropping: true,
+				enableRotationGesture: false,
+				cropperCircleOverlay: false,
+				cropperToolbarTitle: 'Cắt ảnh',
+				includeBase64: true,
+			});
+			navigation.navigate('Results', { imageUrl: image.data });
+		} catch (error) {
+			ToastAndroid.showWithGravity(
+				error.message,
+				ToastAndroid.LONG,
+				ToastAndroid.BOTTOM,
+			);
 		}
 	};
 
@@ -63,7 +159,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 		changeModalVisibility(false);
 		switch (option) {
 		case 1:
-			navigation.navigate('TakePicture');
+			takePicture();
 			break;
 		case 2:
 			showImagePicker();
@@ -93,12 +189,8 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 	));
 
 	return (
-		<SafeAreaView
-			style={styles.container}
-		>
-			<View style={styles.modal}>
-				{option}
-			</View>
+		<SafeAreaView style={styles.container}>
+			<View style={styles.modal}>{option}</View>
 		</SafeAreaView>
 	);
 }

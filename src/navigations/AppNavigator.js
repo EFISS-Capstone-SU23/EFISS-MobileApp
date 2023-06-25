@@ -8,7 +8,6 @@ import HomeStackGuest from '../tabs/HomeStackGuest';
 import HomeStack from '../tabs/HomeStack';
 import Details from '../screens/Details';
 import Results from '../screens/Results';
-import TakePicture from '../screens/TakePicture';
 import SignUp from '../screens/SignUp';
 import EditProfile from '../screens/EditProfile';
 import ChangePassword from '../screens/ChangePassword';
@@ -44,7 +43,6 @@ function AppNavigator() {
 				<Stack.Screen name="HomeStack" component={HomeStackGuest} />
 				<Stack.Screen name="Details" component={Details} />
 				<Stack.Screen name="Results" component={Results} />
-				<Stack.Screen name="TakePicture" component={TakePicture} />
 				<Stack.Screen name="SignUp" component={SignUp} />
 			</Stack.Navigator>
 		);
@@ -58,7 +56,6 @@ function AppNavigator() {
 			<Stack.Screen name="HomeStack" component={HomeStack} />
 			<Stack.Screen name="Details" component={Details} />
 			<Stack.Screen name="Results" component={Results} />
-			<Stack.Screen name="TakePicture" component={TakePicture} />
 			<Stack.Screen name="SignUp" component={SignUp} />
 			<Stack.Screen name="EditProfile" component={EditProfile} />
 			<Stack.Screen name="ChangePassword" component={ChangePassword} />
