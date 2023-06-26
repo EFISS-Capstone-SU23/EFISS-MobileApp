@@ -130,4 +130,4 @@ function ProductCard({ product, navigation }) {
 	);
 }
 
-export default ProductCard;
+export default React.memo(ProductCard);
