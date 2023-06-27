@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function Settings() {
+function Settings() {
 	const navigation = useNavigation();
 
 	const userSignin = useSelector((state) => state.userSignin);
@@ -122,3 +122,5 @@ export default function Settings() {
 		</SafeAreaView>
 	);
 }
+
+export default Settings;
