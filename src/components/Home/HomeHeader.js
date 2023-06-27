@@ -59,10 +59,14 @@ const styles = StyleSheet.create({
 		marginLeft: SIZES.base / 2,
 		color: COLORS.gray,
 	},
+	loginBtn: {
+		color: COLORS.primary,
+		fontFamily: FONTS.bold,
+	},
 });
 
 function HomeHeader({
-	onSearch, onPicture, onWishlist,
+	onSearch, onPicture, onLogin, onProfile,
 }) {
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userToken } = userSignin;
@@ -76,13 +80,15 @@ function HomeHeader({
 					</Text>
 				</View>
 				<View style={{ marginTop: SIZES.font }}>
-					<HStack spacing={6}>
-						{userToken && (
-							<IconButton onPress={onWishlist} icon={<Entypo name="heart" size={SIZES.extraLarge} color={COLORS.black} />} />
-						)}
-						<IconButton icon={<Entypo name="bell" size={SIZES.extraLarge} color={COLORS.black} />} />
-						<IconButton icon={<Entypo name="back-in-time" size={SIZES.extraLarge} color={COLORS.black} />} />
-					</HStack>
+					{userToken ? (
+						<HStack spacing={6}>
+							<IconButton onPress={onProfile} icon={<Entypo name="user" size={SIZES.extraLarge} color={COLORS.primary} />} />
+						</HStack>
+					) : (
+						<TouchableOpacity onPress={onLogin}>
+							<Text style={styles.loginBtn}>Đăng nhập</Text>
+						</TouchableOpacity>
+					)}
 				</View>
 			</View>
 

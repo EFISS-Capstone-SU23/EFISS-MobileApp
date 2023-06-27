@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -13,9 +13,6 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
 	const dispatch = useDispatch();
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [userToken, setUserToken] = useState(null);
 
 	const login = async (username, password) => {
 		dispatch(signin(username, password));

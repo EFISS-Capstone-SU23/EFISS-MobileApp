@@ -3,13 +3,14 @@ import {
 	View, Text, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import {
-	Button, TextInput,
+	Button, TextInput, Divider, ActivityIndicator,
 } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo-no-background.png';
@@ -77,6 +78,12 @@ const SigninSchema = Yup.object().shape({
 function Login() {
 	const navigation = useNavigation();
 	const { login } = useContext(AuthContext);
+	const userSignin = useSelector((state) => state.userSignin);
+	const { success, error, loading } = userSignin;
+
+	if (loading) {
+		return <ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />;
+	}
 
 	return (
 		<Formik
@@ -98,7 +105,11 @@ function Login() {
 							<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
 						</View>
 						<Text style={styles.title}>Đăng nhập</Text>
-
+						{success === false && (
+							<View style={styles.errorContainer}>
+								<Text style={styles.errorMessage}>{error.toString()}</Text>
+							</View>
+						)}
 						<View style={styles.inputContainer}>
 							<View style={styles.inputField}>
 								<TextInput
@@ -149,9 +160,14 @@ function Login() {
 							disabled={!isValid}
 							color={COLORS.primary}
 							style={styles.submitBtn}
-							contentContainerStyle={{
-								height: 50,
-							}}
+						/>
+						<Divider style={{ marginBottom: SIZES.medium }} />
+						<Button
+							title="Quay lại"
+							variant="outlined"
+							color={COLORS.black}
+							onPress={() => navigation.goBack()}
+							style={styles.submitBtn}
 						/>
 
 						<View style={styles.textLink}>

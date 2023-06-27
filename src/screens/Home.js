@@ -35,7 +35,8 @@ function Home() {
 						onSearch={() => {}}
 						onPicture={() => changeModalVisibility(true)}
 						onHistory={() => {}}
-						onWishlist={() => navigation.navigate('Wishlist')}
+						onLogin={() => navigation.navigate('Login')}
+						onProfile={() => navigation.navigate('Profile')}
 					/>
 					<AdsBar />
 					<Category />
