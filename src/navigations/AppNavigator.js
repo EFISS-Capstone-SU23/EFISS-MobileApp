@@ -25,15 +25,23 @@ function AppNavigator() {
 			initialRouteName="HomeStack"
 		>
 			<Stack.Screen name="HomeStack" component={HomeStack} />
-			{userToken && userToken !== null
-				? <Stack.Screen name="Profile" component={Profile} />
-				: <Stack.Screen name="Login" component={Login} />}
 			<Stack.Screen name="Details" component={Details} />
 			<Stack.Screen name="Results" component={Results} />
-			<Stack.Screen name="SignUp" component={SignUp} />
-			<Stack.Screen name="EditProfile" component={EditProfile} />
-			<Stack.Screen name="ChangePassword" component={ChangePassword} />
-			<Stack.Screen name="Wishlist" component={Wishlist} />
+			{userToken && userToken !== null
+				? (
+					<>
+						<Stack.Screen name="Profile" component={Profile} />
+						<Stack.Screen name="Wishlist" component={Wishlist} />
+						<Stack.Screen name="EditProfile" component={EditProfile} />
+						<Stack.Screen name="ChangePassword" component={ChangePassword} />
+					</>
+				)
+				: (
+					<>
+						<Stack.Screen name="Login" component={Login} />
+						<Stack.Screen name="SignUp" component={SignUp} />
+					</>
+				)}
 		</Stack.Navigator>
 	);
 }
