@@ -1,43 +1,47 @@
 import React from 'react';
 import {
-	View,
 	StyleSheet,
 	SafeAreaView,
 	ToastAndroid,
 	PermissionsAndroid,
+	Text,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '@react-native-material/core';
+import {
+	Pressable, AppBar, VStack, Divider,
+} from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from 'react-native-image-crop-picker';
+import { Entypo } from '@expo/vector-icons';
 
-import { COLORS, SIZES } from '../constants';
-
-const OPTIONS = [
-	{
-		id: 1,
-		action: 'Chụp ảnh',
-	},
-	{
-		id: 2,
-		action: 'Chọn ảnh từ thư viện',
-	},
-];
+import { COLORS, FONTS, SIZES } from '../constants';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	modal: {
 		backgroundColor: COLORS.white,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
-		paddingVertical: SIZES.base,
-		paddingHorizontal: SIZES.font,
-		justifyContent: 'space-between',
-		flexDirection: 'column',
+	},
+	header: {
+		backgroundColor: COLORS.white,
+	},
+	button: {
+		aspectRatio: 1,
+		width: '40%',
+		backgroundColor: COLORS.primary,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: SIZES.base,
+	},
+	buttonTitle: {
+		textAlign: 'center',
+		marginTop: SIZES.base,
+		fontFamily: FONTS.regular,
+		fontSize: SIZES.font,
+	},
+	connector: {
+		fontFamily: FONTS.light,
+		color: COLORS.primary,
+		fontSize: SIZES.large,
 	},
 });
 
@@ -76,15 +80,15 @@ const checkPickerPermission = async () => {
 		const granted = await PermissionsAndroid.request(
 			PermissionsAndroid.PERMISSIONS.ACCESS_MEDIA_LOCATION,
 			{
-				title: 'Quyền truy kho ảnh',
-				message: 'EFISS cần truy cập kho ảnh của bạn',
+				title: 'Quyền truy cập thư viện ảnh',
+				message: 'EFISS cần truy cập thư viện ảnh của bạn',
 				buttonPositive: 'OK',
 			},
 		);
 
 		if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
 			ToastAndroid.show(
-				'Không thể truy cập kho ảnh. Vào Cài đặt để cấp quyền',
+				'Không thể truy cập thư viện ảnh. Vào Cài đặt để cấp quyền',
 				ToastAndroid.LONG,
 			);
 			return false;
@@ -154,41 +158,26 @@ function Search() {
 		}
 	};
 
-	const onPressItem = (option) => {
-		switch (option) {
-		case 1:
-			takePicture();
-			break;
-		case 2:
-			showImagePicker();
-			break;
-		default:
-			break;
-		}
-	};
-
-	const option = OPTIONS.map((item, index) => (
-		<View
-			style={{
-				margin: SIZES.base,
-			}}
-			key={index}
-		>
-			<Button
-				onPress={() => onPressItem(item.id)}
-				color={COLORS.primary}
-				style={styles.option}
-				title={item.action}
-				titleStyle={{
-					color: COLORS.white,
-				}}
-			/>
-		</View>
-	));
-
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.modal}>{option}</View>
+			<AppBar title="Tìm kiếm bằng hình ảnh" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+			<VStack fill m={4} spacing={6} center>
+				<VStack w="100%" center>
+					<Pressable style={styles.button} onPress={takePicture}>
+						<Entypo name="camera" size={SIZES.extraLarge} color={COLORS.white} />
+					</Pressable>
+					<Text style={styles.buttonTitle}>Chụp ảnh</Text>
+				</VStack>
+				<Divider style={{ marginTop: SIZES.large }} leadingInset={16} />
+				<Text style={styles.connector}>Hoặc</Text>
+				<Divider style={{ marginTop: SIZES.large }} leadingInset={16} />
+				<VStack w="100%" center>
+					<Pressable style={styles.button} onPress={showImagePicker}>
+						<Entypo name="images" size={SIZES.extraLarge} color={COLORS.white} />
+					</Pressable>
+					<Text style={styles.buttonTitle}>Chọn từ thư viện</Text>
+				</VStack>
+			</VStack>
 		</SafeAreaView>
 	);
 }

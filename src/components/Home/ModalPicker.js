@@ -79,15 +79,15 @@ const checkPickerPermission = async () => {
 		const granted = await PermissionsAndroid.request(
 			PermissionsAndroid.PERMISSIONS.ACCESS_MEDIA_LOCATION,
 			{
-				title: 'Quyền truy kho ảnh',
-				message: 'EFISS cần truy cập kho ảnh của bạn',
+				title: 'Quyền truy cập thư viện ảnh',
+				message: 'EFISS cần truy cập thư viện ảnh của bạn',
 				buttonPositive: 'OK',
 			},
 		);
 
 		if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
 			ToastAndroid.show(
-				'Không thể truy cập kho ảnh. Vào Cài đặt để cấp quyền',
+				'Không thể truy cập thư viện ảnh. Vào Cài đặt để cấp quyền',
 				ToastAndroid.LONG,
 			);
 			return false;
