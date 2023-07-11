@@ -50,31 +50,29 @@ function ProductHistoryCarousel({ navigation }) {
 	}, [dispatch, isFocused]);
 
 	return (
-		<View>
-			<View style={styles.container}>
-				<View style={styles.header}>
-					<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
-				</View>
+		<View style={styles.container}>
+			<View style={styles.header}>
+				<Text style={styles.headerTitle}>Sản phẩm bạn xem gần đây</Text>
+			</View>
 
-				<View style={styles.cardsContainer}>
-					{loading ? (
-						<ActivityIndicator size="large" color={COLORS.primary} />
-					) : error ? (
-						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
-					) : (products.length === 0) ? (
-						<Text style={{ textAlign: 'center', color: COLORS.white }}>Bạn chưa xem sản phẩm nào gần đây</Text>
-					) : (
-						<FlatList
-							data={products}
-							renderItem={({ item }) => (
-								<CarouselCard product={item} navigation={navigation} />
-							)}
-							keyExtractor={(item) => item._id}
-							showsHorizontalScrollIndicator={false}
-							horizontal
-						/>
-					)}
-				</View>
+			<View style={styles.cardsContainer}>
+				{loading ? (
+					<ActivityIndicator size="large" color={COLORS.primary} />
+				) : error ? (
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+				) : (products.length === 0) ? (
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+				) : (
+					<FlatList
+						data={products}
+						renderItem={({ item }) => (
+							<CarouselCard product={item} navigation={navigation} />
+						)}
+						keyExtractor={(item) => item._id}
+						showsHorizontalScrollIndicator={false}
+						horizontal
+					/>
+				)}
 			</View>
 		</View>
 	);
