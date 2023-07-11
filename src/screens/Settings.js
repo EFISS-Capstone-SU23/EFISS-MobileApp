@@ -103,7 +103,7 @@ function Settings() {
 				)}
 				<View style={styles.section}>
 					<View style={styles.sectionHeader}>
-						<Text style={styles.sectionHeaderText}>Tài khoản</Text>
+						<Text style={styles.sectionHeaderText}>Ứng dụng</Text>
 					</View>
 					<View style={styles.sectionBody}>
 						<Action

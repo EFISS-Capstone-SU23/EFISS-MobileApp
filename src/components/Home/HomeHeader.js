@@ -82,7 +82,7 @@ function HomeHeader({
 				<View style={{ marginTop: SIZES.font }}>
 					{userToken ? (
 						<HStack spacing={6}>
-							<IconButton onPress={onProfile} icon={<Entypo name="user" size={SIZES.extraLarge} color={COLORS.primary} />} />
+							<IconButton onPress={onProfile} icon={<Entypo name="v-card" size={SIZES.extraLarge} color={COLORS.primary} />} />
 						</HStack>
 					) : (
 						<TouchableOpacity onPress={onLogin}>
