@@ -119,7 +119,7 @@ function ChangePassword({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Chỉnh sửa hồ sơ cá nhân" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+					<AppBar title="Đổi mật khẩu" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 
 					<ScrollView>
 						{loading ? (
