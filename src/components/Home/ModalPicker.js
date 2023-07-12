@@ -113,13 +113,15 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 		}
 
 		try {
-			const image = await ImagePicker.openPicker({
-				cropping: true,
-				enableRotationGesture: false,
-				cropperCircleOverlay: false,
-				cropperToolbarTitle: 'Cắt ảnh',
+			const selectedImage = await ImagePicker.openPicker({
+				mediaType: 'photo',
+				cropping: false,
+			});
+			const image = await ImagePicker.openCropper({
+				path: selectedImage.path,
 				includeBase64: true,
 			});
+
 			navigation.navigate('Results', { imageUrl: image.data });
 		} catch (error) {
 			ToastAndroid.showWithGravity(

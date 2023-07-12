@@ -12,6 +12,8 @@ export const config = {
 	PROFILE_ROUTER: 'user/profile',
 	REPORT_BUG: 'user/bug-report',
 
+	LOAD_MORE_BY_URL: 'product/list/by-image-urls',
+
 	PAGE_SIZE: 30,
 	SORT_BY_RELEVANCE: 'relevance',
 	SORT_BY_PRICE_ASC: 'price_asc',
