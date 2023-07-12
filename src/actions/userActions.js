@@ -6,6 +6,7 @@ import {
 	USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
 	USER_LOAD_PROFILE_REQUEST, USER_LOAD_PROFILE_SUCCESS, USER_LOAD_PROFILE_FAIL,
 	USER_CHANGE_PASSWORD_REQUEST, USER_CHANGE_PASSWORD_SUCCESS, USER_CHANGE_PASSWORD_FAIL,
+	USER_REPORT_BUG_REQUEST, USER_REPORT_BUG_SUCCESS, USER_REPORT_BUG_FAIL,
 } from '../constants/userConstants';
 import { config } from '../../config';
 import {
@@ -19,7 +20,6 @@ export const register = (registerData) => async (dispatch) => {
 		const { data } = await axios.post(`${config.BE_BASE_API}/${config.SIGNUP_ROUTER}`, registerData);
 		dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
 	} catch (error) {
-		console.log('register error: ', error.response.data.message);
 		dispatch({ type: USER_REGISTER_FAIL, payload: error });
 	}
 };
@@ -73,7 +73,6 @@ export const loadUserProfile = () => async (dispatch) => {
 			);
 			dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.user });
 		} catch (error) {
-			console.log('loadUserProfile error: ', error.response.data.message);
 			dispatch({ type: USER_LOAD_PROFILE_FAIL, payload: error });
 		}
 	} else {
@@ -104,7 +103,6 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 			await AsyncStorage.setItem('userInfo', info); // Store the updated info string in AsyncStorage
 			dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
 		} catch (error) {
-			console.log('updateUserProfile error: ', error.response.data.message);
 			dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: error });
 		}
 	} else {
@@ -119,7 +117,6 @@ export const passwordChange = (values) => async (dispatch) => {
 
 		dispatch({ type: USER_CHANGE_PASSWORD_REQUEST, payload: values });
 		try {
-			console.log(values);
 			const { data } = await axios.post(
 				`${config.BE_BASE_API}/${config.CHANGE_PASSWORD_ROUTER}`,
 				values,
@@ -131,8 +128,34 @@ export const passwordChange = (values) => async (dispatch) => {
 			);
 			dispatch({ type: USER_CHANGE_PASSWORD_SUCCESS, payload: data });
 		} catch (error) {
-			console.log('passwordChange error: ', error.response.data.message);
 			dispatch({ type: USER_CHANGE_PASSWORD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const sendBugReport = (values) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: USER_REPORT_BUG_REQUEST, payload: values });
+		try {
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${config.REPORT_BUG}`,
+				values,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			console.log(data);
+			dispatch({ type: USER_REPORT_BUG_SUCCESS, payload: data });
+		} catch (error) {
+			console.error(error);
+			dispatch({ type: USER_REPORT_BUG_FAIL, payload: error });
 		}
 	} else {
 		showSessionExpiredAlert(dispatch);

@@ -11,6 +11,7 @@ import Results from '../screens/Results';
 import SignUp from '../screens/SignUp';
 import EditProfile from '../screens/EditProfile';
 import ChangePassword from '../screens/ChangePassword';
+import BugReport from '../screens/BugReport';
 import Wishlist from '../screens/Wishlist';
 
 const Stack = createNativeStackNavigator();
@@ -34,6 +35,7 @@ function AppNavigator() {
 						<Stack.Screen name="Wishlist" component={Wishlist} />
 						<Stack.Screen name="EditProfile" component={EditProfile} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
+						<Stack.Screen name="BugReport" component={BugReport} />
 					</>
 				)
 				: (

@@ -96,7 +96,7 @@ function Settings() {
 							<Action
 								title="Báo cáo lỗi"
 								icon="flag"
-								onPress={() => { }}
+								onPress={() => navigation.navigate('BugReport')}
 							/>
 						</View>
 					</View>
