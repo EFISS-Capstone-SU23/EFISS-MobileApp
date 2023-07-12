@@ -25,7 +25,7 @@ function Home() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<StatusBar backgroundColor={COLORS.black} />
+			<StatusBar backgroundColor={COLORS.primary} />
 
 			<ScrollView
 				showsVerticalScrollIndicator={false}
@@ -35,7 +35,8 @@ function Home() {
 						onSearch={() => {}}
 						onPicture={() => changeModalVisibility(true)}
 						onHistory={() => {}}
-						onWishlist={() => navigation.navigate('Wishlist')}
+						onLogin={() => navigation.navigate('Login')}
+						onProfile={() => navigation.navigate('Profile')}
 					/>
 					<AdsBar />
 					<Category />

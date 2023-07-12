@@ -2,7 +2,6 @@ import {
 	View, StatusBar, ScrollView, ToastAndroid,
 	FlatList, Animated, Linking, StyleSheet,
 } from 'react-native';
-import { CommonActions } from '@react-navigation/native';
 import { Text, IconButton, Button } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -244,17 +243,7 @@ function Details({ route, navigation }) {
 				<View style={styles.imgContainer}>
 					<View style={styles.returnContainer}>
 						<IconButton
-							onPress={() => {
-								if (navigation.canGoBack()) navigation.goBack();
-								else {
-									navigation.dispatch(
-										CommonActions.reset({
-											index: 0,
-											routes: [{ name: 'HomeStack' }],
-										}),
-									);
-								}
-							}}
+							onPress={() => navigation.goBack()}
 							icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
 							contentContainerStyle={{
 								backgroundColor: COLORS.white,

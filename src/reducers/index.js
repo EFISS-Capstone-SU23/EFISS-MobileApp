@@ -14,6 +14,7 @@ import {
 	userUpdateProfileReducer,
 	userLoadProfileReducer,
 	changePasswordReducer,
+	reportBugReducer,
 } from './userReducers';
 
 const reducer = combineReducers({
@@ -28,6 +29,7 @@ const reducer = combineReducers({
 	userUpdateProfile: userUpdateProfileReducer,
 	userLoadProfile: userLoadProfileReducer,
 	changePassword: changePasswordReducer,
+	reportBug: reportBugReducer,
 });
 
 export default (state, action) => reducer(state, action);

@@ -84,27 +84,27 @@ function Profile() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{
-					paddingBottom: 29,
-				}}
-				refreshControl={(
-					<RefreshControl
-						refreshing={refreshControl}
-						onRefresh={() => {
-							setRefreshControl(true);
-							dispatch(loadUserProfile(userToken));
-							setRefreshControl(false);
-						}}
-					/>
-				)}
-			>
-				{loading ? (
-					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
-				) : error ? (
-					<Text>Something went wrong</Text>
-				) : (
+			{loading ? (
+				<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
+			) : error ? (
+				<Text>Something went wrong</Text>
+			) : (
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{
+						paddingBottom: 29,
+					}}
+					refreshControl={(
+						<RefreshControl
+							refreshing={refreshControl}
+							onRefresh={() => {
+								setRefreshControl(true);
+								dispatch(loadUserProfile(userToken));
+								setRefreshControl(false);
+							}}
+						/>
+					)}
+				>
 					<View style={styles.profileInfos}>
 						<View style={{
 							marginRight: SIZES.medium,
@@ -120,26 +120,31 @@ function Profile() {
 							</TouchableOpacity>
 						</View>
 					</View>
-				)}
-				<View style={styles.actions}>
-					<Action
-						title="Chỉnh sửa thông tin"
-						icon="edit"
-						onPress={() => navigation.navigate('EditProfile')}
-					/>
-					<Action
-						title="Wishlist"
-						icon="heart"
-						onPress={() => navigation.navigate('Wishlist')}
-					/>
-					<Action title="Xác minh email" icon="email" />
-					<Action
-						title="Đổi mật khẩu"
-						icon="dial-pad"
-						onPress={() => navigation.navigate('ChangePassword')}
-					/>
-				</View>
-			</ScrollView>
+					<View style={styles.actions}>
+						<Action
+							title="Chỉnh sửa thông tin"
+							icon="edit"
+							onPress={() => navigation.navigate('EditProfile')}
+						/>
+						<Action
+							title="Wishlist"
+							icon="heart"
+							onPress={() => navigation.navigate('Wishlist')}
+						/>
+						<Action title="Xác minh email" icon="email" />
+						<Action
+							title="Đổi mật khẩu"
+							icon="dial-pad"
+							onPress={() => navigation.navigate('ChangePassword')}
+						/>
+						<Action
+							title="Quay lại"
+							icon="back"
+							onPress={() => navigation.goBack()}
+						/>
+					</View>
+				</ScrollView>
+			)}
 		</SafeAreaView>
 	);
 }

@@ -88,9 +88,7 @@ function ResultsHeader({ navigation, handleSort }) {
 				}}
 			>
 				<IconButton
-					onPress={() => {
-						navigation.goBack();
-					}}
+					onPress={() => navigation.goBack()}
 					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
 				/>
 

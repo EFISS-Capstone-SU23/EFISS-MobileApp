@@ -6,7 +6,9 @@ import {
 	View,
 	Text,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { AppBar } from '@react-native-material/core';
+import { useSelector } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { Action } from '../components';
@@ -69,47 +71,56 @@ const styles = StyleSheet.create({
 	},
 });
 
-const SECTIONS = [
-	{
-		header: 'Trợ giúp',
-		items: [
-			{
-				id: 'bug', icon: 'flag', label: 'Báo cáo lỗi', type: 'link',
-			},
-			{
-				id: 'contact', icon: 'mail', label: 'Liên hệ với chúng tôi', type: 'link',
-			},
-			{
-				id: 'rating', icon: 'price-ribbon', label: 'Đánh giá ứng dụng', type: 'link',
-			},
-		],
-	},
-];
+function Settings() {
+	const navigation = useNavigation();
 
-export default function Example() {
+	const userSignin = useSelector((state) => state.userSignin);
+	const { userToken } = userSignin;
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
 				<AppBar title="Cài đặt" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 
-				{SECTIONS.map(({ header, items }) => (
-					<View style={styles.section} key={header}>
+				{userToken && userToken !== null && (
+					<View style={styles.section}>
 						<View style={styles.sectionHeader}>
-							<Text style={styles.sectionHeaderText}>{header}</Text>
+							<Text style={styles.sectionHeaderText}>Tài khoản</Text>
 						</View>
 						<View style={styles.sectionBody}>
-							{items.map(({ id, label, icon }) => (
-								<Action
-									key={id}
-									title={label}
-									icon={icon}
-									onPress={() => {}}
-								/>
-							))}
+							<Action
+								title="Thông tin tài khoản"
+								icon="v-card"
+								onPress={() => navigation.navigate('Profile')}
+							/>
+							<Action
+								title="Báo cáo lỗi"
+								icon="flag"
+								onPress={() => navigation.navigate('BugReport')}
+							/>
 						</View>
 					</View>
-				))}
+				)}
+				<View style={styles.section}>
+					<View style={styles.sectionHeader}>
+						<Text style={styles.sectionHeaderText}>Ứng dụng</Text>
+					</View>
+					<View style={styles.sectionBody}>
+						<Action
+							title="Liên hệ với chúng tôi"
+							icon="mail"
+							onPress={() => { }}
+						/>
+						<Action
+							title="Đánh giá ứng dụng"
+							icon="price-ribbon"
+							onPress={() => { }}
+						/>
+					</View>
+				</View>
 			</ScrollView>
 		</SafeAreaView>
 	);
 }
+
+export default Settings;

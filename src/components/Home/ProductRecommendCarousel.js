@@ -59,9 +59,9 @@ function ProductRecommendCarousel({ navigation }) {
 				{loading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text style={{ textAlign: 'center', color: COLORS.tertiary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (products.length === 0) ? (
-					<Text style={{ textAlign: 'center', color: COLORS.tertiary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (
 					<FlatList
 						data={products}

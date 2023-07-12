@@ -12,8 +12,8 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
-import { passwordChange } from '../actions/userActions';
-import { USER_CHANGE_PASSWORD_RESET } from '../constants/userConstants';
+import { sendBugReport } from '../actions/userActions';
+import { USER_REPORT_BUG_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
@@ -56,39 +56,29 @@ const styles = StyleSheet.create({
 });
 
 const ChangePasswordSchema = Yup.object().shape({
-	oldPassword: Yup.string()
-		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
-		.required('Không được bỏ trống')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
-		),
-	newPassword: Yup.string()
-		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
-		.required('Không được bỏ trống')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
-		),
-	confirmNewPassword: Yup.string()
-		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
-		.required('Không được bỏ trống')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
-		)
-		.oneOf([Yup.ref('newPassword')], 'Mật khẩu không khớp, vui lòng kiểm tra lại'),
+	title: Yup.string()
+		.required('Không được bỏ trống'),
+	content: Yup.string()
+		.max(500, 'Mô tả ngắn gọn dưới 500 kí tự')
+		.required('Không được bỏ trống'),
 });
 
-function ChangePassword({ navigation }) {
+function BugReport({ navigation }) {
 	const dispatch = useDispatch();
 
-	const changePassword = useSelector((state) => state.changePassword);
-	const { loading, success, error } = changePassword;
+	const reportBug = useSelector((state) => state.reportBug);
+	const {
+		loading, success, error, response,
+	} = reportBug;
 
 	useEffect(() => {
 		if (success) {
-			dispatch({ type: USER_CHANGE_PASSWORD_RESET });
+			ToastAndroid.show(
+				response.message,
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: USER_REPORT_BUG_RESET });
 			navigation.goBack();
 		}
 	}, [dispatch, success]);
@@ -96,7 +86,7 @@ function ChangePassword({ navigation }) {
 	useEffect(() => {
 		if (error) {
 			ToastAndroid.show(
-				error.response.data.message,
+				error,
 				ToastAndroid.SHORT,
 				ToastAndroid.BOTTOM,
 			);
@@ -106,20 +96,19 @@ function ChangePassword({ navigation }) {
 	return (
 		<Formik
 			initialValues={{
-				oldPassword: '',
-				newPassword: '',
-				confirmNewPassword: '',
+				title: '',
+				content: '',
 			}}
 			validationSchema={ChangePasswordSchema}
 			onSubmit={(values) => {
-				dispatch(passwordChange(values));
+				dispatch(sendBugReport(values));
 			}}
 		>
 			{({
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Đổi mật khẩu" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+					<AppBar title="Báo cáo lỗi" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
 
 					<ScrollView>
 						{loading ? (
@@ -129,67 +118,47 @@ function ChangePassword({ navigation }) {
 						) : (
 							<View style={{ marginHorizontal: 22, marginTop: 22 }}>
 								<View style={styles.inputField}>
-									<Text style={styles.inputTitle}>Mật khẩu hiện tại</Text>
+									<Text style={styles.inputTitle}>Tiêu đề</Text>
 									<View style={styles.textInputContainer}>
 										<TextInput
-											placeholder="Mật khẩu hiện tại"
+											placeholder="Tiêu đề"
 											style={{ flex: 1, paddingVertical: 0 }}
 											color={COLORS.primary}
-											value={values.oldPassword}
-											onChangeText={handleChange('oldPassword')}
-											onBlur={() => setFieldTouched('oldPassword')}
-											secureTextEntry
+											value={values.title}
+											onChangeText={handleChange('title')}
+											onBlur={() => setFieldTouched('title')}
 										/>
 									</View>
 									<View style={styles.errorContainer}>
-										{touched.oldPassword && errors.oldPassword && (
-											<Text variant="caption" color={COLORS.red}>{errors.oldPassword}</Text>
+										{touched.title && errors.title && (
+											<Text variant="caption" color={COLORS.red}>{errors.title}</Text>
 										)}
 									</View>
 								</View>
 
 								<View style={styles.inputField}>
-									<Text style={styles.inputTitle}>Mật khẩu mới</Text>
+									<Text style={styles.inputTitle}>Mô tả chi tiết</Text>
 									<View style={styles.textInputContainer}>
 										<TextInput
-											placeholder="Mật khẩu mới"
+											placeholder="Mô tả chi tiết"
 											style={{ flex: 1, paddingVertical: 0 }}
 											color={COLORS.primary}
-											value={values.newPassword}
-											onChangeText={handleChange('newPassword')}
-											onBlur={() => setFieldTouched('newPassword')}
-											secureTextEntry
+											value={values.content}
+											onChangeText={handleChange('content')}
+											onBlur={() => setFieldTouched('content')}
+											multiline
+											numberOfLines={15}
 										/>
 									</View>
 									<View style={styles.errorContainer}>
-										{touched.newPassword && errors.newPassword && (
-											<Text variant="caption" color={COLORS.red}>{errors.newPassword}</Text>
-										)}
-									</View>
-								</View>
-
-								<View style={styles.inputField}>
-									<Text style={styles.inputTitle}>Nhập lại mật khẩu mới</Text>
-									<View style={styles.textInputContainer}>
-										<TextInput
-											placeholder="Nhập lại mật khẩu mới"
-											style={{ flex: 1, paddingVertical: 0 }}
-											color={COLORS.primary}
-											value={values.confirmNewPassword}
-											onChangeText={handleChange('confirmNewPassword')}
-											onBlur={() => setFieldTouched('confirmNewPassword')}
-											secureTextEntry
-										/>
-									</View>
-									<View style={styles.errorContainer}>
-										{touched.confirmNewPassword && errors.confirmNewPassword && (
-											<Text variant="caption" color={COLORS.red}>{errors.confirmNewPassword}</Text>
+										{touched.content && errors.content && (
+											<Text variant="caption" color={COLORS.red}>{errors.content}</Text>
 										)}
 									</View>
 								</View>
 
 								<Button
-									title="Lưu thay đổi"
+									title="Gửi báo cáo"
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
@@ -213,4 +182,4 @@ function ChangePassword({ navigation }) {
 	);
 }
 
-export default ChangePassword;
+export default BugReport;
