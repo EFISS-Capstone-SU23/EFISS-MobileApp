@@ -39,7 +39,7 @@ function Results({ route, navigation }) {
 	const [pageNum, setPageNum] = useState(1);
 	const [refreshControl, setRefreshControl] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
-	const [remainingProductIds, setRemainingProductIds] = useState([]);
+	const [remainingImageURLs, setRemainingImageURLs] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
@@ -56,8 +56,8 @@ function Results({ route, navigation }) {
 	useEffect(() => {
 		if (products) {
 			setItems(products.searchResults);
-			setRemainingProductIds(products.remainingProductIds);
-			const totalProducts = products.searchResults.length + products.remainingProductIds.length;
+			setRemainingImageURLs(products.remainingImageUrls);
+			const totalProducts = products.searchResults.length + products.remainingImageUrls.length;
 			console.log(totalProducts);
 			setTotalPages(Math.ceil(totalProducts / config.PAGE_SIZE));
 		}
@@ -70,7 +70,9 @@ function Results({ route, navigation }) {
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text>Something went wrong</Text>
+					<View>
+						<Text>Something went wrong</Text>
+					</View>
 				) : (
 					<FlatList
 						data={items}
@@ -103,12 +105,12 @@ function Results({ route, navigation }) {
 								setIsLoadingMore(true);
 								const startId = (pageNum - 1) * config.PAGE_SIZE;
 								const endId = startId + config.PAGE_SIZE;
-								const itemsToLoadIds = remainingProductIds.slice(startId, endId);
+								const itemsToLoadIds = remainingImageURLs.slice(startId, endId);
 								try {
 									const { data } = await axios.post(
-										`${config.BE_BASE_API}/product/list`,
+										`${config.BE_BASE_API}/${config.LOAD_MORE_BY_URL}`,
 										{
-											idList: itemsToLoadIds,
+											imageUrls: itemsToLoadIds,
 										},
 									);
 									setPageNum(pageNum + 1);
