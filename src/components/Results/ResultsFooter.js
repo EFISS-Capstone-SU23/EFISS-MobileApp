@@ -6,7 +6,7 @@ import { FONTS, COLORS, SIZES } from '../../constants';
 const styles = StyleSheet.create({
 	footer: {
 		textAlign: 'center',
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.primary,
 		marginVertical: SIZES.medium,
 	},

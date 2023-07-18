@@ -3,6 +3,9 @@ import FocusStatusBar from './Common/FocusStatusBar';
 import ProductCard from './Common/ProductCard';
 import CarouselCard from './Common/CarouselCard';
 
+import CollectionCard from './Collections/CollectionCard';
+import ModalAddCollection from './Collections/ModalAddCollection';
+
 import RenderImageItem from './Details/RenderImageItem';
 
 import Category from './Home/Category';
@@ -17,7 +20,8 @@ import Action from './Profile/Action';
 
 import CameraButton from './TakePicture/CameraButton';
 
-import WishlistHeader from './Wishlist/WishlistHeader';
+import CollectionDetailsHeader from './CollectionDetails/CollectionDetailsHeader';
+import CollectionsHeader from './Collections/CollectionsHeader';
 
 import ResultsHeader from './Results/ResultsHeader';
 
@@ -37,6 +41,9 @@ export {
 	CarouselCard,
 	RenderImageItem,
 	Action,
-	WishlistHeader,
+	CollectionDetailsHeader,
+	CollectionsHeader,
 	AdsBar,
+	CollectionCard,
+	ModalAddCollection,
 };

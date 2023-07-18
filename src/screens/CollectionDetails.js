@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { WishlistHeader, ProductCard } from '../components';
+import { CollectionDetailsHeader, ProductCard } from '../components';
 import { wishlistLoad } from '../actions/productActions';
 import { config } from '../../config';
 
@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		textAlign: 'center',
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.primary,
 		marginVertical: SIZES.medium,
 	},
 });
 
-function Wishlist({ navigation }) {
+function CollectionDetails({ navigation }) {
 	const dispatch = useDispatch();
 
 	const userSignin = useSelector((state) => state.userSignin);
@@ -74,7 +74,7 @@ function Wishlist({ navigation }) {
 						numColumns={2}
 						keyExtractor={(item) => item?._id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
-						ListHeaderComponent={<WishlistHeader navigation={navigation} />}
+						ListHeaderComponent={<CollectionDetailsHeader navigation={navigation} />}
 						// eslint-disable-next-line react/no-unstable-nested-components
 						ListFooterComponent={() => (
 							isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
@@ -119,4 +119,4 @@ function Wishlist({ navigation }) {
 	);
 }
 
-export default Wishlist;
+export default CollectionDetails;

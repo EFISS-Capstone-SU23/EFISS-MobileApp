@@ -73,6 +73,7 @@ export const loadUserProfile = () => async (dispatch) => {
 			);
 			dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.user });
 		} catch (error) {
+			console.log(error.message);
 			dispatch({ type: USER_LOAD_PROFILE_FAIL, payload: error });
 		}
 	} else {

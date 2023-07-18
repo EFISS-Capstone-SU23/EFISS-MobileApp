@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,

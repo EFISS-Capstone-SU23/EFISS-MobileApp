@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		marginBottom: SIZES.base,
 	},
 	headerTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},

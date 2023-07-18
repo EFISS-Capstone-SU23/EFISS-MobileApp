@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 	},
 	priceSection: {

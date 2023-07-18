@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},
