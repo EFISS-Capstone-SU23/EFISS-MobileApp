@@ -8,8 +8,11 @@ export const config = {
 	CHANGE_PASSWORD_ROUTER: 'auth/change-password',
 	REFRESH_TOKEN_ROUTER: 'auth/refresh-token',
 
+	GET_BY_ID_ROUTER: 'product',
+	RECOMMEND_PRODUCT_ROUTER: 'product/recommend',
 	COLLECTIONS_ROUTER: 'normal-user/collections',
-	COLLECTION_DETAILS_ROUTER: 'normal-user/collections/:id/products',
+	COLLECTION_DETAILS_ROUTER: 'normal-user/collections/:id/products?pageSize=:pageSize&pageNumber=:pageNum',
+	COLLECTION_DETAILS_ADD_ROUTER: 'normal-user/collections/:id/products',
 	PROFILE_ROUTER: 'normal-user/profile',
 	REPORT_BUG: 'user/bug-report',
 

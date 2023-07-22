@@ -1,19 +1,18 @@
 import {
-	View, StatusBar, ScrollView, ToastAndroid,
-	FlatList, Animated, Linking, StyleSheet,
+	View, StatusBar, ScrollView, ToastAndroid, ActivityIndicator,
+	FlatList, Animated, Linking, StyleSheet, Modal,
 } from 'react-native';
 import { Text, IconButton, Button } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import { RenderImageItem } from '../components';
-import { wishlistAdd, wishlistRemove } from '../actions/productActions';
-import { config } from '../../config';
-import { PRODUCT_WISHLIST_ADD_RESET, PRODUCT_WISHLIST_REMOVE_RESET } from '../constants/productConstants';
+import { PRODUCT_COLLECTION_DETAILS_ADD_RESET, PRODUCT_COLLECTION_DETAILS_REMOVE_RESET } from '../constants/productConstants';
 import { formatNumber } from '../utils/utils';
+import ModalAddToCollection from '../components/Results/ModalAddToCollection';
+import { collectionsLoad, productGetById, productHistorySet } from '../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -184,174 +183,201 @@ function Details({ route, navigation }) {
 	const { userToken } = userSignin;
 
 	// product data extracted from the results screen
-	const { productData } = route.params;
+	const { productId } = route.params;
 
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
 	const position = Animated.divide(scrollX, SIZES.WIDTH);
 
-	const [inWishlist, setInWishlist] = useState(false);
-	const isInWishlist = async (token, productId) => {
-		try {
-			const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTION_DETAILS_ROUTER}/${productId}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			setInWishlist(data.existed);
-		} catch (error) {
-			console.log('isInWishlist error: ', error);
-		}
+	const [isModalVisible, setModalVisible] = useState(false);
+
+	const handleToggleModal = () => {
+		setModalVisible((prevState) => !prevState);
 	};
+
+	const loadCollections = useSelector((state) => state.loadCollections);
+	const {
+		collections,
+	} = loadCollections;
+
+	const getProductById = useSelector((state) => state.getProductById);
+	const {
+		error, loading, product,
+	} = getProductById;
+
+	// as the screen shows up, load the list of collections from backend storage
 	useEffect(() => {
-		if (userToken) {
-			isInWishlist(userToken, productData._id);
+		dispatch(productGetById(productId));
+		if (userToken !== undefined && userToken !== null) {
+			dispatch(collectionsLoad());
 		}
 	}, [dispatch]);
 
+	useEffect(() => {
+		if (product) {
+			dispatch(productHistorySet(product));
+		}
+	}, [product]);
+
 	// if the product is added/removed successfully,
 	// then change color of the heart icon and toast a message
-	const addWishlist = useSelector((state) => state.addWishlist);
-	const { successAddWishlist } = addWishlist;
-	const removeWishlist = useSelector((state) => state.removeWishlist);
-	const { successRemoveWishlist } = removeWishlist;
+	const addCollectionDetails = useSelector((state) => state.addCollectionDetails);
+	const { successAddCollectionDetails, errorAddCollectionDetails } = addCollectionDetails;
 	useEffect(() => {
-		if (successAddWishlist) {
-			isInWishlist(userToken, productData._id);
+		if (successAddCollectionDetails) {
 			ToastAndroid.showWithGravity(
-				'Đã thêm vào wishlist',
+				'Đã thêm vào bộ sưu tập',
 				ToastAndroid.SHORT,
 				ToastAndroid.BOTTOM,
 			);
-			dispatch({ type: PRODUCT_WISHLIST_ADD_RESET });
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_ADD_RESET });
 		}
-		if (successRemoveWishlist) {
-			isInWishlist(userToken, productData._id);
+		if (errorAddCollectionDetails) {
 			ToastAndroid.showWithGravity(
-				'Đã xóa khỏi wishlist',
+				'Lỗi. Không thể thêm sản phẩm vào bộ sưu tập',
 				ToastAndroid.SHORT,
 				ToastAndroid.BOTTOM,
 			);
-			dispatch({ type: PRODUCT_WISHLIST_REMOVE_RESET });
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_RESET });
 		}
-	}, [successAddWishlist, successRemoveWishlist]);
+	}, [successAddCollectionDetails, errorAddCollectionDetails]);
 
 	return (
-		<View style={styles.container}>
-			<StatusBar backgroundColor={COLORS.black} barStyle="dark-content" />
-			<ScrollView>
-				<View style={styles.imgContainer}>
-					<View style={styles.returnContainer}>
-						<IconButton
-							onPress={() => navigation.goBack()}
-							icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
-							contentContainerStyle={{
-								backgroundColor: COLORS.white,
-								opacity: 0.8,
-							}}
+		// eslint-disable-next-line react/jsx-no-useless-fragment
+		<>
+			{loading ? (
+				<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
+			) : error ? (
+				<Text>Something went wrong</Text>
+			) : (
+				<View style={styles.container}>
+					<StatusBar backgroundColor={COLORS.black} barStyle="dark-content" />
+					<ScrollView>
+						<View style={styles.imgContainer}>
+							<View style={styles.returnContainer}>
+								<IconButton
+									onPress={() => navigation.goBack()}
+									icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
+									contentContainerStyle={{
+										backgroundColor: COLORS.white,
+										opacity: 0.8,
+									}}
+								/>
+							</View>
+							{userToken !== undefined && userToken !== null && (
+								<View style={styles.wishlistContainer}>
+									<IconButton
+										onPress={handleToggleModal}
+										icon={(
+											<Entypo
+												name="heart-outlined"
+												size={24}
+												color={COLORS.primary}
+											/>
+										)}
+										contentContainerStyle={{
+											backgroundColor: COLORS.white,
+											opacity: 0.8,
+										}}
+									/>
+								</View>
+							)}
+							<FlatList
+								data={product.images ? product.images : null}
+								horizontal
+								keyExtractor={(item, index) => index.toString()}
+								renderItem={({ item }) => (
+									<RenderImageItem item={item} />
+								)}
+								showsHorizontalScrollIndicator={false}
+								decelerationRate={0.8}
+								snapToInterval={SIZES.WIDTH}
+								bounces={false}
+								onScroll={Animated.event(
+									[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+									{ useNativeDriver: false },
+								)}
+							/>
+							<View style={styles.imgIndicatorContainer}>
+								{
+									product.images
+										? product.images.map((img, index) => {
+											const opacity = position.interpolate({
+												inputRange: [index - 1, index, index + 1],
+												outputRange: [0.2, 1, 0.2],
+												extrapolate: 'clamp',
+											});
+
+											return (
+												<Animated.View key={index} style={styles.imgIndicator(opacity)} />
+											);
+										}) : null
+								}
+							</View>
+						</View>
+						<View style={styles.infoContainer}>
+							{product.metadata?.color && (
+								<View style={styles.groupContainer}>
+									<Entypo name="colours" style={styles.groupIcon} />
+									<Text style={styles.groupLabel}>
+										{product.metadata.color}
+									</Text>
+								</View>
+							)}
+							<View style={styles.titleContainer}>
+								<Text variant="button" style={styles.title}>
+									{product.title}
+								</Text>
+								<Entypo name="link" style={styles.linkIcon} />
+							</View>
+							<Text style={styles.description}>
+								{product.description}
+							</Text>
+							<View style={styles.locationContainer}>
+								<View style={styles.location}>
+									<View style={styles.locationSection}>
+										<Entypo name="shop" style={{ fontSize: 20, color: COLORS.primary }} />
+									</View>
+									<Text variant="overline" style={{ fontSize: SIZES.font }}>
+										{product.group}
+									</Text>
+								</View>
+								<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
+							</View>
+							<View>
+								<Text style={styles.priceContainer}>
+									<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
+									{formatNumber(product.price)}
+								</Text>
+							</View>
+						</View>
+					</ScrollView>
+
+					<View style={styles.floatButtonContainer}>
+						<Button
+							title="Đi tới cửa hàng"
+							color={COLORS.primary}
+							onPress={() => { Linking.openURL(product.url); }}
+							style={styles.floatButton}
 						/>
 					</View>
-					{userToken !== undefined && userToken !== null && (
-						<View style={styles.wishlistContainer}>
-							<IconButton
-								onPress={() => {
-									if (!inWishlist) dispatch(wishlistAdd(productData._id));
-									else dispatch(wishlistRemove(productData._id));
-								}}
-								icon={(
-									<Entypo
-										name={inWishlist ? 'heart' : 'heart-outlined'}
-										size={24}
-										color={COLORS.primary}
-									/>
-								)}
-								contentContainerStyle={{
-									backgroundColor: COLORS.white,
-									opacity: 0.8,
-								}}
-							/>
-						</View>
-					)}
-					<FlatList
-						data={productData.images ? productData.images : null}
-						horizontal
-						keyExtractor={(item, index) => index.toString()}
-						renderItem={({ item }) => (
-							<RenderImageItem item={item} />
-						)}
-						showsHorizontalScrollIndicator={false}
-						decelerationRate={0.8}
-						snapToInterval={SIZES.WIDTH}
-						bounces={false}
-						onScroll={Animated.event(
-							[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-							{ useNativeDriver: false },
-						)}
-					/>
-					<View style={styles.imgIndicatorContainer}>
-						{
-							productData.images
-								? productData.images.map((img, index) => {
-									const opacity = position.interpolate({
-										inputRange: [index - 1, index, index + 1],
-										outputRange: [0.2, 1, 0.2],
-										extrapolate: 'clamp',
-									});
 
-									return (
-										<Animated.View key={index} style={styles.imgIndicator(opacity)} />
-									);
-								}) : null
-						}
-					</View>
+					{/* Scroll View Modal */}
+					<Modal
+						animationType="fades"
+						transparent
+						visible={isModalVisible}
+						onRequestClose={handleToggleModal}
+					>
+						<ModalAddToCollection
+							collections={collections}
+							onClose={handleToggleModal}
+							productId={product._id}
+						/>
+					</Modal>
 				</View>
-				<View style={styles.infoContainer}>
-					{productData.metadata?.color && (
-						<View style={styles.groupContainer}>
-							<Entypo name="colours" style={styles.groupIcon} />
-							<Text style={styles.groupLabel}>
-								{productData.metadata.color}
-							</Text>
-						</View>
-					)}
-					<View style={styles.titleContainer}>
-						<Text variant="button" style={styles.title}>
-							{productData.title}
-						</Text>
-						<Entypo name="link" style={styles.linkIcon} />
-					</View>
-					<Text style={styles.description}>
-						{productData.description}
-					</Text>
-					<View style={styles.locationContainer}>
-						<View style={styles.location}>
-							<View style={styles.locationSection}>
-								<Entypo name="shop" style={{ fontSize: 20, color: COLORS.primary }} />
-							</View>
-							<Text variant="overline" style={{ fontSize: SIZES.font }}>
-								{productData.group}
-							</Text>
-						</View>
-						<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
-					</View>
-					<View>
-						<Text style={styles.priceContainer}>
-							<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
-							{formatNumber(productData.price)}
-						</Text>
-					</View>
-				</View>
-			</ScrollView>
-
-			<View style={styles.floatButtonContainer}>
-				<Button
-					title="Đi tới cửa hàng"
-					color={COLORS.primary}
-					onPress={() => { Linking.openURL(productData.url); }}
-					style={styles.floatButton}
-				/>
-			</View>
-		</View>
+			)}
+		</>
 	);
 }
 

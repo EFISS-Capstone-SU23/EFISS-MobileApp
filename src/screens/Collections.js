@@ -132,7 +132,7 @@ function Collections({ navigation }) {
 								/>
 							)}
 							numColumns={2}
-							keyExtractor={(item) => item?._id}
+							keyExtractor={(item) => item?.id}
 							contentContainerStyle={{
 								columnGap: SIZES.medium,
 							}}

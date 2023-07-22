@@ -58,7 +58,6 @@ function Results({ route, navigation }) {
 			setItems(products.searchResults);
 			setRemainingImageURLs(products.remainingImageUrls);
 			const totalProducts = products.searchResults.length + products.remainingImageUrls.length;
-			console.log(totalProducts);
 			setTotalPages(Math.ceil(totalProducts / config.PAGE_SIZE));
 		}
 	}, [products]);

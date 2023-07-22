@@ -77,8 +77,7 @@ function ProductCard({ product, navigation }) {
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
-						dispatch(productHistorySet(product));
-						navigation.navigate('Details', { productData: product });
+						navigation.navigate('Details', { productId: product.id });
 					}}
 				>
 					<Image
@@ -102,7 +101,7 @@ function ProductCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { productData: product });
+							navigation.navigate('Details', { productId: product.id });
 						}}
 					>
 						{product.title}

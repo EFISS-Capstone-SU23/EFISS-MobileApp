@@ -96,7 +96,7 @@ function CollectionCard({ navigation, collection }) {
 	return (
 		<TouchableOpacity
 			style={styles.square}
-			onPress={() => navigation.navigate('CollectionDetails')}
+			onPress={() => navigation.navigate('CollectionDetails', { id: collection.id })}
 			disabled={dropdownOpen}
 		>
 			<ImageBackground

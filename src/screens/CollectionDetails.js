@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { CollectionDetailsHeader, ProductCard } from '../components';
-import { wishlistLoad } from '../actions/productActions';
+import { CollectionDetailsHeader } from '../components';
+import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
+import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
 
 const styles = StyleSheet.create({
 	container: {
@@ -25,15 +26,18 @@ const styles = StyleSheet.create({
 	},
 });
 
-function CollectionDetails({ navigation }) {
+function CollectionDetails({ navigation, route }) {
 	const dispatch = useDispatch();
+
+	// product data extracted from the results screen
+	const { id } = route.params;
 
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userToken } = userSignin;
-	const loadWishlist = useSelector((state) => state.loadWishlist);
+	const loadCollectionDetails = useSelector((state) => state.loadCollectionDetails);
 	const {
 		loading, error, products, totalPages,
-	} = loadWishlist;
+	} = loadCollectionDetails;
 
 	const [refreshControl, setRefreshControl] = useState(false);
 
@@ -43,7 +47,7 @@ function CollectionDetails({ navigation }) {
 
 	// as the screen shows up, load the list of products from backend storage
 	useEffect(() => {
-		dispatch(wishlistLoad(1));
+		dispatch(collectionDetailsLoad(id, 1));
 	}, [dispatch]);
 
 	// if the list of products is successfully loaded, set the list data to the item variable.
@@ -71,10 +75,10 @@ function CollectionDetails({ navigation }) {
 					<FlatList
 						data={items}
 						renderItem={({ item }) => (
-							<ProductCard product={item} navigation={navigation} />
+							<CollectionDetailsCard product={item} navigation={navigation} />
 						)}
 						numColumns={2}
-						keyExtractor={(item) => item?._id}
+						keyExtractor={(item) => item?.id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
 						ListHeaderComponent={<CollectionDetailsHeader navigation={navigation} />}
 						// eslint-disable-next-line react/no-unstable-nested-components
@@ -88,7 +92,7 @@ function CollectionDetails({ navigation }) {
 								refreshing={refreshControl}
 								onRefresh={() => {
 									setRefreshControl(true);
-									dispatch(wishlistLoad(1));
+									dispatch(collectionDetailsLoad(id, 1));
 									setPageNum(1);
 									setRefreshControl(false);
 								}}
