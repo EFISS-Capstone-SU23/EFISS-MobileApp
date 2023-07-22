@@ -98,7 +98,7 @@ function CollectionDetails({ navigation }) {
 							if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
 								setIsLoadingMore(true);
 								try {
-									const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
+									const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTION_DETAILS_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
 										headers: {
 											Authorization: `Bearer ${userToken}`,
 										},

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ActivityIndicator,
-	FlatList, StatusBar, RefreshControl, Modal,
+	FlatList, StatusBar, RefreshControl, Modal, ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import {
-	CollectionCard, CollectionsHeader, ModalAddCollection, ModalUpdateCollection,
+	CollectionCard, CollectionsHeader, ModalAddCollection,
 } from '../components';
-import { wishlistLoad } from '../actions/productActions';
-import { config } from '../../config';
+import { collectionsLoad } from '../actions/productActions';
+import {
+	PRODUCT_COLLECTIONS_ADD_RESET, PRODUCT_COLLECTIONS_REMOVE_RESET, PRODUCT_COLLECTIONS_UPDATE_RESET,
+} from '../constants/productConstants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -37,30 +38,25 @@ const styles = StyleSheet.create({
 function Collections({ navigation }) {
 	const dispatch = useDispatch();
 
-	const userSignin = useSelector((state) => state.userSignin);
-	const { userToken } = userSignin;
-	const loadWishlist = useSelector((state) => state.loadWishlist);
+	const loadCollections = useSelector((state) => state.loadCollections);
 	const {
-		loading, error, products, totalPages,
-	} = loadWishlist;
+		loading, error, collections,
+	} = loadCollections;
 
 	const [refreshControl, setRefreshControl] = useState(false);
-
-	const [pageNum, setPageNum] = useState(1);
 	const [items, setItems] = useState([]);
-	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	// as the screen shows up, load the list of collections from backend storage
 	useEffect(() => {
-		dispatch(wishlistLoad(1));
+		dispatch(collectionsLoad());
 	}, [dispatch]);
 
 	// if the list of collections is successfully loaded, set the list data to the item variable.
 	useEffect(() => {
-		if (products) {
-			setItems(products);
+		if (collections) {
+			setItems(collections);
 		}
-	}, [products]);
+	}, [collections]);
 
 	// Handle the add collection action, show the add modal
 	const [isAddModalVisible, setIsAddModalVisible] = useState(false);
@@ -68,11 +64,48 @@ function Collections({ navigation }) {
 		setIsAddModalVisible(bool);
 	};
 
-	// Handle the update collection name action, show the update modal
-	const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-	const changeUpdateModalVisibility = (bool) => {
-		setIsUpdateModalVisible(bool);
-	};
+	// if the user add success, reload screen
+	const addCollections = useSelector((state) => state.addCollections);
+	const { successAddCollections } = addCollections;
+
+	// if the user remove success, reload screen
+	const removeCollections = useSelector((state) => state.removeCollections);
+	const { successRemoveCollections } = removeCollections;
+
+	// if the user update success, reload screen
+	const updateCollections = useSelector((state) => state.updateCollections);
+	const { successUpdateCollections } = updateCollections;
+
+	useEffect(() => {
+		if (successAddCollections) {
+			dispatch(collectionsLoad());
+			ToastAndroid.showWithGravity(
+				'Tạo bộ sưu tập mới thành công',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_COLLECTIONS_ADD_RESET });
+			changeAddModalVisibility(false);
+		}
+		if (successRemoveCollections) {
+			dispatch(collectionsLoad());
+			ToastAndroid.showWithGravity(
+				'Đã xóa bộ sưu tập',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_COLLECTIONS_REMOVE_RESET });
+		}
+		if (successUpdateCollections) {
+			dispatch(collectionsLoad());
+			ToastAndroid.showWithGravity(
+				'Đã cập nhật tên bộ sưu tập',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_COLLECTIONS_UPDATE_RESET });
+		}
+	}, [successAddCollections, successRemoveCollections, successUpdateCollections]);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -89,14 +122,13 @@ function Collections({ navigation }) {
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (
-					<View style={{ alignItems: 'center' }}>
+					<View>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
 								<CollectionCard
-									product={item}
+									collection={item}
 									navigation={navigation}
-									onUpdate={() => changeUpdateModalVisibility(true)}
 								/>
 							)}
 							numColumns={2}
@@ -112,7 +144,8 @@ function Collections({ navigation }) {
 							)}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
-								isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
+								(items.length === 0)
+									? <Text style={styles.footer}>Bạn chưa có bộ sưu tập nào</Text> : null
 							)}
 							stickyHeaderIndices={[0]}
 							showsVerticalScrollIndicator={false}
@@ -121,31 +154,11 @@ function Collections({ navigation }) {
 									refreshing={refreshControl}
 									onRefresh={() => {
 										setRefreshControl(true);
-										dispatch(wishlistLoad(1));
-										setPageNum(1);
+										dispatch(collectionsLoad());
 										setRefreshControl(false);
 									}}
 								/>
 							)}
-							onEndReached={async () => {
-								if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
-									setIsLoadingMore(true);
-									try {
-										const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
-											headers: {
-												Authorization: `Bearer ${userToken}`,
-											},
-										});
-										console.log('loaded: ', pageNum + 1);
-										setPageNum(pageNum + 1);
-										setItems([...items, ...data.products]);
-									} catch (err) {
-										console.log('Collection List Load error: ', err);
-									} finally {
-										setIsLoadingMore(false);
-									}
-								}
-							}}
 							onEndReachedThreshold={0.2}
 						/>
 						<Modal
@@ -155,14 +168,6 @@ function Collections({ navigation }) {
 							onRequestClose={() => changeAddModalVisibility(false)}
 						>
 							<ModalAddCollection changeModalVisibility={changeAddModalVisibility} />
-						</Modal>
-						<Modal
-							transparent
-							animationType="fade"
-							visible={isUpdateModalVisible}
-							onRequestClose={() => changeUpdateModalVisibility(false)}
-						>
-							<ModalUpdateCollection changeModalVisibility={changeUpdateModalVisibility} />
 						</Modal>
 					</View>
 				)}

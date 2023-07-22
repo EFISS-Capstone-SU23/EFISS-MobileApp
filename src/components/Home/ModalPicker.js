@@ -115,12 +115,11 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 		try {
 			const selectedImage = await ImagePicker.openPicker({
 				mediaType: 'photo',
-				cropping: true,
-				cropperToolbarTitle: 'Cắt ảnh',
 			});
 			const image = await ImagePicker.openCropper({
 				path: selectedImage.path,
 				includeBase64: true,
+				cropperToolbarTitle: 'Cắt ảnh',
 			});
 
 			navigation.navigate('Results', { imageUrl: image.data });

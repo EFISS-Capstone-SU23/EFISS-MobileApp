@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
 	View,
 	StyleSheet,
@@ -11,6 +12,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { COLORS, SIZES } from '../../constants';
+import { collectionsAdd } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -21,8 +23,6 @@ const styles = StyleSheet.create({
 	modal: {
 		width: '80%',
 		backgroundColor: COLORS.white,
-		borderColor: COLORS.primary,
-		borderWidth: 0.1,
 		paddingVertical: SIZES.medium,
 		paddingHorizontal: SIZES.font,
 		justifyContent: 'space-between',
@@ -51,6 +51,8 @@ const AddCollectionSchema = Yup.object().shape({
 });
 
 function ModalAddCollection({ changeModalVisibility }) {
+	const dispatch = useDispatch();
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<Formik
@@ -59,8 +61,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 				}}
 				validationSchema={AddCollectionSchema}
 				onSubmit={(values) => {
-					console.log(`Thêm bộ sưu tập ${values.title.toString()}`);
-					// add new collection
+					dispatch(collectionsAdd(values.title.toString()));
 				}}
 			>
 				{({

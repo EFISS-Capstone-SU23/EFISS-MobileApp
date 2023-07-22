@@ -74,7 +74,7 @@ function Results({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<View style={{ alignItems: 'center' }}>
+					<View>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (

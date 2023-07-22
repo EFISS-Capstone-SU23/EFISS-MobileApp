@@ -8,8 +8,9 @@ export const config = {
 	CHANGE_PASSWORD_ROUTER: 'auth/change-password',
 	REFRESH_TOKEN_ROUTER: 'auth/refresh-token',
 
-	WISHLIST_ROUTER: 'user/wishlist',
-	PROFILE_ROUTER: 'user/profile',
+	COLLECTIONS_ROUTER: 'normal-user/collections',
+	COLLECTION_DETAILS_ROUTER: 'normal-user/collections/:id/products',
+	PROFILE_ROUTER: 'normal-user/profile',
 	REPORT_BUG: 'user/bug-report',
 
 	LOAD_MORE_BY_URL: 'product/list/by-image-urls',

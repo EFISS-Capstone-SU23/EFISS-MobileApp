@@ -7,6 +7,10 @@ import {
 	removeWishlistReducer,
 	setProductHistoryReducer,
 	loadProductHistoryReducer,
+	loadCollectionsReducer,
+	addCollectionsReducer,
+	updateCollectionsReducer,
+	removeCollectionsReducer,
 } from './productReducers';
 import {
 	userRegisterReducer,
@@ -30,6 +34,10 @@ const reducer = combineReducers({
 	userLoadProfile: userLoadProfileReducer,
 	changePassword: changePasswordReducer,
 	reportBug: reportBugReducer,
+	loadCollections: loadCollectionsReducer,
+	addCollections: addCollectionsReducer,
+	updateCollections: updateCollectionsReducer,
+	removeCollections: removeCollectionsReducer,
 });
 
 export default (state, action) => reducer(state, action);

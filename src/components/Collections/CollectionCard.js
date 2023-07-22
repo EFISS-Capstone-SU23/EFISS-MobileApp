@@ -5,10 +5,13 @@ import {
 import { IconButton } from '@react-native-material/core';
 import { Entypo } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
 	COLORS, SHADOWS, FONTS, SIZES,
 } from '../../constants';
+import { collectionsRemove } from '../../actions/productActions';
+import ModalUpdateCollection from './ModalUpdateCollection';
 
 const styles = StyleSheet.create({
 	square: {
@@ -71,7 +74,9 @@ const styles = StyleSheet.create({
 	},
 });
 
-function CollectionCard({ navigation, onUpdate }) {
+function CollectionCard({ navigation, collection }) {
+	const dispatch = useDispatch();
+
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const handleToggleDropdown = () => {
@@ -80,6 +85,12 @@ function CollectionCard({ navigation, onUpdate }) {
 
 	const handleOverlayPress = () => {
 		setDropdownOpen(false);
+	};
+
+	const [updateModalOpen, setUpdateModalOpen] = useState(false);
+
+	const handleUpdateModalOpen = () => {
+		setUpdateModalOpen((prevState) => !prevState);
 	};
 
 	return (
@@ -98,7 +109,7 @@ function CollectionCard({ navigation, onUpdate }) {
 						style={styles.category}
 						numberOfLines={3}
 					>
-						Collection Name
+						{collection.name}
 					</Text>
 				</View>
 				<View style={styles.optionContainer}>
@@ -129,7 +140,7 @@ function CollectionCard({ navigation, onUpdate }) {
 							style={styles.dropdownItem}
 							onPress={() => {
 								handleToggleDropdown();
-								onUpdate();
+								handleUpdateModalOpen();
 							}}
 						>
 							<Text style={styles.dropdownText}>Đổi tên BST</Text>
@@ -142,8 +153,8 @@ function CollectionCard({ navigation, onUpdate }) {
 									'Cảnh báo',
 									'Bạn muốn xóa bộ sưu tập này?',
 									[
-										{ text: 'Đúng', onPress: () => console.log('Delete') },
-										{ text: 'Không', style: 'cancel', onPress: () => console.log('Cancel Delete') },
+										{ text: 'Đúng', onPress: () => dispatch(collectionsRemove(collection.id)) },
+										{ text: 'Không', style: 'cancel' },
 									],
 								);
 							}}
@@ -152,6 +163,14 @@ function CollectionCard({ navigation, onUpdate }) {
 						</TouchableOpacity>
 					</View>
 				</>
+			)}
+
+			{updateModalOpen && (
+				<ModalUpdateCollection
+					name={collection.name}
+					id={collection.id}
+					onClose={handleUpdateModalOpen}
+				/>
 			)}
 		</TouchableOpacity>
 	);

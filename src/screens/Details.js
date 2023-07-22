@@ -193,7 +193,7 @@ function Details({ route, navigation }) {
 	const [inWishlist, setInWishlist] = useState(false);
 	const isInWishlist = async (token, productId) => {
 		try {
-			const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}/${productId}`, {
+			const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTION_DETAILS_ROUTER}/${productId}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
