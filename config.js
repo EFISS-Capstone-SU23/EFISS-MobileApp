@@ -1,5 +1,5 @@
 export const config = {
-	BE_BASE_API: 'https://be.efiss.tech',
+	BE_BASE_API: 'https://k8s.efiss.tech',
 
 	SEARCH_ROUTER: 'search/image',
 

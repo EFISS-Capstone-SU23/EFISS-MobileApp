@@ -5,6 +5,7 @@ import CarouselCard from './Common/CarouselCard';
 
 import CollectionCard from './Collections/CollectionCard';
 import ModalAddCollection from './Collections/ModalAddCollection';
+import ModalUpdateCollection from './Collections/ModalUpdateCollection';
 
 import RenderImageItem from './Details/RenderImageItem';
 
@@ -46,4 +47,5 @@ export {
 	AdsBar,
 	CollectionCard,
 	ModalAddCollection,
+	ModalUpdateCollection,
 };

@@ -50,7 +50,7 @@ const AddCollectionSchema = Yup.object().shape({
 		.max(100, 'Mô tả ngắn gọn dưới 100 kí tự'),
 });
 
-function ModalAddCollection({ changeModalVisibility }) {
+function ModalUpdateCollection({ changeModalVisibility }) {
 	return (
 		<SafeAreaView style={styles.container}>
 			<Formik
@@ -59,7 +59,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 				}}
 				validationSchema={AddCollectionSchema}
 				onSubmit={(values) => {
-					console.log(`Thêm bộ sưu tập ${values.title.toString()}`);
+					console.log(`Đổi tên thành ${values.title.toString()}`);
 					// add new collection
 				}}
 			>
@@ -68,7 +68,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 				}) => (
 					<View style={styles.modal}>
 						<View style={styles.inputField}>
-							<Text style={styles.inputTitle}>Tên bộ sưu tập mới (dưới 100 kí tự)</Text>
+							<Text style={styles.inputTitle}>Nhập tên mới (dưới 100 kí tự)</Text>
 							<View style={styles.textInputContainer}>
 								<TextInput
 									placeholder="Tên bộ sưu tập"
@@ -81,7 +81,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 						</View>
 
 						<Button
-							title="Tạo mới"
+							title="Cập nhật"
 							color={COLORS.primary}
 							disabled={!isValid}
 							onPress={handleSubmit}
@@ -102,4 +102,4 @@ function ModalAddCollection({ changeModalVisibility }) {
 	);
 }
 
-export default ModalAddCollection;
+export default ModalUpdateCollection;

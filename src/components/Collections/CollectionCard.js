@@ -1,6 +1,6 @@
 import {
 	View, TouchableOpacity, Text, StyleSheet,
-	ImageBackground, Alert,
+	ImageBackground, Alert, TouchableWithoutFeedback,
 } from 'react-native';
 import { IconButton } from '@react-native-material/core';
 import { Entypo } from '@expo/vector-icons';
@@ -65,13 +65,21 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.regular,
 		fontSize: SIZES.medium,
 	},
+	overlay: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: 'transparent',
+	},
 });
 
-function CollectionCard({ navigation }) {
+function CollectionCard({ navigation, onUpdate }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const handleToggleDropdown = () => {
 		setDropdownOpen((prevState) => !prevState);
+	};
+
+	const handleOverlayPress = () => {
+		setDropdownOpen(false);
 	};
 
 	return (
@@ -111,27 +119,39 @@ function CollectionCard({ navigation }) {
 			</ImageBackground>
 
 			{dropdownOpen && (
-				<View style={styles.dropdownContainer}>
-					<TouchableOpacity style={styles.dropdownItem}>
-						<Text style={styles.dropdownText}>Đổi tên BST</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.dropdownItem}
-						onPress={() => {
-							handleToggleDropdown();
-							Alert.alert(
-								'Cảnh báo',
-								'Bạn muốn xóa bộ sưu tập này?',
-								[
-									{ text: 'Đúng', onPress: () => console.log('Delete') },
-									{ text: 'Không', style: 'cancel', onPress: () => console.log('Cancel Delete') },
-								],
-							);
-						}}
-					>
-						<Text style={[styles.dropdownText, { color: COLORS.red }]}>Xóa BST</Text>
-					</TouchableOpacity>
-				</View>
+				<>
+					<TouchableWithoutFeedback onPress={handleOverlayPress}>
+						<View style={styles.overlay} />
+					</TouchableWithoutFeedback>
+
+					<View style={styles.dropdownContainer}>
+						<TouchableOpacity
+							style={styles.dropdownItem}
+							onPress={() => {
+								handleToggleDropdown();
+								onUpdate();
+							}}
+						>
+							<Text style={styles.dropdownText}>Đổi tên BST</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.dropdownItem}
+							onPress={() => {
+								handleToggleDropdown();
+								Alert.alert(
+									'Cảnh báo',
+									'Bạn muốn xóa bộ sưu tập này?',
+									[
+										{ text: 'Đúng', onPress: () => console.log('Delete') },
+										{ text: 'Không', style: 'cancel', onPress: () => console.log('Cancel Delete') },
+									],
+								);
+							}}
+						>
+							<Text style={[styles.dropdownText, { color: COLORS.red }]}>Xóa BST</Text>
+						</TouchableOpacity>
+					</View>
+				</>
 			)}
 		</TouchableOpacity>
 	);

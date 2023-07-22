@@ -41,10 +41,12 @@ function CollectionDetails({ navigation }) {
 	const [items, setItems] = useState([]);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+	// as the screen shows up, load the list of products from backend storage
 	useEffect(() => {
 		dispatch(wishlistLoad(1));
 	}, [dispatch]);
 
+	// if the list of products is successfully loaded, set the list data to the item variable.
 	useEffect(() => {
 		if (products) {
 			setItems(products);

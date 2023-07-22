@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { CollectionCard, CollectionsHeader, ModalAddCollection } from '../components';
+import {
+	CollectionCard, CollectionsHeader, ModalAddCollection, ModalUpdateCollection,
+} from '../components';
 import { wishlistLoad } from '../actions/productActions';
 import { config } from '../../config';
 
@@ -48,19 +50,28 @@ function Collections({ navigation }) {
 	const [items, setItems] = useState([]);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+	// as the screen shows up, load the list of collections from backend storage
 	useEffect(() => {
 		dispatch(wishlistLoad(1));
 	}, [dispatch]);
 
+	// if the list of collections is successfully loaded, set the list data to the item variable.
 	useEffect(() => {
 		if (products) {
 			setItems(products);
 		}
 	}, [products]);
 
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const changeModalVisibility = (bool) => {
-		setIsModalVisible(bool);
+	// Handle the add collection action, show the add modal
+	const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+	const changeAddModalVisibility = (bool) => {
+		setIsAddModalVisible(bool);
+	};
+
+	// Handle the update collection name action, show the update modal
+	const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+	const changeUpdateModalVisibility = (bool) => {
+		setIsUpdateModalVisible(bool);
 	};
 
 	return (
@@ -82,7 +93,11 @@ function Collections({ navigation }) {
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
-								<CollectionCard product={item} navigation={navigation} />
+								<CollectionCard
+									product={item}
+									navigation={navigation}
+									onUpdate={() => changeUpdateModalVisibility(true)}
+								/>
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
@@ -92,7 +107,7 @@ function Collections({ navigation }) {
 							ListHeaderComponent={(
 								<CollectionsHeader
 									navigation={navigation}
-									onAdd={() => changeModalVisibility(true)}
+									onAdd={() => changeAddModalVisibility(true)}
 								/>
 							)}
 							// eslint-disable-next-line react/no-unstable-nested-components
@@ -136,10 +151,18 @@ function Collections({ navigation }) {
 						<Modal
 							transparent
 							animationType="fade"
-							visible={isModalVisible}
-							onRequestClose={() => changeModalVisibility(false)}
+							visible={isAddModalVisible}
+							onRequestClose={() => changeAddModalVisibility(false)}
 						>
-							<ModalAddCollection changeModalVisibility={changeModalVisibility} />
+							<ModalAddCollection changeModalVisibility={changeAddModalVisibility} />
+						</Modal>
+						<Modal
+							transparent
+							animationType="fade"
+							visible={isUpdateModalVisible}
+							onRequestClose={() => changeUpdateModalVisibility(false)}
+						>
+							<ModalUpdateCollection changeModalVisibility={changeUpdateModalVisibility} />
 						</Modal>
 					</View>
 				)}
