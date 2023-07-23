@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar, RefreshControl,
+	View, Text, SafeAreaView, StyleSheet, ActivityIndicator,
+	FlatList, StatusBar, RefreshControl, ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -10,6 +11,7 @@ import { CollectionDetailsHeader } from '../components';
 import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
 import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
+import { PRODUCT_COLLECTION_DETAILS_REMOVE_RESET } from '../constants/productConstants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -57,6 +59,22 @@ function CollectionDetails({ navigation, route }) {
 		}
 	}, [products]);
 
+	// if the user add success, reload screen
+	const removeCollectionDetails = useSelector((state) => state.removeCollectionDetails);
+	const { successRemoveCollectionDetails } = removeCollectionDetails;
+
+	useEffect(() => {
+		if (successRemoveCollectionDetails) {
+			dispatch(collectionDetailsLoad(id, 1));
+			ToastAndroid.showWithGravity(
+				'Đã xóa sản phẩm khỏi bộ sưu tập',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_RESET });
+		}
+	}, [successRemoveCollectionDetails]);
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<StatusBar backgroundColor={COLORS.primary} />
@@ -75,7 +93,7 @@ function CollectionDetails({ navigation, route }) {
 					<FlatList
 						data={items}
 						renderItem={({ item }) => (
-							<CollectionDetailsCard product={item} navigation={navigation} />
+							<CollectionDetailsCard collectionId={id} product={item} navigation={navigation} />
 						)}
 						numColumns={2}
 						keyExtractor={(item) => item?.id}
@@ -102,16 +120,19 @@ function CollectionDetails({ navigation, route }) {
 							if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
 								setIsLoadingMore(true);
 								try {
-									const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTION_DETAILS_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
+									const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
+										.replace(/:id/g, id)
+										.replace(/:pageSize/g, 10)
+										.replace(/:pageNum/g, pageNum + 1);
+									const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
 										headers: {
 											Authorization: `Bearer ${userToken}`,
 										},
 									});
-									console.log('loaded: ', pageNum + 1);
 									setPageNum(pageNum + 1);
-									setItems([...items, ...data.products]);
+									setItems([...items, ...data.products.productsList]);
 								} catch (err) {
-									console.log('wishlistLoad error: ', err);
+									console.log('collectionDetailsLoadMore error: ', err);
 								} finally {
 									setIsLoadingMore(false);
 								}

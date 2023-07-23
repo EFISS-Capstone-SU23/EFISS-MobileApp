@@ -1,12 +1,12 @@
 import {
-	View, Image, TouchableOpacity, StyleSheet,
+	View, Image, TouchableOpacity, StyleSheet, Alert,
 } from 'react-native';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import { Badge, Text } from '@react-native-material/core';
+import { Badge, Text, IconButton } from '@react-native-material/core';
 
-import { productHistorySet } from '../../actions/productActions';
+import { productHistorySet, collectionDetailsRemove } from '../../actions/productActions';
 import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
@@ -67,9 +67,15 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		marginLeft: 2,
 	},
+	optionContainer: {
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		zIndex: 1,
+	},
 });
 
-function CollectionDetailsCard({ product, navigation }) {
+function CollectionDetailsCard({ collectionId, product, navigation }) {
 	const dispatch = useDispatch();
 
 	return (
@@ -87,6 +93,31 @@ function CollectionDetailsCard({ product, navigation }) {
 						resizeMode="cover"
 						style={styles.productImage}
 					/>
+					<View style={styles.optionContainer}>
+						<IconButton
+							icon={(
+								<Entypo
+									name="squared-cross"
+									size={24}
+									color={COLORS.red}
+								/>
+							)}
+							contentContainerStyle={{
+								opacity: 0.8,
+								backgroundColor: COLORS.white,
+							}}
+							onPress={() => {
+								Alert.alert(
+									'Cảnh báo',
+									'Bạn muốn xóa sản phẩm này khỏi bộ sưu tập?',
+									[
+										{ text: 'Đúng', onPress: () => dispatch(collectionDetailsRemove(collectionId, product.id)) },
+										{ text: 'Không', style: 'cancel' },
+									],
+								);
+							}}
+						/>
+					</View>
 				</TouchableOpacity>
 			</View>
 			<View style={{ width: '100%', padding: SIZES.base }}>

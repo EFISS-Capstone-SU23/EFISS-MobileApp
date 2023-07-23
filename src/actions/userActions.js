@@ -152,7 +152,6 @@ export const sendBugReport = (values) => async (dispatch) => {
 					},
 				},
 			);
-			console.log(data);
 			dispatch({ type: USER_REPORT_BUG_SUCCESS, payload: data });
 		} catch (error) {
 			console.error(error);

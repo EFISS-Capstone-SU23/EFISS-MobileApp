@@ -24,7 +24,6 @@ import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
-	console.log('Searching image');
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const { data } = await axios.post(
@@ -159,9 +158,9 @@ export const collectionDetailsLoad = (_collectionId, _pageNum) => async (dispatc
 		const userToken = await AsyncStorage.getItem('userToken');
 		dispatch({ type: PRODUCT_COLLECTION_DETAILS_LOAD_REQUEST });
 		try {
-			const updatedRouter = config.COLLECTION_DETAILS_ROUTER
+			const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
 				.replace(/:id/g, _collectionId)
-				.replace(/:pageSize/g, config.PAGE_SIZE)
+				.replace(/:pageSize/g, 10)
 				.replace(/:pageNum/g, _pageNum);
 			const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
 				headers: {
@@ -185,7 +184,7 @@ export const collectionDetailsAdd = (_collectionId, _productId) => async (dispat
 
 		dispatch({ type: PRODUCT_COLLECTION_DETAILS_ADD_REQUEST, payload: _collectionId });
 		try {
-			const updatedRouter = config.COLLECTION_DETAILS_ADD_ROUTER
+			const updatedRouter = config.COLLECTION_DETAILS_ROUTER
 				.replace(/:id/g, _collectionId);
 
 			const { data } = await axios.post(
@@ -209,17 +208,20 @@ export const collectionDetailsAdd = (_collectionId, _productId) => async (dispat
 	}
 };
 
-export const collectionDetailsRemove = (id) => async (dispatch) => {
+export const collectionDetailsRemove = (_collectionId, _productId) => async (dispatch) => {
 	const tokenIsValid = await isTokenStillValid();
 	if (tokenIsValid) {
 		const userToken = await AsyncStorage.getItem('userToken');
-		dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_REQUEST, payload: id });
+		dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_REQUEST });
 		try {
+			const updatedRouter = config.COLLECTION_DETAILS_ROUTER
+				.replace(/:id/g, _collectionId);
+
 			const { data } = await axios.delete(
-				`${config.BE_BASE_API}/${config.COLLECTION_DETAILS_ROUTER}`,
+				`${config.BE_BASE_API}/${updatedRouter}`,
 				{
 					data: {
-						productId: id,
+						productId: _productId,
 					},
 					headers: {
 						Authorization: `Bearer ${userToken}`,
@@ -293,7 +295,6 @@ export const productRecommendLoad = () => async (dispatch) => {
 					searchHistories: simplifiedDataList,
 				},
 			);
-			console.log(data.products.length);
 			dispatch({ type: PRODUCT_RECOMMEND_LOAD_SUCCESS, payload: data });
 		} else {
 			dispatch({ type: PRODUCT_RECOMMEND_LOAD_FAIL, payload: { message: 'EFISS have no recommend yet' } });
