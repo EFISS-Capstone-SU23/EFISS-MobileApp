@@ -66,6 +66,7 @@ function CollectionDetails({ navigation, route }) {
 	useEffect(() => {
 		if (successRemoveCollectionDetails) {
 			dispatch(collectionDetailsLoad(id, 1));
+			setPageNum(1);
 			ToastAndroid.showWithGravity(
 				'Đã xóa sản phẩm khỏi bộ sưu tập',
 				ToastAndroid.SHORT,

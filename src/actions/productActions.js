@@ -214,15 +214,13 @@ export const collectionDetailsRemove = (_collectionId, _productId) => async (dis
 		const userToken = await AsyncStorage.getItem('userToken');
 		dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_REQUEST });
 		try {
-			const updatedRouter = config.COLLECTION_DETAILS_ROUTER
-				.replace(/:id/g, _collectionId);
+			const updatedRouter = config.COLLECTIONS_DETAILS_REMOVE_ROUTER
+				.replace(/:collectionId/g, _collectionId)
+				.replace(/:productId/g, _productId);
 
 			const { data } = await axios.delete(
 				`${config.BE_BASE_API}/${updatedRouter}`,
 				{
-					data: {
-						productId: _productId,
-					},
 					headers: {
 						Authorization: `Bearer ${userToken}`,
 					},
