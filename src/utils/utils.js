@@ -44,7 +44,7 @@ export const storeNewRefreshToken = async (token) => {
 
 export const isTokenStillValid = async () => {
 	const userTokenInitTime = await AsyncStorage.getItem('userTokenInitTime');
-	const userTokenLifetime = 6 * 60 * 60 * 1000; // 6 hours converted to milliseconds
+	const userTokenLifetime = 15 * 60 * 1000; // 15 mins converted to milliseconds
 
 	const refreshTokenInitTime = await AsyncStorage.getItem('refreshTokenInitTime');
 	const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // 30 days converted to milliseconds
@@ -69,7 +69,7 @@ export const isTokenStillValid = async () => {
 				refreshToken,
 			},
 		);
-		await storeNewUserToken(response.data.token);
+		await storeNewUserToken(response.data.accessToken);
 	}
 
 	// Access token is not expired, continue the work

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,
@@ -74,7 +74,7 @@ const SignupSchema = Yup.object().shape({
 		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
 		.required('Không được bỏ trống')
 		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,32}$/,
 			'Mật khẩu tối đa 32 kí tự, gồm các chữ cái viết thường, ít nhất 1 kí tự viết hoa và 1 chữ số',
 		),
 	confirmPassword: Yup.string()

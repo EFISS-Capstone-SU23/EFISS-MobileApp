@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	StyleSheet,
 	SafeAreaView,
@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { Action } from '../components';
+import { AuthContext } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
 	container: {
@@ -72,6 +73,10 @@ const styles = StyleSheet.create({
 });
 
 function Settings() {
+	const {
+		logout,
+	} = useContext(AuthContext);
+
 	const navigation = useNavigation();
 
 	const userSignin = useSelector((state) => state.userSignin);
@@ -97,6 +102,11 @@ function Settings() {
 								title="Báo cáo lỗi"
 								icon="flag"
 								onPress={() => navigation.navigate('BugReport')}
+							/>
+							<Action
+								title="Đăng xuất"
+								icon="log-out"
+								onPress={logout}
 							/>
 						</View>
 					</View>

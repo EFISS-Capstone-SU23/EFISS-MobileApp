@@ -3,17 +3,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
 	PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_SUCCESS, PRODUCT_SEARCH_FAIL,
-	PRODUCT_WISHLIST_LOAD_REQUEST, PRODUCT_WISHLIST_LOAD_SUCCESS, PRODUCT_WISHLIST_LOAD_FAIL,
+	PRODUCT_GET_BY_ID_REQUEST, PRODUCT_GET_BY_ID_SUCCESS, PRODUCT_GET_BY_ID_FAIL,
+	PRODUCT_COLLECTIONS_LOAD_REQUEST, PRODUCT_COLLECTIONS_LOAD_SUCCESS, PRODUCT_COLLECTIONS_LOAD_FAIL,
+	PRODUCT_COLLECTIONS_ADD_REQUEST, PRODUCT_COLLECTIONS_ADD_SUCCESS, PRODUCT_COLLECTIONS_ADD_FAIL,
+	PRODUCT_COLLECTIONS_REMOVE_REQUEST, PRODUCT_COLLECTIONS_REMOVE_SUCCESS,
+	PRODUCT_COLLECTIONS_REMOVE_FAIL,
+	PRODUCT_COLLECTIONS_UPDATE_REQUEST, PRODUCT_COLLECTIONS_UPDATE_SUCCESS,
+	PRODUCT_COLLECTIONS_UPDATE_FAIL,
+	PRODUCT_COLLECTION_DETAILS_LOAD_REQUEST, PRODUCT_COLLECTION_DETAILS_LOAD_SUCCESS,
+	PRODUCT_COLLECTION_DETAILS_LOAD_FAIL,
+	PRODUCT_COLLECTION_DETAILS_ADD_REQUEST, PRODUCT_COLLECTION_DETAILS_ADD_SUCCESS,
+	PRODUCT_COLLECTION_DETAILS_ADD_FAIL,
+	PRODUCT_COLLECTION_DETAILS_REMOVE_REQUEST, PRODUCT_COLLECTION_DETAILS_REMOVE_SUCCESS,
+	PRODUCT_COLLECTION_DETAILS_REMOVE_FAIL,
 	PRODUCT_HISTORY_SET_REQUEST, PRODUCT_HISTORY_SET_SUCCESS, PRODUCT_HISTORY_SET_FAIL,
 	PRODUCT_HISTORY_LOAD_REQUEST, PRODUCT_HISTORY_LOAD_SUCCESS, PRODUCT_HISTORY_LOAD_FAIL,
-	PRODUCT_WISHLIST_ADD_REQUEST, PRODUCT_WISHLIST_ADD_SUCCESS, PRODUCT_WISHLIST_ADD_FAIL,
-	PRODUCT_WISHLIST_REMOVE_REQUEST, PRODUCT_WISHLIST_REMOVE_SUCCESS, PRODUCT_WISHLIST_REMOVE_FAIL,
+	PRODUCT_RECOMMEND_LOAD_REQUEST, PRODUCT_RECOMMEND_LOAD_SUCCESS, PRODUCT_RECOMMEND_LOAD_FAIL,
 } from '../constants/productConstants';
 import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
-	console.log('Searching image');
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const { data } = await axios.post(
@@ -32,40 +42,48 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (d
 	}
 };
 
-export const wishlistLoad = (pageNum) => async (dispatch) => {
+export const productGetById = (_productId) => async (dispatch) => {
+	dispatch({ type: PRODUCT_GET_BY_ID_REQUEST });
+	try {
+		const { data } = await axios.get(`${config.BE_BASE_API}/${config.GET_BY_ID_ROUTER}/${_productId}`);
+		dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: data.product });
+	} catch (error) {
+		console.log('productGetById error: ', error);
+		dispatch({ type: PRODUCT_GET_BY_ID_FAIL, payload: error });
+	}
+};
+
+export const collectionsLoad = () => async (dispatch) => {
 	const tokenIsValid = await isTokenStillValid();
 	if (tokenIsValid) {
 		const userToken = await AsyncStorage.getItem('userToken');
-
-		dispatch({ type: PRODUCT_WISHLIST_LOAD_REQUEST });
-
+		dispatch({ type: PRODUCT_COLLECTIONS_LOAD_REQUEST });
 		try {
-			const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum}`, {
+			const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTIONS_ROUTER}`, {
 				headers: {
 					Authorization: `Bearer ${userToken}`,
 				},
 			});
-			dispatch({ type: PRODUCT_WISHLIST_LOAD_SUCCESS, payload: data });
+			dispatch({ type: PRODUCT_COLLECTIONS_LOAD_SUCCESS, payload: data.collections });
 		} catch (error) {
-			console.log('wishlistLoad error: ', error);
-			dispatch({ type: PRODUCT_WISHLIST_LOAD_FAIL, payload: error });
+			console.log('collectionsLoad error: ', error);
+			dispatch({ type: PRODUCT_COLLECTIONS_LOAD_FAIL, payload: error });
 		}
 	} else {
 		showSessionExpiredAlert(dispatch);
 	}
 };
 
-export const wishlistAdd = (id) => async (dispatch) => {
+export const collectionsAdd = (_collectionName) => async (dispatch) => {
 	const tokenIsValid = await isTokenStillValid();
 	if (tokenIsValid) {
 		const userToken = await AsyncStorage.getItem('userToken');
-
-		dispatch({ type: PRODUCT_WISHLIST_ADD_REQUEST, payload: id });
+		dispatch({ type: PRODUCT_COLLECTIONS_ADD_REQUEST });
 		try {
 			const { data } = await axios.post(
-				`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
+				`${config.BE_BASE_API}/${config.COLLECTIONS_ROUTER}`,
 				{
-					productId: id,
+					collectionName: _collectionName,
 				},
 				{
 					headers: {
@@ -73,37 +91,145 @@ export const wishlistAdd = (id) => async (dispatch) => {
 					},
 				},
 			);
-			dispatch({ type: PRODUCT_WISHLIST_ADD_SUCCESS, payload: data });
+			dispatch({ type: PRODUCT_COLLECTIONS_ADD_SUCCESS, payload: data });
 		} catch (error) {
-			console.log('wishlistAdd error: ', error);
-			dispatch({ type: PRODUCT_WISHLIST_ADD_FAIL, payload: error });
+			console.log('collectionsLoad error: ', error);
+			dispatch({ type: PRODUCT_COLLECTIONS_ADD_FAIL, payload: error });
 		}
 	} else {
 		showSessionExpiredAlert(dispatch);
 	}
 };
 
-export const wishlistRemove = (id) => async (dispatch) => {
+export const collectionsUpdate = (_collectionName, _collectionId) => async (dispatch) => {
 	const tokenIsValid = await isTokenStillValid();
 	if (tokenIsValid) {
 		const userToken = await AsyncStorage.getItem('userToken');
-		dispatch({ type: PRODUCT_WISHLIST_REMOVE_REQUEST, payload: id });
+		dispatch({ type: PRODUCT_COLLECTIONS_UPDATE_REQUEST });
 		try {
-			const { data } = await axios.delete(
-				`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}`,
+			const { data } = await axios.put(
+				`${config.BE_BASE_API}/${config.COLLECTIONS_ROUTER}/${_collectionId}`,
 				{
-					data: {
-						productId: id,
-					},
+					name: _collectionName,
+				},
+				{
 					headers: {
 						Authorization: `Bearer ${userToken}`,
 					},
 				},
 			);
-			dispatch({ type: PRODUCT_WISHLIST_REMOVE_SUCCESS, payload: data });
+			dispatch({ type: PRODUCT_COLLECTIONS_UPDATE_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('collectionsLoad error: ', error);
+			dispatch({ type: PRODUCT_COLLECTIONS_UPDATE_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const collectionsRemove = (_collectionId) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+		dispatch({ type: PRODUCT_COLLECTIONS_REMOVE_REQUEST });
+		try {
+			const { data } = await axios.delete(
+				`${config.BE_BASE_API}/${config.COLLECTIONS_ROUTER}/${_collectionId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			dispatch({ type: PRODUCT_COLLECTIONS_REMOVE_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('collectionsLoad error: ', error);
+			dispatch({ type: PRODUCT_COLLECTIONS_REMOVE_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const collectionDetailsLoad = (_collectionId, _pageNum) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+		dispatch({ type: PRODUCT_COLLECTION_DETAILS_LOAD_REQUEST });
+		try {
+			const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
+				.replace(/:id/g, _collectionId)
+				.replace(/:pageSize/g, 10)
+				.replace(/:pageNum/g, _pageNum);
+			const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
+				headers: {
+					Authorization: `Bearer ${userToken}`,
+				},
+			});
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_LOAD_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('wishlistLoad error: ', error);
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_LOAD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const collectionDetailsAdd = (_collectionId, _productId) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: PRODUCT_COLLECTION_DETAILS_ADD_REQUEST, payload: _collectionId });
+		try {
+			const updatedRouter = config.COLLECTION_DETAILS_ROUTER
+				.replace(/:id/g, _collectionId);
+
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${updatedRouter}`,
+				{
+					productId: _productId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_ADD_SUCCESS, payload: data });
+		} catch (error) {
+			console.log('wishlistAdd error: ', error.toString());
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_ADD_FAIL, payload: error });
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const collectionDetailsRemove = (_collectionId, _productId) => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+		dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_REQUEST });
+		try {
+			const updatedRouter = config.COLLECTIONS_DETAILS_REMOVE_ROUTER
+				.replace(/:collectionId/g, _collectionId)
+				.replace(/:productId/g, _productId);
+
+			const { data } = await axios.delete(
+				`${config.BE_BASE_API}/${updatedRouter}`,
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_SUCCESS, payload: data });
 		} catch (error) {
 			console.log('wishlistRemove error: ', error);
-			dispatch({ type: PRODUCT_WISHLIST_REMOVE_FAIL, payload: error });
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_FAIL, payload: error });
 		}
 	} else {
 		showSessionExpiredAlert(dispatch);
@@ -147,5 +273,32 @@ export const productHistorySet = (productParam) => async (dispatch) => {
 		dispatch({ type: PRODUCT_HISTORY_SET_SUCCESS, payload: productParam });
 	} catch (error) {
 		dispatch({ type: PRODUCT_HISTORY_SET_FAIL, payload: error });
+	}
+};
+
+export const productRecommendLoad = () => async (dispatch) => {
+	dispatch({ type: PRODUCT_RECOMMEND_LOAD_REQUEST });
+	try {
+		const value = await AsyncStorage.getItem('product_history');
+		if (value !== null) {
+			const productHistory = JSON.parse(value);
+			const simplifiedDataList = productHistory.map((item) => ({
+				productId: item._id,
+				categories: item.categories || [],
+				group: item.group,
+			}));
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${config.RECOMMEND_PRODUCT_ROUTER}`,
+				{
+					searchHistories: simplifiedDataList,
+				},
+			);
+			dispatch({ type: PRODUCT_RECOMMEND_LOAD_SUCCESS, payload: data });
+		} else {
+			dispatch({ type: PRODUCT_RECOMMEND_LOAD_FAIL, payload: { message: 'EFISS have no recommend yet' } });
+		}
+	} catch (error) {
+		console.log('productRecommendLoad error: ', error);
+		dispatch({ type: PRODUCT_RECOMMEND_LOAD_FAIL, payload: error });
 	}
 };

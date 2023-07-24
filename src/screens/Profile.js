@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 	},
 	actionTitle: {
 		color: COLORS.primary,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.medium,
 	},
 });
@@ -113,7 +113,7 @@ function Profile() {
 							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.semiBold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo?.email}</Text>
 							<TouchableOpacity style={{ marginTop: SIZES.base }} onPress={logout}>
 								<Text style={styles.actionTitle}>Đăng xuất</Text>
@@ -127,9 +127,9 @@ function Profile() {
 							onPress={() => navigation.navigate('EditProfile')}
 						/>
 						<Action
-							title="Wishlist"
+							title="Bộ sưu tập"
 							icon="heart"
-							onPress={() => navigation.navigate('Wishlist')}
+							onPress={() => navigation.navigate('Collections')}
 						/>
 						<Action title="Xác minh email" icon="email" />
 						<Action

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 		color: COLORS.white,
 	},
 	motto: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.large * 2,
 		color: COLORS.primary,
 	},
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 	},
 	loginBtn: {
 		color: COLORS.primary,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 	},
 });
 

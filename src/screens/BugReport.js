@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	headerTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.medium,
 		color: COLORS.white,
 		marginLeft: 12,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 	},
 	inputTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 		marginBottom: 5,
 	},
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ChangePasswordSchema = Yup.object().shape({
+const BugReportSchema = Yup.object().shape({
 	title: Yup.string()
 		.required('Không được bỏ trống'),
 	content: Yup.string()
@@ -99,7 +99,7 @@ function BugReport({ navigation }) {
 				title: '',
 				content: '',
 			}}
-			validationSchema={ChangePasswordSchema}
+			validationSchema={BugReportSchema}
 			onSubmit={(values) => {
 				dispatch(sendBugReport(values));
 			}}

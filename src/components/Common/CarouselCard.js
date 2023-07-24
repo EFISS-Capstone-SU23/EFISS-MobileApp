@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -84,13 +84,12 @@ function CarouselCard({ product, navigation }) {
 		<View style={styles.card}>
 			<View style={{ width: '100%', height: 150, justifyContent: 'center' }}>
 				<TouchableOpacity onPress={() => {
-					dispatch(productHistorySet(product));
-					navigation.navigate('Details', { productData: product });
+					navigation.navigate('Details', { productId: product.id });
 				}}
 				>
 					<Image
 						source={{
-							uri: product.images[0],
+							uri: product?.images[0],
 						}}
 						resizeMode="cover"
 						style={{
@@ -113,7 +112,7 @@ function CarouselCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { productData: product });
+							navigation.navigate('Details', { productId: product.id });
 						}}
 					>
 						{product.title}

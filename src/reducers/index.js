@@ -2,11 +2,17 @@ import { combineReducers } from 'redux';
 
 import {
 	searchProductsReducer,
-	loadWishlistReducer,
-	addWishlistReducer,
-	removeWishlistReducer,
+	getProductByIdReducer,
 	setProductHistoryReducer,
 	loadProductHistoryReducer,
+	loadCollectionsReducer,
+	addCollectionsReducer,
+	updateCollectionsReducer,
+	removeCollectionsReducer,
+	loadCollectionDetailsReducer,
+	addCollectionDetailsReducer,
+	removeCollectionDetailsReducer,
+	loadProductRecommendReducer,
 } from './productReducers';
 import {
 	userRegisterReducer,
@@ -19,17 +25,23 @@ import {
 
 const reducer = combineReducers({
 	searchProducts: searchProductsReducer,
+	getProductById: getProductByIdReducer,
 	userRegister: userRegisterReducer,
 	userSignin: userSigninReducer,
-	loadWishlist: loadWishlistReducer,
-	addWishlist: addWishlistReducer,
-	removeWishlist: removeWishlistReducer,
+	loadCollectionDetails: loadCollectionDetailsReducer,
+	addCollectionDetails: addCollectionDetailsReducer,
+	removeCollectionDetails: removeCollectionDetailsReducer,
 	setProductHistory: setProductHistoryReducer,
 	loadProductHistory: loadProductHistoryReducer,
 	userUpdateProfile: userUpdateProfileReducer,
 	userLoadProfile: userLoadProfileReducer,
 	changePassword: changePasswordReducer,
 	reportBug: reportBugReducer,
+	loadCollections: loadCollectionsReducer,
+	addCollections: addCollectionsReducer,
+	updateCollections: updateCollectionsReducer,
+	removeCollections: removeCollectionsReducer,
+	loadProductRecommend: loadProductRecommendReducer,
 });
 
 export default (state, action) => reducer(state, action);

@@ -58,7 +58,6 @@ function Results({ route, navigation }) {
 			setItems(products.searchResults);
 			setRemainingImageURLs(products.remainingImageUrls);
 			const totalProducts = products.searchResults.length + products.remainingImageUrls.length;
-			console.log(totalProducts);
 			setTotalPages(Math.ceil(totalProducts / config.PAGE_SIZE));
 		}
 	}, [products]);
@@ -74,56 +73,60 @@ function Results({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<FlatList
-						data={items}
-						renderItem={({ item }) => (
-							<ProductCard product={item} navigation={navigation} />
-						)}
-						numColumns={2}
-						keyExtractor={(item) => item?._id}
-						contentContainerStyle={{ columnGap: SIZES.medium }}
-						ListHeaderComponent={<ResultsHeader navigation={navigation} handleSort={changeSort} />}
-						// eslint-disable-next-line react/no-unstable-nested-components
-						ListFooterComponent={() => (
-							isLoadingMore ? <ResultsFooter /> : null
-						)}
-						stickyHeaderIndices={[0]}
-						showsVerticalScrollIndicator={false}
-						refreshControl={(
-							<RefreshControl
-								refreshing={refreshControl}
-								onRefresh={() => {
-									setRefreshControl(true);
-									dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
-									setPageNum(1);
-									setRefreshControl(false);
-								}}
-							/>
-						)}
-						onEndReached={async () => {
-							if (!isLoadingMore && (pageNum + 1) <= totalPages) {
-								setIsLoadingMore(true);
-								const startId = (pageNum - 1) * config.PAGE_SIZE;
-								const endId = startId + config.PAGE_SIZE;
-								const itemsToLoadIds = remainingImageURLs.slice(startId, endId);
-								try {
-									const { data } = await axios.post(
-										`${config.BE_BASE_API}/${config.LOAD_MORE_BY_URL}`,
-										{
-											imageUrls: itemsToLoadIds,
-										},
-									);
-									setPageNum(pageNum + 1);
-									setItems([...items, ...data.products]);
-								} catch (err) {
-									console.log('Load more results error: ', err);
-								} finally {
-									setIsLoadingMore(false);
-								}
+					<View>
+						<FlatList
+							data={items}
+							renderItem={({ item }) => (
+								<ProductCard product={item} navigation={navigation} />
+							)}
+							numColumns={2}
+							keyExtractor={(item) => item?._id}
+							contentContainerStyle={{ columnGap: SIZES.medium }}
+							ListHeaderComponent={
+								<ResultsHeader navigation={navigation} handleSort={changeSort} />
 							}
-						}}
-						onEndReachedThreshold={0.2}
-					/>
+							// eslint-disable-next-line react/no-unstable-nested-components
+							ListFooterComponent={() => (
+								isLoadingMore ? <ResultsFooter /> : null
+							)}
+							stickyHeaderIndices={[0]}
+							showsVerticalScrollIndicator={false}
+							refreshControl={(
+								<RefreshControl
+									refreshing={refreshControl}
+									onRefresh={() => {
+										setRefreshControl(true);
+										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
+										setPageNum(1);
+										setRefreshControl(false);
+									}}
+								/>
+							)}
+							onEndReached={async () => {
+								if (!isLoadingMore && (pageNum + 1) <= totalPages) {
+									setIsLoadingMore(true);
+									const startId = (pageNum - 1) * config.PAGE_SIZE;
+									const endId = startId + config.PAGE_SIZE;
+									const itemsToLoadIds = remainingImageURLs.slice(startId, endId);
+									try {
+										const { data } = await axios.post(
+											`${config.BE_BASE_API}/${config.LOAD_MORE_BY_URL}`,
+											{
+												imageUrls: itemsToLoadIds,
+											},
+										);
+										setPageNum(pageNum + 1);
+										setItems([...items, ...data.products]);
+									} catch (err) {
+										console.log('Load more results error: ', err);
+									} finally {
+										setIsLoadingMore(false);
+									}
+								}
+							}}
+							onEndReachedThreshold={0.2}
+						/>
+					</View>
 				)}
 			</View>
 		</SafeAreaView>

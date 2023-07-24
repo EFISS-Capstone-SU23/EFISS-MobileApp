@@ -34,9 +34,9 @@ export const signin = (username, password) => async (dispatch) => {
 				password,
 			},
 		);
-		await storeNewUserToken(data.token);
+		await storeNewUserToken(data.accessToken);
 		await storeNewRefreshToken(data.refreshToken);
-		dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.token });
+		dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.accessToken });
 	} catch (error) {
 		dispatch({
 			type: USER_SIGNIN_FAIL,
@@ -71,8 +71,9 @@ export const loadUserProfile = () => async (dispatch) => {
 					},
 				},
 			);
-			dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.user });
+			dispatch({ type: USER_LOAD_PROFILE_SUCCESS, payload: data.account });
 		} catch (error) {
+			console.log(error.message);
 			dispatch({ type: USER_LOAD_PROFILE_FAIL, payload: error });
 		}
 	} else {
@@ -151,7 +152,6 @@ export const sendBugReport = (values) => async (dispatch) => {
 					},
 				},
 			);
-			console.log(data);
 			dispatch({ type: USER_REPORT_BUG_SUCCESS, payload: data });
 		} catch (error) {
 			console.error(error);

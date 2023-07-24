@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ActivityIndicator, FlatList, StatusBar, RefreshControl,
+	View, Text, SafeAreaView, StyleSheet, ActivityIndicator,
+	FlatList, StatusBar, RefreshControl, ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { WishlistHeader, ProductCard } from '../components';
-import { wishlistLoad } from '../actions/productActions';
+import { CollectionDetailsHeader } from '../components';
+import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
+import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
+import { PRODUCT_COLLECTION_DETAILS_REMOVE_RESET } from '../constants/productConstants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -19,21 +22,24 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		textAlign: 'center',
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.primary,
 		marginVertical: SIZES.medium,
 	},
 });
 
-function Wishlist({ navigation }) {
+function CollectionDetails({ navigation, route }) {
 	const dispatch = useDispatch();
+
+	// product data extracted from the results screen
+	const { id } = route.params;
 
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userToken } = userSignin;
-	const loadWishlist = useSelector((state) => state.loadWishlist);
+	const loadCollectionDetails = useSelector((state) => state.loadCollectionDetails);
 	const {
 		loading, error, products, totalPages,
-	} = loadWishlist;
+	} = loadCollectionDetails;
 
 	const [refreshControl, setRefreshControl] = useState(false);
 
@@ -41,15 +47,34 @@ function Wishlist({ navigation }) {
 	const [items, setItems] = useState([]);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+	// as the screen shows up, load the list of products from backend storage
 	useEffect(() => {
-		dispatch(wishlistLoad(1));
+		dispatch(collectionDetailsLoad(id, 1));
 	}, [dispatch]);
 
+	// if the list of products is successfully loaded, set the list data to the item variable.
 	useEffect(() => {
 		if (products) {
 			setItems(products);
 		}
 	}, [products]);
+
+	// if the user add success, reload screen
+	const removeCollectionDetails = useSelector((state) => state.removeCollectionDetails);
+	const { successRemoveCollectionDetails } = removeCollectionDetails;
+
+	useEffect(() => {
+		if (successRemoveCollectionDetails) {
+			dispatch(collectionDetailsLoad(id, 1));
+			setPageNum(1);
+			ToastAndroid.showWithGravity(
+				'Đã xóa sản phẩm khỏi bộ sưu tập',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			dispatch({ type: PRODUCT_COLLECTION_DETAILS_REMOVE_RESET });
+		}
+	}, [successRemoveCollectionDetails]);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -69,12 +94,12 @@ function Wishlist({ navigation }) {
 					<FlatList
 						data={items}
 						renderItem={({ item }) => (
-							<ProductCard product={item} navigation={navigation} />
+							<CollectionDetailsCard collectionId={id} product={item} navigation={navigation} />
 						)}
 						numColumns={2}
-						keyExtractor={(item) => item?._id}
+						keyExtractor={(item) => item?.id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}
-						ListHeaderComponent={<WishlistHeader navigation={navigation} />}
+						ListHeaderComponent={<CollectionDetailsHeader navigation={navigation} />}
 						// eslint-disable-next-line react/no-unstable-nested-components
 						ListFooterComponent={() => (
 							isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
@@ -86,7 +111,7 @@ function Wishlist({ navigation }) {
 								refreshing={refreshControl}
 								onRefresh={() => {
 									setRefreshControl(true);
-									dispatch(wishlistLoad(1));
+									dispatch(collectionDetailsLoad(id, 1));
 									setPageNum(1);
 									setRefreshControl(false);
 								}}
@@ -96,16 +121,19 @@ function Wishlist({ navigation }) {
 							if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
 								setIsLoadingMore(true);
 								try {
-									const { data } = await axios.get(`${config.BE_BASE_API}/${config.WISHLIST_ROUTER}?pageSize=8&pageNumber=${pageNum + 1}`, {
+									const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
+										.replace(/:id/g, id)
+										.replace(/:pageSize/g, 10)
+										.replace(/:pageNum/g, pageNum + 1);
+									const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
 										headers: {
 											Authorization: `Bearer ${userToken}`,
 										},
 									});
-									console.log('loaded: ', pageNum + 1);
 									setPageNum(pageNum + 1);
-									setItems([...items, ...data.products]);
+									setItems([...items, ...data.products.productsList]);
 								} catch (err) {
-									console.log('wishlistLoad error: ', err);
+									console.log('collectionDetailsLoadMore error: ', err);
 								} finally {
 									setIsLoadingMore(false);
 								}
@@ -119,4 +147,4 @@ function Wishlist({ navigation }) {
 	);
 }
 
-export default Wishlist;
+export default CollectionDetails;

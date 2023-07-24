@@ -14,11 +14,9 @@ import { formatNumber } from '../../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
-		width: '46%',
+		width: '47%',
 		backgroundColor: COLORS.white,
-		borderColor: COLORS.gray,
-		marginBottom: SIZES.small,
-		margin: SIZES.base,
+		margin: 5,
 		borderTopLeftRadius: SIZES.base,
 		borderTopRightRadius: SIZES.base,
 	},
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -79,8 +77,7 @@ function ProductCard({ product, navigation }) {
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
-						dispatch(productHistorySet(product));
-						navigation.navigate('Details', { productData: product });
+						navigation.navigate('Details', { productId: product.id });
 					}}
 				>
 					<Image
@@ -104,7 +101,7 @@ function ProductCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { productData: product });
+							navigation.navigate('Details', { productId: product.id });
 						}}
 					>
 						{product.title}

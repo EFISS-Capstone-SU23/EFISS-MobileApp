@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
 		padding: 12,
 	},
 	text: {
-		flex: 0.9,
+		flex: 1,
 		fontFamily: FONTS.semiBold,
-		fontSize: SIZES.extraLarge,
+		fontSize: SIZES.large,
 		color: COLORS.white,
 		textAlign: 'center',
 	},
@@ -34,9 +34,15 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
+	modalContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: COLORS.white,
+	},
 });
 
-function WishlistHeader({ navigation }) {
+function CollectionsHeader({ navigation, onAdd }) {
 	return (
 		<View style={styles.container}>
 			<IconButton
@@ -45,10 +51,15 @@ function WishlistHeader({ navigation }) {
 			/>
 
 			<Text style={styles.text}>
-				Wishlist
+				Danh sách bộ sưu tập
 			</Text>
+
+			<IconButton
+				onPress={onAdd}
+				icon={<Entypo name="add-to-list" color={COLORS.white} size={30} />}
+			/>
 		</View>
 	);
 }
 
-export default WishlistHeader;
+export default CollectionsHeader;

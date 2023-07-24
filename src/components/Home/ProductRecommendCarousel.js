@@ -1,14 +1,13 @@
 import {
-	View, Text, StyleSheet, FlatList,
+	View, Text, StyleSheet, FlatList, TouchableOpacity,
 } from 'react-native';
 import { ActivityIndicator } from '@react-native-material/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
 
 import { FONTS, SIZES, COLORS } from '../../constants';
 import CarouselCard from '../Common/CarouselCard';
-import { productHistoryLoad } from '../../actions/productActions';
+import { productRecommendLoad } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},
@@ -39,20 +38,20 @@ const styles = StyleSheet.create({
 
 function ProductRecommendCarousel({ navigation }) {
 	const dispatch = useDispatch();
-	const historyProduct = useSelector((state) => state.loadProductHistory);
-	const { products, loading, error } = historyProduct;
-	const isFocused = useIsFocused();
+	const recommendProduct = useSelector((state) => state.loadProductRecommend);
+	const { products, loading, error } = recommendProduct;
 
 	useEffect(() => {
-		if (isFocused) {
-			dispatch(productHistoryLoad());
-		}
-	}, [dispatch, isFocused]);
+		dispatch(productRecommendLoad());
+	}, [dispatch]);
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>Có thể bạn sẽ thích</Text>
+				<TouchableOpacity onPress={() => dispatch(productRecommendLoad())}>
+					<Text style={{ marginRight: SIZES.base }}>Làm mới gợi ý</Text>
+				</TouchableOpacity>
 			</View>
 
 			<View style={styles.cardsContainer}>

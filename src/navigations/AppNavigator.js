@@ -12,7 +12,8 @@ import SignUp from '../screens/SignUp';
 import EditProfile from '../screens/EditProfile';
 import ChangePassword from '../screens/ChangePassword';
 import BugReport from '../screens/BugReport';
-import Wishlist from '../screens/Wishlist';
+import CollectionDetails from '../screens/CollectionDetails';
+import Collections from '../screens/Collections';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,8 @@ function AppNavigator() {
 				? (
 					<>
 						<Stack.Screen name="Profile" component={Profile} />
-						<Stack.Screen name="Wishlist" component={Wishlist} />
+						<Stack.Screen name="Collections" component={Collections} />
+						<Stack.Screen name="CollectionDetails" component={CollectionDetails} />
 						<Stack.Screen name="EditProfile" component={EditProfile} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
 						<Stack.Screen name="BugReport" component={BugReport} />
