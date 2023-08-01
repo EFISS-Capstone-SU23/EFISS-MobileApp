@@ -1,7 +1,7 @@
 import {
 	View, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { memo } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { Badge, Text } from '@react-native-material/core';
@@ -77,7 +77,8 @@ function ProductCard({ product, navigation }) {
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
-						navigation.navigate('Details', { productId: product.id });
+						dispatch(productHistorySet(product));
+						navigation.navigate('Details', { productId: product.id ? product.id : product._id });
 					}}
 				>
 					<Image
@@ -101,7 +102,7 @@ function ProductCard({ product, navigation }) {
 						numberOfLines={1}
 						onPress={() => {
 							dispatch(productHistorySet(product));
-							navigation.navigate('Details', { productId: product.id });
+							navigation.navigate('Details', { productId: product.id ? product.id : product._id });
 						}}
 					>
 						{product.title}
@@ -127,4 +128,4 @@ function ProductCard({ product, navigation }) {
 	);
 }
 
-export default React.memo(ProductCard);
+export default memo(ProductCard);

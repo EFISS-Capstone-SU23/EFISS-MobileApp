@@ -8,7 +8,7 @@
     "web": "expo start --web",
     "lint": "npx eslint . --ext .js,.jsx",
     "prepare": "npx husky install",
-	"build": "eas build --profile production --platform android"
+    "build": "eas build --profile production --platform android"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",
@@ -47,6 +47,7 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "rn-range-slider": "^2.2.2",
     "yup": "^1.2.0"
   },
   "devDependencies": {

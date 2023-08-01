@@ -117,6 +117,11 @@ function Settings() {
 					</View>
 					<View style={styles.sectionBody}>
 						<Action
+							title="Cài đặt tìm kiếm"
+							icon="magnifying-glass"
+							onPress={() => navigation.navigate('Preferences')}
+						/>
+						<Action
 							title="Liên hệ với chúng tôi"
 							icon="mail"
 							onPress={() => { }}

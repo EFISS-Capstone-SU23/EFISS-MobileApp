@@ -44,6 +44,7 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (d
 
 export const productGetById = (_productId) => async (dispatch) => {
 	dispatch({ type: PRODUCT_GET_BY_ID_REQUEST });
+	console.log(_productId);
 	try {
 		const { data } = await axios.get(`${config.BE_BASE_API}/${config.GET_BY_ID_ROUTER}/${_productId}`);
 		dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: data.product });
