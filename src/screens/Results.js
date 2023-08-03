@@ -105,7 +105,7 @@ function Results({ route, navigation }) {
 							onEndReached={async () => {
 								if (!isLoadingMore && (pageNum + 1) <= totalPages) {
 									setIsLoadingMore(true);
-									const startId = (pageNum - 1) * config.PAGE_SIZE;
+									const startId = pageNum * config.PAGE_SIZE;
 									const endId = startId + config.PAGE_SIZE;
 									const itemsToLoadIds = remainingImageURLs.slice(startId, endId);
 									try {

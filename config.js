@@ -15,7 +15,7 @@ export const config = {
 	COLLECTION_DETAILS_ROUTER: 'normal-user/collections/:id/products',
 	COLLECTIONS_DETAILS_REMOVE_ROUTER: 'normal-user/collections/:collectionId/products/:productId',
 	PROFILE_ROUTER: 'normal-user/profile',
-	REPORT_BUG: 'user/bug-report',
+	REPORT_BUG: 'normal-user/bug-report',
 
 	LOAD_MORE_BY_URL: 'product/list/by-image-urls',
 

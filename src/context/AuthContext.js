@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
 		dispatch({ type: USER_SIGNIN_REQUEST });
 		const tokenIsValid = await isTokenStillValid();
 		if (!tokenIsValid) {
-			logout();
+			await logout();
 		} else {
 			const token = await AsyncStorage.getItem('userToken');
 			dispatch({ type: USER_SIGNIN_SUCCESS, payload: token });

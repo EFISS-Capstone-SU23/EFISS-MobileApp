@@ -142,6 +142,7 @@ export const sendBugReport = (values) => async (dispatch) => {
 		const userToken = await AsyncStorage.getItem('userToken');
 
 		dispatch({ type: USER_REPORT_BUG_REQUEST, payload: values });
+		console.log(values);
 		try {
 			const { data } = await axios.post(
 				`${config.BE_BASE_API}/${config.REPORT_BUG}`,
