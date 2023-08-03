@@ -26,6 +26,12 @@ import CollectionsHeader from './Collections/CollectionsHeader';
 
 import ResultsHeader from './Results/ResultsHeader';
 
+import Label from './SearchPreferences/Label';
+import Notch from './SearchPreferences/Notch';
+import Rail from './SearchPreferences/Rail';
+import RailSelected from './SearchPreferences/RailSelected';
+import Thumb from './SearchPreferences/Thumb';
+
 export {
 	HomeHeader,
 	Welcome,
@@ -48,4 +54,9 @@ export {
 	CollectionCard,
 	ModalAddCollection,
 	ModalUpdateCollection,
+	Label,
+	Notch,
+	Rail,
+	RailSelected,
+	Thumb,
 };

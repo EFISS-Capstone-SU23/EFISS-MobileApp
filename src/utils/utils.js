@@ -25,7 +25,6 @@ export const storeNewUserToken = async (token) => {
 		const currentTime = getCurrentTime();
 		await AsyncStorage.setItem('userToken', token);
 		await AsyncStorage.setItem('userTokenInitTime', currentTime);
-		console.log('userTokenInitTime: ', currentTime);
 	} catch (error) {
 		console.log('Error storing userTokenInitTime:', error);
 	}
@@ -36,7 +35,6 @@ export const storeNewRefreshToken = async (token) => {
 		const currentTime = getCurrentTime();
 		await AsyncStorage.setItem('refreshToken', token);
 		await AsyncStorage.setItem('refreshTokenInitTime', currentTime);
-		console.log('refreshTokenInitTime: ', currentTime);
 	} catch (error) {
 		console.log('Error storing refreshTokenInitTime:', error);
 	}
@@ -53,15 +51,12 @@ export const isTokenStillValid = async () => {
 
 	// Check if access token is expired
 	if (currentTime - new Date(userTokenInitTime).getTime() > userTokenLifetime) {
-		console.log('Access token is expired');
 		// Access token expired
 		if (currentTime - new Date(refreshTokenInitTime).getTime() > refreshTokenLifetime) {
 			// Refresh token also expired, logout
-			console.log('Refresh token is expired');
 			return false;
 		}
 		// Refresh token still valid, fetch a new access token
-		console.log('Get a new access Token');
 		const refreshToken = await AsyncStorage.getItem('refreshToken');
 		const response = await axios.post(
 			`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
