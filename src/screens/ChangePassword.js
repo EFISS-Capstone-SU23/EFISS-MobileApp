@@ -60,22 +60,22 @@ const ChangePasswordSchema = Yup.object().shape({
 		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
 		.required('Không được bỏ trống')
 		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,32}$/,
+			'Mật khẩu tối đa 32 kí tự, gồm các chữ cái viết thường, ít nhất 1 kí tự viết hoa và 1 chữ số',
 		),
 	newPassword: Yup.string()
 		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
 		.required('Không được bỏ trống')
 		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,32}$/,
+			'Mật khẩu tối đa 32 kí tự, gồm các chữ cái viết thường, ít nhất 1 kí tự viết hoa và 1 chữ số',
 		),
 	confirmNewPassword: Yup.string()
 		.min(6, 'Mật khẩu có độ dài tối thiểu 6 kí tự')
 		.required('Không được bỏ trống')
 		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$/,
-			'Mật khẩu không hợp lệ',
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,32}$/,
+			'Mật khẩu tối đa 32 kí tự, gồm các chữ cái viết thường, ít nhất 1 kí tự viết hoa và 1 chữ số',
 		)
 		.oneOf([Yup.ref('newPassword')], 'Mật khẩu không khớp, vui lòng kiểm tra lại'),
 });
