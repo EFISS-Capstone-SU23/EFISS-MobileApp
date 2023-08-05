@@ -15,6 +15,7 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import { Entypo } from '@expo/vector-icons';
 
 import { COLORS, FONTS, SIZES } from '../constants';
+import { checkImageSize } from '../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -119,13 +120,17 @@ function Search() {
 			const selectedImage = await ImagePicker.openPicker({
 				mediaType: 'photo',
 			});
-			const image = await ImagePicker.openCropper({
-				path: selectedImage.path,
-				includeBase64: true,
-				cropperToolbarTitle: 'Cắt ảnh',
-			});
+			if (checkImageSize(selectedImage?.width, selectedImage?.height)) {
+				const image = await ImagePicker.openCropper({
+					path: selectedImage.path,
+					includeBase64: true,
+					cropperToolbarTitle: 'Cắt ảnh',
+				});
 
-			navigation.navigate('Results', { imageUrl: image.data });
+				navigation.navigate('Results', { imageUrl: image.data });
+			} else {
+				ToastAndroid.show('Vui lòng chọn ảnh có kích thước tối đa dưới 5MB.', ToastAndroid.LONG);
+			}
 		} catch (error) {
 			ToastAndroid.showWithGravity(
 				error.message,

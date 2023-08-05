@@ -42,20 +42,28 @@ export const storeNewRefreshToken = async (token) => {
 
 export const isTokenStillValid = async () => {
 	const userTokenInitTime = await AsyncStorage.getItem('userTokenInitTime');
-	const userTokenLifetime = 15 * 60 * 1000; // 15 mins converted to milliseconds
-
 	const refreshTokenInitTime = await AsyncStorage.getItem('refreshTokenInitTime');
-	const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // 30 days converted to milliseconds
+
+	// Check if userTokenInitTime or refreshTokenInitTime is null or undefined
+	if (userTokenInitTime === null || refreshTokenInitTime === null) {
+		return false; // Return false immediately as token information is not available
+	}
 
 	const currentTime = new Date().getTime(); // Get the current time in milliseconds
+	const userTokenLifetime = 15 * 60 * 1000; // 15 mins converted to milliseconds
+	const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // 30 days converted to milliseconds
 
-	// Check if access token is expired
-	if (currentTime - new Date(userTokenInitTime).getTime() > userTokenLifetime) {
-		// Access token expired
-		if (currentTime - new Date(refreshTokenInitTime).getTime() > refreshTokenLifetime) {
-			// Refresh token also expired, logout
+	// eslint-disable-next-line max-len
+	const isAccessTokenExpired = currentTime - new Date(userTokenInitTime).getTime() > userTokenLifetime;
+	// eslint-disable-next-line max-len
+	const isRefreshTokenExpired = currentTime - new Date(refreshTokenInitTime).getTime() > refreshTokenLifetime;
+
+	if (isAccessTokenExpired) {
+		if (isRefreshTokenExpired) {
+			// Access and refresh tokens both expired, logout
 			return false;
 		}
+
 		// Refresh token still valid, fetch a new access token
 		const refreshToken = await AsyncStorage.getItem('refreshToken');
 		const response = await axios.post(
@@ -79,4 +87,16 @@ export const showSessionExpiredAlert = (dispatch) => {
 			{ text: 'OK', onPress: () => dispatch({ type: USER_SIGNOUT }) },
 		],
 	);
+};
+
+export const checkImageSize = (width, height) => {
+	// Calculate the size of the image in bytes
+	const imageSizeInBytes = width * height * 4; // Assuming 4 bytes per pixel (RGBA)
+
+	// Convert the size to MB
+	const imageSizeInMB = imageSizeInBytes / (1024 * 1024 * 10);
+	console.log(imageSizeInMB);
+
+	// Check if the image size exceeds the maximum allowed size (5MB)
+	return imageSizeInMB < 5;
 };
