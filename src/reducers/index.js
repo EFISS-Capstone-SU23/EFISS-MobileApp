@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import {
 	searchProductsReducer,
+	searchTextProductsReducer,
 	getProductByIdReducer,
 	setProductHistoryReducer,
 	loadProductHistoryReducer,
@@ -25,6 +26,7 @@ import {
 
 const reducer = combineReducers({
 	searchProducts: searchProductsReducer,
+	searchTextProducts: searchTextProductsReducer,
 	getProductById: getProductByIdReducer,
 	userRegister: userRegisterReducer,
 	userSignin: userSigninReducer,

@@ -1,5 +1,6 @@
 import {
 	PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_SUCCESS, PRODUCT_SEARCH_FAIL,
+	PRODUCT_TEXT_SEARCH_REQUEST, PRODUCT_TEXT_SEARCH_SUCCESS, PRODUCT_TEXT_SEARCH_FAIL,
 	PRODUCT_GET_BY_ID_REQUEST, PRODUCT_GET_BY_ID_SUCCESS, PRODUCT_GET_BY_ID_FAIL,
 	PRODUCT_COLLECTIONS_LOAD_REQUEST, PRODUCT_COLLECTIONS_LOAD_SUCCESS, PRODUCT_COLLECTIONS_LOAD_FAIL,
 	PRODUCT_COLLECTIONS_ADD_REQUEST, PRODUCT_COLLECTIONS_ADD_SUCCESS,
@@ -27,6 +28,22 @@ export const searchProductsReducer = (state = { loading: true }, action) => {
 	case PRODUCT_SEARCH_SUCCESS:
 		return { loading: false, products: action.payload };
 	case PRODUCT_SEARCH_FAIL:
+		return { loading: false, error: action.payload };
+	default:
+		return state;
+	}
+};
+
+// product search
+export const searchTextProductsReducer = (state = { loading: true }, action) => {
+	switch (action.type) {
+	case PRODUCT_TEXT_SEARCH_REQUEST:
+		return { loading: true };
+	case PRODUCT_TEXT_SEARCH_SUCCESS:
+		return {
+			loading: false, products: action.payload.products, totalPages: action.payload.totalPages,
+		};
+	case PRODUCT_TEXT_SEARCH_FAIL:
 		return { loading: false, error: action.payload };
 	default:
 		return state;

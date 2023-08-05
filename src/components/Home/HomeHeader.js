@@ -1,8 +1,8 @@
 import {
-	View, Text, Image, TouchableOpacity, StyleSheet,
+	View, Text, Image, TouchableOpacity, StyleSheet, ToastAndroid,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import React from 'react';
+import React, { useState } from 'react';
 import { HStack, IconButton } from '@react-native-material/core';
 import { Entypo } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
@@ -66,10 +66,12 @@ const styles = StyleSheet.create({
 });
 
 function HomeHeader({
-	onSearch, onPicture, onLogin, onProfile,
+	onPicture, onLogin, onProfile, navigation,
 }) {
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userToken } = userSignin;
+
+	const [text, setText] = useState('');
 
 	return (
 		<View style={styles.container}>
@@ -94,7 +96,18 @@ function HomeHeader({
 
 			<View style={{ marginTop: SIZES.font }}>
 				<View style={styles.searchContainer}>
-					<TouchableOpacity onPress={onSearch}>
+					<TouchableOpacity onPress={() => {
+						if (text && text.length > 0) {
+							navigation.navigate('TextResults', { query: text });
+						} else {
+							ToastAndroid.showWithGravity(
+								'Vui lòng nhập từ khóa',
+								ToastAndroid.SHORT,
+								ToastAndroid.BOTTOM,
+							);
+						}
+					}}
+					>
 						<Image
 							source={assets.search}
 							resizeMode="contain"
@@ -104,7 +117,8 @@ function HomeHeader({
 					<TextInput
 						placeholder="Bạn đang tìm kiếm sản phẩm gì?"
 						style={styles.textInput}
-						onChangeText={() => { }}
+						value={text}
+						onChangeText={(value) => setText(value)}
 					/>
 					<TouchableOpacity onPress={onPicture}>
 						<Image
