@@ -15,6 +15,7 @@ import BugReport from '../screens/BugReport';
 import CollectionDetails from '../screens/CollectionDetails';
 import Collections from '../screens/Collections';
 import SearchPreferences from '../screens/SearchPreferences';
+import TextResults from '../screens/TextResults';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ function AppNavigator() {
 			<Stack.Screen name="HomeStack" component={HomeStack} />
 			<Stack.Screen name="Details" component={Details} />
 			<Stack.Screen name="Results" component={Results} />
+			<Stack.Screen name="TextResults" component={TextResults} />
 			<Stack.Screen name="Preferences" component={SearchPreferences} />
 			{userToken && userToken !== null
 				? (

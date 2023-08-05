@@ -32,6 +32,8 @@ import Rail from './SearchPreferences/Rail';
 import RailSelected from './SearchPreferences/RailSelected';
 import Thumb from './SearchPreferences/Thumb';
 
+import TextResultsHeader from './TextResults/TextResultsHeader';
+
 export {
 	HomeHeader,
 	Welcome,
@@ -59,4 +61,5 @@ export {
 	Rail,
 	RailSelected,
 	Thumb,
+	TextResultsHeader,
 };

@@ -32,9 +32,8 @@ function Home() {
 			>
 				<View style={{ flex: 1 }}>
 					<HomeHeader
-						onSearch={() => {}}
+						navigation={navigation}
 						onPicture={() => changeModalVisibility(true)}
-						onHistory={() => {}}
 						onLogin={() => navigation.navigate('Login')}
 						onProfile={() => navigation.navigate('Profile')}
 					/>

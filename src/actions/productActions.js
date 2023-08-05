@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
 	PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_SUCCESS, PRODUCT_SEARCH_FAIL,
+	PRODUCT_TEXT_SEARCH_REQUEST, PRODUCT_TEXT_SEARCH_SUCCESS, PRODUCT_TEXT_SEARCH_FAIL,
 	PRODUCT_GET_BY_ID_REQUEST, PRODUCT_GET_BY_ID_SUCCESS, PRODUCT_GET_BY_ID_FAIL,
 	PRODUCT_COLLECTIONS_LOAD_REQUEST, PRODUCT_COLLECTIONS_LOAD_SUCCESS, PRODUCT_COLLECTIONS_LOAD_FAIL,
 	PRODUCT_COLLECTIONS_ADD_REQUEST, PRODUCT_COLLECTIONS_ADD_SUCCESS, PRODUCT_COLLECTIONS_ADD_FAIL,
@@ -39,6 +40,21 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (d
 	} catch (error) {
 		console.log('productsSearch error: ', error);
 		dispatch({ type: PRODUCT_SEARCH_FAIL, payload: error });
+	}
+};
+
+export const productsTextSearch = (_query, _pageNum) => async (dispatch) => {
+	dispatch({ type: PRODUCT_TEXT_SEARCH_REQUEST, payload: _query });
+	try {
+		const updatedRouter = config.TEXT_SEARCH_ROUTER
+			.replace(/:query/g, _query)
+			.replace(/:pageSize/g, config.PAGE_SIZE)
+			.replace(/:pageNum/g, _pageNum);
+		const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);
+		dispatch({ type: PRODUCT_TEXT_SEARCH_SUCCESS, payload: data });
+	} catch (error) {
+		console.log('productsTextSearch error: ', error);
+		dispatch({ type: PRODUCT_TEXT_SEARCH_FAIL, payload: error });
 	}
 };
 

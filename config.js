@@ -2,6 +2,7 @@ export const config = {
 	BE_BASE_API: 'https://efiss.tech',
 
 	SEARCH_ROUTER: 'search/image',
+	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum',
 
 	SIGNUP_ROUTER: 'auth/sign-up',
 	SIGNIN_ROUTER: 'auth/sign-in',
