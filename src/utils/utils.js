@@ -88,3 +88,15 @@ export const showSessionExpiredAlert = (dispatch) => {
 		],
 	);
 };
+
+export const checkImageSize = (width, height) => {
+	// Calculate the size of the image in bytes
+	const imageSizeInBytes = width * height * 4; // Assuming 4 bytes per pixel (RGBA)
+
+	// Convert the size to MB
+	const imageSizeInMB = imageSizeInBytes / (1024 * 1024 * 10);
+	console.log(imageSizeInMB);
+
+	// Check if the image size exceeds the maximum allowed size (5MB)
+	return imageSizeInMB < 5;
+};
