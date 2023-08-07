@@ -121,11 +121,6 @@ function CollectionDetailsCard({ collectionId, product, navigation }) {
 				</TouchableOpacity>
 			</View>
 			<View style={{ width: '100%', padding: SIZES.base }}>
-				<View style={styles.groupContainer}>
-					<Text style={styles.group}>
-						{product.group}
-					</Text>
-				</View>
 				<View style={{ marginBottom: SIZES.base }}>
 					<Text
 						variant="subtitle2"

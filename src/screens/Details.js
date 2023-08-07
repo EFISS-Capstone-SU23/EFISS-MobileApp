@@ -2,7 +2,9 @@ import {
 	View, StatusBar, ScrollView, ToastAndroid, ActivityIndicator,
 	FlatList, Animated, Linking, StyleSheet, Modal,
 } from 'react-native';
-import { Text, IconButton, Button } from '@react-native-material/core';
+import {
+	Text, IconButton, Button, Badge,
+} from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -146,12 +148,16 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		marginRight: 10,
 	},
+	price: {
+		width: 'auto',
+		fontFamily: FONTS.light,
+		fontSize: SIZES.medium,
+	},
 	priceContainer: {
-		fontSize: 18,
-		fontFamily: FONTS.semiBold,
-		maxWidth: '84%',
-		color: COLORS.black,
-		marginBottom: 4,
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: SIZES.base,
 	},
 	floatButtonContainer: {
 		position: 'absolute',
@@ -316,11 +322,11 @@ function Details({ route, navigation }) {
 							</View>
 						</View>
 						<View style={styles.infoContainer}>
-							{product.metadata?.color && (
+							{product?.categories && (
 								<View style={styles.groupContainer}>
 									<Entypo name="colours" style={styles.groupIcon} />
 									<Text style={styles.groupLabel}>
-										{product.metadata.color}
+										{product.categories.join(', ')}
 									</Text>
 								</View>
 							)}
@@ -330,26 +336,28 @@ function Details({ route, navigation }) {
 								</Text>
 								<Entypo name="link" style={styles.linkIcon} />
 							</View>
-							<Text style={styles.description}>
-								{product.description}
-							</Text>
 							<View style={styles.locationContainer}>
 								<View style={styles.location}>
 									<View style={styles.locationSection}>
-										<Entypo name="shop" style={{ fontSize: 20, color: COLORS.primary }} />
+										<Entypo name="shop" style={{ fontSize: 28, color: COLORS.primary }} />
 									</View>
 									<Text variant="overline" style={{ fontSize: SIZES.font }}>
-										{product.group}
+										{product.shopName}
 									</Text>
 								</View>
-								<Entypo name="chevron-right" style={{ fontSize: 22, color: COLORS.primary }} />
+								<Entypo name="chevron-right" style={{ fontSize: 28, color: COLORS.primary }} />
 							</View>
-							<View>
-								<Text style={styles.priceContainer}>
-									<Entypo name="credit" style={{ fontSize: 22, color: COLORS.primary }} />
-									{formatNumber(product.price)}
-								</Text>
+							<View style={styles.priceContainer}>
+								<Text style={{ fontFamily: FONTS.medium }}>Giá: </Text>
+								<Badge
+									label={`${formatNumber(product.price)} VND`}
+									color={COLORS.primary}
+									labelStyle={styles.price}
+								/>
 							</View>
+							<Text style={styles.description}>
+								{product.description}
+							</Text>
 						</View>
 					</ScrollView>
 

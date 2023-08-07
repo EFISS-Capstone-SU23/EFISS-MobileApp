@@ -3,10 +3,7 @@ import {
 } from 'react-native';
 import React, { memo } from 'react';
 import { Entypo } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
 import { Badge, Text } from '@react-native-material/core';
-
-import { productHistorySet } from '../../actions/productActions';
 import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
@@ -34,6 +31,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		paddingBottom: 5,
 	},
 	priceContainer: {
 		flexDirection: 'row',
@@ -47,7 +45,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 	groupContainer: {
-		marginBottom: SIZES.base / 4,
+		marginVertical: SIZES.base / 4,
 	},
 	group: {
 		color: COLORS.secondary,
@@ -70,14 +68,11 @@ const styles = StyleSheet.create({
 });
 
 function ProductCard({ product, navigation }) {
-	const dispatch = useDispatch();
-
 	return (
 		<View style={styles.container}>
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
-						dispatch(productHistorySet(product));
 						navigation.navigate('Details', { productId: product.id ? product.id : product._id });
 					}}
 				>
@@ -90,18 +85,17 @@ function ProductCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ width: '100%', padding: 5 }}>
+			<View style={{ width: '100%', paddingHorizontal: 5 }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
-						{product.group}
+						{product.shopName}
 					</Text>
 				</View>
-				<View style={{ marginBottom: SIZES.base }}>
+				<View style={{ marginBottom: 5 }}>
 					<Text
 						variant="subtitle2"
 						numberOfLines={1}
 						onPress={() => {
-							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { productId: product.id ? product.id : product._id });
 						}}
 					>

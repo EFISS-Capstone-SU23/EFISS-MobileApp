@@ -125,6 +125,7 @@ function Results({ route, navigation }) {
 								}
 							}}
 							onEndReachedThreshold={0.2}
+							removeClippedSubviews
 						/>
 					</View>
 				)}

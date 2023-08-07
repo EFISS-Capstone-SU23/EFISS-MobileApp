@@ -4,12 +4,10 @@ import {
 import { Badge } from '@react-native-material/core';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
 
 import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
-import { productHistorySet } from '../../actions/productActions';
 import { formatNumber } from '../../utils/utils';
 
 const WIDTH = Dimensions.get('window').width;
@@ -78,8 +76,6 @@ const styles = StyleSheet.create({
 });
 
 function CarouselCard({ product, navigation }) {
-	const dispatch = useDispatch();
-
 	return (
 		<View style={styles.card}>
 			<View style={{ width: '100%', height: 150, justifyContent: 'center' }}>
@@ -103,7 +99,7 @@ function CarouselCard({ product, navigation }) {
 			<View style={{ paddingTop: 2 }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
-						{product.group}
+						{product.shopName}
 					</Text>
 				</View>
 				<View style={styles.titleContainer}>
@@ -111,7 +107,6 @@ function CarouselCard({ product, navigation }) {
 						style={styles.title}
 						numberOfLines={1}
 						onPress={() => {
-							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { productId: product.id });
 						}}
 					>
