@@ -127,7 +127,7 @@ function Search() {
 					cropperToolbarTitle: 'Cắt ảnh',
 				});
 
-				navigation.navigate('Results', { imageUrl: image.data });
+				navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
 			} else {
 				ToastAndroid.show('Vui lòng chọn ảnh có kích thước tối đa dưới 5MB.', ToastAndroid.LONG);
 			}
@@ -153,10 +153,9 @@ function Search() {
 				enableRotationGesture: false,
 				cropperCircleOverlay: false,
 				cropperToolbarTitle: 'Cắt ảnh',
-				compressImageQuality: 0.1,
 				includeBase64: true,
 			});
-			navigation.navigate('Results', { imageUrl: image.data });
+			navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
 		} catch (error) {
 			ToastAndroid.showWithGravity(
 				error.message,

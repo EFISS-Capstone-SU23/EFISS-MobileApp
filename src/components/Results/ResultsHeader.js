@@ -1,5 +1,5 @@
 import {
-	View, StyleSheet, TouchableOpacity,
+	View, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import {
 	Text, IconButton,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	},
 	dropdownContainer: {
 		position: 'absolute',
-		top: 50, // Adjust the position as needed
+		top: 80, // Adjust the position as needed
 		right: 10, // Adjust the position as needed
 		backgroundColor: COLORS.white,
 		borderRadius: 8,
@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
 	dropdownText: {
 		fontFamily: FONTS.regular,
 		fontSize: SIZES.large,
+	},
+	productImage: {
+		height: '100%',
+		borderTopLeftRadius: SIZES.base,
+		borderTopRightRadius: SIZES.base,
 	},
 });
 
@@ -64,7 +69,7 @@ const SORT_OPTIONS = [
 	},
 ];
 
-function ResultsHeader({ navigation, handleSort }) {
+function ResultsHeader({ navigation, handleSort, imagePath }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const handleToggleDropdown = () => {
@@ -89,13 +94,23 @@ function ResultsHeader({ navigation, handleSort }) {
 			>
 				<IconButton
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
+					icon={<Entypo name="chevron-left" color={COLORS.white} size={36} />}
 				/>
 
-				<Text variant="button" color={COLORS.white} style={{ fontSize: SIZES.extraLarge }}>Kết quả</Text>
+				<Image
+					source={{
+						uri: imagePath,
+					}}
+					resizeMode="contain"
+					style={{
+						flex: 1,
+						width: undefined,
+						height: 80,
+					}}
+				/>
 
 				<TouchableOpacity onPress={handleToggleDropdown}>
-					<Entypo name="bar-graph" color={COLORS.white} size={28} />
+					<Entypo name="bar-graph" color={COLORS.white} size={36} />
 				</TouchableOpacity>
 			</View>
 

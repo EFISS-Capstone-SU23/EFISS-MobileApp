@@ -90,7 +90,7 @@ function ProductCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ width: '100%', padding: SIZES.base }}>
+			<View style={{ width: '100%', padding: 5 }}>
 				<View style={styles.groupContainer}>
 					<Text style={styles.group}>
 						{product.group}

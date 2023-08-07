@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
 });
 
 function Results({ route, navigation }) {
-	const { imageUrl } = route.params;
+	const { imageUrl, imagePath } = route.params;
 	const dispatch = useDispatch();
 	const searchProducts = useSelector((state) => state.searchProducts);
 	const { loading, error, products } = searchProducts;
 
 	const [items, setItems] = useState([]);
-	const [pageNum, setPageNum] = useState(1);
+	const [segment, setSegment] = useState(1);
 	const [refreshControl, setRefreshControl] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 	const [remainingImageURLs, setRemainingImageURLs] = useState([]);
@@ -45,7 +45,7 @@ function Results({ route, navigation }) {
 	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
 	const changeSort = (sortOption) => {
 		setSortBy(sortOption);
-		setPageNum(1);
+		setSegment(1);
 		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, ['']));
 	};
 
@@ -57,8 +57,7 @@ function Results({ route, navigation }) {
 		if (products) {
 			setItems(products.searchResults);
 			setRemainingImageURLs(products.remainingImageUrls);
-			const totalProducts = products.searchResults.length + products.remainingImageUrls.length;
-			setTotalPages(Math.ceil(totalProducts / config.PAGE_SIZE));
+			setTotalPages(Math.ceil(products.remainingImageUrls.length / config.PAGE_SIZE));
 		}
 	}, [products]);
 
@@ -83,7 +82,8 @@ function Results({ route, navigation }) {
 							keyExtractor={(item) => item?._id}
 							contentContainerStyle={{ columnGap: SIZES.medium }}
 							ListHeaderComponent={
-								<ResultsHeader navigation={navigation} handleSort={changeSort} />
+								// eslint-disable-next-line max-len
+								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
@@ -97,15 +97,15 @@ function Results({ route, navigation }) {
 									onRefresh={() => {
 										setRefreshControl(true);
 										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
-										setPageNum(1);
+										setSegment(1);
 										setRefreshControl(false);
 									}}
 								/>
 							)}
 							onEndReached={async () => {
-								if (!isLoadingMore && (pageNum + 1) <= totalPages) {
+								if (!isLoadingMore && segment <= totalPages) {
 									setIsLoadingMore(true);
-									const startId = pageNum * config.PAGE_SIZE;
+									const startId = (segment - 1) * config.PAGE_SIZE;
 									const endId = startId + config.PAGE_SIZE;
 									const itemsToLoadIds = remainingImageURLs.slice(startId, endId);
 									try {
@@ -115,7 +115,7 @@ function Results({ route, navigation }) {
 												imageUrls: itemsToLoadIds,
 											},
 										);
-										setPageNum(pageNum + 1);
+										setSegment(segment + 1);
 										setItems([...items, ...data.products]);
 									} catch (err) {
 										console.log('Load more results error: ', err);
