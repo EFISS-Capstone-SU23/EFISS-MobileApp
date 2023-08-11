@@ -41,42 +41,43 @@ export const storeNewRefreshToken = async (token) => {
 };
 
 export const isTokenStillValid = async () => {
-	const userTokenInitTime = await AsyncStorage.getItem('userTokenInitTime');
-	const refreshTokenInitTime = await AsyncStorage.getItem('refreshTokenInitTime');
+	try {
+		const userTokenInitTime = await AsyncStorage.getItem('userTokenInitTime');
+		const refreshTokenInitTime = await AsyncStorage.getItem('refreshTokenInitTime');
 
-	// Check if userTokenInitTime or refreshTokenInitTime is null or undefined
-	if (userTokenInitTime === null || refreshTokenInitTime === null) {
-		return false; // Return false immediately as token information is not available
-	}
-
-	const currentTime = new Date().getTime(); // Get the current time in milliseconds
-	const userTokenLifetime = 15 * 60 * 1000; // 15 mins converted to milliseconds
-	const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // 30 days converted to milliseconds
-
-	// eslint-disable-next-line max-len
-	const isAccessTokenExpired = currentTime - new Date(userTokenInitTime).getTime() > userTokenLifetime;
-	// eslint-disable-next-line max-len
-	const isRefreshTokenExpired = currentTime - new Date(refreshTokenInitTime).getTime() > refreshTokenLifetime;
-
-	if (isAccessTokenExpired) {
-		if (isRefreshTokenExpired) {
-			// Access and refresh tokens both expired, logout
+		if (!userTokenInitTime || !refreshTokenInitTime) {
 			return false;
 		}
 
-		// Refresh token still valid, fetch a new access token
-		const refreshToken = await AsyncStorage.getItem('refreshToken');
-		const response = await axios.post(
-			`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
-			{
-				refreshToken,
-			},
-		);
-		await storeNewUserToken(response.data.accessToken);
-	}
+		const currentTime = new Date().getTime();
+		const userTokenLifetime = 15 * 60 * 1000; // 15 mins in milliseconds
+		const refreshTokenLifetime = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
-	// Access token is not expired, continue the work
-	return true;
+		// eslint-disable-next-line max-len
+		const isAccessTokenExpired = currentTime - new Date(userTokenInitTime).getTime() > userTokenLifetime;
+		// eslint-disable-next-line max-len
+		const isRefreshTokenExpired = currentTime - new Date(refreshTokenInitTime).getTime() > refreshTokenLifetime;
+
+		if (isAccessTokenExpired) {
+			if (isRefreshTokenExpired) {
+				return false;
+			}
+
+			const refreshToken = await AsyncStorage.getItem('refreshToken');
+			const response = await axios.post(
+				`${config.BE_BASE_API}/${config.REFRESH_TOKEN_ROUTER}`,
+				{
+					refreshToken,
+				},
+			);
+			await storeNewUserToken(response.data.accessToken);
+		}
+
+		return true;
+	} catch (error) {
+		console.error('Error in isTokenStillValid:', error);
+		return false;
+	}
 };
 
 export const showSessionExpiredAlert = (dispatch) => {

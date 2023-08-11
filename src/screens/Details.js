@@ -1,6 +1,6 @@
 import {
 	View, StatusBar, ScrollView, ToastAndroid, ActivityIndicator,
-	FlatList, Animated, Linking, StyleSheet, Modal,
+	FlatList, Animated, Linking, StyleSheet, Modal, TouchableOpacity,
 } from 'react-native';
 import {
 	Text, IconButton, Button, Badge,
@@ -8,6 +8,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import { RenderImageItem } from '../components';
@@ -105,15 +107,15 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
-		maxWidth: '84%',
+		maxWidth: '85%',
 	},
 	linkIcon: {
-		fontSize: 18,
+		fontSize: 28,
 		color: COLORS.primary,
 		marginRight: 6,
 		backgroundColor: COLORS.backroundLight,
 		padding: 12,
-		borderRadius: 20,
+		borderRadius: 28,
 	},
 	description: {
 		fontSize: SIZES.small,
@@ -334,7 +336,18 @@ function Details({ route, navigation }) {
 								<Text variant="button" style={styles.title}>
 									{product.title}
 								</Text>
-								<Entypo name="link" style={styles.linkIcon} />
+								<TouchableOpacity
+									onPress={() => {
+										Clipboard.setString(product.title);
+										ToastAndroid.show(
+											'Đã lưu vào clipboard',
+											ToastAndroid.SHORT,
+											ToastAndroid.BOTTOM,
+										);
+									}}
+								>
+									<Entypo name="link" style={styles.linkIcon} />
+								</TouchableOpacity>
 							</View>
 							<View style={styles.locationContainer}>
 								<View style={styles.location}>

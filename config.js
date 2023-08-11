@@ -1,5 +1,5 @@
 export const config = {
-	BE_BASE_API: 'https://efiss.tech',
+	BE_BASE_API: 'https://dev.efiss.tech',
 
 	SEARCH_ROUTER: 'search/image',
 	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum',
