@@ -43,14 +43,18 @@ function Results({ route, navigation }) {
 	const [totalPages, setTotalPages] = useState(1);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
-	const changeSort = (sortOption) => {
+	const [minPrice, setMinPrice] = useState(null);
+	const [maxPrice, setMaxPrice] = useState(null);
+	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
 		setSortBy(sortOption);
 		setSegment(1);
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, ['']));
+		setMinPrice(minimumPrice);
+		setMaxPrice(maximumPrice);
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, [''], minimumPrice, maximumPrice));
 	};
 
 	useEffect(() => {
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
 	}, [dispatch, imageUrl]);
 
 	useEffect(() => {
@@ -83,7 +87,7 @@ function Results({ route, navigation }) {
 							contentContainerStyle={{ columnGap: SIZES.medium }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} />
+								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} sortBy={sortBy} min={minPrice} max={maxPrice} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
@@ -96,7 +100,7 @@ function Results({ route, navigation }) {
 									refreshing={refreshControl}
 									onRefresh={() => {
 										setRefreshControl(true);
-										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
+										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
 										setSegment(1);
 										setRefreshControl(false);
 									}}

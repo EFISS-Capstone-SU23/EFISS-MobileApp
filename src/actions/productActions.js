@@ -24,7 +24,8 @@ import {
 import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
-export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (dispatch) => {
+// eslint-disable-next-line max-len
+export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const { data } = await axios.post(
@@ -34,6 +35,8 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category) => async (d
 				limit: _limit,
 				sortBy: _sortBy,
 				category: _category,
+				minPrice: parseFloat(_minPrice),
+				maxPrice: parseFloat(_maxPrice),
 			},
 		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });
