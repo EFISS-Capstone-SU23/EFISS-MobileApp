@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { CollectionDetailsHeader } from '../components';
+import { CollectionDetailsHeader, NoResultsFound } from '../components';
 import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
 import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
@@ -140,6 +140,7 @@ function CollectionDetails({ navigation, route }) {
 							}
 						}}
 						onEndReachedThreshold={0.2}
+						ListEmptyComponent={<NoResultsFound />}
 					/>
 				)}
 			</View>

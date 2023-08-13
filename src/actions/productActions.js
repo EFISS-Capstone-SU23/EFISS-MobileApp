@@ -27,6 +27,7 @@ import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 // eslint-disable-next-line max-len
 export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
+	const startTime = new Date(); // Capture the start time
 	try {
 		const { data } = await axios.post(
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
@@ -34,12 +35,14 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 				encodedImage: imageURL,
 				limit: _limit,
 				sortBy: _sortBy,
-				category: _category,
-				minPrice: parseFloat(_minPrice),
-				maxPrice: parseFloat(_maxPrice),
+				...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
+				...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
 			},
 		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });
+		const endTime = new Date(); // Capture the end time
+		const elapsedTime = endTime - startTime; // Calculate the time difference in milliseconds
+		console.log('Time taken:', elapsedTime, 'ms');
 	} catch (error) {
 		console.log('productsSearch error: ', error);
 		dispatch({ type: PRODUCT_SEARCH_FAIL, payload: error });

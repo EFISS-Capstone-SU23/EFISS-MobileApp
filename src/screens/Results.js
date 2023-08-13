@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES } from '../constants';
-import { ResultsHeader, ProductCard } from '../components';
+import { ResultsHeader, ProductCard, NoResultsFound } from '../components';
 import { productsSearch } from '../actions/productActions';
 import { config } from '../../config';
 import ResultsFooter from '../components/Results/ResultsFooter';
@@ -76,7 +76,7 @@ function Results({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<View>
+					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -84,7 +84,7 @@ function Results({ route, navigation }) {
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
-							contentContainerStyle={{ columnGap: SIZES.medium }}
+							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
 								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} sortBy={sortBy} min={minPrice} max={maxPrice} />
@@ -130,6 +130,7 @@ function Results({ route, navigation }) {
 							}}
 							onEndReachedThreshold={0.2}
 							removeClippedSubviews
+							ListEmptyComponent={<NoResultsFound />}
 						/>
 					</View>
 				)}

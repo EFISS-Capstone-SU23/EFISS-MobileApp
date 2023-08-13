@@ -1,5 +1,5 @@
 import {
-	View, StyleSheet, TouchableOpacity, Image, ToastAndroid,
+	View, StyleSheet, Image, ToastAndroid,
 } from 'react-native';
 import {
 	Text, IconButton, Button, TextInput, Divider,
@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
 		right: 10, // Adjust the position as needed
 		backgroundColor: COLORS.white,
 		borderRadius: 8,
-		padding: 10,
+		padding: SIZES.medium,
 		elevation: 3,
+		width: '99%',
 	},
 	dropdownItem: {
 		paddingVertical: 2,
 		paddingHorizontal: SIZES.base,
+		fontSize: SIZES.large,
 	},
 	dropdownText: {
 		fontFamily: FONTS.regular,
@@ -107,21 +109,30 @@ function ResultsHeader({
 	};
 
 	const handleDropdownOptionSelect = () => {
+		if (parseFloat(minPrice) < 0 || parseFloat(maxPrice) < 0) {
+			ToastAndroid.showWithGravity(
+				'Giá tiền phải lớn hơn 0',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+			return;
+		}
+
 		// Perform action based on the selected option
 		if (minPrice === '' || maxPrice === '') {
 			const adjustedMinPrice = minPrice === '' ? null : minPrice;
 			const adjustedMaxPrice = maxPrice === '' ? null : maxPrice;
 
 			handleSort(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
-		} else if (minPrice > maxPrice) {
-			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
-			setDropdownOpen(false);
-		} else {
+		} else if (parseFloat(minPrice) > parseFloat(maxPrice)) {
 			ToastAndroid.showWithGravity(
 				'Khoảng giá không hợp lệ',
 				ToastAndroid.SHORT,
 				ToastAndroid.BOTTOM,
 			);
+		} else {
+			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
+			setDropdownOpen(false);
 		}
 	};
 
@@ -131,13 +142,13 @@ function ResultsHeader({
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
-					alignItems: 'center',
+					alignItems: 'flex-start',
 					paddingHorizontal: 5,
 				}}
 			>
 				<IconButton
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.white} size={36} />}
+					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
 				/>
 
 				<Image
@@ -152,9 +163,10 @@ function ResultsHeader({
 					}}
 				/>
 
-				<TouchableOpacity onPress={handleToggleDropdown}>
-					<Entypo name="bar-graph" color={COLORS.white} size={36} />
-				</TouchableOpacity>
+				<IconButton
+					onPress={handleToggleDropdown}
+					icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />}
+				/>
 			</View>
 
 			{dropdownOpen && (
@@ -185,10 +197,11 @@ function ResultsHeader({
 							}
 						</RadioForm>
 					</View>
+					<Divider style={{ marginVertical: SIZES.base }} />
 					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>
 						Khoảng giá (VND):
 					</Text>
-					<View style={{ paddingLeft: SIZES.base }}>
+					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>
 						<View style={styles.inputFilterContainer}>
 							<Text style={{ width: '30%', marginRight: 5 }}>Tối thiểu</Text>
 							<TextInput

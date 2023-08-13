@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-import { ProductCard, TextResultsHeader } from '../components';
+import { ProductCard, TextResultsHeader, NoResultsFound } from '../components';
 import { productsTextSearch } from '../actions/productActions';
 import ResultsFooter from '../components/Results/ResultsFooter';
 import { COLORS, SIZES } from '../constants';
@@ -60,7 +60,7 @@ function TextResults({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<View>
+					<View style={{ flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -109,6 +109,8 @@ function TextResults({ route, navigation }) {
 								}
 							}}
 							onEndReachedThreshold={0.2}
+							ListEmptyComponent={<NoResultsFound />}
+							removeClippedSubviews
 						/>
 					</View>
 				)}

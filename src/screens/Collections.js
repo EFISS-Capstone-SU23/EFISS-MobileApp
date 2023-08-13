@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import {
-	CollectionCard, CollectionsHeader, ModalAddCollection,
+	CollectionCard, CollectionsHeader, ModalAddCollection, NoResultsFound,
 } from '../components';
 import { collectionsLoad } from '../actions/productActions';
 import {
@@ -122,7 +122,7 @@ function Collections({ navigation }) {
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (
-					<View>
+					<View style={{ flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -142,11 +142,6 @@ function Collections({ navigation }) {
 									onAdd={() => changeAddModalVisibility(true)}
 								/>
 							)}
-							// eslint-disable-next-line react/no-unstable-nested-components
-							ListFooterComponent={() => (
-								(items.length === 0)
-									? <Text style={styles.footer}>Bạn chưa có bộ sưu tập nào</Text> : null
-							)}
 							stickyHeaderIndices={[0]}
 							showsVerticalScrollIndicator={false}
 							refreshControl={(
@@ -160,6 +155,7 @@ function Collections({ navigation }) {
 								/>
 							)}
 							onEndReachedThreshold={0.2}
+							ListEmptyComponent={<NoResultsFound />}
 						/>
 						<Modal
 							transparent

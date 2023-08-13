@@ -1,7 +1,8 @@
 import {
 	View, Image, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import React, { memo } from 'react';
+import FastImage from 'react-native-fast-image';
+import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Badge, Text } from '@react-native-material/core';
 import {
@@ -76,11 +77,12 @@ function ProductCard({ product, navigation }) {
 						navigation.navigate('Details', { productId: product.id ? product.id : product._id });
 					}}
 				>
-					<Image
+					<FastImage
 						source={{
 							uri: product.images[0] ? product.images[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
+							priority: FastImage.priority.normal,
 						}}
-						resizeMode="cover"
+						resizeMode={FastImage.resizeMode.cover}
 						style={styles.productImage}
 					/>
 				</TouchableOpacity>
@@ -122,4 +124,4 @@ function ProductCard({ product, navigation }) {
 	);
 }
 
-export default memo(ProductCard);
+export default React.memo(ProductCard);
