@@ -302,7 +302,7 @@ export const productRecommendLoad = () => async (dispatch) => {
 			const simplifiedDataList = productHistory.map((item) => ({
 				productId: item._id,
 				categories: item.categories || [],
-				group: item.shopName,
+				shopName: item.shopName,
 			}));
 			const { data } = await axios.post(
 				`${config.BE_BASE_API}/${config.RECOMMEND_PRODUCT_ROUTER}`,
