@@ -1,6 +1,7 @@
 import {
-	View, Image, TouchableOpacity, StyleSheet,
+	View, TouchableOpacity, StyleSheet,
 } from 'react-native';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from 'react-native-fast-image';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';

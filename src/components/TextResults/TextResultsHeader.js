@@ -60,7 +60,7 @@ const SORT_OPTIONS = [
 ];
 
 function TextResultsHeader({
-	navigation, query, handleSort, min, max, sortBy,
+	navigation, query, min, max, sortBy,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
