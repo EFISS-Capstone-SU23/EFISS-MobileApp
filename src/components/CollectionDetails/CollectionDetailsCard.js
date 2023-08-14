@@ -1,6 +1,8 @@
 import {
-	View, Image, TouchableOpacity, StyleSheet, Alert,
+	View, TouchableOpacity, StyleSheet, Alert,
 } from 'react-native';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import FastImage from 'react-native-fast-image';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
@@ -86,11 +88,12 @@ function CollectionDetailsCard({ collectionId, product, navigation }) {
 						navigation.navigate('Details', { productId: product.id });
 					}}
 				>
-					<Image
+					<FastImage
 						source={{
 							uri: product.imagesList[0] ? product.imagesList[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
+							priority: FastImage.priority.normal,
 						}}
-						resizeMode="cover"
+						resizeMode={FastImage.resizeMode.cover}
 						style={styles.productImage}
 					/>
 					<View style={styles.optionContainer}>

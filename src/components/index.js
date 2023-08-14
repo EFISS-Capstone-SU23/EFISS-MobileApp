@@ -2,6 +2,7 @@ import { CircleButton, RectButton } from './Common/Button';
 import FocusStatusBar from './Common/FocusStatusBar';
 import ProductCard from './Common/ProductCard';
 import CarouselCard from './Common/CarouselCard';
+import NoResultsFound from './Common/NoResultsFound';
 
 import CollectionCard from './Collections/CollectionCard';
 import ModalAddCollection from './Collections/ModalAddCollection';
@@ -62,4 +63,5 @@ export {
 	RailSelected,
 	Thumb,
 	TextResultsHeader,
+	NoResultsFound,
 };

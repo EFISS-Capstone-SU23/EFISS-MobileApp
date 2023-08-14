@@ -1,6 +1,8 @@
 import {
-	View, Image, Text, TouchableOpacity, StyleSheet, Dimensions,
+	View, Text, TouchableOpacity, StyleSheet, Dimensions,
 } from 'react-native';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import FastImage from 'react-native-fast-image';
 import { Badge } from '@react-native-material/core';
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -83,11 +85,12 @@ function CarouselCard({ product, navigation }) {
 					navigation.navigate('Details', { productId: product.id });
 				}}
 				>
-					<Image
+					<FastImage
 						source={{
 							uri: product?.images[0],
+							priority: FastImage.priority.normal,
 						}}
-						resizeMode="cover"
+						resizeMode={FastImage.resizeMode.cover}
 						style={{
 							height: '100%',
 							borderTopLeftRadius: SIZES.base,

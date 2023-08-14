@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES } from '../constants';
-import { ResultsHeader, ProductCard } from '../components';
+import { ResultsHeader, ProductCard, NoResultsFound } from '../components';
 import { productsSearch } from '../actions/productActions';
 import { config } from '../../config';
 import ResultsFooter from '../components/Results/ResultsFooter';
@@ -43,14 +43,18 @@ function Results({ route, navigation }) {
 	const [totalPages, setTotalPages] = useState(1);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
-	const changeSort = (sortOption) => {
+	const [minPrice, setMinPrice] = useState(null);
+	const [maxPrice, setMaxPrice] = useState(null);
+	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
 		setSortBy(sortOption);
 		setSegment(1);
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, ['']));
+		setMinPrice(minimumPrice);
+		setMaxPrice(maximumPrice);
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, [''], minimumPrice, maximumPrice));
 	};
 
 	useEffect(() => {
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
 	}, [dispatch, imageUrl]);
 
 	useEffect(() => {
@@ -72,7 +76,7 @@ function Results({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<View>
+					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -80,10 +84,10 @@ function Results({ route, navigation }) {
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
-							contentContainerStyle={{ columnGap: SIZES.medium }}
+							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} />
+								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} sortBy={sortBy} min={minPrice} max={maxPrice} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
@@ -96,7 +100,7 @@ function Results({ route, navigation }) {
 									refreshing={refreshControl}
 									onRefresh={() => {
 										setRefreshControl(true);
-										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, ['']));
+										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
 										setSegment(1);
 										setRefreshControl(false);
 									}}
@@ -126,6 +130,7 @@ function Results({ route, navigation }) {
 							}}
 							onEndReachedThreshold={0.2}
 							removeClippedSubviews
+							ListEmptyComponent={<NoResultsFound />}
 						/>
 					</View>
 				)}

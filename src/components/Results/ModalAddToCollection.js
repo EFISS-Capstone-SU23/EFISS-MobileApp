@@ -84,7 +84,7 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 										buttonOuterColor={COLORS.primary}
 										buttonWrapStyle={{ marginRight: 16 }}
 									/>
-									<RadioButtonLabel obj={obj} index={index} />
+									<RadioButtonLabel obj={obj} index={index} onPress={(val) => setValue(val)} />
 								</RadioButton>
 							))
 						}
