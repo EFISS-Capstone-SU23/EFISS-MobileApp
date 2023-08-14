@@ -17,7 +17,7 @@ import { config } from '../../../config';
 const styles = StyleSheet.create({
 	dropdownContainer: {
 		position: 'absolute',
-		top: 80, // Adjust the position as needed
+		top: 60, // Adjust the position as needed
 		right: 10, // Adjust the position as needed
 		backgroundColor: COLORS.white,
 		borderRadius: 8,
