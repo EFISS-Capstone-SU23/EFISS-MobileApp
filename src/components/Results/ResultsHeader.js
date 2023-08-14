@@ -165,7 +165,7 @@ function ResultsHeader({
 
 				<IconButton
 					onPress={handleToggleDropdown}
-					icon={<Entypo name="bar-graph" color={COLORS.white} size={28} />}
+					icon={<Entypo name="funnel" color={COLORS.white} size={28} />}
 				/>
 			</View>
 

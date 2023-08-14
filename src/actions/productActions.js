@@ -27,8 +27,8 @@ import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 // eslint-disable-next-line max-len
 export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
-	const startTime = new Date(); // Capture the start time
 	try {
+		const startTime = new Date(); // Capture the start time
 		const { data } = await axios.post(
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
 			{
