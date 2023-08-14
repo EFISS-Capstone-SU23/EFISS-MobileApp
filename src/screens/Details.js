@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		flexDirection: 'row',
-		marginVertical: 4,
+		marginVertical: 2,
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
@@ -328,7 +328,7 @@ function Details({ route, navigation }) {
 								<View style={styles.groupContainer}>
 									<Entypo name="colours" style={styles.groupIcon} />
 									<Text style={styles.groupLabel}>
-										{product.categories.join(', ')}
+										{product.categories.length > 0 ? product.categories.join(', ') : 'Sản phẩm thời trang'}
 									</Text>
 								</View>
 							)}
@@ -349,6 +349,14 @@ function Details({ route, navigation }) {
 									<Entypo name="link" style={styles.linkIcon} />
 								</TouchableOpacity>
 							</View>
+							<View style={styles.priceContainer}>
+								<Text style={{ fontFamily: FONTS.medium }}>Giá: </Text>
+								<Badge
+									label={`${formatNumber(product.price)} VND`}
+									color={COLORS.primary}
+									labelStyle={styles.price}
+								/>
+							</View>
 							<View style={styles.locationContainer}>
 								<View style={styles.location}>
 									<View style={styles.locationSection}>
@@ -359,14 +367,6 @@ function Details({ route, navigation }) {
 									</Text>
 								</View>
 								<Entypo name="chevron-right" style={{ fontSize: 28, color: COLORS.primary }} />
-							</View>
-							<View style={styles.priceContainer}>
-								<Text style={{ fontFamily: FONTS.medium }}>Giá: </Text>
-								<Badge
-									label={`${formatNumber(product.price)} VND`}
-									color={COLORS.primary}
-									labelStyle={styles.price}
-								/>
 							</View>
 							<Text style={styles.description}>
 								{product.description}

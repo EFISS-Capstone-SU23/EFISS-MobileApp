@@ -52,6 +52,7 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 // eslint-disable-next-line max-len
 export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_TEXT_SEARCH_REQUEST, payload: _query });
+	const startTime = new Date(); // Capture the start time
 	try {
 		let updatedRouter = config.TEXT_SEARCH_ROUTER
 			.replace(/:query/g, _query)
@@ -67,10 +68,12 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 			updatedRouter += `&maxPrice=${_maxPrice}`;
 		}
 
-		console.log(updatedRouter);
-
 		const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);
 		dispatch({ type: PRODUCT_TEXT_SEARCH_SUCCESS, payload: data });
+
+		const endTime = new Date(); // Capture the end time
+		const elapsedTime = endTime - startTime; // Calculate the time difference in milliseconds
+		console.log('Time taken:', elapsedTime, 'ms');
 	} catch (error) {
 		console.log('productsTextSearch error: ', error);
 		dispatch({ type: PRODUCT_TEXT_SEARCH_FAIL, payload: error });
