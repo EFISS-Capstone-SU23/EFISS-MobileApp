@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { CollectionDetailsHeader, NoResultsFound } from '../components';
+import {
+	CollectionDetailsHeader, NoResultsFound, ErrorView,
+} from '../components';
 import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
 import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
@@ -89,7 +91,7 @@ function CollectionDetails({ navigation, route }) {
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text>Something went wrong</Text>
+					<ErrorView navigation={navigation} />
 				) : (
 					<FlatList
 						data={items}

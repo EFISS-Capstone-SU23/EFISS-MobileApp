@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ActivityIndicator,
+	View, SafeAreaView, StyleSheet, ActivityIndicator,
 	FlatList, StatusBar, RefreshControl, Modal, ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import {
-	CollectionCard, CollectionsHeader, ModalAddCollection, NoResultsFound,
+	CollectionCard, CollectionsHeader, ErrorView, ModalAddCollection, NoResultsFound,
 } from '../components';
 import { collectionsLoad } from '../actions/productActions';
 import {
@@ -120,7 +120,7 @@ function Collections({ navigation }) {
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text>Something went wrong</Text>
+					<ErrorView navigation={navigation} />
 				) : (
 					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList

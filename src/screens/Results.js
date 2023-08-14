@@ -3,14 +3,13 @@ import {
 	View, SafeAreaView, StyleSheet, ActivityIndicator,
 	FlatList, StatusBar, RefreshControl,
 } from 'react-native';
-import {
-	Text,
-} from '@react-native-material/core';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { COLORS, SIZES } from '../constants';
-import { ResultsHeader, ProductCard, NoResultsFound } from '../components';
+import {
+	ResultsHeader, ProductCard, NoResultsFound, ErrorView,
+} from '../components';
 import { productsSearch } from '../actions/productActions';
 import { config } from '../../config';
 import ResultsFooter from '../components/Results/ResultsFooter';
@@ -72,9 +71,7 @@ function Results({ route, navigation }) {
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
-					<View>
-						<Text>Something went wrong</Text>
-					</View>
+					<ErrorView navigation={navigation} />
 				) : (
 					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList

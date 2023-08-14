@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import { COLORS, SIZES, FONTS } from '../constants';
-import { RenderImageItem } from '../components';
+import { ErrorView, RenderImageItem } from '../components';
 import { PRODUCT_COLLECTION_DETAILS_ADD_RESET, PRODUCT_COLLECTION_DETAILS_REMOVE_RESET } from '../constants/productConstants';
 import { formatNumber } from '../utils/utils';
 import ModalAddToCollection from '../components/Results/ModalAddToCollection';
@@ -256,7 +256,7 @@ function Details({ route, navigation }) {
 			{loading ? (
 				<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 			) : error ? (
-				<Text>Something went wrong</Text>
+				<ErrorView navigation={navigation} />
 			) : (
 				<View style={styles.container}>
 					<StatusBar backgroundColor={COLORS.black} barStyle="dark-content" />

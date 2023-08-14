@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	View, SafeAreaView, StyleSheet, ActivityIndicator,
-	FlatList, StatusBar, RefreshControl, Text,
+	FlatList, StatusBar, RefreshControl,
 } from 'react-native';
 import axios from 'axios';
 
-import { ProductCard, TextResultsHeader, NoResultsFound } from '../components';
+import {
+	ProductCard, TextResultsHeader, NoResultsFound, ErrorView,
+} from '../components';
 import { productsTextSearch } from '../actions/productActions';
 import ResultsFooter from '../components/Results/ResultsFooter';
 import { COLORS, SIZES } from '../constants';
@@ -67,9 +69,7 @@ function TextResults({ route, navigation }) {
 				{loading ? (
 					<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 				) : error ? (
-					<View>
-						<Text>Something went wrong</Text>
-					</View>
+					<ErrorView navigation={navigation} />
 				) : (
 					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList

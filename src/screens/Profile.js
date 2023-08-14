@@ -14,7 +14,7 @@ import {
 	COLORS, FONTS, SIZES,
 } from '../constants';
 import { AuthContext } from '../context/AuthContext';
-import { Action } from '../components';
+import { Action, ErrorView } from '../components';
 import { loadUserProfile } from '../actions/userActions';
 
 const styles = StyleSheet.create({
@@ -87,7 +87,7 @@ function Profile() {
 			{loading ? (
 				<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 			) : error ? (
-				<Text>Something went wrong</Text>
+				<ErrorView navigation={navigation} />
 			) : (
 				<ScrollView
 					showsVerticalScrollIndicator={false}
