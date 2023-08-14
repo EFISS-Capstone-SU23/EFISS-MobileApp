@@ -142,7 +142,7 @@ function ResultsHeader({
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
-					alignItems: 'flex-start',
+					alignItems: 'flex-end',
 					paddingHorizontal: 5,
 				}}
 			>
@@ -159,7 +159,7 @@ function ResultsHeader({
 					style={{
 						flex: 1,
 						width: undefined,
-						height: 80,
+						height: 70,
 					}}
 				/>
 
