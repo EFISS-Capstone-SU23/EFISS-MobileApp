@@ -49,13 +49,26 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 	}
 };
 
-export const productsTextSearch = (_query, _pageNum) => async (dispatch) => {
+// eslint-disable-next-line max-len
+export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_TEXT_SEARCH_REQUEST, payload: _query });
 	try {
-		const updatedRouter = config.TEXT_SEARCH_ROUTER
+		let updatedRouter = config.TEXT_SEARCH_ROUTER
 			.replace(/:query/g, _query)
 			.replace(/:pageSize/g, config.PAGE_SIZE)
-			.replace(/:pageNum/g, _pageNum);
+			.replace(/:pageNum/g, _pageNum)
+			.replace(/:sortBy/g, _sortBy);
+
+		if (_minPrice !== null && _minPrice !== undefined) {
+			updatedRouter += `&minPrice=${_minPrice}`;
+		}
+
+		if (_maxPrice !== null && _maxPrice !== undefined) {
+			updatedRouter += `&maxPrice=${_maxPrice}`;
+		}
+
+		console.log(updatedRouter);
+
 		const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);
 		dispatch({ type: PRODUCT_TEXT_SEARCH_SUCCESS, payload: data });
 	} catch (error) {

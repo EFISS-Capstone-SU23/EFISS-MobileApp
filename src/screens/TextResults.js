@@ -39,8 +39,19 @@ function TextResults({ route, navigation }) {
 	const [refreshControl, setRefreshControl] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+	const [sortBy, setSortBy] = useState(config.SORT_BY_DEFAULT);
+	const [minPrice, setMinPrice] = useState(null);
+	const [maxPrice, setMaxPrice] = useState(null);
+	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
+		setSortBy(sortOption);
+		setPageNum(1);
+		setMinPrice(minimumPrice);
+		setMaxPrice(maximumPrice);
+		dispatch(productsTextSearch(query, 1, sortOption, minimumPrice, maximumPrice));
+	};
+
 	useEffect(() => {
-		dispatch(productsTextSearch(query, pageNum));
+		dispatch(productsTextSearch(query, pageNum, sortBy, minPrice, maxPrice));
 	}, [dispatch, query]);
 
 	useEffect(() => {
@@ -70,7 +81,8 @@ function TextResults({ route, navigation }) {
 							keyExtractor={(item) => item?._id}
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
-								<TextResultsHeader navigation={navigation} query={query} />
+								// eslint-disable-next-line max-len
+								<TextResultsHeader navigation={navigation} query={query} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
@@ -93,10 +105,19 @@ function TextResults({ route, navigation }) {
 								if (!isLoadingMore && (pageNum + 1) <= totalPages) {
 									setIsLoadingMore(true);
 									try {
-										const updatedRouter = config.TEXT_SEARCH_ROUTER
+										let updatedRouter = config.TEXT_SEARCH_ROUTER
 											.replace(/:query/g, query)
 											.replace(/:pageSize/g, config.PAGE_SIZE)
-											.replace(/:pageNum/g, pageNum + 1);
+											.replace(/:pageNum/g, pageNum + 1)
+											.replace(/:sortBy/g, sortBy);
+
+										if (minPrice !== null && minPrice !== '') {
+											updatedRouter += `&minPrice=${minPrice}`;
+										}
+
+										if (maxPrice !== null && maxPrice !== '') {
+											updatedRouter += `&maxPrice=${maxPrice}`;
+										}
 
 										const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);
 										setPageNum(pageNum + 1);

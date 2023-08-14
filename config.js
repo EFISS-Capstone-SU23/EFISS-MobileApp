@@ -2,7 +2,7 @@ export const config = {
 	BE_BASE_API: 'https://dev.efiss.tech',
 
 	SEARCH_ROUTER: 'search/image',
-	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum',
+	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum&sortBy=:sortBy',
 
 	SIGNUP_ROUTER: 'auth/sign-up',
 	SIGNIN_ROUTER: 'auth/sign-in',
@@ -24,4 +24,5 @@ export const config = {
 	SORT_BY_RELEVANCE: 'relevance',
 	SORT_BY_PRICE_ASC: 'price_asc',
 	SORT_BY_PRICE_DESC: 'price_desc',
+	SORT_BY_DEFAULT: 'default',
 };

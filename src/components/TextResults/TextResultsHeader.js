@@ -49,18 +49,23 @@ const styles = StyleSheet.create({
 const SORT_OPTIONS = [
 	{
 		id: 1,
+		title: 'Mặc định',
+		value: config.SORT_BY_DEFAULT,
+	},
+	{
+		id: 2,
 		title: 'Giá: từ thấp đến cao',
 		value: config.SORT_BY_PRICE_ASC,
 	},
 	{
-		id: 2,
+		id: 3,
 		title: 'Giá: từ cao đến thấp',
 		value: config.SORT_BY_PRICE_DESC,
 	},
 ];
 
 function TextResultsHeader({
-	navigation, query, min, max, sortBy,
+	navigation, query, handleSort, min, max, sortBy,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -94,7 +99,7 @@ function TextResultsHeader({
 			const adjustedMinPrice = minPrice === '' ? null : minPrice;
 			const adjustedMaxPrice = maxPrice === '' ? null : maxPrice;
 
-			console.log(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
+			handleSort(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
 		} else if (parseFloat(minPrice) > parseFloat(maxPrice)) {
 			ToastAndroid.showWithGravity(
 				'Khoảng giá không hợp lệ',
@@ -102,7 +107,7 @@ function TextResultsHeader({
 				ToastAndroid.BOTTOM,
 			);
 		} else {
-			console.log(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
+			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
 			setDropdownOpen(false);
 		}
 	};
