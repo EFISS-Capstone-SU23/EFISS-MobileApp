@@ -24,7 +24,8 @@ function RenderImageItem({ item }) {
 					uri: item,
 					priority: FastImage.priority.normal,
 				}}
-				style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+				resizeMode={FastImage.resizeMode.contain}
+				style={{ width: '100%', height: '100%' }}
 			/>
 		</View>
 	);
