@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 	groupContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginVertical: 5,
+		marginVertical: 2,
 	},
 	groupIcon: {
 		fontSize: 18,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		flexDirection: 'row',
-		marginVertical: 2,
+		marginVertical: 4,
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
