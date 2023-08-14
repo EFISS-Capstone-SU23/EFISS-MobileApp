@@ -122,7 +122,7 @@ function Collections({ navigation }) {
 				) : error ? (
 					<Text>Something went wrong</Text>
 				) : (
-					<View style={{ flex: 1 }}>
+					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -135,6 +135,7 @@ function Collections({ navigation }) {
 							keyExtractor={(item) => item?.id}
 							contentContainerStyle={{
 								columnGap: SIZES.medium,
+								flex: 1,
 							}}
 							ListHeaderComponent={(
 								<CollectionsHeader

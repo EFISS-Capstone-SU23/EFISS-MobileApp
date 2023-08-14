@@ -60,7 +60,7 @@ function TextResults({ route, navigation }) {
 						<Text>Something went wrong</Text>
 					</View>
 				) : (
-					<View style={{ flex: 1 }}>
+					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -68,7 +68,7 @@ function TextResults({ route, navigation }) {
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
-							contentContainerStyle={{ columnGap: SIZES.medium }}
+							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								<TextResultsHeader navigation={navigation} query={query} />
 							}
