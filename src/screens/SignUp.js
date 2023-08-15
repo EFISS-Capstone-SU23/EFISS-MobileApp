@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FONTS, SIZES, COLORS } from '../constants';
-import logo from '../assets/images/logo-no-background.png';
+import logo from '../assets/images/logo.png';
 import { register } from '../actions/userActions';
 
 const styles = StyleSheet.create({

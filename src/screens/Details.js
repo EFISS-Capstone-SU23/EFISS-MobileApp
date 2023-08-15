@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
 	},
 	linkIcon: {
 		fontSize: 28,
-		color: COLORS.primary,
+		color: COLORS.black,
 		marginRight: 6,
-		backgroundColor: COLORS.backroundLight,
+		backgroundColor: COLORS.primary,
 		padding: 12,
 		borderRadius: 28,
 	},
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 	},
 	locationSection: {
 		color: COLORS.primary,
-		backgroundColor: COLORS.backroundLight,
+		backgroundColor: COLORS.primary,
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 12,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
 	price: {
 		width: 'auto',
 		fontFamily: FONTS.light,
-		fontSize: SIZES.medium,
+		fontSize: SIZES.large,
 	},
 	priceContainer: {
 		display: 'flex',
@@ -265,9 +265,9 @@ function Details({ route, navigation }) {
 							<View style={styles.returnContainer}>
 								<IconButton
 									onPress={() => navigation.goBack()}
-									icon={<Entypo name="chevron-left" size={24} color={COLORS.primary} />}
+									icon={<Entypo name="chevron-left" size={24} color={COLORS.black} />}
 									contentContainerStyle={{
-										backgroundColor: COLORS.white,
+										backgroundColor: COLORS.primary,
 										opacity: 0.8,
 									}}
 								/>
@@ -280,11 +280,11 @@ function Details({ route, navigation }) {
 											<Entypo
 												name="heart-outlined"
 												size={24}
-												color={COLORS.primary}
+												color={COLORS.black}
 											/>
 										)}
 										contentContainerStyle={{
-											backgroundColor: COLORS.white,
+											backgroundColor: COLORS.primary,
 											opacity: 0.8,
 										}}
 									/>
@@ -350,17 +350,20 @@ function Details({ route, navigation }) {
 								</TouchableOpacity>
 							</View>
 							<View style={styles.priceContainer}>
-								<Text style={{ fontFamily: FONTS.medium }}>Giá: </Text>
+								<Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.large }}>Giá: </Text>
 								<Badge
 									label={`${formatNumber(product.price)} VND`}
 									color={COLORS.primary}
 									labelStyle={styles.price}
+									style={{
+										height: SIZES.extraLarge,
+									}}
 								/>
 							</View>
 							<View style={styles.locationContainer}>
 								<View style={styles.location}>
 									<View style={styles.locationSection}>
-										<Entypo name="shop" style={{ fontSize: 28, color: COLORS.primary }} />
+										<Entypo name="shop" style={{ fontSize: 28, color: COLORS.black }} />
 									</View>
 									<Text variant="overline" style={{ fontSize: SIZES.font }}>
 										{product.shopName}

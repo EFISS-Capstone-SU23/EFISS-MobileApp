@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
 
 import { FONTS, SIZES, COLORS } from '../constants';
-import logo from '../assets/images/logo-no-background.png';
+import logo from '../assets/images/logo.png';
 import { AuthContext } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
@@ -102,9 +102,9 @@ function Login() {
 				<View style={styles.container}>
 					<View style={{ paddingHorizontal: 25 }}>
 						<View style={{ alignItems: 'center' }}>
-							<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
+							<Image source={logo} style={{ width: SIZES.WIDTH / 2, height: SIZES.WIDTH / 2 }} resizeMode="contain" />
 						</View>
-						<Text style={styles.title}>Đăng nhập</Text>
+						<Text style={styles.title}>Đăng nhậpE</Text>
 						{success === false && (
 							<View style={styles.errorContainer}>
 								<Text style={styles.errorMessage}>{error.toString()}</Text>
