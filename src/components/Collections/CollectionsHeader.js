@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.large,
-		color: COLORS.white,
+		color: COLORS.black,
 		textAlign: 'center',
 	},
 	tabsContainer: {
@@ -47,7 +47,7 @@ function CollectionsHeader({ navigation, onAdd }) {
 		<View style={styles.container}>
 			<IconButton
 				onPress={() => navigation.goBack()}
-				icon={<Entypo name="chevron-left" color={COLORS.white} size={30} />}
+				icon={<Entypo name="chevron-left" color={COLORS.black} size={30} />}
 			/>
 
 			<Text style={styles.text}>
@@ -56,7 +56,7 @@ function CollectionsHeader({ navigation, onAdd }) {
 
 			<IconButton
 				onPress={onAdd}
-				icon={<Entypo name="add-to-list" color={COLORS.white} size={30} />}
+				icon={<Entypo name="add-to-list" color={COLORS.black} size={30} />}
 			/>
 		</View>
 	);

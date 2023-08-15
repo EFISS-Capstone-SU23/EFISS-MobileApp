@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	productPrice: {
-		color: COLORS.white,
+		color: COLORS.black,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},

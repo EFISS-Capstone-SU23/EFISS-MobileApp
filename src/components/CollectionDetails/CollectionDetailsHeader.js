@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		flex: 0.9,
 		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.large,
-		color: COLORS.white,
+		color: COLORS.black,
 		textAlign: 'center',
 	},
 	tabsContainer: {
@@ -59,7 +59,7 @@ function CollectionDetailsHeader({ navigation }) {
 		<View style={styles.container}>
 			<IconButton
 				onPress={() => navigation.goBack()}
-				icon={<Entypo name="chevron-left" color={COLORS.white} size={24} />}
+				icon={<Entypo name="chevron-left" color={COLORS.black} size={24} />}
 			/>
 
 			<Text style={styles.text}>

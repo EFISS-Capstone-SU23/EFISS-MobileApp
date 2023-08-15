@@ -89,9 +89,11 @@ const SORT_OPTIONS = [
 ];
 
 function ResultsHeader({
-	navigation, handleSort, imagePath, sortBy, min, max,
+	navigation, handleSort, sortBy, min, max, croppedImg,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const base64Icon = `data:image/png;base64,${croppedImg}`;
 
 	const convertedList = SORT_OPTIONS.map(({ id, title }) => ({
 		value: id,
@@ -148,13 +150,11 @@ function ResultsHeader({
 			>
 				<IconButton
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
+					icon={<Entypo name="chevron-left" color={COLORS.black} size={28} />}
 				/>
 
 				<Image
-					source={{
-						uri: imagePath,
-					}}
+					source={{ uri: base64Icon }}
 					resizeMode="contain"
 					style={{
 						flex: 1,
@@ -165,7 +165,7 @@ function ResultsHeader({
 
 				<IconButton
 					onPress={handleToggleDropdown}
-					icon={<Entypo name="funnel" color={COLORS.white} size={28} />}
+					icon={<Entypo name="funnel" color={COLORS.black} size={28} />}
 				/>
 			</View>
 

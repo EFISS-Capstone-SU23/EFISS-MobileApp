@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	price: {
-		color: COLORS.white,
+		color: COLORS.black,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},

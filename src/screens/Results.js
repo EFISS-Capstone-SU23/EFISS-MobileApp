@@ -29,10 +29,12 @@ const styles = StyleSheet.create({
 });
 
 function Results({ route, navigation }) {
-	const { imageUrl, imagePath } = route.params;
+	const { imageUrl } = route.params;
 	const dispatch = useDispatch();
 	const searchProducts = useSelector((state) => state.searchProducts);
 	const { loading, error, products } = searchProducts;
+
+	const [croppedImg, setCroppedImg] = useState(null);
 
 	const [items, setItems] = useState([]);
 	const [segment, setSegment] = useState(1);
@@ -58,6 +60,7 @@ function Results({ route, navigation }) {
 
 	useEffect(() => {
 		if (products) {
+			setCroppedImg(products.croppedImage);
 			setItems(products.searchResults);
 			setRemainingImageURLs(products.remainingImageUrls);
 			setTotalPages(Math.ceil(products.remainingImageUrls.length / config.PAGE_SIZE));
@@ -84,7 +87,7 @@ function Results({ route, navigation }) {
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<ResultsHeader navigation={navigation} handleSort={changeSort} imagePath={imagePath} sortBy={sortBy} min={minPrice} max={maxPrice} />
+								<ResultsHeader navigation={navigation} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} croppedImg={croppedImg} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (

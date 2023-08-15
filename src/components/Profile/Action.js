@@ -36,7 +36,7 @@ function Action({ icon, title, onPress }) {
 		<TouchableOpacity style={styles.action} onPress={onPress}>
 			<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 				<View style={styles.iconContainer}>
-					<Entypo name={icon} size={28} color={COLORS.white} />
+					<Entypo name={icon} size={28} color={COLORS.black} />
 				</View>
 				<Text style={styles.actionTitle}>{title}</Text>
 			</View>

@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		width: 'auto',
-		fontFamily: FONTS.light,
+		fontFamily: FONTS.medium,
 		fontSize: SIZES.large,
 	},
 	priceContainer: {

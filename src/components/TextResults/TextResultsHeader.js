@@ -124,16 +124,16 @@ function TextResultsHeader({
 			>
 				<IconButton
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.white} size={28} />}
+					icon={<Entypo name="chevron-left" color={COLORS.black} size={28} />}
 				/>
 
-				<Text color={COLORS.white} style={{ fontSize: SIZES.font }}>
+				<Text color={COLORS.black} style={{ fontSize: SIZES.font }}>
 					{`'${query}'`}
 				</Text>
 
 				<IconButton
 					onPress={handleToggleDropdown}
-					icon={<Entypo name="funnel" color={COLORS.white} size={28} />}
+					icon={<Entypo name="funnel" color={COLORS.black} size={28} />}
 				/>
 			</View>
 

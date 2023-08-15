@@ -5,8 +5,9 @@ import {
 	ScrollView,
 	View,
 	Text,
+	ToastAndroid,
 } from 'react-native';
-import { AppBar } from '@react-native-material/core';
+import { AppBar, Button } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import RangeSlider from 'rn-range-slider';
 
@@ -14,6 +15,8 @@ import { COLORS, FONTS, SIZES } from '../constants';
 import {
 	Label, Notch, Rail, RailSelected, Thumb,
 } from '../components';
+
+import { config, updatePageSize } from '../../config';
 
 const styles = StyleSheet.create({
 	container: {
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
 });
 
 function SearchPreferences() {
-	const [pageSize, setPageSize] = useState(16);
+	const [pageSize, setPageSize] = useState(config.PAGE_SIZE);
 
 	const renderThumb = useCallback(() => <Thumb />, []);
 	const renderRail = useCallback(() => <Rail />, []);
@@ -60,6 +63,15 @@ function SearchPreferences() {
 		setPageSize(val);
 	}, []);
 
+	const saveSettings = () => {
+		updatePageSize(pageSize);
+		ToastAndroid.showWithGravity(
+			'Cập nhật thay đổi thành công',
+			ToastAndroid.SHORT,
+			ToastAndroid.BOTTOM,
+		);
+	};
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
@@ -68,7 +80,7 @@ function SearchPreferences() {
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionHeaderText}>
 							Số kết quả tìm kiếm trên 1 trang:
-							{pageSize}
+							{config.PAGE_SIZE}
 						</Text>
 					</View>
 					<RangeSlider
@@ -85,6 +97,9 @@ function SearchPreferences() {
 						onValueChanged={handleValueChange}
 						disableRange
 					/>
+					<View style={styles.sectionHeader}>
+						<Button color={COLORS.primary} title="Lưu thay đổi" onPress={saveSettings} />
+					</View>
 				</View>
 			</ScrollView>
 		</SafeAreaView>

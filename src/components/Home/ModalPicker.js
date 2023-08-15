@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: SIZES.font,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
+		borderRadius: 10,
 	},
 });
 
@@ -123,7 +124,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 					includeBase64: true,
 					cropperToolbarTitle: 'Cắt ảnh',
 				});
-				navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
+				navigation.navigate('Results', { imageUrl: image.data });
 			} else {
 				ToastAndroid.show('Vui lòng chọn ảnh có kích thước tối đa dưới 5MB.', ToastAndroid.LONG);
 			}
@@ -151,7 +152,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				cropperToolbarTitle: 'Cắt ảnh',
 				includeBase64: true,
 			});
-			navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
+			navigation.navigate('Results', { imageUrl: image.data });
 		} catch (error) {
 			ToastAndroid.showWithGravity(
 				error.message,
@@ -188,7 +189,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				style={styles.option}
 				title={item.action}
 				titleStyle={{
-					color: COLORS.white,
+					color: COLORS.black,
 				}}
 			/>
 		</View>

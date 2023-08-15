@@ -127,7 +127,7 @@ function Search() {
 					cropperToolbarTitle: 'Cắt ảnh',
 				});
 
-				navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
+				navigation.navigate('Results', { imageUrl: image.data });
 			} else {
 				ToastAndroid.show('Vui lòng chọn ảnh có kích thước tối đa dưới 5MB.', ToastAndroid.LONG);
 			}
@@ -155,7 +155,7 @@ function Search() {
 				cropperToolbarTitle: 'Cắt ảnh',
 				includeBase64: true,
 			});
-			navigation.navigate('Results', { imageUrl: image.data, imagePath: image.path });
+			navigation.navigate('Results', { imageUrl: image.data });
 		} catch (error) {
 			ToastAndroid.showWithGravity(
 				error.message,
@@ -171,7 +171,7 @@ function Search() {
 			<VStack fill m={4} spacing={6} center>
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={takePicture}>
-						<Entypo name="camera" size={SIZES.extraLarge} color={COLORS.white} />
+						<Entypo name="camera" size={SIZES.extraLarge} color={COLORS.black} />
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chụp ảnh</Text>
 				</VStack>
@@ -180,7 +180,7 @@ function Search() {
 				<Divider style={{ marginTop: SIZES.large }} leadingInset={16} />
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={showImagePicker}>
-						<Entypo name="images" size={SIZES.extraLarge} color={COLORS.white} />
+						<Entypo name="images" size={SIZES.extraLarge} color={COLORS.black} />
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chọn từ thư viện</Text>
 				</VStack>

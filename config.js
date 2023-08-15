@@ -27,3 +27,11 @@ export const config = {
 	SORT_BY_PRICE_DESC: 'price_desc',
 	SORT_BY_DEFAULT: 'default',
 };
+
+export const updateBaseApi = (newApi) => {
+	config.BE_BASE_API = newApi;
+};
+
+export const updatePageSize = (newSize) => {
+	config.PAGE_SIZE = newSize;
+};
