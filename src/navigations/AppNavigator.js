@@ -16,6 +16,7 @@ import CollectionDetails from '../screens/CollectionDetails';
 import Collections from '../screens/Collections';
 import SearchPreferences from '../screens/SearchPreferences';
 import TextResults from '../screens/TextResults';
+import ForgotPassword from '../screens/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ function AppNavigator() {
 					<>
 						<Stack.Screen name="Login" component={Login} />
 						<Stack.Screen name="SignUp" component={SignUp} />
+						<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
 					</>
 				)}
 		</Stack.Navigator>

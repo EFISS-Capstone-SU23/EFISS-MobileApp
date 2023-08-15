@@ -104,7 +104,7 @@ function Login() {
 						<View style={{ alignItems: 'center' }}>
 							<Image source={logo} style={{ width: SIZES.WIDTH / 2, height: SIZES.WIDTH / 2 }} resizeMode="contain" />
 						</View>
-						<Text style={styles.title}>Đăng nhậpE</Text>
+						<Text style={styles.title}>Đăng nhập</Text>
 						{success === false && (
 							<View style={styles.errorContainer}>
 								<Text style={styles.errorMessage}>{error.toString()}</Text>
@@ -171,7 +171,7 @@ function Login() {
 						/>
 
 						<View style={styles.textLink}>
-							<TouchableOpacity onPress={() => { }}>
+							<TouchableOpacity onPress={() => { navigation.navigate('ForgotPassword'); }}>
 								<Text style={styles.text}>Quên mật khẩu?</Text>
 							</TouchableOpacity>
 						</View>
