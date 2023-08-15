@@ -7,6 +7,7 @@ export const config = {
 	SIGNUP_ROUTER: 'auth/sign-up',
 	SIGNIN_ROUTER: 'auth/sign-in',
 	CHANGE_PASSWORD_ROUTER: 'auth/change-password',
+	SEND_RESET_PASSWORD: 'auth/reset-password',
 	REFRESH_TOKEN_ROUTER: 'auth/refresh-token',
 
 	GET_BY_ID_ROUTER: 'product',

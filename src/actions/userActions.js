@@ -7,6 +7,8 @@ import {
 	USER_LOAD_PROFILE_REQUEST, USER_LOAD_PROFILE_SUCCESS, USER_LOAD_PROFILE_FAIL,
 	USER_CHANGE_PASSWORD_REQUEST, USER_CHANGE_PASSWORD_SUCCESS, USER_CHANGE_PASSWORD_FAIL,
 	USER_REPORT_BUG_REQUEST, USER_REPORT_BUG_SUCCESS, USER_REPORT_BUG_FAIL,
+	USER_SEND_RESET_PASSWORD_REQUEST, USER_SEND_RESET_PASSWORD_SUCCESS,
+	USER_SEND_RESET_PASSWORD_FAIL,
 } from '../constants/userConstants';
 import { config } from '../../config';
 import {
@@ -142,7 +144,6 @@ export const sendBugReport = (values) => async (dispatch) => {
 		const userToken = await AsyncStorage.getItem('userToken');
 
 		dispatch({ type: USER_REPORT_BUG_REQUEST, payload: values });
-		console.log(values);
 		try {
 			const { data } = await axios.post(
 				`${config.BE_BASE_API}/${config.REPORT_BUG}`,
@@ -160,5 +161,25 @@ export const sendBugReport = (values) => async (dispatch) => {
 		}
 	} else {
 		showSessionExpiredAlert(dispatch);
+	}
+};
+
+export const passwordSendReset = (values) => async (dispatch) => {
+	dispatch({ type: USER_SEND_RESET_PASSWORD_REQUEST, payload: values });
+	console.log(values);
+	try {
+		const { data } = await axios.post(
+			`${config.BE_BASE_API}/${config.SEND_RESET_PASSWORD}`,
+			values,
+		);
+		dispatch({ type: USER_SEND_RESET_PASSWORD_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_SEND_RESET_PASSWORD_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
 	}
 };

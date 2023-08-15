@@ -128,7 +128,7 @@ function SignUp({ navigation }) {
 						) : (
 							<View style={{ paddingHorizontal: 25 }}>
 								<View style={{ alignItems: 'center' }}>
-									<Image source={logo} style={{ width: '100%' }} resizeMode="contain" />
+									<Image source={logo} style={{ width: SIZES.WIDTH / 2, height: SIZES.WIDTH / 2 }} resizeMode="contain" />
 								</View>
 								<Text style={styles.title}>Đăng ký</Text>
 								<View style={styles.inputContainer}>
