@@ -9,6 +9,8 @@ import {
 	USER_REPORT_BUG_REQUEST, USER_REPORT_BUG_SUCCESS, USER_REPORT_BUG_FAIL, USER_REPORT_BUG_RESET,
 	USER_SEND_RESET_PASSWORD_REQUEST, USER_SEND_RESET_PASSWORD_SUCCESS,
 	USER_SEND_RESET_PASSWORD_FAIL, USER_SEND_RESET_PASSWORD_RESET,
+	USER_SEND_VERIFY_EMAIL_REQUEST, USER_SEND_VERIFY_EMAIL_SUCCESS,
+	USER_SEND_VERIFY_EMAIL_FAIL, USER_SEND_VERIFY_EMAIL_RESET,
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -91,6 +93,21 @@ export const sendResetPasswordReducer = (state = {}, action) => {
 	case USER_SEND_RESET_PASSWORD_FAIL:
 		return { loading: false, error: action.payload, success: false };
 	case USER_SEND_RESET_PASSWORD_RESET:
+		return {};
+	default:
+		return state;
+	}
+};
+
+export const verifyEmailReducer = (state = {}, action) => {
+	switch (action.type) {
+	case USER_SEND_VERIFY_EMAIL_REQUEST:
+		return { loading: true };
+	case USER_SEND_VERIFY_EMAIL_SUCCESS:
+		return { loading: false, data: action.payload, success: true };
+	case USER_SEND_VERIFY_EMAIL_FAIL:
+		return { loading: false, error: action.payload, success: false };
+	case USER_SEND_VERIFY_EMAIL_RESET:
 		return {};
 	default:
 		return state;

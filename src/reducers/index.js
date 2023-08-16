@@ -23,6 +23,7 @@ import {
 	changePasswordReducer,
 	reportBugReducer,
 	sendResetPasswordReducer,
+	verifyEmailReducer,
 } from './userReducers';
 
 const reducer = combineReducers({
@@ -46,6 +47,7 @@ const reducer = combineReducers({
 	removeCollections: removeCollectionsReducer,
 	loadProductRecommend: loadProductRecommendReducer,
 	sendResetPassword: sendResetPasswordReducer,
+	verifyEmail: verifyEmailReducer,
 });
 
 export default (state, action) => reducer(state, action);

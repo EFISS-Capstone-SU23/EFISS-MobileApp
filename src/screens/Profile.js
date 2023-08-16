@@ -131,7 +131,11 @@ function Profile() {
 							icon="heart"
 							onPress={() => navigation.navigate('Collections')}
 						/>
-						<Action title="Xác minh email" icon="email" />
+						<Action
+							title="Xác minh email"
+							icon="email"
+							onPress={() => navigation.navigate('VerifyEmail')}
+						/>
 						<Action
 							title="Đổi mật khẩu"
 							icon="dial-pad"
