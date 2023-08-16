@@ -16,6 +16,7 @@ import CollectionDetails from '../screens/CollectionDetails';
 import Collections from '../screens/Collections';
 import SearchPreferences from '../screens/SearchPreferences';
 import TextResults from '../screens/TextResults';
+import VerifyEmail from '../screens/VerifyEmail';
 import ForgotPassword from '../screens/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +44,7 @@ function AppNavigator() {
 						<Stack.Screen name="EditProfile" component={EditProfile} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
 						<Stack.Screen name="BugReport" component={BugReport} />
+						<Stack.Screen name="VerifyEmail" component={VerifyEmail} />
 					</>
 				)
 				: (

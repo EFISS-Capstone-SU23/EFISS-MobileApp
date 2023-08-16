@@ -9,6 +9,8 @@ import {
 	USER_REPORT_BUG_REQUEST, USER_REPORT_BUG_SUCCESS, USER_REPORT_BUG_FAIL,
 	USER_SEND_RESET_PASSWORD_REQUEST, USER_SEND_RESET_PASSWORD_SUCCESS,
 	USER_SEND_RESET_PASSWORD_FAIL,
+	USER_SEND_VERIFY_EMAIL_REQUEST, USER_SEND_VERIFY_EMAIL_SUCCESS,
+	USER_SEND_VERIFY_EMAIL_FAIL,
 } from '../constants/userConstants';
 import { config } from '../../config';
 import {
@@ -181,5 +183,36 @@ export const passwordSendReset = (values) => async (dispatch) => {
 					? error.response.data.message
 					: error.message,
 		});
+	}
+};
+
+export const sendVerifyEmail = () => async (dispatch) => {
+	const tokenIsValid = await isTokenStillValid();
+	if (tokenIsValid) {
+		const userToken = await AsyncStorage.getItem('userToken');
+
+		dispatch({ type: USER_SEND_VERIFY_EMAIL_REQUEST, payload: userToken });
+		try {
+			const { data } = await axios.post(
+				`${config.BE_BASE_API}/${config.VERIFY_EMAIL_ROUTER}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				},
+			);
+			dispatch({ type: USER_SEND_VERIFY_EMAIL_SUCCESS, payload: data.account });
+		} catch (error) {
+			dispatch({
+				type: USER_SEND_VERIFY_EMAIL_FAIL,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	} else {
+		showSessionExpiredAlert(dispatch);
 	}
 };
