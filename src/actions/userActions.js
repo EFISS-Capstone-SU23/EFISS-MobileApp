@@ -202,7 +202,7 @@ export const sendVerifyEmail = () => async (dispatch) => {
 					},
 				},
 			);
-			dispatch({ type: USER_SEND_VERIFY_EMAIL_SUCCESS, payload: data.account });
+			dispatch({ type: USER_SEND_VERIFY_EMAIL_SUCCESS, payload: data });
 		} catch (error) {
 			dispatch({
 				type: USER_SEND_VERIFY_EMAIL_FAIL,
