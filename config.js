@@ -23,6 +23,7 @@ export const config = {
 	LOAD_MORE_BY_URL: 'product/list/by-image-urls',
 
 	PAGE_SIZE: 20,
+	DIVERSITY: 1,
 	SORT_BY_RELEVANCE: 'relevance',
 	SORT_BY_PRICE_ASC: 'price_asc',
 	SORT_BY_PRICE_DESC: 'price_desc',
@@ -35,4 +36,8 @@ export const updateBaseApi = (newApi) => {
 
 export const updatePageSize = (newSize) => {
 	config.PAGE_SIZE = newSize;
+};
+
+export const updateDiversity = (newDiversity) => {
+	config.DIVERSITY = newDiversity;
 };

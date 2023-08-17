@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
 	StyleSheet,
 	SafeAreaView,
@@ -9,14 +9,11 @@ import {
 } from 'react-native';
 import { AppBar, Button } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import RangeSlider from 'rn-range-slider';
+import NumericInput from 'react-native-numeric-input';
 
 import { COLORS, FONTS, SIZES } from '../constants';
-import {
-	Label, Notch, Rail, RailSelected, Thumb,
-} from '../components';
 
-import { config, updatePageSize } from '../../config';
+import { config, updateDiversity, updatePageSize } from '../../config';
 
 const styles = StyleSheet.create({
 	container: {
@@ -53,18 +50,11 @@ const styles = StyleSheet.create({
 
 function SearchPreferences() {
 	const [pageSize, setPageSize] = useState(config.PAGE_SIZE);
-
-	const renderThumb = useCallback(() => <Thumb />, []);
-	const renderRail = useCallback(() => <Rail />, []);
-	const renderRailSelected = useCallback(() => <RailSelected />, []);
-	const renderLabel = useCallback((value) => <Label text={value} />, []);
-	const renderNotch = useCallback(() => <Notch />, []);
-	const handleValueChange = useCallback((val) => {
-		setPageSize(val);
-	}, []);
+	const [diversity, setDiversity] = useState(config.DIVERSITY);
 
 	const saveSettings = () => {
 		updatePageSize(pageSize);
+		updateDiversity(diversity);
 		ToastAndroid.showWithGravity(
 			'Cập nhật thay đổi thành công',
 			ToastAndroid.SHORT,
@@ -80,23 +70,63 @@ function SearchPreferences() {
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionHeaderText}>
 							Số kết quả tìm kiếm trên 1 trang:
-							{config.PAGE_SIZE}
 						</Text>
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								marginTop: SIZES.base,
+							}}
+						>
+							<NumericInput
+								value={pageSize}
+								onChange={(value) => setPageSize(value)}
+								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+								totalWidth={240}
+								totalHeight={50}
+								minValue={16}
+								maxValue={30}
+								iconSize={25}
+								step={1}
+								valueType="integer"
+								rounded
+								textColor={COLORS.primary}
+								iconStyle={{ color: 'white' }}
+								rightButtonBackgroundColor={COLORS.primary}
+								leftButtonBackgroundColor={COLORS.primary}
+							/>
+						</View>
 					</View>
-					<RangeSlider
-						style={styles.slider}
-						min={16}
-						max={30}
-						step={1}
-						floatingLabel
-						renderThumb={renderThumb}
-						renderRail={renderRail}
-						renderRailSelected={renderRailSelected}
-						renderLabel={renderLabel}
-						renderNotch={renderNotch}
-						onValueChanged={handleValueChange}
-						disableRange
-					/>
+					<View style={styles.sectionHeader}>
+						<Text style={styles.sectionHeaderText}>
+							Diversity
+						</Text>
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								marginTop: SIZES.base,
+							}}
+						>
+							<NumericInput
+								value={diversity}
+								onChange={(value) => setDiversity(value)}
+								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+								totalWidth={240}
+								totalHeight={50}
+								minValue={1}
+								maxValue={20}
+								iconSize={25}
+								step={1}
+								valueType="integer"
+								rounded
+								textColor={COLORS.primary}
+								iconStyle={{ color: 'white' }}
+								rightButtonBackgroundColor={COLORS.primary}
+								leftButtonBackgroundColor={COLORS.primary}
+							/>
+						</View>
+					</View>
 					<View style={styles.sectionHeader}>
 						<Button color={COLORS.primary} title="Lưu thay đổi" onPress={saveSettings} />
 					</View>

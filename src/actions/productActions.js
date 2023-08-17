@@ -37,6 +37,7 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 				sortBy: _sortBy,
 				...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
 				...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
+				diversity: config.DIVERSITY,
 			},
 		);
 		dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: data });
