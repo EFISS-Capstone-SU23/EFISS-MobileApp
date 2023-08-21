@@ -40,7 +40,7 @@ function HomeHeader({ onLogin, onProfile }) {
 					onPress={onProfile}
 				>
 					<Icon
-						name="person-outline"
+						name="person"
 						type="ionicon"
 						size={32}
 						color={COLORS.white}
@@ -51,7 +51,7 @@ function HomeHeader({ onLogin, onProfile }) {
 					onPress={onLogin}
 				>
 					<Icon
-						name="log-in-outline"
+						name="log-in"
 						type="ionicon"
 						size={32}
 						color={COLORS.white}

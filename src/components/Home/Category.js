@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		margin: SIZES.base,
+		marginHorizontal: SIZES.base,
+		marginVertical: SIZES.medium,
 	},
 	headerTitle: {
 		fontFamily: FONTS.semiBold,

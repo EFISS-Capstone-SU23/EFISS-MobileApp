@@ -4,6 +4,8 @@ import {
 import { ActivityIndicator } from '@react-native-material/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { FONTS, SIZES, COLORS } from '../../constants';
 import CarouselCard from '../Common/CarouselCard';
@@ -11,7 +13,8 @@ import { productRecommendLoad } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
-		margin: SIZES.base,
+		marginHorizontal: SIZES.base,
+		marginVertical: SIZES.medium,
 	},
 	header: {
 		flexDirection: 'row',
@@ -50,7 +53,12 @@ function ProductRecommendCarousel({ navigation }) {
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>Có thể bạn sẽ thích</Text>
 				<TouchableOpacity onPress={() => dispatch(productRecommendLoad())}>
-					<Text style={{ marginRight: SIZES.base }}>Làm mới gợi ý</Text>
+					<Icon
+						name="refresh-outline"
+						type="ionicon"
+						size={30}
+						color={COLORS.primary}
+					/>
 				</TouchableOpacity>
 			</View>
 

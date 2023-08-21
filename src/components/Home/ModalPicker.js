@@ -10,7 +10,7 @@ import { Button } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from 'react-native-image-crop-picker';
 
-import { COLORS, SIZES } from '../../constants';
+import { COLORS, SHADOWS, SIZES } from '../../constants';
 import { checkImageSize } from '../../utils/utils';
 
 const OPTIONS = [
@@ -33,16 +33,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: 'rgba(52, 52, 52, 0.6)',
 	},
 	modal: {
 		backgroundColor: COLORS.white,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
 		paddingVertical: SIZES.base,
 		paddingHorizontal: SIZES.font,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-		borderRadius: 10,
+		borderRadius: 5,
+		...SHADOWS.medium,
 	},
 });
 
@@ -189,7 +189,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				style={styles.option}
 				title={item.action}
 				titleStyle={{
-					color: COLORS.black,
+					color: COLORS.white,
 				}}
 			/>
 		</View>
