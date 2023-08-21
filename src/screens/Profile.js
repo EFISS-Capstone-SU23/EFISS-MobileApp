@@ -123,7 +123,7 @@ function Profile() {
 					<View style={styles.actions}>
 						<Action
 							title="Chỉnh sửa thông tin"
-							icon="edit"
+							icon="create-outline"
 							onPress={() => navigation.navigate('EditProfile')}
 						/>
 						<Action
@@ -133,17 +133,17 @@ function Profile() {
 						/>
 						<Action
 							title="Xác minh email"
-							icon="email"
+							icon="at-outline"
 							onPress={() => navigation.navigate('VerifyEmail')}
 						/>
 						<Action
 							title="Đổi mật khẩu"
-							icon="dial-pad"
+							icon="key-outline"
 							onPress={() => navigation.navigate('ChangePassword')}
 						/>
 						<Action
 							title="Quay lại"
-							icon="back"
+							icon="arrow-back-outline"
 							onPress={() => navigation.goBack()}
 						/>
 					</View>
