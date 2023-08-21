@@ -6,10 +6,11 @@ import {
 	ActivityIndicator, TextInput, Button, Divider, Text,
 } from '@react-native-material/core';
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo.png';
@@ -114,7 +115,15 @@ function ForgotPassword({ navigation }) {
 											width: '100%',
 										}}
 										label="Email của bạn"
-										leading={<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+										leading={(
+											<Icon
+												name="mail-outline"
+												type="ionicon"
+												size={20}
+												color={COLORS.primary}
+												style={{ marginRight: 5 }}
+											/>
+										)}
 										color={COLORS.primary}
 										keyboardType="email-address"
 										value={values.email}

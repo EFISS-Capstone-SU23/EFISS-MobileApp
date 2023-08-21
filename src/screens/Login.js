@@ -7,10 +7,11 @@ import {
 } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo.png';
@@ -117,7 +118,15 @@ function Login() {
 										width: '100%',
 									}}
 									label="Tên đăng nhập"
-									leading={<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+									leading={(
+										<Icon
+											name="information-circle-outline"
+											type="ionicon"
+											size={20}
+											color={COLORS.primary}
+											style={{ marginRight: 5 }}
+										/>
+									)}
 									color={COLORS.primary}
 									value={values.username}
 									onChangeText={handleChange('username')}
@@ -139,7 +148,15 @@ function Login() {
 										width: '100%',
 									}}
 									label="Mật khẩu"
-									leading={<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+									leading={(
+										<Icon
+											name="keypad-outline"
+											type="ionicon"
+											size={20}
+											color={COLORS.primary}
+											style={{ marginRight: 5 }}
+										/>
+									)}
 									color={COLORS.primary}
 									value={values.password}
 									onChangeText={handleChange('password')}
