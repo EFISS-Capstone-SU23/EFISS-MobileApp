@@ -20,6 +20,7 @@ import {
 	PRODUCT_HISTORY_SET_REQUEST, PRODUCT_HISTORY_SET_SUCCESS, PRODUCT_HISTORY_SET_FAIL,
 	PRODUCT_HISTORY_LOAD_REQUEST, PRODUCT_HISTORY_LOAD_SUCCESS, PRODUCT_HISTORY_LOAD_FAIL,
 	PRODUCT_RECOMMEND_LOAD_REQUEST, PRODUCT_RECOMMEND_LOAD_SUCCESS, PRODUCT_RECOMMEND_LOAD_FAIL,
+	BANNER_ADS_GET_REQUEST, BANNER_ADS_GET_SUCCESS, BANNER_ADS_GET_FAIL,
 } from '../constants/productConstants';
 import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
@@ -47,6 +48,21 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 	} catch (error) {
 		console.log('productsSearch error: ', error);
 		dispatch({ type: PRODUCT_SEARCH_FAIL, payload: error });
+	}
+};
+
+// eslint-disable-next-line max-len
+export const bannerAdsGet = () => async (dispatch) => {
+	dispatch({ type: BANNER_ADS_GET_REQUEST });
+	try {
+		const { data } = await axios.get(
+			`${config.BE_BASE_API}/${config.BANNER_ADS_ROUTER}`,
+		);
+		dispatch({ type: BANNER_ADS_GET_SUCCESS, payload: data.ads });
+		console.log(data.ads.map((obj) => obj.bannerAds));
+	} catch (error) {
+		console.log('bannerAdsGet error: ', error);
+		dispatch({ type: BANNER_ADS_GET_FAIL, payload: error });
 	}
 };
 
