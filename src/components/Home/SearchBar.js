@@ -48,6 +48,7 @@ function SearchBar({ onPicture, navigation }) {
 				ToastAndroid.BOTTOM,
 			);
 		}
+		setText('');
 	};
 
 	return (
