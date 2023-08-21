@@ -8,6 +8,17 @@ import {
 } from '../../constants';
 
 const styles = StyleSheet.create({
+	header: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		margin: SIZES.base,
+	},
+	headerTitle: {
+		fontFamily: FONTS.semiBold,
+		fontSize: SIZES.extraLarge,
+		color: COLORS.black,
+	},
 	categoryContainer: {
 		marginHorizontal: 20,
 		flexDirection: 'row',
@@ -52,65 +63,28 @@ const categories = [
 	{ title: 'Váy-đầm', image: 'https://product.hstatic.net/1000304367/product/_dsc0368-3_5b4f7ce86ae94ed09ef3afd1c0fc33cd_master.jpg' },
 ];
 
-// function Category() {
-// 	return (
-// 		<View style={styles.container}>
-// 			<View style={styles.header}>
-// 				<Text style={styles.headerTitle}>Danh mục sản phẩm</Text>
-// 			</View>
-// 			<VStack spacing={5} center m={SIZES.base}>
-// 				<HStack spacing={5}>
-// 					{categories.slice(0, 4).map((category, index) => (
-// 						<TouchableOpacity key={index} style={styles.square}>
-// 							<ImageBackground
-// 								source={{ uri: category.image }}
-// 								style={styles.imageBackground}
-// 								imageStyle={{ borderRadius: SIZES.base }}
-// 							>
-// 								<View style={styles.textContainer}>
-// 									<Text style={styles.category}>{category.title}</Text>
-// 								</View>
-// 							</ImageBackground>
-// 						</TouchableOpacity>
-// 					))}
-// 				</HStack>
-// 				<HStack spacing={5}>
-// 					{categories.slice(4, 8).map((category, index) => (
-// 						<TouchableOpacity key={index} style={styles.square}>
-// 							<ImageBackground
-// 								source={{ uri: category.image }}
-// 								style={styles.imageBackground}
-// 								imageStyle={{ borderRadius: SIZES.base }}
-// 							>
-// 								<View style={styles.textContainer}>
-// 									<Text style={styles.category}>{category.title}</Text>
-// 								</View>
-// 							</ImageBackground>
-// 						</TouchableOpacity>
-// 					))}
-// 				</HStack>
-// 			</VStack>
-// 		</View>
-// 	);
-// }
-
 function Category() {
 	return (
-		<View style={styles.categoryContainer}>
-			{categories.slice(0, 4).map((category, index) => (
-				<TouchableOpacity key={index} style={styles.square}>
-					<ImageBackground
-						source={{ uri: category.image }}
-						style={styles.imageBackground}
-						imageStyle={{ borderRadius: SIZES.base }}
-					>
-						<View style={styles.textContainer}>
-							<Text style={styles.category}>{category.title}</Text>
-						</View>
-					</ImageBackground>
-				</TouchableOpacity>
-			))}
-		</View>
+		<>
+			<View style={styles.header}>
+				<Text style={styles.headerTitle}>Danh mục sản phẩm</Text>
+			</View>
+			<View style={styles.categoryContainer}>
+				{categories.slice(0, 4).map((category, index) => (
+					<TouchableOpacity key={index} style={styles.square}>
+						<ImageBackground
+							source={{ uri: category.image }}
+							style={styles.imageBackground}
+							imageStyle={{ borderRadius: SIZES.base }}
+						>
+							<View style={styles.textContainer}>
+								<Text style={styles.category}>{category.title}</Text>
+							</View>
+						</ImageBackground>
+					</TouchableOpacity>
+				))}
+			</View>
+		</>
 	);
 }
 

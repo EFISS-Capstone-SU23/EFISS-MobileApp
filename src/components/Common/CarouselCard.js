@@ -117,18 +117,18 @@ function CarouselCard({ product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceSection}>
-					<View style={styles.ratingContainer}>
-						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-						<Text style={styles.rating}>
-							4.5
-						</Text>
-					</View>
 					<View style={styles.priceContainer}>
 						<Badge
 							label={formatNumber(product.price)}
 							color={COLORS.primary}
 							labelStyle={styles.price}
 						/>
+					</View>
+					<View style={styles.ratingContainer}>
+						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
+						<Text style={styles.rating}>
+							4.5
+						</Text>
 					</View>
 				</View>
 			</View>

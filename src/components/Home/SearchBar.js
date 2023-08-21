@@ -13,7 +13,7 @@ import {
 const styles = StyleSheet.create({
 	headerTitle: {
 		color: COLORS.white,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.regular,
 		fontSize: 23,
 		maxWidth: '80%',
 	},
@@ -41,7 +41,7 @@ function SearchBar({ onPicture, navigation }) {
 	return (
 		<View style={{ backgroundColor: COLORS.primary, height: 120, paddingHorizontal: 20 }}>
 			<View style={{ flex: 1 }}>
-				<Text style={styles.headerTitle}>Efficient Fashion Image Search System</Text>
+				<Text style={styles.headerTitle}>Discover Style at the Speed of Light with EFISS!</Text>
 				<View style={styles.inputContainer}>
 					<TouchableOpacity
 						onPress={() => {

@@ -3,6 +3,7 @@ import {
 } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 import { SIZES, FONTS, COLORS } from '../../constants';
 import AdsCard from '../Common/AdsCard';
@@ -39,12 +40,15 @@ function AdsBar() {
 	const dispatch = useDispatch();
 	const getBannerAds = useSelector((state) => state.getBannerAds);
 	const { ads, loading, error } = getBannerAds;
+	const isFocused = useIsFocused();
 
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
-		dispatch(bannerAdsGet());
-	}, [dispatch]);
+		if (isFocused) {
+			dispatch(bannerAdsGet());
+		}
+	}, [dispatch, isFocused]);
 
 	const flatListRef = useRef(null);
 	let i = 0;
@@ -69,7 +73,7 @@ function AdsBar() {
 	}, [ads]);
 
 	return (
-		<View style={{ marginVertical: 40, marginTop: 70 }}>
+		<View style={{ marginVertical: 20, marginTop: 50 }}>
 			{loading ? (
 				<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 					<ActivityIndicator size="large" color={COLORS.primary} />

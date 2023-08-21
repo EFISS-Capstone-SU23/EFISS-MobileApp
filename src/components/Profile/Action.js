@@ -2,8 +2,9 @@ import {
 	View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
-import { Entypo } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES } from '../../constants';
 
 const styles = StyleSheet.create({
@@ -36,11 +37,21 @@ function Action({ icon, title, onPress }) {
 		<TouchableOpacity style={styles.action} onPress={onPress}>
 			<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 				<View style={styles.iconContainer}>
-					<Entypo name={icon} size={28} color={COLORS.black} />
+					<Icon
+						name={icon}
+						type="ionicon"
+						size={28}
+						color={COLORS.white}
+					/>
 				</View>
 				<Text style={styles.actionTitle}>{title}</Text>
 			</View>
-			<Entypo name="chevron-right" size={28} color={COLORS.primary} />
+			<Icon
+				name="chevron-forward-outline"
+				type="ionicon"
+				size={28}
+				color={COLORS.white}
+			/>
 		</TouchableOpacity>
 	);
 }
