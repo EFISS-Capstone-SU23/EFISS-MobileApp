@@ -38,24 +38,24 @@ const styles = StyleSheet.create({
 function SearchBar({ onPicture, navigation }) {
 	const [text, setText] = useState('');
 
+	const handleSubmit = () => {
+		if (text && text.length > 0) {
+			navigation.navigate('TextResults', { query: text });
+		} else {
+			ToastAndroid.showWithGravity(
+				'Vui lòng nhập từ khóa',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+	};
+
 	return (
 		<View style={{ backgroundColor: COLORS.primary, height: 120, paddingHorizontal: 20 }}>
 			<View style={{ flex: 1 }}>
 				<Text style={styles.headerTitle}>Discover Style at the Speed of Light with EFISS!</Text>
 				<View style={styles.inputContainer}>
-					<TouchableOpacity
-						onPress={() => {
-							if (text && text.length > 0) {
-								navigation.navigate('TextResults', { query: text });
-							} else {
-								ToastAndroid.showWithGravity(
-									'Vui lòng nhập từ khóa',
-									ToastAndroid.SHORT,
-									ToastAndroid.BOTTOM,
-								);
-							}
-						}}
-					>
+					<TouchableOpacity onPress={handleSubmit}>
 						<Icon
 							name="search-outline"
 							type="ionicon"
@@ -68,11 +68,10 @@ function SearchBar({ onPicture, navigation }) {
 						style={{ flex: 1, marginHorizontal: 5, color: COLORS.grey }}
 						value={text}
 						onChangeText={(value) => setText(value)}
+						onSubmitEditing={handleSubmit}
 					/>
 
-					<TouchableOpacity
-						onPress={onPicture}
-					>
+					<TouchableOpacity onPress={onPicture}>
 						<Icon
 							name="camera-outline"
 							type="ionicon"
