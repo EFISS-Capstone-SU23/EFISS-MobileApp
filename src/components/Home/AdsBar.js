@@ -1,10 +1,12 @@
 import {
-	View, StyleSheet, FlatList,
+	View, StyleSheet, FlatList, ActivityIndicator, Text,
 } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SIZES, FONTS, COLORS } from '../../constants';
 import AdsCard from '../Common/AdsCard';
+import { bannerAdsGet } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -33,35 +35,24 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ADS = [
-	{
-		id: 1,
-		name: 'Uniqlo',
-		image: 'https://kenh14cdn.com/thumb_w/600/pr/2022/photo1650422521501-16504225223311599178458-63786054031463.jpg',
-		url: 'https://www.uniqlo.com/vn/vi/',
-	},
-	{
-		id: 2,
-		name: 'Boo',
-		image: 'https://perfecthome.vn/data/uploads/images/1602920464_boo-2.png',
-		url: 'https://boo.vn/',
-	},
-	{
-		id: 3,
-		name: 'Zara',
-		image: 'https://img.vietnamfinance.vn/thumbs/700x0/upload/news/quynhanh/2023/3/1/Zara.jpeg',
-		url: 'https://www.zara.com/vn/',
-	},
-];
-
 function AdsBar() {
+	const dispatch = useDispatch();
+	const getBannerAds = useSelector((state) => state.getBannerAds);
+	const { ads, loading, error } = getBannerAds;
+
+	const [items, setItems] = useState([]);
+
+	useEffect(() => {
+		dispatch(bannerAdsGet());
+	}, [dispatch]);
+
 	const flatListRef = useRef(null);
 	let i = 0;
 
 	useEffect(() => {
 		const scrollFlatList = () => {
 			flatListRef?.current?.scrollToIndex({ animated: true, index: i });
-			i = (i + 1) % ADS.length;
+			i = (i + 1) % (ads?.length || 1);
 		};
 
 		const intervalId = setInterval(scrollFlatList, 3000);
@@ -69,25 +60,48 @@ function AdsBar() {
 		return () => {
 			clearInterval(intervalId);
 		};
-	}, []);
+	}, [ads]);
+
+	useEffect(() => {
+		if (ads) {
+			setItems(ads.map((obj) => obj.bannerAds));
+		}
+	}, [ads]);
+
+	if (loading) {
+		// Render a loading indicator while data is being fetched
+		return (
+			<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+				<ActivityIndicator size="large" color={COLORS.primary} />
+			</View>
+		);
+	}
 
 	return (
 		<View>
-			<View style={styles.container}>
-				<View style={styles.cardsContainer}>
-					<FlatList
-						ref={flatListRef}
-						data={ADS}
-						renderItem={({ item }) => (
-							<AdsCard data={item} />
-						)}
-						keyExtractor={(item) => item.id}
-						showsHorizontalScrollIndicator={false}
-						bounces={false}
-						horizontal
-					/>
+			{loading ? (
+				<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+					<ActivityIndicator size="large" color={COLORS.primary} />
 				</View>
-			</View>
+			) : error ? (
+				<Text style={{ textAlign: 'center', color: COLORS.black }}>Quảng cáo chưa có sẵn dành cho bạn</Text>
+			) : (
+				<View style={styles.container}>
+					<View style={styles.cardsContainer}>
+						<FlatList
+							ref={flatListRef}
+							data={items}
+							renderItem={({ item }) => (
+								<AdsCard data={item} />
+							)}
+							keyExtractor={(item) => item.id.toString()} // Convert ID to string
+							showsHorizontalScrollIndicator={false}
+							bounces={false}
+							horizontal
+						/>
+					</View>
+				</View>
+			)}
 		</View>
 	);
 }

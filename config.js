@@ -4,6 +4,8 @@ export const config = {
 	SEARCH_ROUTER: 'search/image',
 	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum&sortBy=:sortBy',
 
+	BANNER_ADS_ROUTER: 'ads/banner',
+
 	SIGNUP_ROUTER: 'auth/sign-up',
 	SIGNIN_ROUTER: 'auth/sign-in',
 	CHANGE_PASSWORD_ROUTER: 'auth/change-password',

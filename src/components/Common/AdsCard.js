@@ -42,7 +42,7 @@ function AdsCard({ data }) {
 	return (
 		<View style={styles.imgContainer}>
 			<ImageBackground
-				source={{ uri: data.image }}
+				source={{ uri: data.bannerUrl }}
 				style={styles.imageBackground}
 				imageStyle={{ borderRadius: SIZES.base }}
 			>
@@ -53,7 +53,7 @@ function AdsCard({ data }) {
 						title="Xem cửa hàng"
 						style={{ width: '50%', marginLeft: SIZES.medium, marginTop: SIZES.base }}
 						color={COLORS.white}
-						onPress={() => { Linking.openURL(data.url); }}
+						onPress={() => { Linking.openURL(data.destinationUrl); }}
 					/>
 				</View>
 			</ImageBackground>

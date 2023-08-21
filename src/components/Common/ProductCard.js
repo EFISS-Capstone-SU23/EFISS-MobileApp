@@ -64,12 +64,18 @@ const styles = StyleSheet.create({
 	productRating: {
 		color: COLORS.secondary,
 		fontFamily: FONTS.semiBold,
-		fontSize: 12,
+		fontSize: 10,
 		marginLeft: 2,
 	},
 });
 
 function ProductCard({ product, navigation }) {
+	// Generate a random number between 1 and 100
+	const randomValue = Math.random() * 100;
+
+	// Set isSponsored based on the random number
+	const isSponsored = randomValue <= 20;
+
 	return (
 		<View style={styles.container}>
 			<View style={{ width: '100%', height: 150 }}>
@@ -106,12 +112,6 @@ function ProductCard({ product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceSection}>
-					<View style={styles.ratingContainer}>
-						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-						<Text style={styles.productRating}>
-							4.5
-						</Text>
-					</View>
 					<View style={styles.priceContainer}>
 						<Badge
 							label={formatNumber(product.price)}
@@ -119,6 +119,14 @@ function ProductCard({ product, navigation }) {
 							labelStyle={styles.productPrice}
 						/>
 					</View>
+					{isSponsored && (
+						<View style={styles.ratingContainer}>
+							<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
+							<Text style={styles.productRating}>
+								Sponsored
+							</Text>
+						</View>
+					)}
 				</View>
 			</View>
 		</View>

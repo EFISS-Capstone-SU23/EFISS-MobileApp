@@ -14,6 +14,7 @@ import {
 	addCollectionDetailsReducer,
 	removeCollectionDetailsReducer,
 	loadProductRecommendReducer,
+	getBannerAdsReducer,
 } from './productReducers';
 import {
 	userRegisterReducer,
@@ -48,6 +49,7 @@ const reducer = combineReducers({
 	loadProductRecommend: loadProductRecommendReducer,
 	sendResetPassword: sendResetPasswordReducer,
 	verifyEmail: verifyEmailReducer,
+	getBannerAds: getBannerAdsReducer,
 });
 
 export default (state, action) => reducer(state, action);
