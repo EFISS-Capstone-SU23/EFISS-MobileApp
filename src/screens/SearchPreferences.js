@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.white,
 		marginBottom: 6,
 	},

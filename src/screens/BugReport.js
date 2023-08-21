@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	headerTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.medium,
 		color: COLORS.white,
 		marginLeft: 12,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 	},
 	inputTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
 		marginBottom: 5,
 	},

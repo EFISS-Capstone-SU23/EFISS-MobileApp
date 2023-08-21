@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},

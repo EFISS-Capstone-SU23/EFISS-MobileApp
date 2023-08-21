@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		textAlign: 'center',
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.primary,
 		marginVertical: SIZES.medium,
 	},

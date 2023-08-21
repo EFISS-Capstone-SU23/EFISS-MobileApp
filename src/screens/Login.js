@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 		marginVertical: SIZES.base,
 	},
 	text: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 	},
 });
 
@@ -199,7 +199,7 @@ function Login() {
 								navigation.navigate('SignUp');
 							}}
 							>
-								<Text style={{ fontFamily: FONTS.semiBold }}> Đăng ký</Text>
+								<Text style={{ fontFamily: FONTS.bold }}> Đăng ký</Text>
 							</TouchableOpacity>
 						</View>
 					</View>

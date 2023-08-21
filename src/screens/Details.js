@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
 	},
 	floatButtonLabel: {
 		fontSize: 12,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		letterSpacing: 1,
 		color: COLORS.white,
 		textTransform: 'uppercase',

@@ -152,7 +152,7 @@ function TextResultsHeader({
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>Sắp xếp theo: </Text>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
 					<View>
 						<RadioForm>
 							{
@@ -179,7 +179,7 @@ function TextResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
 						Khoảng giá (VND):
 					</Text>
 					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>

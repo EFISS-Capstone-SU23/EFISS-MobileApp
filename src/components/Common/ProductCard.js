@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 	},
 	productRating: {
 		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: 10,
 		marginLeft: 2,
 	},

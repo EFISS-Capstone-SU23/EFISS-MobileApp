@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		flex: 1,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.large,
 		color: COLORS.white,
 		textAlign: 'center',

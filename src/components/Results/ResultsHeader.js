@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		padding: 12,
 	},
 	text: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.white,
 		textAlign: 'center',
@@ -184,7 +184,7 @@ function ResultsHeader({
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>Sắp xếp theo: </Text>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
 					<View>
 						<RadioForm>
 							{
@@ -211,7 +211,7 @@ function ResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
 						Khoảng giá (VND):
 					</Text>
 					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: SIZES.large,
 		marginBottom: 20,
-		fontFamily: FONTS.semibold,
+		fontFamily: FONTS.bold,
 		color: COLORS.red,
 	},
 	button: {

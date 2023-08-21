@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 		marginVertical: SIZES.medium,
 	},
 	headerTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},

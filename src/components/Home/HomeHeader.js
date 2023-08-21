@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	logoText: {
 		color: COLORS.white,
 		fontSize: 32,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 	},
 });
 
