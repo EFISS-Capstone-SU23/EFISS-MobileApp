@@ -45,7 +45,7 @@ function AdsBar() {
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
-		if (isFocused) {
+		if (isFocused && (ads === null || ads === undefined)) {
 			dispatch(bannerAdsGet());
 		}
 	}, [dispatch, isFocused]);
