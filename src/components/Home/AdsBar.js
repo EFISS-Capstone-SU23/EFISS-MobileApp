@@ -68,17 +68,8 @@ function AdsBar() {
 		}
 	}, [ads]);
 
-	if (loading) {
-		// Render a loading indicator while data is being fetched
-		return (
-			<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-				<ActivityIndicator size="large" color={COLORS.primary} />
-			</View>
-		);
-	}
-
 	return (
-		<View>
+		<View style={{ marginVertical: 40, marginTop: 70 }}>
 			{loading ? (
 				<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 					<ActivityIndicator size="large" color={COLORS.primary} />
