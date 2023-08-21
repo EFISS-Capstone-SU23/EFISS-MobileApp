@@ -1,11 +1,12 @@
 import {
-	View, StyleSheet, Image, ToastAndroid,
+	View, StyleSheet, Image, ToastAndroid, TouchableOpacity,
 } from 'react-native';
 import {
-	Text, IconButton, Button, TextInput, Divider,
+	Text, Button, TextInput, Divider,
 } from '@react-native-material/core';
 import React, { useState } from 'react';
-import { Entypo } from '@expo/vector-icons';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
@@ -148,10 +149,16 @@ function ResultsHeader({
 					paddingHorizontal: 5,
 				}}
 			>
-				<IconButton
+				<TouchableOpacity
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.black} size={28} />}
-				/>
+				>
+					<Icon
+						name="arrow-back-outline"
+						type="ionicon"
+						size={30}
+						color={COLORS.white}
+					/>
+				</TouchableOpacity>
 
 				<Image
 					source={{ uri: base64Icon }}
@@ -163,10 +170,16 @@ function ResultsHeader({
 					}}
 				/>
 
-				<IconButton
+				<TouchableOpacity
 					onPress={handleToggleDropdown}
-					icon={<Entypo name="funnel" color={COLORS.black} size={28} />}
-				/>
+				>
+					<Icon
+						name="funnel-outline"
+						type="ionicon"
+						size={30}
+						color={COLORS.white}
+					/>
+				</TouchableOpacity>
 			</View>
 
 			{dropdownOpen && (

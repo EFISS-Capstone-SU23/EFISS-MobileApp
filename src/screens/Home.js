@@ -91,6 +91,7 @@ function Home() {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<SearchBar
 					onPicture={() => changeModalVisibility(true)}
+					navigation={navigation}
 				/>
 				<AdsBar />
 				<Category />
