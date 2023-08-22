@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 	groupContainer: {
-		marginVertical: SIZES.base / 4,
+		marginVertical: 2,
 	},
 	group: {
 		color: COLORS.secondary,
@@ -95,12 +95,7 @@ function ProductCard({ product, navigation }) {
 				</TouchableOpacity>
 			</View>
 			<View style={{ width: '100%', paddingHorizontal: 5 }}>
-				<View style={styles.groupContainer}>
-					<Text style={styles.group}>
-						{product.shopName}
-					</Text>
-				</View>
-				<View style={{ marginBottom: 5 }}>
+				<View style={{ marginVertical: 5 }}>
 					<Text
 						variant="subtitle2"
 						numberOfLines={1}
@@ -109,6 +104,11 @@ function ProductCard({ product, navigation }) {
 						}}
 					>
 						{product.title}
+					</Text>
+				</View>
+				<View style={styles.groupContainer}>
+					<Text style={styles.group}>
+						{product.shopName}
 					</Text>
 				</View>
 				<View style={styles.priceSection}>

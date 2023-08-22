@@ -79,8 +79,8 @@ function Results({ route, navigation }) {
 					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
-							renderItem={({ item }) => (
-								<ProductCard product={item} navigation={navigation} />
+							renderItem={({ item, index }) => (
+								<ProductCard product={item} navigation={navigation} index={index} />
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}

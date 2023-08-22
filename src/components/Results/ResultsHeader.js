@@ -145,7 +145,7 @@ function ResultsHeader({
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
-					alignItems: 'flex-end',
+					alignItems: 'center',
 					paddingHorizontal: 5,
 				}}
 			>
@@ -166,7 +166,7 @@ function ResultsHeader({
 					style={{
 						flex: 1,
 						width: undefined,
-						height: 70,
+						height: 50,
 					}}
 				/>
 
