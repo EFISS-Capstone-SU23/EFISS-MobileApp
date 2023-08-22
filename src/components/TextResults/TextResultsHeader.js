@@ -1,11 +1,12 @@
 import {
-	View, StyleSheet, ToastAndroid,
+	View, StyleSheet, ToastAndroid, TouchableOpacity,
 } from 'react-native';
 import {
-	Text, IconButton, Divider, TextInput, Button,
+	Text, Divider, TextInput, Button,
 } from '@react-native-material/core';
 import React, { useState } from 'react';
-import { Entypo } from '@expo/vector-icons';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
@@ -119,27 +120,39 @@ function TextResultsHeader({
 					flexDirection: 'row',
 					justifyContent: 'space-between',
 					alignItems: 'center',
-					paddingHorizontal: 5,
+					padding: 5,
 				}}
 			>
-				<IconButton
+				<TouchableOpacity
 					onPress={() => navigation.goBack()}
-					icon={<Entypo name="chevron-left" color={COLORS.black} size={28} />}
-				/>
+				>
+					<Icon
+						name="arrow-back-outline"
+						type="ionicon"
+						size={30}
+						color={COLORS.white}
+					/>
+				</TouchableOpacity>
 
-				<Text color={COLORS.black} style={{ fontSize: SIZES.font }}>
+				<Text color={COLORS.white} style={{ fontSize: SIZES.medium }}>
 					{`'${query}'`}
 				</Text>
 
-				<IconButton
+				<TouchableOpacity
 					onPress={handleToggleDropdown}
-					icon={<Entypo name="funnel" color={COLORS.black} size={28} />}
-				/>
+				>
+					<Icon
+						name="funnel-outline"
+						type="ionicon"
+						size={30}
+						color={COLORS.white}
+					/>
+				</TouchableOpacity>
 			</View>
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>Sắp xếp theo: </Text>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
 					<View>
 						<RadioForm>
 							{
@@ -166,7 +179,7 @@ function TextResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.semiBold }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
 						Khoảng giá (VND):
 					</Text>
 					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>

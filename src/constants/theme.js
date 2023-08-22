@@ -24,11 +24,11 @@ export const SIZES = {
 };
 
 export const FONTS = {
-	bold: 'RobotoBold',
-	semiBold: 'RobotoSemiBold',
-	medium: 'RobotoMedium',
-	regular: 'RobotoRegular',
-	light: 'RobotoLight',
+	bold: 'BeVietnamProBold',
+	semiBold: 'BeVietnamProSemiBold',
+	medium: 'BeVietnamProMedium',
+	regular: 'BeVietnamProRegular',
+	light: 'BeVietnamProLight',
 };
 
 export const SHADOWS = {

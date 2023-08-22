@@ -12,7 +12,8 @@ import {
 } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from 'react-native-image-crop-picker';
-import { Entypo } from '@expo/vector-icons';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 import { checkImageSize } from '../utils/utils';
@@ -40,8 +41,8 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.font,
 	},
 	connector: {
-		fontFamily: FONTS.light,
-		color: COLORS.primary,
+		fontFamily: FONTS.regular,
+		color: COLORS.black,
 		fontSize: SIZES.large,
 	},
 });
@@ -171,7 +172,12 @@ function Search() {
 			<VStack fill m={4} spacing={6} center>
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={takePicture}>
-						<Entypo name="camera" size={SIZES.extraLarge} color={COLORS.black} />
+						<Icon
+							name="camera-outline"
+							type="ionicon"
+							size={32}
+							color={COLORS.white}
+						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chụp ảnh</Text>
 				</VStack>
@@ -180,7 +186,12 @@ function Search() {
 				<Divider style={{ marginTop: SIZES.large }} leadingInset={16} />
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={showImagePicker}>
-						<Entypo name="images" size={SIZES.extraLarge} color={COLORS.black} />
+						<Icon
+							name="images-outline"
+							type="ionicon"
+							size={32}
+							color={COLORS.white}
+						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chọn từ thư viện</Text>
 				</VStack>

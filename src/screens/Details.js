@@ -6,10 +6,11 @@ import {
 	Text, IconButton, Button, Badge,
 } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from '@react-native-clipboard/clipboard';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import { ErrorView, RenderImageItem } from '../components';
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
 	},
 	floatButtonLabel: {
 		fontSize: 12,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		letterSpacing: 1,
 		color: COLORS.white,
 		textTransform: 'uppercase',
@@ -265,7 +266,14 @@ function Details({ route, navigation }) {
 							<View style={styles.returnContainer}>
 								<IconButton
 									onPress={() => navigation.goBack()}
-									icon={<Entypo name="chevron-left" size={24} color={COLORS.black} />}
+									icon={(
+										<Icon
+											name="arrow-back-outline"
+											type="ionicon"
+											size={24}
+											color={COLORS.black}
+										/>
+									)}
 									contentContainerStyle={{
 										backgroundColor: COLORS.primary,
 										opacity: 0.8,
@@ -277,8 +285,9 @@ function Details({ route, navigation }) {
 									<IconButton
 										onPress={handleToggleModal}
 										icon={(
-											<Entypo
-												name="heart-outlined"
+											<Icon
+												name="arrow-back-outline"
+												type="ionicon"
 												size={24}
 												color={COLORS.black}
 											/>
@@ -326,7 +335,12 @@ function Details({ route, navigation }) {
 						<View style={styles.infoContainer}>
 							{product?.categories && (
 								<View style={styles.groupContainer}>
-									<Entypo name="colours" style={styles.groupIcon} />
+									<Icon
+										name="shirt"
+										type="ionicon"
+										style={styles.groupIcon}
+										color={COLORS.primary}
+									/>
 									<Text style={styles.groupLabel}>
 										{product.categories.length > 0 ? product.categories.join(', ') : 'Sản phẩm thời trang'}
 									</Text>
@@ -346,7 +360,11 @@ function Details({ route, navigation }) {
 										);
 									}}
 								>
-									<Entypo name="link" style={styles.linkIcon} />
+									<Icon
+										name="attach-outline"
+										type="ionicon"
+										style={styles.linkIcon}
+									/>
 								</TouchableOpacity>
 							</View>
 							<View style={styles.priceContainer}>
@@ -363,13 +381,22 @@ function Details({ route, navigation }) {
 							<View style={styles.locationContainer}>
 								<View style={styles.location}>
 									<View style={styles.locationSection}>
-										<Entypo name="shop" style={{ fontSize: 28, color: COLORS.black }} />
+										<Icon
+											name="cart-outline"
+											type="ionicon"
+											style={{ fontSize: 28, color: COLORS.black }}
+										/>
 									</View>
 									<Text variant="overline" style={{ fontSize: SIZES.font }}>
 										{product.shopName}
 									</Text>
 								</View>
-								<Entypo name="chevron-right" style={{ fontSize: 28, color: COLORS.primary }} />
+								<Icon
+									name="chevron-forward-outline"
+									type="ionicon"
+									style={{ fontSize: 28 }}
+									color={COLORS.primary}
+								/>
 							</View>
 							<Text style={styles.description}>
 								{product.description}

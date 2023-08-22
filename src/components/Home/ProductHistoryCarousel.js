@@ -12,7 +12,8 @@ import CarouselCard from '../Common/CarouselCard';
 
 const styles = StyleSheet.create({
 	container: {
-		margin: SIZES.base,
+		marginHorizontal: SIZES.base,
+		marginVertical: SIZES.medium,
 	},
 	header: {
 		flexDirection: 'row',
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},

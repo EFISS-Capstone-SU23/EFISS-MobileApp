@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.white,
 		marginBottom: 6,
 	},
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 	},
 	actionTitle: {
 		color: COLORS.primary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.medium,
 	},
 });
@@ -113,7 +113,7 @@ function Profile() {
 							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
 						</View>
 						<View style={styles.nameSection}>
-							<Text style={[styles.text, { fontFamily: FONTS.semiBold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
+							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>
 							<Text style={styles.text}>{userInfo?.email}</Text>
 							<TouchableOpacity style={{ marginTop: SIZES.base }} onPress={logout}>
 								<Text style={styles.actionTitle}>Đăng xuất</Text>
@@ -123,7 +123,7 @@ function Profile() {
 					<View style={styles.actions}>
 						<Action
 							title="Chỉnh sửa thông tin"
-							icon="edit"
+							icon="create-outline"
 							onPress={() => navigation.navigate('EditProfile')}
 						/>
 						<Action
@@ -133,17 +133,17 @@ function Profile() {
 						/>
 						<Action
 							title="Xác minh email"
-							icon="email"
+							icon="at-outline"
 							onPress={() => navigation.navigate('VerifyEmail')}
 						/>
 						<Action
 							title="Đổi mật khẩu"
-							icon="dial-pad"
+							icon="key-outline"
 							onPress={() => navigation.navigate('ChangePassword')}
 						/>
 						<Action
 							title="Quay lại"
-							icon="back"
+							icon="arrow-back-outline"
 							onPress={() => navigation.goBack()}
 						/>
 					</View>

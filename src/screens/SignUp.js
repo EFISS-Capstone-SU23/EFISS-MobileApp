@@ -6,10 +6,11 @@ import {
 	ActivityIndicator, TextInput, Button, Divider, Text,
 } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import { FONTS, SIZES, COLORS } from '../constants';
 import logo from '../assets/images/logo.png';
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,
@@ -138,7 +139,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Email của bạn"
-											leading={<Entypo name="email" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="mail-outline"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											keyboardType="email-address"
 											value={values.email}
@@ -162,7 +171,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Tên đăng nhập"
-											leading={<Entypo name="user" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="text-outline"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											value={values.username}
 											onChangeText={handleChange('username')}
@@ -184,7 +201,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Họ và tên đệm"
-											leading={<Entypo name="text-document" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="reader"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											value={values.lastName}
 											onChangeText={handleChange('lastName')}
@@ -205,7 +230,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Tên của bạn"
-											leading={<Entypo name="text-document-inverted" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="reader-outline"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											value={values.firstName}
 											onChangeText={handleChange('firstName')}
@@ -226,7 +259,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Mật khẩu"
-											leading={<Entypo name="key" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="keypad-outline"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											value={values.password}
 											onChangeText={handleChange('password')}
@@ -248,7 +289,15 @@ function SignUp({ navigation }) {
 												width: '100%',
 											}}
 											label="Nhập lại mật khẩu"
-											leading={<Entypo name="flag" size={20} color={COLORS.primary} style={{ marginRight: 5 }} />}
+											leading={(
+												<Icon
+													name="apps-outline"
+													type="ionicon"
+													size={20}
+													color={COLORS.primary}
+													style={{ marginRight: 5 }}
+												/>
+											)}
 											color={COLORS.primary}
 											value={values.confirmPassword}
 											onChangeText={handleChange('confirmPassword')}

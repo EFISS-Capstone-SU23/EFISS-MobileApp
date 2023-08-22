@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,

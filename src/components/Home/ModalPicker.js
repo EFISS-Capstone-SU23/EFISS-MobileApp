@@ -5,26 +5,26 @@ import {
 	SafeAreaView,
 	ToastAndroid,
 	PermissionsAndroid,
+	TouchableWithoutFeedback,
+	TouchableOpacity,
 } from 'react-native';
 import { Button } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from 'react-native-image-crop-picker';
 
-import { COLORS, SIZES } from '../../constants';
+import { COLORS, SHADOWS, SIZES } from '../../constants';
 import { checkImageSize } from '../../utils/utils';
 
 const OPTIONS = [
 	{
 		id: 1,
-		action: 'Chụp ảnh',
+		action: 'Chụp Ảnh',
 	},
 	{
 		id: 2,
-		action: 'Chọn ảnh từ thư viện',
-	},
-	{
-		id: 3,
-		action: 'Quay lại',
+		action: 'Chọn Từ Thư Viện',
 	},
 ];
 
@@ -33,16 +33,22 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: 'rgba(52, 52, 52, 0.6)',
 	},
 	modal: {
 		backgroundColor: COLORS.white,
-		borderColor: COLORS.gray,
-		borderWidth: 1,
-		paddingVertical: SIZES.base,
-		paddingHorizontal: SIZES.font,
+		paddingVertical: SIZES.medium,
+		paddingHorizontal: 30,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-		borderRadius: 10,
+		borderRadius: 5,
+		...SHADOWS.medium,
+	},
+	closeButton: {
+		position: 'absolute',
+		top: 2,
+		right: 2,
+		zIndex: 1, // To make the button appear above the modal content
 	},
 });
 
@@ -188,17 +194,34 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				color={COLORS.primary}
 				style={styles.option}
 				title={item.action}
+				uppercase={false}
 				titleStyle={{
-					color: COLORS.black,
+					color: COLORS.white,
+					letterSpacing: 2,
 				}}
 			/>
 		</View>
 	));
 
+	const closeModal = () => {
+		changeModalVisibility(false);
+	};
+
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={styles.modal}>{option}</View>
-		</SafeAreaView>
+		<TouchableWithoutFeedback onPress={closeModal}>
+			<SafeAreaView style={styles.container}>
+				<View style={styles.modal}>
+					<TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+						<Icon
+							name="close-outline"
+							type="ionicon"
+							size={28}
+						/>
+					</TouchableOpacity>
+					{option}
+				</View>
+			</SafeAreaView>
+		</TouchableWithoutFeedback>
 	);
 }
 

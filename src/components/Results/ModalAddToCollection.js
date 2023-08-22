@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	},
 	inputTitle: {
 		marginBottom: SIZES.medium,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.medium,
 	},
 	inputField: {

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 	},
 	productRating: {
 		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: 12,
 		marginLeft: 2,
 	},
@@ -137,12 +137,6 @@ function CollectionDetailsCard({ collectionId, product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceSection}>
-					<View style={styles.ratingContainer}>
-						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-						<Text style={styles.productRating}>
-							4.5
-						</Text>
-					</View>
 					<View style={styles.priceContainer}>
 						<Badge
 							label={formatNumber(product.price)}

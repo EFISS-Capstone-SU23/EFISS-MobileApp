@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.white,
 		marginBottom: 6,
 	},
@@ -95,17 +95,17 @@ function Settings() {
 						<View style={styles.sectionBody}>
 							<Action
 								title="Thông tin tài khoản"
-								icon="v-card"
+								icon="person-circle-outline"
 								onPress={() => navigation.navigate('Profile')}
 							/>
 							<Action
 								title="Báo cáo lỗi"
-								icon="flag"
+								icon="bug-outline"
 								onPress={() => navigation.navigate('BugReport')}
 							/>
 							<Action
 								title="Đăng xuất"
-								icon="log-out"
+								icon="log-out-outline"
 								onPress={logout}
 							/>
 						</View>
@@ -118,7 +118,7 @@ function Settings() {
 					<View style={styles.sectionBody}>
 						<Action
 							title="Cài đặt tìm kiếm"
-							icon="magnifying-glass"
+							icon="search-outline"
 							onPress={() => navigation.navigate('Preferences')}
 						/>
 						<Action
@@ -128,7 +128,7 @@ function Settings() {
 						/>
 						<Action
 							title="Đánh giá ứng dụng"
-							icon="price-ribbon"
+							icon="star-half-outline"
 							onPress={() => { }}
 						/>
 					</View>

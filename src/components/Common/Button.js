@@ -47,7 +47,7 @@ export function RectButton({
 		>
 			<Text
 				style={{
-					fontFamily: FONTS.semiBold,
+					fontFamily: FONTS.bold,
 					fontSize,
 					color: COLORS.white,
 					textAlign: 'center',

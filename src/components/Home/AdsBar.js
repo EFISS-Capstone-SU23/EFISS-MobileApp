@@ -3,6 +3,7 @@ import {
 } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 import { SIZES, FONTS, COLORS } from '../../constants';
 import AdsCard from '../Common/AdsCard';
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerTitle: {
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.black,
 	},
@@ -39,12 +40,15 @@ function AdsBar() {
 	const dispatch = useDispatch();
 	const getBannerAds = useSelector((state) => state.getBannerAds);
 	const { ads, loading, error } = getBannerAds;
+	const isFocused = useIsFocused();
 
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
-		dispatch(bannerAdsGet());
-	}, [dispatch]);
+		if (isFocused && (ads === null || ads === undefined)) {
+			dispatch(bannerAdsGet());
+		}
+	}, [dispatch, isFocused]);
 
 	const flatListRef = useRef(null);
 	let i = 0;
@@ -68,23 +72,14 @@ function AdsBar() {
 		}
 	}, [ads]);
 
-	if (loading) {
-		// Render a loading indicator while data is being fetched
-		return (
-			<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-				<ActivityIndicator size="large" color={COLORS.primary} />
-			</View>
-		);
-	}
-
 	return (
-		<View>
+		<View style={{ marginVertical: 20, marginTop: 50 }}>
 			{loading ? (
 				<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				</View>
 			) : error ? (
-				<Text style={{ textAlign: 'center', color: COLORS.black }}>Quảng cáo chưa có sẵn dành cho bạn</Text>
+				<Text style={{ textAlign: 'center', color: COLORS.black, marginTop: 20 }}>Quảng cáo chưa có sẵn dành cho bạn</Text>
 			) : (
 				<View style={styles.container}>
 					<View style={styles.cardsContainer}>

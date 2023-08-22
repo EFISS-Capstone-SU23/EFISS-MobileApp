@@ -1,9 +1,9 @@
 import {
-	View, Text, StyleSheet,
+	View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { IconButton } from '@react-native-material/core';
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
 
 import {
 	COLORS, FONTS, SIZES,
@@ -12,7 +12,7 @@ import {
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: COLORS.primary,
-		padding: SIZES.base,
+		padding: SIZES.medium,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		flex: 1,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: SIZES.large,
-		color: COLORS.black,
+		color: COLORS.white,
 		textAlign: 'center',
 	},
 	tabsContainer: {
@@ -45,19 +45,31 @@ const styles = StyleSheet.create({
 function CollectionsHeader({ navigation, onAdd }) {
 	return (
 		<View style={styles.container}>
-			<IconButton
+			<TouchableOpacity
 				onPress={() => navigation.goBack()}
-				icon={<Entypo name="chevron-left" color={COLORS.black} size={30} />}
-			/>
+			>
+				<Icon
+					name="arrow-back-outline"
+					type="ionicon"
+					size={30}
+					color={COLORS.white}
+				/>
+			</TouchableOpacity>
 
 			<Text style={styles.text}>
 				Danh sách bộ sưu tập
 			</Text>
 
-			<IconButton
+			<TouchableOpacity
 				onPress={onAdd}
-				icon={<Entypo name="add-to-list" color={COLORS.black} size={30} />}
-			/>
+			>
+				<Icon
+					name="add-outline"
+					type="ionicon"
+					size={30}
+					color={COLORS.white}
+				/>
+			</TouchableOpacity>
 		</View>
 	);
 }

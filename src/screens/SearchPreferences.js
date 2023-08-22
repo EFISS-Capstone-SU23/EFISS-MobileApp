@@ -7,7 +7,7 @@ import {
 	Text,
 	ToastAndroid,
 } from 'react-native';
-import { AppBar, Button } from '@react-native-material/core';
+import { AppBar, Button, Divider } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NumericInput from 'react-native-numeric-input';
 
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.white,
 		marginBottom: 6,
 	},
 });
 
-function SearchPreferences() {
+function SearchPreferences({ navigation }) {
 	const [pageSize, setPageSize] = useState(config.PAGE_SIZE);
 	const [diversity, setDiversity] = useState(config.DIVERSITY);
 
@@ -83,11 +83,11 @@ function SearchPreferences() {
 								onChange={(value) => setPageSize(value)}
 								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
 								totalWidth={240}
-								totalHeight={50}
+								totalHeight={40}
 								minValue={16}
 								maxValue={30}
 								iconSize={25}
-								step={1}
+								step={2}
 								valueType="integer"
 								rounded
 								textColor={COLORS.primary}
@@ -113,7 +113,7 @@ function SearchPreferences() {
 								onChange={(value) => setDiversity(value)}
 								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
 								totalWidth={240}
-								totalHeight={50}
+								totalHeight={40}
 								minValue={1}
 								maxValue={20}
 								iconSize={25}
@@ -129,6 +129,14 @@ function SearchPreferences() {
 					</View>
 					<View style={styles.sectionHeader}>
 						<Button color={COLORS.primary} title="Lưu thay đổi" onPress={saveSettings} />
+						<Divider style={{ margin: SIZES.medium }} />
+						<Button
+							title="Quay lại"
+							variant="outlined"
+							color={COLORS.black}
+							onPress={() => navigation.goBack()}
+							style={styles.submitBtn}
+						/>
 					</View>
 				</View>
 			</ScrollView>

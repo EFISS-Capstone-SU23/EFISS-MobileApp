@@ -11,11 +11,11 @@ import { store } from './src/redux/store';
 import { COLORS } from './src/constants';
 import { AuthProvider } from './src/context/AuthContext';
 
-import RobotoBold from './src/assets/fonts/Roboto-Bold.ttf';
-import RobotoSemiBold from './src/assets/fonts/Roboto-SemiBold.ttf';
-import RobotoLight from './src/assets/fonts/Roboto-Light.ttf';
-import RobotoMedium from './src/assets/fonts/Roboto-Medium.ttf';
-import RobotoRegular from './src/assets/fonts/Roboto-Regular.ttf';
+import BeVietnamProBold from './src/assets/fonts/BeVietnamPro-Bold.ttf';
+import BeVietnamProSemiBold from './src/assets/fonts/BeVietnamPro-SemiBold.ttf';
+import BeVietnamProLight from './src/assets/fonts/BeVietnamPro-Light.ttf';
+import BeVietnamProMedium from './src/assets/fonts/BeVietnamPro-Medium.ttf';
+import BeVietnamProRegular from './src/assets/fonts/BeVietnamPro-Regular.ttf';
 
 import AppNavigator from './src/navigations/AppNavigator';
 
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
 
 function App() {
 	const [loaded] = useFonts({
-		RobotoBold,
-		RobotoLight,
-		RobotoMedium,
-		RobotoRegular,
-		RobotoSemiBold,
+		BeVietnamProBold,
+		BeVietnamProLight,
+		BeVietnamProMedium,
+		BeVietnamProRegular,
+		BeVietnamProSemiBold,
 	});
 
 	if (!loaded) {

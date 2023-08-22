@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	price: {
-		color: COLORS.black,
+		color: COLORS.white,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 	},
 	rating: {
 		color: COLORS.secondary,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.bold,
 		fontSize: 12,
 		marginLeft: 2,
 	},
@@ -117,18 +117,18 @@ function CarouselCard({ product, navigation }) {
 					</Text>
 				</View>
 				<View style={styles.priceSection}>
-					<View style={styles.ratingContainer}>
-						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-						<Text style={styles.rating}>
-							4.5
-						</Text>
-					</View>
 					<View style={styles.priceContainer}>
 						<Badge
 							label={formatNumber(product.price)}
 							color={COLORS.primary}
 							labelStyle={styles.price}
 						/>
+					</View>
+					<View style={styles.ratingContainer}>
+						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
+						<Text style={styles.rating}>
+							4.5
+						</Text>
 					</View>
 				</View>
 			</View>
