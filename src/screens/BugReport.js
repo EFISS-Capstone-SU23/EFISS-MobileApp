@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 	},
 	inputTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 		marginBottom: 5,
 	},
@@ -164,6 +164,9 @@ function BugReport({ navigation }) {
 									disabled={!isValid}
 									onPress={handleSubmit}
 									style={styles.saveButton}
+									titleStyle={{
+										color: COLORS.secondary,
+									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
