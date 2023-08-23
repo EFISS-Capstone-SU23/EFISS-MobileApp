@@ -50,6 +50,7 @@ function AdsCard({ data }) {
 					<Text style={styles.category}>{data.name}</Text>
 					<Button
 						variant="outlined"
+						uppercase={false}
 						title="Xem cửa hàng"
 						style={{ width: '50%', marginLeft: SIZES.medium, marginTop: SIZES.base }}
 						color={COLORS.white}

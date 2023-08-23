@@ -407,6 +407,7 @@ function Details({ route, navigation }) {
 					<View style={styles.floatButtonContainer}>
 						<Button
 							title="Đi tới cửa hàng"
+							uppercase={false}
 							color={COLORS.primary}
 							onPress={() => { Linking.openURL(product.url); }}
 							style={styles.floatButton}

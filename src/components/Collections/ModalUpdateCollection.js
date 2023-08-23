@@ -89,6 +89,7 @@ function ModalUpdateCollection({ onClose, name, id }) {
 
 							<Button
 								title="Cập nhật"
+								uppercase={false}
 								color={COLORS.primary}
 								disabled={!isValid}
 								onPress={handleSubmit}
@@ -96,6 +97,7 @@ function ModalUpdateCollection({ onClose, name, id }) {
 							/>
 							<Button
 								title="Hủy"
+								uppercase={false}
 								variant="outlined"
 								color={COLORS.black}
 								onPress={onClose}

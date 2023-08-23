@@ -83,6 +83,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 
 						<Button
 							title="Tạo mới"
+							uppercase={false}
 							color={COLORS.primary}
 							disabled={!isValid}
 							onPress={handleSubmit}
@@ -90,6 +91,7 @@ function ModalAddCollection({ changeModalVisibility }) {
 						/>
 						<Button
 							title="Hủy"
+							uppercase={false}
 							variant="outlined"
 							color={COLORS.black}
 							onPress={() => changeModalVisibility(false)}

@@ -173,6 +173,7 @@ function Login() {
 
 						<Button
 							title="Đăng nhập"
+							uppercase={false}
 							onPress={handleSubmit}
 							disabled={!isValid}
 							color={COLORS.primary}
@@ -181,6 +182,7 @@ function Login() {
 						<Divider style={{ marginBottom: SIZES.medium }} />
 						<Button
 							title="Quay lại"
+							uppercase={false}
 							variant="outlined"
 							color={COLORS.black}
 							onPress={() => navigation.goBack()}

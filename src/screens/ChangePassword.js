@@ -190,6 +190,7 @@ function ChangePassword({ navigation }) {
 
 								<Button
 									title="Lưu thay đổi"
+									uppercase={false}
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
@@ -198,6 +199,7 @@ function ChangePassword({ navigation }) {
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
 									title="Quay lại"
+									uppercase={false}
 									variant="outlined"
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}

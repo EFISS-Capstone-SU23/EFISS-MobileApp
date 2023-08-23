@@ -40,7 +40,12 @@ function ErrorView({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Đã có lỗi xảy ra</Text>
-			<Button title="Quay lại" color={COLORS.primary} onPress={handleGoBack} />
+			<Button
+				title="Quay lại"
+				color={COLORS.primary}
+				uppercase={false}
+				onPress={handleGoBack}
+			/>
 		</View>
 	);
 }

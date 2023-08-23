@@ -128,10 +128,16 @@ function SearchPreferences({ navigation }) {
 						</View>
 					</View>
 					<View style={styles.sectionHeader}>
-						<Button color={COLORS.primary} title="Lưu thay đổi" onPress={saveSettings} />
+						<Button
+							color={COLORS.primary}
+							uppercase={false}
+							title="Lưu thay đổi"
+							onPress={saveSettings}
+						/>
 						<Divider style={{ margin: SIZES.medium }} />
 						<Button
 							title="Quay lại"
+							uppercase={false}
 							variant="outlined"
 							color={COLORS.black}
 							onPress={() => navigation.goBack()}

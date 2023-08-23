@@ -314,6 +314,7 @@ function SignUp({ navigation }) {
 
 								<Button
 									title="Đăng ký"
+									uppercase={false}
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
@@ -322,6 +323,7 @@ function SignUp({ navigation }) {
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
 									title="Quay lại"
+									uppercase={false}
 									variant="outlined"
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}

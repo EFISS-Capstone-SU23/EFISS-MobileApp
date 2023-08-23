@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: 'rgba(52, 52, 52, 0.6)',
 	},
 	modal: {
 		width: '80%',
@@ -93,12 +94,14 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 
 				<Button
 					title="Thêm vào bộ sưu tập"
+					uppercase={false}
 					color={COLORS.primary}
 					style={styles.saveButton}
 					onPress={handleAddToCollection}
 				/>
 				<Button
 					title="Hủy"
+					uppercase={false}
 					variant="outlined"
 					color={COLORS.black}
 					style={styles.saveButton}

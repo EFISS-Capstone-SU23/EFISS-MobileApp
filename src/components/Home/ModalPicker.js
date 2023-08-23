@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: COLORS.white,
 		paddingVertical: SIZES.medium,
-		paddingHorizontal: 30,
+		paddingHorizontal: 40,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
 		borderRadius: 5,
@@ -196,8 +196,8 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 				title={item.action}
 				uppercase={false}
 				titleStyle={{
-					color: COLORS.white,
-					letterSpacing: 2,
+					color: COLORS.secondary,
+					letterSpacing: 1,
 				}}
 			/>
 		</View>
@@ -215,7 +215,7 @@ function ModalPicker({ changeModalVisibility, navigation }) {
 						<Icon
 							name="close-outline"
 							type="ionicon"
-							size={28}
+							size={30}
 						/>
 					</TouchableOpacity>
 					{option}

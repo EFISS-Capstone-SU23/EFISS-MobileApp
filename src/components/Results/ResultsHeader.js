@@ -242,9 +242,19 @@ function ResultsHeader({
 							/>
 						</View>
 					</View>
-					<Button title="Áp dụng filter" color={COLORS.primary} onPress={handleDropdownOptionSelect} />
+					<Button
+						title="Áp dụng filter"
+						uppercase={false}
+						color={COLORS.primary}
+						onPress={handleDropdownOptionSelect}
+					/>
 					<Divider style={{ marginVertical: SIZES.small }} />
-					<Button title="Thoát" color={COLORS.white} onPress={handleToggleDropdown} />
+					<Button
+						title="Thoát"
+						uppercase={false}
+						color={COLORS.white}
+						onPress={handleToggleDropdown}
+					/>
 				</View>
 			)}
 		</View>

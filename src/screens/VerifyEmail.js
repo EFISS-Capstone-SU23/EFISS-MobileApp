@@ -93,6 +93,7 @@ function VerifyEmail({ navigation }) {
 					)}
 					<Button
 						title="Gửi mail xác minh"
+						uppercase={false}
 						color={COLORS.primary}
 						onPress={handleSubmit}
 						style={styles.saveButton}
@@ -100,6 +101,7 @@ function VerifyEmail({ navigation }) {
 					<Divider style={{ marginBottom: SIZES.medium }} />
 					<Button
 						title="Quay lại"
+						uppercase={false}
 						variant="outlined"
 						color={COLORS.black}
 						onPress={() => navigation.goBack()}
