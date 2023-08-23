@@ -63,7 +63,6 @@ function TextResults({ route, navigation }) {
 	};
 
 	useEffect(() => {
-		setText(query);
 		dispatch(productsTextSearch(query, pageNum, sortBy, minPrice, maxPrice));
 	}, [dispatch, query]);
 
@@ -94,7 +93,7 @@ function TextResults({ route, navigation }) {
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} newSearch={newSearch} />
+								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} handleSearch={newSearch} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (

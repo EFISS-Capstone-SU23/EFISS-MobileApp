@@ -84,7 +84,7 @@ const SORT_OPTIONS = [
 ];
 
 function TextResultsHeader({
-	navigation, query, handleSort, min, max, sortBy, newSearch,
+	navigation, query, handleSort, min, max, sortBy, handleSearch,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -106,7 +106,7 @@ function TextResultsHeader({
 
 	const handleSubmit = () => {
 		if (text && text.length > 0) {
-			newSearch(text);
+			handleSearch(text);
 		} else {
 			ToastAndroid.showWithGravity(
 				'Vui lòng nhập từ khóa',
