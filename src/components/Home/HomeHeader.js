@@ -40,7 +40,7 @@ function HomeHeader({ onLogin, onProfile }) {
 					onPress={onProfile}
 				>
 					<Icon
-						name="person"
+						name="person-circle-outline"
 						type="ionicon"
 						size={32}
 						color={COLORS.secondary}

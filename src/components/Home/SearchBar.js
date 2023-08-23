@@ -61,13 +61,13 @@ function SearchBar({ onPicture, navigation }) {
 							name="search-outline"
 							type="ionicon"
 							size={28}
-							color={COLORS.secondary}
+							color={COLORS.dark}
 						/>
 					</TouchableOpacity>
 
 					<TextInput
 						placeholder="Bạn đang tìm kiếm sản phẩm gì?"
-						style={{ flex: 1, marginHorizontal: 5, color: COLORS.secondary }}
+						style={{ flex: 1, marginHorizontal: 5, color: COLORS.dark }}
 						value={text}
 						onChangeText={(value) => setText(value)}
 						onSubmitEditing={handleSubmit}
@@ -78,7 +78,7 @@ function SearchBar({ onPicture, navigation }) {
 							name="camera-outline"
 							type="ionicon"
 							size={28}
-							color={COLORS.secondary}
+							color={COLORS.dark}
 						/>
 					</TouchableOpacity>
 				</View>

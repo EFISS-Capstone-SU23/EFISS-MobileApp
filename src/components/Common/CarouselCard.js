@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 		marginBottom: SIZES.base / 4,
 	},
 	group: {
-		color: COLORS.secondary,
+		color: COLORS.black,
 		fontFamily: FONTS.light,
 		fontSize: 10,
 		opacity: 0.8,

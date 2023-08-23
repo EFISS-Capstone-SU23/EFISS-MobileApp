@@ -17,7 +17,7 @@ import { USER_REPORT_BUG_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
@@ -108,7 +108,15 @@ function BugReport({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Báo cáo lỗi" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+					<AppBar
+						title="Báo cáo lỗi"
+						style={styles.header}
+						titleStyle={{
+							color: COLORS.secondary,
+							textAlign: 'center',
+							fontFamily: FONTS.medium,
+						}}
+					/>
 
 					<ScrollView>
 						{loading ? (
@@ -166,6 +174,7 @@ function BugReport({ navigation }) {
 									style={styles.saveButton}
 									titleStyle={{
 										color: COLORS.secondary,
+										fontFamily: FONTS.medium,
 									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
@@ -176,6 +185,9 @@ function BugReport({ navigation }) {
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}
 									style={styles.saveButton}
+									titleStyle={{
+										fontFamily: FONTS.medium,
+									}}
 								/>
 
 							</View>

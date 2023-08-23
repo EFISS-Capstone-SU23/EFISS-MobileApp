@@ -50,9 +50,6 @@ const styles = StyleSheet.create({
 		right: 2,
 		zIndex: 1, // To make the button appear above the modal content
 	},
-	option: {
-		paddingHorizontal: 20,
-	},
 });
 
 const checkCameraPermission = async () => {
