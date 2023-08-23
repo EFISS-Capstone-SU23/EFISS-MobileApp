@@ -16,6 +16,12 @@ import {
 import { config } from '../../../config';
 
 const styles = StyleSheet.create({
+	container: {
+		backgroundColor: COLORS.primary,
+		padding: SIZES.base,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
+	},
 	button: {
 		marginRight: 10,
 		backgroundColor: COLORS.white,
@@ -140,7 +146,7 @@ function ResultsHeader({
 	};
 
 	return (
-		<View style={{ backgroundColor: COLORS.primary, padding: SIZES.base }}>
+		<View style={styles.container}>
 			<View
 				style={{
 					flexDirection: 'row',

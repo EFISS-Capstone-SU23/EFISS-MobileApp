@@ -286,7 +286,7 @@ function Details({ route, navigation }) {
 										onPress={handleToggleModal}
 										icon={(
 											<Icon
-												name="arrow-back-outline"
+												name="heart-outline"
 												type="ionicon"
 												size={24}
 												color={COLORS.black}

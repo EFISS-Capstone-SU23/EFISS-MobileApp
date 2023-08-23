@@ -83,6 +83,7 @@ function Results({ route, navigation }) {
 								<ProductCard product={item} navigation={navigation} index={index} />
 							)}
 							numColumns={2}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							keyExtractor={(item) => item?._id}
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={

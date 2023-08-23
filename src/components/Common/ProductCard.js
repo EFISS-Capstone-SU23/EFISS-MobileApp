@@ -1,135 +1,86 @@
 import {
-	View, TouchableOpacity, StyleSheet,
+	View, StyleSheet, TouchableHighlight,
 } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from 'react-native-fast-image';
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
-import { Badge, Text } from '@react-native-material/core';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Icon } from '@rneui/themed';
+import { Text } from '@react-native-material/core';
 import {
-	COLORS, SIZES, FONTS,
+	COLORS, SIZES, SHADOWS,
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
 
+const cardWidth = SIZES.WIDTH / 2 - 20;
+
 const styles = StyleSheet.create({
-	container: {
-		width: '47%',
+	card: {
+		height: 220,
+		width: cardWidth,
+		marginHorizontal: 10,
+		marginBottom: 10,
+		marginTop: 50,
+		borderRadius: 15,
+		elevation: 13,
 		backgroundColor: COLORS.white,
-		margin: 5,
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
 	},
-	productImage: {
-		height: '100%',
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
-	},
-	productTitle: {
-		fontSize: SIZES.medium,
-		fontFamily: FONTS.bold,
-		color: COLORS.black,
-	},
-	priceSection: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		paddingBottom: 5,
-	},
-	priceContainer: {
-		flexDirection: 'row',
+	addToCartBtn: {
+		height: 30,
+		width: 30,
+		borderRadius: 20,
+		backgroundColor: COLORS.primary,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 5,
-	},
-	productPrice: {
-		color: COLORS.white,
-		fontFamily: FONTS.medium,
-		fontSize: 12,
-	},
-	groupContainer: {
-		marginVertical: 2,
-	},
-	group: {
-		color: COLORS.secondary,
-		fontFamily: FONTS.light,
-		fontSize: SIZES.small,
-		opacity: 0.8,
-	},
-	ratingContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: 5,
-	},
-	productRating: {
-		color: COLORS.secondary,
-		fontFamily: FONTS.bold,
-		fontSize: 10,
-		marginLeft: 2,
 	},
 });
 
 function ProductCard({ product, navigation }) {
-	// Generate a random number between 1 and 100
-	const randomValue = Math.random() * 100;
-
-	// Set isSponsored based on the random number
-	const isSponsored = randomValue <= 20;
-
 	return (
-		<View style={styles.container}>
-			<View style={{ width: '100%', height: 150 }}>
-				<TouchableOpacity
-					onPress={() => {
-						navigation.navigate('Details', { productId: product.id ? product.id : product._id });
-					}}
-				>
+		<TouchableHighlight
+			underlayColor={COLORS.white}
+			activeOpacity={0.9}
+			onPress={() => navigation.navigate('Details', { productId: product.id ? product.id : product._id })}
+		>
+			<View style={styles.card}>
+				<View style={{ alignItems: 'center', top: -30 }}>
 					<FastImage
 						source={{
 							uri: product.images[0] ? product.images[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
 							priority: FastImage.priority.normal,
 						}}
 						resizeMode={FastImage.resizeMode.cover}
-						style={styles.productImage}
-					/>
-				</TouchableOpacity>
-			</View>
-			<View style={{ width: '100%', paddingHorizontal: 5 }}>
-				<View style={{ marginVertical: 5 }}>
-					<Text
-						variant="subtitle2"
-						numberOfLines={1}
-						onPress={() => {
-							navigation.navigate('Details', { productId: product.id ? product.id : product._id });
+						style={{
+							height: 120, width: 120, ...SHADOWS.dark, borderRadius: 10,
 						}}
-					>
+					/>
+				</View>
+				<View style={{ marginHorizontal: 10 }}>
+					<Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: SIZES.font, fontWeight: 'bold' }}>
 						{product.title}
 					</Text>
-				</View>
-				<View style={styles.groupContainer}>
-					<Text style={styles.group}>
+					<Text style={{ fontSize: SIZES.base, color: COLORS.grey, marginTop: 2 }}>
 						{product.shopName}
 					</Text>
 				</View>
-				<View style={styles.priceSection}>
-					<View style={styles.priceContainer}>
-						<Badge
-							label={formatNumber(product.price)}
-							color={COLORS.primary}
-							labelStyle={styles.productPrice}
-						/>
+
+				<View
+					style={{
+						marginTop: 10,
+						marginHorizontal: 10,
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+					}}
+				>
+					<Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+						{formatNumber(product.price)}
+					</Text>
+					<View style={styles.addToCartBtn}>
+						<Icon name="add" size={20} color={COLORS.white} />
 					</View>
-					{isSponsored && (
-						<View style={styles.ratingContainer}>
-							<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-							<Text style={styles.productRating}>
-								Sponsored
-							</Text>
-						</View>
-					)}
 				</View>
 			</View>
-		</View>
+		</TouchableHighlight>
 	);
 }
 
