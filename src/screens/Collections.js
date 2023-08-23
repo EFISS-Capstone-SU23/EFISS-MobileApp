@@ -125,13 +125,15 @@ function Collections({ navigation }) {
 					<View style={items.length > 0 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
-							renderItem={({ item }) => (
+							renderItem={({ item, index }) => (
 								<CollectionCard
 									collection={item}
 									navigation={navigation}
+									index={index}
 								/>
 							)}
 							numColumns={2}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							keyExtractor={(item) => item?.id}
 							contentContainerStyle={{
 								columnGap: SIZES.medium,

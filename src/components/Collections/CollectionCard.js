@@ -16,7 +16,6 @@ import ModalUpdateCollection from './ModalUpdateCollection';
 const styles = StyleSheet.create({
 	square: {
 		width: '47%',
-		margin: 5,
 		aspectRatio: 1,
 		backgroundColor: COLORS.primary,
 		borderRadius: SIZES.base,
@@ -74,8 +73,9 @@ const styles = StyleSheet.create({
 	},
 });
 
-function CollectionCard({ navigation, collection }) {
+function CollectionCard({ navigation, collection, index }) {
 	const dispatch = useDispatch();
+	const even = (index + 1) % 2 === 0;
 
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -95,7 +95,8 @@ function CollectionCard({ navigation, collection }) {
 
 	return (
 		<TouchableOpacity
-			style={styles.square}
+			// eslint-disable-next-line max-len
+			style={[styles.square, { marginLeft: !even ? SIZES.base : 0, marginRight: even ? SIZES.base : 0, marginTop: SIZES.base }]}
 			onPress={() => navigation.navigate('CollectionDetails', { id: collection.id })}
 			disabled={dropdownOpen}
 		>

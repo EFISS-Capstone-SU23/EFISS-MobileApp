@@ -11,7 +11,7 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { COLORS, SIZES } from '../../constants';
+import { COLORS, SIZES, FONTS } from '../../constants';
 import { collectionsAdd } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 	},
 	inputTitle: {
 		marginBottom: SIZES.medium,
+		fontFamily: FONTS.medium,
 	},
 	inputField: {
 		marginBottom: SIZES.medium,
@@ -88,6 +89,10 @@ function ModalAddCollection({ changeModalVisibility }) {
 							disabled={!isValid}
 							onPress={handleSubmit}
 							style={styles.saveButton}
+							titleStyle={{
+								color: COLORS.secondary,
+								fontFamily: FONTS.medium,
+							}}
 						/>
 						<Button
 							title="Hủy"
@@ -96,6 +101,9 @@ function ModalAddCollection({ changeModalVisibility }) {
 							color={COLORS.black}
 							onPress={() => changeModalVisibility(false)}
 							style={styles.saveButton}
+							titleStyle={{
+								fontFamily: FONTS.medium,
+							}}
 						/>
 
 					</View>
