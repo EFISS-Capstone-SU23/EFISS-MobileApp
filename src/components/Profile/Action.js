@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 	},
 	actionTitle: {
 		color: COLORS.black,
-		fontFamily: FONTS.semiBold,
+		fontFamily: FONTS.medium,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,
 	},
