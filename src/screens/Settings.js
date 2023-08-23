@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	sectionHeaderText: {
 		fontSize: SIZES.font,
-		fontWeight: '600',
+		fontFamily: FONTS.bold,
 		color: COLORS.tertiary,
 		textTransform: 'uppercase',
 		letterSpacing: 1.2,
@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
 
 	},
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	title: {
 		fontSize: 32,
@@ -85,7 +87,15 @@ function Settings() {
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
-				<AppBar title="Cài đặt" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+				<AppBar
+					title="Cài đặt"
+					style={styles.header}
+					titleStyle={{
+						color: COLORS.secondary,
+						textAlign: 'center',
+						fontFamily: FONTS.medium,
+					}}
+				/>
 
 				{userToken && userToken !== null && (
 					<View style={styles.section}>
