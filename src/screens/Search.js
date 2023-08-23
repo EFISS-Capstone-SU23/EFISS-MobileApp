@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	button: {
 		aspectRatio: 1,
@@ -168,14 +170,22 @@ function Search() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<AppBar title="Tìm kiếm bằng hình ảnh" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+			<AppBar
+				title="Tìm kiếm bằng hình ảnh"
+				style={styles.header}
+				titleStyle={{
+					color: COLORS.secondary,
+					textAlign: 'center',
+					fontFamily: FONTS.medium,
+				}}
+			/>
 			<VStack fill m={4} spacing={6} center>
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={takePicture}>
 						<Icon
 							name="camera-outline"
 							type="ionicon"
-							size={32}
+							size={36}
 							color={COLORS.secondary}
 						/>
 					</Pressable>
@@ -189,7 +199,7 @@ function Search() {
 						<Icon
 							name="images-outline"
 							type="ionicon"
-							size={32}
+							size={36}
 							color={COLORS.secondary}
 						/>
 					</Pressable>
