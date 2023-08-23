@@ -17,7 +17,9 @@ import { USER_CHANGE_PASSWORD_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
@@ -119,8 +121,15 @@ function ChangePassword({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Đổi mật khẩu" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
-
+					<AppBar
+						title="Đổi mật khẩu"
+						style={styles.header}
+						titleStyle={{
+							color: COLORS.secondary,
+							textAlign: 'center',
+							fontFamily: FONTS.medium,
+						}}
+					/>
 					<ScrollView>
 						{loading ? (
 							<View style={styles.loadingIndicator}>
@@ -195,6 +204,10 @@ function ChangePassword({ navigation }) {
 									disabled={!isValid}
 									onPress={handleSubmit}
 									style={styles.saveButton}
+									titleStyle={{
+										color: COLORS.secondary,
+										fontFamily: FONTS.medium,
+									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
@@ -204,6 +217,9 @@ function ChangePassword({ navigation }) {
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}
 									style={styles.saveButton}
+									titleStyle={{
+										fontFamily: FONTS.medium,
+									}}
 								/>
 
 							</View>
