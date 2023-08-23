@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 	},
 	sectionHeaderText: {
 		fontSize: SIZES.font,
-		fontWeight: '600',
+		fontFamily: FONTS.bold,
 		color: COLORS.tertiary,
 		textTransform: 'uppercase',
 		letterSpacing: 1.2,
@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
 		marginHorizontal: SIZES.large,
 	},
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	title: {
 		fontSize: 32,
@@ -67,8 +69,16 @@ function SearchPreferences({ navigation }) {
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
-				<AppBar title="Cài đặt tìm kiếm" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
-				<View style={styles.section}>
+				<AppBar
+					title="Cài đặt tìm kiếm"
+					style={styles.header}
+					titleStyle={{
+						color: COLORS.secondary,
+						textAlign: 'center',
+						fontFamily: FONTS.medium,
+					}}
+				/>
+				<View style={[styles.section, { flex: 1 }]}>
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionHeaderText}>
 							Số kết quả tìm kiếm trên 1 trang:
@@ -77,7 +87,7 @@ function SearchPreferences({ navigation }) {
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
-								marginTop: SIZES.base,
+								marginTop: SIZES.medium,
 							}}
 						>
 							<NumericInput
@@ -107,11 +117,11 @@ function SearchPreferences({ navigation }) {
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
-								marginTop: SIZES.base,
+								marginTop: SIZES.medium,
 								flexDirection: 'row',
 							}}
 						>
-							<Text>
+							<Text style={{ fontFamily: FONTS.medium }}>
 								Giống nhất
 							</Text>
 							<Slider
@@ -123,17 +133,21 @@ function SearchPreferences({ navigation }) {
 								minimumTrackTintColor="#000000"
 								maximumTrackTintColor="#000000"
 							/>
-							<Text>
+							<Text style={{ fontFamily: FONTS.medium }}>
 								Đa dạng
 							</Text>
 						</View>
 					</View>
-					<View style={styles.bottomSection}>
+					<View style={[styles.sectionHeader, { flex: 1, marginTop: SIZES.HEIGHT / 2 }]}>
 						<Button
 							color={COLORS.primary}
 							uppercase={false}
 							title="Lưu thay đổi"
 							onPress={saveSettings}
+							titleStyle={{
+								color: COLORS.secondary,
+								fontFamily: FONTS.medium,
+							}}
 						/>
 						<Divider style={{ margin: SIZES.medium }} />
 						<Button
@@ -143,6 +157,9 @@ function SearchPreferences({ navigation }) {
 							color={COLORS.black}
 							onPress={() => navigation.goBack()}
 							style={styles.submitBtn}
+							titleStyle={{
+								fontFamily: FONTS.medium,
+							}}
 						/>
 					</View>
 				</View>
