@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import { AppBar, Button, Divider } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import NumericInput from 'react-native-numeric-input';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Slider from '@react-native-community/slider';
 
 import { COLORS, FONTS, SIZES } from '../constants';
@@ -82,31 +80,33 @@ function SearchPreferences({ navigation }) {
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionHeaderText}>
 							Số kết quả tìm kiếm trên 1 trang:
+							{' '}
+							{pageSize}
 						</Text>
 						<View
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
 								marginTop: SIZES.medium,
+								flexDirection: 'row',
 							}}
 						>
-							<NumericInput
+							<Text style={{ fontFamily: FONTS.medium }}>
+								16
+							</Text>
+							<Slider
+								style={{ width: 200, height: 40 }}
+								minimumValue={16}
+								maximumValue={30}
 								value={pageSize}
-								onChange={(value) => setPageSize(value)}
-								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-								totalWidth={240}
-								totalHeight={40}
-								minValue={16}
-								maxValue={30}
-								iconSize={25}
 								step={2}
-								valueType="integer"
-								rounded
-								textColor={COLORS.primary}
-								iconStyle={{ color: 'white' }}
-								rightButtonBackgroundColor={COLORS.primary}
-								leftButtonBackgroundColor={COLORS.primary}
+								onValueChange={(val) => setPageSize(val)}
+								minimumTrackTintColor="#000000"
+								maximumTrackTintColor="#000000"
 							/>
+							<Text style={{ fontFamily: FONTS.medium }}>
+								30
+							</Text>
 						</View>
 					</View>
 					<View style={styles.sectionHeader}>
