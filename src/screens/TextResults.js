@@ -36,6 +36,7 @@ function TextResults({ route, navigation }) {
 		loading, error, totalPages, products,
 	} = searchTextProducts;
 
+	const [text, setText] = useState(query);
 	const [items, setItems] = useState([]);
 	const [pageNum, setPageNum] = useState(1);
 	const [refreshControl, setRefreshControl] = useState(false);
@@ -49,10 +50,20 @@ function TextResults({ route, navigation }) {
 		setPageNum(1);
 		setMinPrice(minimumPrice);
 		setMaxPrice(maximumPrice);
-		dispatch(productsTextSearch(query, 1, sortOption, minimumPrice, maximumPrice));
+		dispatch(productsTextSearch(text, 1, sortOption, minimumPrice, maximumPrice));
+	};
+
+	const newSearch = (val) => {
+		setText(val);
+		setSortBy(config.SORT_BY_DEFAULT);
+		setPageNum(1);
+		setMinPrice(null);
+		setMaxPrice(null);
+		dispatch(productsTextSearch(val, 1, config.SORT_BY_DEFAULT, null, null));
 	};
 
 	useEffect(() => {
+		setText(query);
 		dispatch(productsTextSearch(query, pageNum, sortBy, minPrice, maxPrice));
 	}, [dispatch, query]);
 
@@ -83,7 +94,7 @@ function TextResults({ route, navigation }) {
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<TextResultsHeader navigation={navigation} query={query} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} />
+								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} newSearch={newSearch} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (

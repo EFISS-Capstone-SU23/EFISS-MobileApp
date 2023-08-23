@@ -11,14 +11,14 @@ import { Icon } from '@rneui/themed';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 import {
-	COLORS, SIZES, FONTS,
+	COLORS, SIZES, FONTS, SHADOWS,
 } from '../../constants';
 import { config } from '../../../config';
 
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: COLORS.primary,
-		padding: SIZES.base,
+		padding: SIZES.small,
 		borderBottomLeftRadius: 20,
 		borderBottomRightRadius: 20,
 	},
@@ -53,6 +53,16 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		paddingHorizontal: 10,
 	},
+	inputContainer: {
+		height: 50,
+		width: '60%',
+		backgroundColor: COLORS.white,
+		borderRadius: 10,
+		flexDirection: 'row',
+		paddingHorizontal: 20,
+		alignItems: 'center',
+		...SHADOWS.dark,
+	},
 });
 
 const SORT_OPTIONS = [
@@ -74,7 +84,7 @@ const SORT_OPTIONS = [
 ];
 
 function TextResultsHeader({
-	navigation, query, handleSort, min, max, sortBy,
+	navigation, query, handleSort, min, max, sortBy, newSearch,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -84,6 +94,7 @@ function TextResultsHeader({
 	}));
 
 	const selectedSortOption = SORT_OPTIONS.find((option) => option.value === sortBy);
+	const [text, setText] = useState(query);
 	const [value, setValue] = useState(selectedSortOption
 		? selectedSortOption.id : convertedList[0].value);
 	const [minPrice, setMinPrice] = useState(min === null ? '' : min);
@@ -91,6 +102,19 @@ function TextResultsHeader({
 
 	const handleToggleDropdown = () => {
 		setDropdownOpen((prevState) => !prevState);
+	};
+
+	const handleSubmit = () => {
+		if (text && text.length > 0) {
+			newSearch(text);
+		} else {
+			ToastAndroid.showWithGravity(
+				'Vui lòng nhập từ khóa',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM,
+			);
+		}
+		setText('');
 	};
 
 	const handleDropdownOptionSelect = () => {
@@ -129,6 +153,7 @@ function TextResultsHeader({
 					justifyContent: 'space-between',
 					alignItems: 'center',
 					padding: 5,
+					marginBottom: 10,
 				}}
 			>
 				<TouchableOpacity
@@ -142,9 +167,23 @@ function TextResultsHeader({
 					/>
 				</TouchableOpacity>
 
-				<Text color={COLORS.white} style={{ fontSize: SIZES.medium }}>
-					{`'${query}'`}
-				</Text>
+				<View style={styles.inputContainer}>
+					<TextInput
+						placeholder="Nhập từ khóa"
+						style={{ flex: 1, marginHorizontal: 5, color: COLORS.dark }}
+						value={text}
+						onChangeText={(val) => setText(val)}
+					/>
+
+					<TouchableOpacity onPress={handleSubmit}>
+						<Icon
+							name="search-outline"
+							type="ionicon"
+							size={28}
+							color={COLORS.dark}
+						/>
+					</TouchableOpacity>
+				</View>
 
 				<TouchableOpacity
 					onPress={handleToggleDropdown}
