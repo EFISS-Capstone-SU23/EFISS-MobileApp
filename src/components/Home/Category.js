@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 	headerTitle: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
-		color: COLORS.secondary,
+		color: COLORS.black,
 	},
 	categoryContainer: {
 		marginHorizontal: 20,

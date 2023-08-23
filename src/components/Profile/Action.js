@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		borderRadius: SIZES.base,
 	},
 	actionTitle: {
-		color: COLORS.quaternary,
+		color: COLORS.black,
 		fontFamily: FONTS.semiBold,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,

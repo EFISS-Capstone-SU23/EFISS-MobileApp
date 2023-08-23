@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	connector: {
 		fontFamily: FONTS.regular,
 		color: COLORS.black,
-		fontSize: SIZES.large,
+		fontSize: SIZES.extraLarge,
 	},
 });
 
@@ -176,7 +176,7 @@ function Search() {
 							name="camera-outline"
 							type="ionicon"
 							size={32}
-							color={COLORS.white}
+							color={COLORS.secondary}
 						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chụp ảnh</Text>
@@ -190,7 +190,7 @@ function Search() {
 							name="images-outline"
 							type="ionicon"
 							size={32}
-							color={COLORS.white}
+							color={COLORS.secondary}
 						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chọn từ thư viện</Text>

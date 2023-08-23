@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 	headerTitle: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
-		color: COLORS.secondary,
+		color: COLORS.black,
 	},
 	headerBtn: {
 		fontSize: SIZES.small,
@@ -66,9 +66,9 @@ function ProductRecommendCarousel({ navigation }) {
 				{loading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text style={{ textAlign: 'center', color: COLORS.secondary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (products.length === 0) ? (
-					<Text style={{ textAlign: 'center', color: COLORS.secondary }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black }}>EFISS chưa có gợi ý nào dành cho bạn.</Text>
 				) : (
 					<FlatList
 						data={products}

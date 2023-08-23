@@ -30,7 +30,7 @@ function HomeStack() {
 		}
 
 		// eslint-disable-next-line no-return-assign, max-len
-		return <Ionicons name={iconName} size={size} color={iconName = focused ? COLORS.primary : COLORS.quaternary} />;
+		return <Ionicons name={iconName} size={size} color={iconName = focused ? COLORS.primary : COLORS.secondary} />;
 	};
 
 	return (
@@ -38,7 +38,7 @@ function HomeStack() {
 			initialRouteName={homeTab}
 			backBehavior="initialRoute"
 			screenOptions={({ route }) => ({
-				tabBarInactiveTintColor: COLORS.quaternary,
+				tabBarInactiveTintColor: COLORS.secondary,
 				tabBarActiveTintColor: COLORS.primary,
 				tabBarHideOnKeyboard: true,
 				headerShown: false,
