@@ -6,7 +6,7 @@ import {
 	View,
 	Text,
 } from 'react-native';
-import { Button } from '@react-native-material/core';
+import { Button, Divider } from '@react-native-material/core';
 import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'rgba(52, 52, 52, 0.6)',
+		padding: SIZES.extraLarge,
 	},
 	modal: {
 		width: '80%',
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 		maxHeight: '50%',
 		...SHADOWS.dark,
-		borderRadius: 5,
+		borderRadius: 10,
 	},
 	inputTitle: {
 		marginBottom: SIZES.medium,
@@ -71,6 +72,9 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 				<Text style={styles.inputTitle}>Chọn 1 bộ sưu tập</Text>
 				<ScrollView
 					showsVerticalScrollIndicator={false}
+					style={{
+						marginBottom: 10,
+					}}
 				>
 					<RadioForm>
 						{
@@ -85,20 +89,31 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 										buttonOuterColor={COLORS.primary}
 										buttonWrapStyle={{ marginRight: 16 }}
 									/>
-									<RadioButtonLabel obj={obj} index={index} onPress={(val) => setValue(val)} />
+									<RadioButtonLabel
+										obj={obj}
+										index={index}
+										onPress={(val) => setValue(val)}
+										labelStyle={{
+											fontFamily: FONTS.medium,
+										}}
+									/>
 								</RadioButton>
 							))
 						}
 					</RadioForm>
 				</ScrollView>
-
 				<Button
 					title="Thêm vào bộ sưu tập"
 					uppercase={false}
 					color={COLORS.primary}
 					style={styles.saveButton}
 					onPress={handleAddToCollection}
+					titleStyle={{
+						color: COLORS.secondary,
+						fontFamily: FONTS.medium,
+					}}
 				/>
+				<Divider style={{ marginVertical: 5 }} />
 				<Button
 					title="Hủy"
 					uppercase={false}
@@ -106,6 +121,9 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 					color={COLORS.black}
 					style={styles.saveButton}
 					onPress={onClose}
+					titleStyle={{
+						fontFamily: FONTS.medium,
+					}}
 				/>
 			</View>
 		</SafeAreaView>

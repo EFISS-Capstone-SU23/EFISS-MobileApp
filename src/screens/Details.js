@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
 	},
 	groupLabel: {
 		fontSize: SIZES.font,
+		fontFamily: FONTS.regular,
 		color: COLORS.black,
 		letterSpacing: 1,
 		opacity: 0.8,
@@ -104,11 +105,12 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
 		maxWidth: '85%',
+		marginRight: 5,
 	},
 	linkIcon: {
 		fontSize: 28,
@@ -272,11 +274,11 @@ function Details({ route, navigation }) {
 											name="arrow-back-outline"
 											type="ionicon"
 											size={24}
-											color={COLORS.black}
+											color={COLORS.secondary}
 										/>
 									)}
 									contentContainerStyle={{
-										backgroundColor: COLORS.button,
+										backgroundColor: COLORS.primary,
 										opacity: 0.8,
 									}}
 								/>
@@ -287,14 +289,14 @@ function Details({ route, navigation }) {
 										onPress={handleToggleModal}
 										icon={(
 											<Icon
-												name="heart-outline"
+												name="heart"
 												type="ionicon"
 												size={24}
-												color={COLORS.black}
+												color={COLORS.secondary}
 											/>
 										)}
 										contentContainerStyle={{
-											backgroundColor: COLORS.button,
+											backgroundColor: COLORS.primary,
 											opacity: 0.8,
 										}}
 									/>
@@ -365,6 +367,7 @@ function Details({ route, navigation }) {
 										name="attach-outline"
 										type="ionicon"
 										style={styles.linkIcon}
+										color={COLORS.secondary}
 									/>
 								</TouchableOpacity>
 							</View>
@@ -385,10 +388,11 @@ function Details({ route, navigation }) {
 										<Icon
 											name="cart-outline"
 											type="ionicon"
-											style={{ fontSize: 28, color: COLORS.black }}
+											style={{ fontSize: 28 }}
+											color={COLORS.secondary}
 										/>
 									</View>
-									<Text variant="overline" style={{ fontSize: SIZES.font }}>
+									<Text variant="overline" style={{ fontSize: SIZES.font, fontFamily: FONTS.regular }}>
 										{product.shopName}
 									</Text>
 								</View>
@@ -412,6 +416,10 @@ function Details({ route, navigation }) {
 							color={COLORS.primary}
 							onPress={() => { Linking.openURL(product.url); }}
 							style={styles.floatButton}
+							titleStyle={{
+								color: COLORS.secondary,
+								fontFamily: FONTS.medium,
+							}}
 						/>
 					</View>
 
