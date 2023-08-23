@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
 	dropdownItem: {
 		paddingVertical: 2,
 		paddingHorizontal: SIZES.base,
-		fontSize: SIZES.large,
+		fontSize: SIZES.font,
 	},
 	dropdownText: {
 		fontFamily: FONTS.regular,
-		fontSize: SIZES.large,
+		fontSize: SIZES.medium,
 	},
 	productImage: {
 		height: '100%',

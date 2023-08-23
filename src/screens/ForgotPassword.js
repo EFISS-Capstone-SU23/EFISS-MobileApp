@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		paddingBottom: SIZES.medium,
 	},
 	title: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		fontSize: SIZES.extraLarge,
 		fontWeight: '500',
 		color: COLORS.tertiary,
@@ -147,6 +147,10 @@ function ForgotPassword({ navigation }) {
 								disabled={!isValid}
 								onPress={handleSubmit}
 								style={styles.saveButton}
+								titleStyle={{
+									color: COLORS.secondary,
+									fontFamily: FONTS.medium,
+								}}
 							/>
 							<Divider style={{ marginBottom: SIZES.medium }} />
 							<Button
@@ -156,6 +160,9 @@ function ForgotPassword({ navigation }) {
 								color={COLORS.black}
 								onPress={() => navigation.goBack()}
 								style={styles.saveButton}
+								titleStyle={{
+									fontFamily: FONTS.medium,
+								}}
 							/>
 						</View>
 					)}

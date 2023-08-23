@@ -95,9 +95,15 @@ function CollectionDetails({ navigation, route }) {
 				) : (
 					<FlatList
 						data={items}
-						renderItem={({ item }) => (
-							<CollectionDetailsCard collectionId={id} product={item} navigation={navigation} />
+						renderItem={({ item, index }) => (
+							<CollectionDetailsCard
+								collectionId={id}
+								product={item}
+								navigation={navigation}
+								index={index}
+							/>
 						)}
+						columnWrapperStyle={{ justifyContent: 'space-between' }}
 						numColumns={2}
 						keyExtractor={(item) => item?.id}
 						contentContainerStyle={{ columnGap: SIZES.medium }}

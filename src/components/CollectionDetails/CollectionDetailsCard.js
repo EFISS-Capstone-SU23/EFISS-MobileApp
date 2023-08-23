@@ -14,18 +14,20 @@ import {
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
 
+const cardWidth = SIZES.WIDTH / 2 - 20;
+
 const styles = StyleSheet.create({
 	container: {
-		width: '47%',
+		width: cardWidth,
 		backgroundColor: COLORS.white,
-		margin: 5,
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
+		borderRadius: SIZES.medium,
 	},
 	productImage: {
 		height: '100%',
 		borderTopLeftRadius: SIZES.base,
 		borderTopRightRadius: SIZES.base,
+		borderBottomColor: COLORS.dark,
+		borderWidth: 0.5,
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
@@ -77,11 +79,15 @@ const styles = StyleSheet.create({
 	},
 });
 
-function CollectionDetailsCard({ collectionId, product, navigation }) {
+function CollectionDetailsCard({
+	collectionId, product, navigation, index,
+}) {
 	const dispatch = useDispatch();
+	const even = (index + 1) % 2 === 0;
 
 	return (
-		<View style={styles.container}>
+		// eslint-disable-next-line max-len
+		<View style={[styles.container, { marginLeft: !even ? 15 : 0, marginRight: even ? 15 : 0, marginTop: 10 }]}>
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {

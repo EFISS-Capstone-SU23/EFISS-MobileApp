@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
 	price: {
 		width: 'auto',
 		fontFamily: FONTS.medium,
+		color: COLORS.secondary,
 		fontSize: SIZES.large,
 	},
 	priceContainer: {
@@ -275,7 +276,7 @@ function Details({ route, navigation }) {
 										/>
 									)}
 									contentContainerStyle={{
-										backgroundColor: COLORS.primary,
+										backgroundColor: COLORS.button,
 										opacity: 0.8,
 									}}
 								/>
@@ -293,7 +294,7 @@ function Details({ route, navigation }) {
 											/>
 										)}
 										contentContainerStyle={{
-											backgroundColor: COLORS.primary,
+											backgroundColor: COLORS.button,
 											opacity: 0.8,
 										}}
 									/>

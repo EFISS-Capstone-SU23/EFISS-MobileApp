@@ -30,6 +30,13 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const startTime = new Date(); // Capture the start time
+		console.log({
+			limit: _limit,
+			sortBy: _sortBy,
+			...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
+			...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
+			diversity: config.DIVERSITY,
+		});
 		const { data } = await axios.post(
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
 			{

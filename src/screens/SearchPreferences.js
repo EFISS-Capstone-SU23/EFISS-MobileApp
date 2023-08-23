@@ -10,6 +10,8 @@ import {
 import { AppBar, Button, Divider } from '@react-native-material/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NumericInput from 'react-native-numeric-input';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Slider from '@react-native-community/slider';
 
 import { COLORS, FONTS, SIZES } from '../constants';
 
@@ -99,35 +101,34 @@ function SearchPreferences({ navigation }) {
 					</View>
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionHeaderText}>
-							Diversity
+							Kết quả tìm kiếm:
 						</Text>
 						<View
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
 								marginTop: SIZES.base,
+								flexDirection: 'row',
 							}}
 						>
-							<NumericInput
+							<Text>
+								Giống nhất
+							</Text>
+							<Slider
+								style={{ width: 200, height: 40 }}
+								minimumValue={1}
+								maximumValue={80}
 								value={diversity}
-								onChange={(value) => setDiversity(value)}
-								onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-								totalWidth={240}
-								totalHeight={40}
-								minValue={1}
-								maxValue={20}
-								iconSize={25}
-								step={1}
-								valueType="integer"
-								rounded
-								textColor={COLORS.primary}
-								iconStyle={{ color: 'white' }}
-								rightButtonBackgroundColor={COLORS.primary}
-								leftButtonBackgroundColor={COLORS.primary}
+								onValueChange={(val) => setDiversity(val)}
+								minimumTrackTintColor="#000000"
+								maximumTrackTintColor="#000000"
 							/>
+							<Text>
+								Đa dạng
+							</Text>
 						</View>
 					</View>
-					<View style={styles.sectionHeader}>
+					<View style={styles.bottomSection}>
 						<Button
 							color={COLORS.primary}
 							uppercase={false}
