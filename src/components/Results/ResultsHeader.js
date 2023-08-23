@@ -1,8 +1,9 @@
 import {
-	View, StyleSheet, Image, ToastAndroid, TouchableOpacity,
+	View, StyleSheet, Image, ToastAndroid,
+	TouchableOpacity, TextInput,
 } from 'react-native';
 import {
-	Text, Button, TextInput, Divider,
+	Text, Button, Divider,
 } from '@react-native-material/core';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -47,12 +48,11 @@ const styles = StyleSheet.create({
 		right: 10, // Adjust the position as needed
 		backgroundColor: COLORS.white,
 		borderRadius: 8,
-		padding: SIZES.medium,
+		padding: SIZES.small,
 		elevation: 3,
 		width: '99%',
 	},
 	dropdownItem: {
-		paddingVertical: 2,
 		paddingHorizontal: SIZES.base,
 		fontSize: SIZES.font,
 	},
@@ -73,7 +73,10 @@ const styles = StyleSheet.create({
 	inputFilter: {
 		marginBottom: 5,
 		flex: 1,
-		height: '80%',
+		backgroundColor: COLORS.secondary,
+		height: 40,
+		borderRadius: 10,
+		paddingHorizontal: 10,
 	},
 });
 
@@ -190,7 +193,9 @@ function ResultsHeader({
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+						Sắp xếp theo:
+					</Text>
 					<View>
 						<RadioForm>
 							{
@@ -217,7 +222,7 @@ function ResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
 						Khoảng giá (VND):
 					</Text>
 					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>
@@ -247,6 +252,10 @@ function ResultsHeader({
 						uppercase={false}
 						color={COLORS.primary}
 						onPress={handleDropdownOptionSelect}
+						titleStyle={{
+							color: COLORS.secondary,
+							fontFamily: FONTS.medium,
+						}}
 					/>
 					<Divider style={{ marginVertical: SIZES.small }} />
 					<Button
@@ -254,6 +263,9 @@ function ResultsHeader({
 						uppercase={false}
 						color={COLORS.white}
 						onPress={handleToggleDropdown}
+						titleStyle={{
+							fontFamily: FONTS.medium,
+						}}
 					/>
 				</View>
 			)}
