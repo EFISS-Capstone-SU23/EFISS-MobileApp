@@ -18,6 +18,8 @@ import { USER_REPORT_BUG_RESET } from '../constants/userConstants';
 const styles = StyleSheet.create({
 	header: {
 		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
