@@ -1,8 +1,8 @@
 import {
-	View, StyleSheet, ToastAndroid, TouchableOpacity,
+	View, StyleSheet, ToastAndroid, TouchableOpacity, TextInput,
 } from 'react-native';
 import {
-	Text, Divider, TextInput, Button,
+	Text, Divider, Button,
 } from '@react-native-material/core';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -16,6 +16,12 @@ import {
 import { config } from '../../../config';
 
 const styles = StyleSheet.create({
+	container: {
+		backgroundColor: COLORS.primary,
+		padding: SIZES.base,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
+	},
 	dropdownContainer: {
 		position: 'absolute',
 		top: 60, // Adjust the position as needed
@@ -27,13 +33,12 @@ const styles = StyleSheet.create({
 		width: '99%',
 	},
 	dropdownItem: {
-		paddingVertical: 2,
 		paddingHorizontal: SIZES.base,
-		fontSize: SIZES.large,
+		fontSize: SIZES.font,
 	},
 	dropdownText: {
 		fontFamily: FONTS.regular,
-		fontSize: SIZES.large,
+		fontSize: SIZES.medium,
 	},
 	inputFilterContainer: {
 		flexDirection: 'row',
@@ -43,7 +48,10 @@ const styles = StyleSheet.create({
 	inputFilter: {
 		marginBottom: 5,
 		flex: 1,
-		height: '80%',
+		backgroundColor: COLORS.secondary,
+		height: 40,
+		borderRadius: 10,
+		paddingHorizontal: 10,
 	},
 });
 
@@ -114,7 +122,7 @@ function TextResultsHeader({
 	};
 
 	return (
-		<View style={{ backgroundColor: COLORS.primary, padding: SIZES.base }}>
+		<View style={styles.container}>
 			<View
 				style={{
 					flexDirection: 'row',
@@ -152,7 +160,9 @@ function TextResultsHeader({
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+						Sắp xếp theo:
+					</Text>
 					<View>
 						<RadioForm>
 							{
@@ -179,7 +189,7 @@ function TextResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
 						Khoảng giá (VND):
 					</Text>
 					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>
@@ -209,6 +219,10 @@ function TextResultsHeader({
 						uppercase={false}
 						color={COLORS.primary}
 						onPress={handleDropdownOptionSelect}
+						titleStyle={{
+							color: COLORS.secondary,
+							fontFamily: FONTS.medium,
+						}}
 					/>
 					<Divider style={{ marginVertical: SIZES.small }} />
 					<Button
@@ -216,6 +230,9 @@ function TextResultsHeader({
 						uppercase={false}
 						color={COLORS.white}
 						onPress={handleToggleDropdown}
+						titleStyle={{
+							fontFamily: FONTS.medium,
+						}}
 					/>
 				</View>
 			)}

@@ -79,6 +79,7 @@ function TextResults({ route, navigation }) {
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
