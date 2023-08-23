@@ -4,11 +4,9 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from 'react-native-fast-image';
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Icon } from '@rneui/themed';
-import { Text } from '@react-native-material/core';
+import { Badge, Text } from '@react-native-material/core';
 import {
-	COLORS, SIZES, SHADOWS,
+	COLORS, SIZES, SHADOWS, FONTS,
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
 
@@ -25,6 +23,12 @@ const styles = StyleSheet.create({
 		elevation: 13,
 		backgroundColor: COLORS.white,
 	},
+	productShopName: {
+		fontSize: SIZES.base,
+		color: COLORS.grey,
+		marginTop: 2,
+		fontFamily: FONTS.semiBold,
+	},
 	addToCartBtn: {
 		height: 30,
 		width: 30,
@@ -36,6 +40,12 @@ const styles = StyleSheet.create({
 });
 
 function ProductCard({ product, navigation }) {
+	// Generate a random number between 1 and 100
+	const randomValue = Math.random() * 100;
+
+	// Set isSponsored based on the random number
+	const isSponsored = randomValue <= 20;
+
 	return (
 		<TouchableHighlight
 			underlayColor={COLORS.white}
@@ -56,10 +66,10 @@ function ProductCard({ product, navigation }) {
 					/>
 				</View>
 				<View style={{ marginHorizontal: 10 }}>
-					<Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: SIZES.font, fontWeight: 'bold' }}>
+					<Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: SIZES.font, fontFamily: FONTS.semiBold }}>
 						{product.title}
 					</Text>
-					<Text style={{ fontSize: SIZES.base, color: COLORS.grey, marginTop: 2 }}>
+					<Text style={styles.productShopName}>
 						{product.shopName}
 					</Text>
 				</View>
@@ -72,12 +82,19 @@ function ProductCard({ product, navigation }) {
 						justifyContent: 'space-between',
 					}}
 				>
-					<Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+					<Text style={{ fontSize: SIZES.font, fontFamily: FONTS.regular }}>
 						{formatNumber(product.price)}
 					</Text>
-					<View style={styles.addToCartBtn}>
-						<Icon name="add" size={20} color={COLORS.white} />
-					</View>
+					{isSponsored && (
+						<Badge
+							label="Sponsored"
+							color={COLORS.yellow}
+							labelStyle={{
+								fontSize: SIZES.small,
+								fontFamily: FONTS.light,
+							}}
+						/>
+					)}
 				</View>
 			</View>
 		</TouchableHighlight>

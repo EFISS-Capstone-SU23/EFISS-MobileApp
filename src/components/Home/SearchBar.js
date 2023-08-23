@@ -12,7 +12,7 @@ import {
 
 const styles = StyleSheet.create({
 	headerTitle: {
-		color: COLORS.white,
+		color: COLORS.secondary,
 		fontFamily: FONTS.regular,
 		fontSize: 23,
 		maxWidth: '80%',
@@ -61,12 +61,13 @@ function SearchBar({ onPicture, navigation }) {
 							name="search-outline"
 							type="ionicon"
 							size={28}
+							color={COLORS.secondary}
 						/>
 					</TouchableOpacity>
 
 					<TextInput
 						placeholder="Bạn đang tìm kiếm sản phẩm gì?"
-						style={{ flex: 1, marginHorizontal: 5, color: COLORS.grey }}
+						style={{ flex: 1, marginHorizontal: 5, color: COLORS.secondary }}
 						value={text}
 						onChangeText={(value) => setText(value)}
 						onSubmitEditing={handleSubmit}
@@ -77,6 +78,7 @@ function SearchBar({ onPicture, navigation }) {
 							name="camera-outline"
 							type="ionicon"
 							size={28}
+							color={COLORS.secondary}
 						/>
 					</TouchableOpacity>
 				</View>

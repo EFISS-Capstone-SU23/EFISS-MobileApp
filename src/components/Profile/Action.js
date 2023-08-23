@@ -41,7 +41,7 @@ function Action({ icon, title, onPress }) {
 						name={icon}
 						type="ionicon"
 						size={28}
-						color={COLORS.white}
+						color={COLORS.secondary}
 					/>
 				</View>
 				<Text style={styles.actionTitle}>{title}</Text>
@@ -50,7 +50,7 @@ function Action({ icon, title, onPress }) {
 				name="chevron-forward-outline"
 				type="ionicon"
 				size={28}
-				color={COLORS.white}
+				color={COLORS.primary}
 			/>
 		</TouchableOpacity>
 	);

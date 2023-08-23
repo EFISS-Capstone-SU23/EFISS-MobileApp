@@ -5,7 +5,6 @@ import {
 import FastImage from 'react-native-fast-image';
 import { Badge } from '@react-native-material/core';
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
 
 import {
 	COLORS, SIZES, FONTS,
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: SIZES.medium,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.regular,
 		color: COLORS.black,
 	},
 	priceSection: {
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	price: {
-		color: COLORS.white,
+		color: COLORS.black,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
 	group: {
 		color: COLORS.secondary,
 		fontFamily: FONTS.light,
-		fontSize: SIZES.small,
+		fontSize: 10,
 		opacity: 0.8,
 	},
 });
@@ -99,12 +98,7 @@ function CarouselCard({ product, navigation }) {
 					/>
 				</TouchableOpacity>
 			</View>
-			<View style={{ paddingTop: 2 }}>
-				<View style={styles.groupContainer}>
-					<Text style={styles.group}>
-						{product.shopName}
-					</Text>
-				</View>
+			<View style={{ padding: 2 }}>
 				<View style={styles.titleContainer}>
 					<Text
 						style={styles.title}
@@ -116,6 +110,11 @@ function CarouselCard({ product, navigation }) {
 						{product.title}
 					</Text>
 				</View>
+				<View style={styles.groupContainer}>
+					<Text style={styles.group}>
+						{product.shopName}
+					</Text>
+				</View>
 				<View style={styles.priceSection}>
 					<View style={styles.priceContainer}>
 						<Badge
@@ -123,12 +122,6 @@ function CarouselCard({ product, navigation }) {
 							color={COLORS.primary}
 							labelStyle={styles.price}
 						/>
-					</View>
-					<View style={styles.ratingContainer}>
-						<Entypo name="star" size={SIZES.small} color={COLORS.yellow} />
-						<Text style={styles.rating}>
-							4.5
-						</Text>
 					</View>
 				</View>
 			</View>

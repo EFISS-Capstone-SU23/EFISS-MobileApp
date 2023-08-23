@@ -85,7 +85,10 @@ function Results({ route, navigation }) {
 							numColumns={2}
 							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							keyExtractor={(item) => item?._id}
-							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
+							contentContainerStyle={{
+								columnGap: SIZES.medium,
+								flex: 1,
+							}}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
 								<ResultsHeader navigation={navigation} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} croppedImg={croppedImg} />
