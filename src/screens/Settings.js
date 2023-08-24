@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	SafeAreaView,
@@ -84,6 +84,14 @@ function Settings() {
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userToken } = userSignin;
 
+	const [clickCount, setClickCount] = useState(0);
+	useEffect(() => {
+		if (clickCount === 7) {
+			setClickCount(0);
+			navigation.navigate('SecretSettings');
+		}
+	}, [clickCount]);
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
 			<ScrollView contentContainerStyle={styles.container}>
@@ -123,7 +131,14 @@ function Settings() {
 				)}
 				<View style={styles.section}>
 					<View style={styles.sectionHeader}>
-						<Text style={styles.sectionHeaderText}>Ứng dụng</Text>
+						<Text
+							style={styles.sectionHeaderText}
+							onPress={() => {
+								setClickCount(clickCount + 1);
+							}}
+						>
+							Ứng dụng
+						</Text>
 					</View>
 					<View style={styles.sectionBody}>
 						<Action

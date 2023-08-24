@@ -1,5 +1,7 @@
 export const config = {
 	BE_BASE_API: 'https://dev.efiss.tech',
+	IMG_STORAGE_URL: '',
+	IS_LOCAL: false,
 
 	SEARCH_ROUTER: 'search/image',
 	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum&sortBy=:sortBy',
@@ -34,6 +36,14 @@ export const config = {
 
 export const updateBaseApi = (newApi) => {
 	config.BE_BASE_API = newApi;
+};
+
+export const updateLocalStatus = (newStatus) => {
+	config.IS_LOCAL = newStatus;
+};
+
+export const updateImgUrl = (newImgUrl) => {
+	config.IMG_STORAGE_URL = newImgUrl;
 };
 
 export const updatePageSize = (newSize) => {
