@@ -106,9 +106,23 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 
 export const productGetById = (_productId) => async (dispatch) => {
 	dispatch({ type: PRODUCT_GET_BY_ID_REQUEST });
-	console.log(_productId);
 	try {
+		// Check if there is a stored recently viewed product
+		const storedProductJSON = await AsyncStorage.getItem('recentlyViewProduct');
+
+		if (storedProductJSON) {
+			const storedProduct = JSON.parse(storedProductJSON);
+			if (storedProduct._id === _productId) {
+				// Use the stored product data
+				dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: storedProduct });
+				return;
+			}
+		}
+
+		// Fetch the product from the API
 		const { data } = await axios.get(`${config.BE_BASE_API}/${config.GET_BY_ID_ROUTER}/${_productId}`);
+		// Store the fetched product as recently viewed
+		await AsyncStorage.setItem('recentlyViewProduct', JSON.stringify(data.product));
 		dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: data.product });
 	} catch (error) {
 		console.log('productGetById error: ', error);
