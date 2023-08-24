@@ -14,7 +14,7 @@ import { productRecommendLoad } from '../../actions/productActions';
 const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: SIZES.base,
-		marginVertical: SIZES.medium,
+		marginVertical: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',

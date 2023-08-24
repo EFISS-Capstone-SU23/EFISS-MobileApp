@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 		borderTopLeftRadius: SIZES.base,
 		borderTopRightRadius: SIZES.base,
-		borderBottomColor: COLORS.dark,
-		borderWidth: 0.5,
+		elevation: 5,
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	productPrice: {
-		color: COLORS.black,
+		color: COLORS.secondary,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},
@@ -133,7 +132,7 @@ function CollectionDetailsCard({
 				<View style={{ marginBottom: SIZES.base }}>
 					<Text
 						variant="subtitle2"
-						numberOfLines={1}
+						numberOfLines={2}
 						onPress={() => {
 							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { productId: product.id });

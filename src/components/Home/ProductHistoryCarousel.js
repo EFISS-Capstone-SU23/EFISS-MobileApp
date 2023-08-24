@@ -13,7 +13,7 @@ import CarouselCard from '../Common/CarouselCard';
 const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: SIZES.base,
-		marginVertical: SIZES.medium,
+		marginVertical: SIZES.base,
 	},
 	header: {
 		flexDirection: 'row',

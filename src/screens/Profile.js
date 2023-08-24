@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 		color: COLORS.quaternary,
 	},
 	actionTitle: {
-		color: COLORS.red,
+		color: COLORS.primary,
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.medium,
 	},

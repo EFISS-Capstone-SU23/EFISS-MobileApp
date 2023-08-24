@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 		height: 220,
 		width: cardWidth,
 		marginHorizontal: 10,
-		marginBottom: 10,
-		marginTop: 50,
+		marginBottom: 5,
+		marginTop: 20,
 		borderRadius: 15,
 		elevation: 5,
 		backgroundColor: COLORS.white,
@@ -53,7 +53,7 @@ function ProductCard({ product, navigation }) {
 			onPress={() => navigation.navigate('Details', { productId: product.id ? product.id : product._id })}
 		>
 			<View style={styles.card}>
-				<View style={{ alignItems: 'center', top: -30 }}>
+				<View style={{ alignItems: 'center', top: -10 }}>
 					<FastImage
 						source={{
 							uri: product.images[0] ? product.images[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
@@ -65,7 +65,7 @@ function ProductCard({ product, navigation }) {
 						}}
 					/>
 				</View>
-				<View style={{ marginHorizontal: 10 }}>
+				<View style={{ marginHorizontal: 10, marginTop: 10 }}>
 					<Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: SIZES.font, fontFamily: FONTS.semiBold }}>
 						{product.title}
 					</Text>
