@@ -107,12 +107,14 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 export const productGetById = (_productId) => async (dispatch) => {
 	dispatch({ type: PRODUCT_GET_BY_ID_REQUEST });
 	try {
-		// Check if there is a stored recently viewed product
-		const storedProductJSON = await AsyncStorage.getItem('recentlyViewProduct');
+		// Check if the product is in the product_history array
+		const productHistoryJSON = await AsyncStorage.getItem('product_history');
 
-		if (storedProductJSON) {
-			const storedProduct = JSON.parse(storedProductJSON);
-			if (storedProduct._id === _productId) {
+		if (productHistoryJSON) {
+			const productHistory = JSON.parse(productHistoryJSON);
+			const storedProduct = productHistory.find((product) => product._id === _productId);
+
+			if (storedProduct) {
 				// Use the stored product data
 				dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: storedProduct });
 				return;
@@ -121,8 +123,6 @@ export const productGetById = (_productId) => async (dispatch) => {
 
 		// Fetch the product from the API
 		const { data } = await axios.get(`${config.BE_BASE_API}/${config.GET_BY_ID_ROUTER}/${_productId}`);
-		// Store the fetched product as recently viewed
-		await AsyncStorage.setItem('recentlyViewProduct', JSON.stringify(data.product));
 		dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: data.product });
 	} catch (error) {
 		console.log('productGetById error: ', error);
