@@ -7,6 +7,7 @@ export const config = {
 	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum&sortBy=:sortBy',
 
 	BANNER_ADS_ROUTER: 'ads/banner',
+	COLLECTIONS_ADD_ROUTER: 'ads/collection',
 
 	SIGNUP_ROUTER: 'auth/sign-up',
 	SIGNIN_ROUTER: 'auth/sign-in',

@@ -79,7 +79,12 @@ function AdsBar() {
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				</View>
 			) : error ? (
-				<Text style={{ textAlign: 'center', color: COLORS.black, marginTop: 20 }}>Quảng cáo chưa có sẵn dành cho bạn</Text>
+				<Text style={{
+					textAlign: 'center', color: COLORS.black, marginTop: 20, fontFamily: FONTS.regular,
+				}}
+				>
+					Quảng cáo chưa có sẵn dành cho bạn
+				</Text>
 			) : (
 				<View style={styles.container}>
 					<View style={styles.cardsContainer}>

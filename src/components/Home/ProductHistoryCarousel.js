@@ -60,9 +60,9 @@ function ProductHistoryCarousel({ navigation }) {
 				{loading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
-					<Text style={{ textAlign: 'center', color: COLORS.black }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black, fontFamily: FONTS.regular }}>Bạn chưa xem sản phẩm nào gần đây</Text>
 				) : (products.length === 0) ? (
-					<Text style={{ textAlign: 'center', color: COLORS.black }}>Bạn chưa xem sản phẩm nào gần đây</Text>
+					<Text style={{ textAlign: 'center', color: COLORS.black, fontFamily: FONTS.regular }}>Bạn chưa xem sản phẩm nào gần đây</Text>
 				) : (
 					<FlatList
 						data={products}

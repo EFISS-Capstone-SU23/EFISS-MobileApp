@@ -21,6 +21,7 @@ import {
 	PRODUCT_HISTORY_LOAD_REQUEST, PRODUCT_HISTORY_LOAD_SUCCESS, PRODUCT_HISTORY_LOAD_FAIL,
 	PRODUCT_RECOMMEND_LOAD_REQUEST, PRODUCT_RECOMMEND_LOAD_SUCCESS, PRODUCT_RECOMMEND_LOAD_FAIL,
 	BANNER_ADS_GET_REQUEST, BANNER_ADS_GET_SUCCESS, BANNER_ADS_GET_FAIL,
+	COLLECTION_ADS_GET_REQUEST, COLLECTION_ADS_GET_SUCCESS, COLLECTION_ADS_GET_FAIL,
 } from '../constants/productConstants';
 import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
@@ -66,10 +67,23 @@ export const bannerAdsGet = () => async (dispatch) => {
 			`${config.BE_BASE_API}/${config.BANNER_ADS_ROUTER}`,
 		);
 		dispatch({ type: BANNER_ADS_GET_SUCCESS, payload: data.ads });
-		console.log(data.ads.map((obj) => obj.bannerAds));
 	} catch (error) {
 		console.log('bannerAdsGet error: ', error);
 		dispatch({ type: BANNER_ADS_GET_FAIL, payload: error });
+	}
+};
+
+export const collectionAdsGet = () => async (dispatch) => {
+	dispatch({ type: COLLECTION_ADS_GET_REQUEST });
+	try {
+		const { data } = await axios.get(
+			`${config.BE_BASE_API}/${config.COLLECTIONS_ADD_ROUTER}`,
+		);
+		dispatch({ type: COLLECTION_ADS_GET_SUCCESS, payload: data.ads });
+		console.log(data.ads.collectionAds);
+	} catch (error) {
+		console.log('collectionAdsGet error: ', error);
+		dispatch({ type: COLLECTION_ADS_GET_FAIL, payload: error });
 	}
 };
 

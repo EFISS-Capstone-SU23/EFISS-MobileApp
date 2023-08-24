@@ -19,6 +19,7 @@ import ProductHistoryCarousel from './Home/ProductHistoryCarousel';
 import Welcome from './Home/Welcome';
 import AdsBar from './Home/AdsBar';
 import SearchBar from './Home/SearchBar';
+import AdsCollections from './Home/AdsCollections';
 
 import Action from './Profile/Action';
 
@@ -68,4 +69,5 @@ export {
 	NoResultsFound,
 	ErrorView,
 	SearchBar,
+	AdsCollections,
 };

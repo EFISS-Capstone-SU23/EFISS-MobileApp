@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
-import Search from '../screens/Search';
 
 import { COLORS } from '../constants';
 
@@ -45,7 +44,7 @@ function HomeStack() {
 				tabBarIcon: ({ focused, size }) => getTabBarIcon(focused, size, route),
 			})}
 		>
-			<Tab.Screen name={searchTab} component={Search} />
+			{/* <Tab.Screen name={searchTab} component={Search} /> */}
 			<Tab.Screen name={homeTab} component={Home} />
 			<Tab.Screen name={settingsTab} component={Settings} />
 		</Tab.Navigator>

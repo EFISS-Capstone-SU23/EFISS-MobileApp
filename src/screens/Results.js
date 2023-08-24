@@ -76,7 +76,7 @@ function Results({ route, navigation }) {
 				) : error ? (
 					<ErrorView navigation={navigation} />
 				) : (
-					<View style={items.length > 0 ? {} : { flex: 1 }}>
+					<View style={items.length > 4 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item, index }) => (

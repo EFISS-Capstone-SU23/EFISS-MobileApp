@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	},
 	dropdownItem: {
 		paddingHorizontal: SIZES.base,
-		fontSize: SIZES.font,
+		fontSize: SIZES.medium,
 	},
 	dropdownText: {
 		fontFamily: FONTS.regular,
@@ -48,10 +48,11 @@ const styles = StyleSheet.create({
 	inputFilter: {
 		marginBottom: 5,
 		flex: 1,
-		backgroundColor: COLORS.secondary,
+		backgroundColor: '#F2F2F2',
 		height: 40,
-		borderRadius: 10,
+		borderRadius: 5,
 		paddingHorizontal: 10,
+		fontFamily: FONTS.regular,
 	},
 	inputContainer: {
 		height: 50,
@@ -199,10 +200,10 @@ function TextResultsHeader({
 
 			{dropdownOpen && (
 				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: SIZES.base }]}>
 						Sắp xếp theo:
 					</Text>
-					<View>
+					<View style={{ marginLeft: 5 }}>
 						<RadioForm>
 							{
 								convertedList?.map((obj, index) => (
@@ -212,9 +213,11 @@ function TextResultsHeader({
 											index={index}
 											isSelected={obj.value === value}
 											onPress={(val) => setValue(val)}
-											buttonInnerColor={obj.value === value ? COLORS.primary : COLORS.grey}
-											buttonOuterColor={obj.value === value ? COLORS.primary : COLORS.grey}
+											buttonInnerColor={obj.value === value ? COLORS.primary : COLORS.secondary}
+											buttonOuterColor={obj.value === value ? COLORS.primary : COLORS.primary}
 											buttonWrapStyle={styles.dropdownItem}
+											buttonSize={SIZES.small}
+											borderWidth={2}
 										/>
 										<RadioButtonLabel
 											obj={obj}
@@ -228,28 +231,30 @@ function TextResultsHeader({
 						</RadioForm>
 					</View>
 					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: SIZES.base }]}>
 						Khoảng giá (VND):
 					</Text>
-					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>
+					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base, marginLeft: 5 }}>
 						<View style={styles.inputFilterContainer}>
-							<Text style={{ width: '30%', marginRight: 5 }}>Tối thiểu</Text>
+							<Text style={[styles.dropdownText, { width: '30%' }]}>Tối thiểu</Text>
 							<TextInput
 								style={styles.inputFilter}
 								color={COLORS.primary}
 								keyboardType="number-pad"
 								onChangeText={(val) => setMinPrice(val)}
 								defaultValue={minPrice}
+								selectionColor={COLORS.primary}
 							/>
 						</View>
 						<View style={styles.inputFilterContainer}>
-							<Text style={{ width: '30%', marginRight: 5 }}>Tối đa</Text>
+							<Text style={[styles.dropdownText, { width: '30%' }]}>Tối đa</Text>
 							<TextInput
 								style={styles.inputFilter}
 								color={COLORS.primary}
 								keyboardType="number-pad"
 								onChangeText={(val) => setMaxPrice(val)}
 								defaultValue={maxPrice}
+								selectionColor={COLORS.primary}
 							/>
 						</View>
 					</View>
