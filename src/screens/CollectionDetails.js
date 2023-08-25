@@ -118,63 +118,65 @@ function CollectionDetails({ navigation, route }) {
 				) : error ? (
 					<ErrorView navigation={navigation} />
 				) : (
-					<FlatList
-						data={items}
-						renderItem={({ item, index }) => (
-							<CollectionDetailsCard
-								collectionId={id}
-								product={item}
-								navigation={navigation}
-								index={index}
-							/>
-						)}
-						columnWrapperStyle={{ justifyContent: 'space-between' }}
-						numColumns={2}
-						keyExtractor={(item) => item?.id}
-						contentContainerStyle={{ columnGap: SIZES.medium }}
-						ListHeaderComponent={<CollectionDetailsHeader navigation={navigation} />}
-						// eslint-disable-next-line react/no-unstable-nested-components
-						ListFooterComponent={() => (
-							isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
-						)}
-						stickyHeaderIndices={[0]}
-						showsVerticalScrollIndicator={false}
-						refreshControl={(
-							<RefreshControl
-								refreshing={refreshControl}
-								onRefresh={() => {
-									setRefreshControl(true);
-									dispatch(collectionDetailsLoad(id, 1));
-									setPageNum(1);
-									setRefreshControl(false);
-								}}
-							/>
-						)}
-						onEndReached={async () => {
-							if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
-								setIsLoadingMore(true);
-								try {
-									const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
-										.replace(/:id/g, id)
-										.replace(/:pageSize/g, 10)
-										.replace(/:pageNum/g, pageNum + 1);
-									const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
-										headers: {
-											Authorization: `Bearer ${userToken}`,
-										},
-									});
-									setPageNum(pageNum + 1);
-									setItems([...items, ...data.products.productsList]);
-								} catch (err) {
-									console.log('collectionDetailsLoadMore error: ', err);
-								} finally {
-									setIsLoadingMore(false);
+					<View style={items.length > 4 ? {} : { flex: 1 }}>
+						<FlatList
+							data={items}
+							renderItem={({ item, index }) => (
+								<CollectionDetailsCard
+									collectionId={id}
+									product={item}
+									navigation={navigation}
+									index={index}
+								/>
+							)}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
+							numColumns={2}
+							keyExtractor={(item) => item?.id}
+							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
+							ListHeaderComponent={<CollectionDetailsHeader navigation={navigation} />}
+							// eslint-disable-next-line react/no-unstable-nested-components
+							ListFooterComponent={() => (
+								isLoadingMore ? <Text style={styles.footer}>Đang tải...</Text> : null
+							)}
+							stickyHeaderIndices={[0]}
+							showsVerticalScrollIndicator={false}
+							refreshControl={(
+								<RefreshControl
+									refreshing={refreshControl}
+									onRefresh={() => {
+										setRefreshControl(true);
+										dispatch(collectionDetailsLoad(id, 1));
+										setPageNum(1);
+										setRefreshControl(false);
+									}}
+								/>
+							)}
+							onEndReached={async () => {
+								if (!isLoadingMore && totalPages && pageNum + 1 <= totalPages) {
+									setIsLoadingMore(true);
+									try {
+										const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
+											.replace(/:id/g, id)
+											.replace(/:pageSize/g, 10)
+											.replace(/:pageNum/g, pageNum + 1);
+										const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
+											headers: {
+												Authorization: `Bearer ${userToken}`,
+											},
+										});
+										setPageNum(pageNum + 1);
+										setItems([...items, ...data.products.productsList]);
+									} catch (err) {
+										console.log('collectionDetailsLoadMore error: ', err);
+									} finally {
+										setIsLoadingMore(false);
+									}
 								}
-							}
-						}}
-						onEndReachedThreshold={0.2}
-						ListEmptyComponent={<NoResultsFound />}
-					/>
+							}}
+							onEndReachedThreshold={0.2}
+							ListEmptyComponent={<NoResultsFound />}
+						/>
+					</View>
 				)}
 			</View>
 		</SafeAreaView>
