@@ -27,13 +27,14 @@ import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 // eslint-disable-next-line max-len
-export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, _maxPrice) => async (dispatch) => {
+export const productsSearch = (imageURL, _limit, _sortBy, _shopType, _category, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const startTime = new Date(); // Capture the start time
 		console.log({
 			limit: _limit,
 			sortBy: _sortBy,
+			...(_shopType !== 'both' && { shopType: _shopType }),
 			...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
 			...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
 			diversity: config.DIVERSITY,
@@ -44,6 +45,7 @@ export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, 
 				encodedImage: imageURL,
 				limit: _limit,
 				sortBy: _sortBy,
+				...(_shopType !== 'both' && { shopType: _shopType }),
 				...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
 				...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
 				diversity: config.DIVERSITY,
@@ -88,7 +90,7 @@ export const collectionAdsGet = () => async (dispatch) => {
 };
 
 // eslint-disable-next-line max-len
-export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPrice) => async (dispatch) => {
+export const productsTextSearch = (_query, _pageNum, _sortBy, _shopType, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_TEXT_SEARCH_REQUEST, payload: _query });
 	const startTime = new Date(); // Capture the start time
 	try {
@@ -104,6 +106,10 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 
 		if (_maxPrice !== null && _maxPrice !== undefined) {
 			updatedRouter += `&maxPrice=${_maxPrice}`;
+		}
+
+		if (_shopType !== null && _shopType !== 'both') {
+			updatedRouter += `&shopType=${_shopType}`;
 		}
 
 		const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);

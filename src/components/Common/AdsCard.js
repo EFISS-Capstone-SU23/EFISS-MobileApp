@@ -10,13 +10,13 @@ import {
 
 const styles = StyleSheet.create({
 	imgContainer: {
-		width: (SIZES.WIDTH * 4) / 5,
+		width: 300,
 		marginHorizontal: SIZES.base,
 		borderRadius: SIZES.base,
 	},
 	imageBackground: {
 		flex: 1,
-		height: SIZES.HEIGHT / 5,
+		height: 150,
 	},
 	textContainer: {
 		width: '100%',

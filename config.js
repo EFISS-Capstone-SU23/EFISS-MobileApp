@@ -3,6 +3,10 @@ export const config = {
 	IMG_STORAGE_URL: '',
 	IS_LOCAL: false,
 
+	SELECT_FROM_BOTH: 'both',
+	SELECT_FROM_BRAND: 'brand',
+	SELECT_FROM_MARKETPLACE: 'marketplace',
+
 	SEARCH_ROUTER: 'search/image',
 	TEXT_SEARCH_ROUTER: 'search/text?q=:query&pageSize=:pageSize&pageNumber=:pageNum&sortBy=:sortBy',
 

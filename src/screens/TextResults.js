@@ -43,27 +43,30 @@ function TextResults({ route, navigation }) {
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_DEFAULT);
+	const [shop, setShop] = useState(config.SELECT_FROM_BOTH);
 	const [minPrice, setMinPrice] = useState(null);
 	const [maxPrice, setMaxPrice] = useState(null);
-	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
+	const changeSort = (sortOption, shopSelection, minimumPrice, maximumPrice) => {
 		setSortBy(sortOption);
+		setShop(shopSelection);
 		setPageNum(1);
 		setMinPrice(minimumPrice);
 		setMaxPrice(maximumPrice);
-		dispatch(productsTextSearch(text, 1, sortOption, minimumPrice, maximumPrice));
+		dispatch(productsTextSearch(text, 1, sortOption, shopSelection, minimumPrice, maximumPrice));
 	};
 
 	const newSearch = (val) => {
 		setText(val);
 		setSortBy(config.SORT_BY_DEFAULT);
+		setShop(config.SELECT_FROM_BOTH);
 		setPageNum(1);
 		setMinPrice(null);
 		setMaxPrice(null);
-		dispatch(productsTextSearch(val, 1, config.SORT_BY_DEFAULT, null, null));
+		dispatch(productsTextSearch(val, 1, config.SORT_BY_DEFAULT, shop, null, null));
 	};
 
 	useEffect(() => {
-		dispatch(productsTextSearch(query, pageNum, sortBy, minPrice, maxPrice));
+		dispatch(productsTextSearch(query, pageNum, sortBy, shop, minPrice, maxPrice));
 	}, [dispatch, query]);
 
 	useEffect(() => {
@@ -93,7 +96,7 @@ function TextResults({ route, navigation }) {
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} handleSearch={newSearch} />
+								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} handleSearch={newSearch} place={shop} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (

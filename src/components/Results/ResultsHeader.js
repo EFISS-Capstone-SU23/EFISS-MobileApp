@@ -32,6 +32,24 @@ const styles = StyleSheet.create({
 	},
 });
 
+const SELECT_FROM = [
+	{
+		id: 1,
+		title: 'Tất cả',
+		value: config.SELECT_FROM_BOTH,
+	},
+	{
+		id: 2,
+		title: 'Brand',
+		value: config.SELECT_FROM_BRAND,
+	},
+	{
+		id: 3,
+		title: 'Market Place',
+		value: config.SELECT_FROM_MARKETPLACE,
+	},
+];
+
 const SORT_OPTIONS = [
 	{
 		id: 1,
@@ -40,18 +58,18 @@ const SORT_OPTIONS = [
 	},
 	{
 		id: 2,
-		title: 'Giá: từ thấp đến cao',
+		title: 'Giá: tăng dần',
 		value: config.SORT_BY_PRICE_ASC,
 	},
 	{
 		id: 3,
-		title: 'Giá: từ cao đến thấp',
+		title: 'Giá: giảm dần',
 		value: config.SORT_BY_PRICE_DESC,
 	},
 ];
 
 function ResultsHeader({
-	navigation, handleSort, sortBy, min, max, croppedImg,
+	navigation, handleSort, sortBy, min, max, croppedImg, place,
 }) {
 	const [isModalVisible, setModalVisible] = useState(false);
 
@@ -61,14 +79,24 @@ function ResultsHeader({
 
 	const base64Icon = `data:image/png;base64,${croppedImg}`;
 
+	const convertedPlaceList = SELECT_FROM.map(({ id, title }) => ({
+		value: id,
+		label: title,
+	}));
+
 	const convertedList = SORT_OPTIONS.map(({ id, title }) => ({
 		value: id,
 		label: title,
 	}));
 
+	const selectedPlace = SELECT_FROM.find((option) => option.value === place);
+	const [shop, setShop] = useState(selectedPlace
+		? selectedPlace.id : convertedPlaceList[0].value);
+
 	const selectedSortOption = SORT_OPTIONS.find((option) => option.value === sortBy);
 	const [value, setValue] = useState(selectedSortOption
 		? selectedSortOption.id : convertedList[0].value);
+
 	const [minPrice, setMinPrice] = useState(min === null ? '' : min);
 	const [maxPrice, setMaxPrice] = useState(max === null ? '' : max);
 	const [diversity, setDiversity] = useState(config.DIVERSITY);
@@ -90,7 +118,8 @@ function ResultsHeader({
 			const adjustedMinPrice = minPrice === '' ? null : minPrice;
 			const adjustedMaxPrice = maxPrice === '' ? null : maxPrice;
 
-			handleSort(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
+			// eslint-disable-next-line max-len
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, adjustedMinPrice, adjustedMaxPrice);
 		} else if (parseFloat(minPrice) > parseFloat(maxPrice)) {
 			ToastAndroid.showWithGravity(
 				'Khoảng giá không hợp lệ',
@@ -98,7 +127,7 @@ function ResultsHeader({
 				ToastAndroid.BOTTOM,
 			);
 		} else {
-			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, minPrice, maxPrice);
 		}
 	};
 
@@ -148,6 +177,9 @@ function ResultsHeader({
 				onRequestClose={handleToggleModal}
 			>
 				<ModalResultsFilter
+					convertedPlaceList={convertedPlaceList}
+					setShop={setShop}
+					shop={shop}
 					convertedList={convertedList}
 					setValue={setValue}
 					value={value}

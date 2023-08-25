@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
 });
 
 function ModalResultsFilter({
-	convertedList, onClose, onSubmit,
+	convertedList, convertedPlaceList, onClose, onSubmit,
+	shop, setShop,
 	value, setValue,
 	diversity, setDiversity,
 	minPrice, setMinPrice,
@@ -121,6 +122,43 @@ function ModalResultsFilter({
 										obj={obj}
 										index={index}
 										onPress={(val) => setValue(val)}
+										labelStyle={styles.dropdownText}
+									/>
+								</RadioButton>
+							))
+						}
+					</RadioForm>
+				</View>
+				<Divider style={{ marginVertical: SIZES.base }} />
+				<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+					Xem sản phẩm từ:
+				</Text>
+				<View style={{ marginLeft: 5 }}>
+					<RadioForm
+						animation
+					>
+						{
+							convertedPlaceList?.map((obj, index) => (
+								<RadioButton labelHorizontal key={index}>
+									<RadioButtonInput
+										obj={obj}
+										index={index}
+										isSelected={obj.value === shop}
+										onPress={(val) => {
+											setShop(val);
+										}}
+										buttonInnerColor={obj.value === shop ? COLORS.primary : COLORS.secondary}
+										buttonOuterColor={obj.value === shop ? COLORS.primary : COLORS.primary}
+										buttonWrapStyle={styles.dropdownItem}
+										buttonSize={SIZES.medium}
+										borderWidth={2}
+									/>
+									<RadioButtonLabel
+										obj={obj}
+										index={index}
+										onPress={(val) => {
+											setShop(val);
+										}}
 										labelStyle={styles.dropdownText}
 									/>
 								</RadioButton>

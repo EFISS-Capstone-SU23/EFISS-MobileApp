@@ -66,6 +66,24 @@ const styles = StyleSheet.create({
 	},
 });
 
+const SELECT_FROM = [
+	{
+		id: 1,
+		title: 'Tất cả',
+		value: config.SELECT_FROM_BOTH,
+	},
+	{
+		id: 2,
+		title: 'Brand',
+		value: config.SELECT_FROM_BRAND,
+	},
+	{
+		id: 3,
+		title: 'Market Place',
+		value: config.SELECT_FROM_MARKETPLACE,
+	},
+];
+
 const SORT_OPTIONS = [
 	{
 		id: 1,
@@ -85,14 +103,23 @@ const SORT_OPTIONS = [
 ];
 
 function TextResultsHeader({
-	navigation, query, handleSort, min, max, sortBy, handleSearch,
+	navigation, query, handleSort, min, max, sortBy, handleSearch, place,
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const convertedPlaceList = SELECT_FROM.map(({ id, title }) => ({
+		value: id,
+		label: title,
+	}));
 
 	const convertedList = SORT_OPTIONS.map(({ id, title }) => ({
 		value: id,
 		label: title,
 	}));
+
+	const selectedPlace = SELECT_FROM.find((option) => option.value === place);
+	const [shop, setShop] = useState(selectedPlace
+		? selectedPlace.id : convertedPlaceList[0].value);
 
 	const selectedSortOption = SORT_OPTIONS.find((option) => option.value === sortBy);
 	const [text, setText] = useState(query);
@@ -133,7 +160,8 @@ function TextResultsHeader({
 			const adjustedMinPrice = minPrice === '' ? null : minPrice;
 			const adjustedMaxPrice = maxPrice === '' ? null : maxPrice;
 
-			handleSort(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
+			// eslint-disable-next-line max-len
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, adjustedMinPrice, adjustedMaxPrice);
 		} else if (parseFloat(minPrice) > parseFloat(maxPrice)) {
 			ToastAndroid.showWithGravity(
 				'Khoảng giá không hợp lệ',
@@ -141,7 +169,7 @@ function TextResultsHeader({
 				ToastAndroid.BOTTOM,
 			);
 		} else {
-			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, minPrice, maxPrice);
 			setDropdownOpen(false);
 		}
 	};
@@ -223,6 +251,43 @@ function TextResultsHeader({
 											obj={obj}
 											index={index}
 											onPress={(val) => setValue(val)}
+											labelStyle={styles.dropdownText}
+										/>
+									</RadioButton>
+								))
+							}
+						</RadioForm>
+					</View>
+					<Divider style={{ marginVertical: SIZES.base }} />
+					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
+						Xem sản phẩm từ:
+					</Text>
+					<View style={{ marginLeft: 5 }}>
+						<RadioForm
+							animation
+						>
+							{
+								convertedPlaceList?.map((obj, index) => (
+									<RadioButton labelHorizontal key={index}>
+										<RadioButtonInput
+											obj={obj}
+											index={index}
+											isSelected={obj.value === shop}
+											onPress={(val) => {
+												setShop(val);
+											}}
+											buttonInnerColor={obj.value === shop ? COLORS.primary : COLORS.secondary}
+											buttonOuterColor={obj.value === shop ? COLORS.primary : COLORS.primary}
+											buttonWrapStyle={styles.dropdownItem}
+											buttonSize={SIZES.medium}
+											borderWidth={2}
+										/>
+										<RadioButtonLabel
+											obj={obj}
+											index={index}
+											onPress={(val) => {
+												setShop(val);
+											}}
 											labelStyle={styles.dropdownText}
 										/>
 									</RadioButton>
