@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import {
@@ -14,6 +15,7 @@ import { collectionDetailsLoad } from '../actions/productActions';
 import { config } from '../../config';
 import CollectionDetailsCard from '../components/CollectionDetails/CollectionDetailsCard';
 import { PRODUCT_COLLECTION_DETAILS_REMOVE_RESET } from '../constants/productConstants';
+import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -65,9 +67,32 @@ function CollectionDetails({ navigation, route }) {
 	const removeCollectionDetails = useSelector((state) => state.removeCollectionDetails);
 	const { successRemoveCollectionDetails } = removeCollectionDetails;
 
+	const reload = async () => {
+		const tokenIsValid = await isTokenStillValid();
+		if (tokenIsValid) {
+			const token = await AsyncStorage.getItem('userToken');
+			try {
+				const updatedRouter = config.COLLECTION_DETAILS_PAGINATION_ROUTER
+					.replace(/:id/g, id)
+					.replace(/:pageSize/g, 10)
+					.replace(/:pageNum/g, 1);
+				const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setItems(data.products.productsList);
+			} catch (err) {
+				console.log('wishlistLoad error: ', err);
+			}
+		} else {
+			showSessionExpiredAlert(dispatch);
+		}
+	};
+
 	useEffect(() => {
 		if (successRemoveCollectionDetails) {
-			dispatch(collectionDetailsLoad(id, 1));
+			reload();
 			setPageNum(1);
 			ToastAndroid.showWithGravity(
 				'Đã xóa sản phẩm khỏi bộ sưu tập',

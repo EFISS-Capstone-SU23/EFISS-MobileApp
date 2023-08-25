@@ -4,6 +4,8 @@ import {
 	FlatList, StatusBar, RefreshControl, Modal, ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS, SIZES, FONTS } from '../constants';
 import {
@@ -13,6 +15,8 @@ import { collectionsLoad } from '../actions/productActions';
 import {
 	PRODUCT_COLLECTIONS_ADD_RESET, PRODUCT_COLLECTIONS_REMOVE_RESET, PRODUCT_COLLECTIONS_UPDATE_RESET,
 } from '../constants/productConstants';
+import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
+import { config } from '../../config';
 
 const styles = StyleSheet.create({
 	container: {
@@ -76,9 +80,28 @@ function CollectionAds({ navigation }) {
 	const updateCollections = useSelector((state) => state.updateCollections);
 	const { successUpdateCollections } = updateCollections;
 
+	const reload = async () => {
+		const tokenIsValid = await isTokenStillValid();
+		if (tokenIsValid) {
+			const userToken = await AsyncStorage.getItem('userToken');
+			try {
+				const { data } = await axios.get(`${config.BE_BASE_API}/${config.COLLECTIONS_ROUTER}`, {
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				});
+				setItems(data.collections);
+			} catch (err) {
+				console.log('collectionsLoad error: ', error);
+			}
+		} else {
+			showSessionExpiredAlert(dispatch);
+		}
+	};
+
 	useEffect(() => {
 		if (successAddCollections) {
-			dispatch(collectionsLoad());
+			reload();
 			ToastAndroid.showWithGravity(
 				'Tạo bộ sưu tập mới thành công',
 				ToastAndroid.SHORT,
@@ -88,7 +111,7 @@ function CollectionAds({ navigation }) {
 			changeAddModalVisibility(false);
 		}
 		if (successRemoveCollections) {
-			dispatch(collectionsLoad());
+			reload();
 			ToastAndroid.showWithGravity(
 				'Đã xóa bộ sưu tập',
 				ToastAndroid.SHORT,
@@ -97,7 +120,7 @@ function CollectionAds({ navigation }) {
 			dispatch({ type: PRODUCT_COLLECTIONS_REMOVE_RESET });
 		}
 		if (successUpdateCollections) {
-			dispatch(collectionsLoad());
+			reload();
 			ToastAndroid.showWithGravity(
 				'Đã cập nhật tên bộ sưu tập',
 				ToastAndroid.SHORT,
