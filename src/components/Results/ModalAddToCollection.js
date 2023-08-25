@@ -85,8 +85,8 @@ function ModalAddToCollection({ collections, onClose, productId }) {
 										index={index}
 										isSelected={obj.value === value}
 										onPress={(val) => setValue(val)}
-										buttonInnerColor={COLORS.primary}
-										buttonOuterColor={COLORS.primary}
+										buttonInnerColor={COLORS.button}
+										buttonOuterColor={COLORS.button}
 										buttonWrapStyle={{ marginRight: 16 }}
 									/>
 									<RadioButtonLabel

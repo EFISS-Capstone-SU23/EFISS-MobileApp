@@ -56,7 +56,7 @@ function ProductCard({ product, navigation }) {
 				<View style={{ alignItems: 'center', top: -10 }}>
 					<FastImage
 						source={{
-							uri: product.images[0] ? product.images[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
+							uri: product.images[0] ? product.images[0].replace('product_images', 'thumbnail') : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
 							priority: FastImage.priority.normal,
 						}}
 						resizeMode={FastImage.resizeMode.cover}

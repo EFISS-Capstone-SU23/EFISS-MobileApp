@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 	iconContainer: {
 		width: 40,
 		height: 40,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: SIZES.base,
@@ -50,7 +50,7 @@ function Action({ icon, title, onPress }) {
 				name="chevron-forward-outline"
 				type="ionicon"
 				size={28}
-				color={COLORS.primary}
+				color={COLORS.button}
 			/>
 		</TouchableOpacity>
 	);

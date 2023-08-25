@@ -1,5 +1,5 @@
 import {
-	View, Text, StyleSheet, ImageBackground, Linking,
+	View, StyleSheet, ImageBackground, Linking,
 } from 'react-native';
 import { Button } from '@react-native-material/core';
 import React from 'react';
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 	textContainer: {
 		width: '100%',
 		height: '100%',
-		justifyContent: 'center',
-		backgroundColor: 'rgba(52, 52, 52, 0.6)',
+		justifyContent: 'flex-end',
+		backgroundColor: 'rgba(52, 52, 52, 0.1)',
 		borderRadius: 10,
 	},
 	category: {
@@ -47,12 +47,16 @@ function AdsCard({ data }) {
 				imageStyle={{ borderRadius: SIZES.base }}
 			>
 				<View style={styles.textContainer}>
-					<Text style={styles.category}>{data.name}</Text>
 					<Button
 						variant="outlined"
 						uppercase={false}
 						title="Xem cửa hàng"
-						style={{ width: '50%', marginLeft: SIZES.medium, marginTop: SIZES.base }}
+						style={{
+							width: '50%',
+							marginLeft: SIZES.medium,
+							backgroundColor: 'rgba(52, 52, 52, 0.8)',
+							marginBottom: 10,
+						}}
 						color={COLORS.white}
 						onPress={() => { Linking.openURL(data.destinationUrl); }}
 					/>

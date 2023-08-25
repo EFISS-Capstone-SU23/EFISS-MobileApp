@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		color: COLORS.black,
 		marginRight: 6,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		padding: 12,
 		borderRadius: 28,
 	},
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 	},
 	locationSection: {
 		color: COLORS.primary,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 12,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
 	price: {
 		width: 'auto',
 		fontFamily: FONTS.medium,
-		color: COLORS.secondary,
+		color: COLORS.black,
 		fontSize: SIZES.large,
 	},
 	priceContainer: {
@@ -278,7 +278,7 @@ function Details({ route, navigation }) {
 										/>
 									)}
 									contentContainerStyle={{
-										backgroundColor: COLORS.primary,
+										backgroundColor: COLORS.button,
 										opacity: 0.8,
 									}}
 								/>
@@ -296,7 +296,7 @@ function Details({ route, navigation }) {
 											/>
 										)}
 										contentContainerStyle={{
-											backgroundColor: COLORS.primary,
+											backgroundColor: COLORS.button,
 											opacity: 0.8,
 										}}
 									/>
@@ -342,7 +342,7 @@ function Details({ route, navigation }) {
 										name="shirt"
 										type="ionicon"
 										style={styles.groupIcon}
-										color={COLORS.primary}
+										color={COLORS.button}
 									/>
 									<Text style={styles.groupLabel}>
 										{product.categories.length > 0 ? product.categories.join(', ') : 'Sản phẩm thời trang'}
@@ -372,13 +372,13 @@ function Details({ route, navigation }) {
 								</TouchableOpacity>
 							</View>
 							<View style={styles.priceContainer}>
-								<Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.large }}>Giá: </Text>
 								<Badge
 									label={`${formatNumber(product.price)} VND`}
-									color={COLORS.primary}
+									color={COLORS.yellow}
 									labelStyle={styles.price}
 									style={{
 										height: SIZES.extraLarge,
+										marginLeft: 10,
 									}}
 								/>
 							</View>
