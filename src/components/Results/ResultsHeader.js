@@ -1,20 +1,16 @@
 import {
 	View, StyleSheet, Image, ToastAndroid,
-	TouchableOpacity, TextInput,
+	TouchableOpacity, Modal,
 } from 'react-native';
-import {
-	Text, Button, Divider,
-} from '@react-native-material/core';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Icon } from '@rneui/themed';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 import {
 	COLORS, FONTS, SIZES,
 } from '../../constants';
-import { config } from '../../../config';
+import { config, updateDiversity } from '../../../config';
+import ModalResultsFilter from './ModalResultsFilter';
 
 const styles = StyleSheet.create({
 	container: {
@@ -23,62 +19,16 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 20,
 		borderBottomRightRadius: 20,
 	},
-	button: {
-		marginRight: 10,
-		backgroundColor: COLORS.white,
-		borderRadius: 20,
-		color: COLORS.primary,
-		padding: 12,
-	},
 	text: {
 		fontFamily: FONTS.bold,
 		fontSize: SIZES.extraLarge,
 		color: COLORS.white,
 		textAlign: 'center',
 	},
-	tabsContainer: {
-		width: '100%',
-		marginTop: SIZES.base,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	dropdownContainer: {
-		position: 'absolute',
-		top: 80, // Adjust the position as needed
-		right: 10, // Adjust the position as needed
-		backgroundColor: COLORS.white,
-		borderRadius: 8,
-		padding: SIZES.small,
-		elevation: 3,
-		width: '99%',
-	},
-	dropdownItem: {
-		paddingHorizontal: SIZES.base,
-		fontSize: SIZES.medium,
-		paddingVertical: 2,
-	},
-	dropdownText: {
-		fontFamily: FONTS.regular,
-		fontSize: SIZES.medium,
-	},
 	productImage: {
-		height: '100%',
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
-	},
-	inputFilterContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	inputFilter: {
-		marginBottom: 5,
 		flex: 1,
-		backgroundColor: '#F2F2F2',
-		height: 40,
-		borderRadius: 5,
-		paddingHorizontal: 10,
-		fontFamily: FONTS.regular,
+		width: undefined,
+		height: 50,
 	},
 });
 
@@ -103,7 +53,11 @@ const SORT_OPTIONS = [
 function ResultsHeader({
 	navigation, handleSort, sortBy, min, max, croppedImg,
 }) {
-	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [isModalVisible, setModalVisible] = useState(false);
+
+	const handleToggleModal = () => {
+		setModalVisible((prevState) => !prevState);
+	};
 
 	const base64Icon = `data:image/png;base64,${croppedImg}`;
 
@@ -117,12 +71,11 @@ function ResultsHeader({
 		? selectedSortOption.id : convertedList[0].value);
 	const [minPrice, setMinPrice] = useState(min === null ? '' : min);
 	const [maxPrice, setMaxPrice] = useState(max === null ? '' : max);
-
-	const handleToggleDropdown = () => {
-		setDropdownOpen((prevState) => !prevState);
-	};
+	const [diversity, setDiversity] = useState(config.DIVERSITY);
 
 	const handleDropdownOptionSelect = () => {
+		updateDiversity(diversity);
+
 		if (parseFloat(minPrice) < 0 || parseFloat(maxPrice) < 0) {
 			ToastAndroid.showWithGravity(
 				'Giá tiền phải lớn hơn 0',
@@ -146,7 +99,6 @@ function ResultsHeader({
 			);
 		} else {
 			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
-			setDropdownOpen(false);
 		}
 	};
 
@@ -174,15 +126,11 @@ function ResultsHeader({
 				<Image
 					source={{ uri: base64Icon }}
 					resizeMode="contain"
-					style={{
-						flex: 1,
-						width: undefined,
-						height: 50,
-					}}
+					style={styles.productImage}
 				/>
 
 				<TouchableOpacity
-					onPress={handleToggleDropdown}
+					onPress={handleToggleModal}
 				>
 					<Icon
 						name="funnel-outline"
@@ -193,90 +141,26 @@ function ResultsHeader({
 				</TouchableOpacity>
 			</View>
 
-			{dropdownOpen && (
-				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
-						Sắp xếp theo:
-					</Text>
-					<View style={{ marginLeft: 5 }}>
-						<RadioForm
-							animation
-						>
-							{
-								convertedList?.map((obj, index) => (
-									<RadioButton labelHorizontal key={index}>
-										<RadioButtonInput
-											obj={obj}
-											index={index}
-											isSelected={obj.value === value}
-											onPress={(val) => setValue(val)}
-											buttonInnerColor={obj.value === value ? COLORS.primary : COLORS.secondary}
-											buttonOuterColor={obj.value === value ? COLORS.primary : COLORS.primary}
-											buttonWrapStyle={styles.dropdownItem}
-											buttonSize={SIZES.medium}
-											borderWidth={2}
-										/>
-										<RadioButtonLabel
-											obj={obj}
-											index={index}
-											onPress={(val) => setValue(val)}
-											labelStyle={styles.dropdownText}
-										/>
-									</RadioButton>
-								))
-							}
-						</RadioForm>
-					</View>
-					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold, marginBottom: 5 }]}>
-						Khoảng giá (VND):
-					</Text>
-					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base, marginLeft: 5 }}>
-						<View style={styles.inputFilterContainer}>
-							<Text style={[styles.dropdownText, { width: '30%' }]}>Tối thiểu</Text>
-							<TextInput
-								style={styles.inputFilter}
-								color={COLORS.black}
-								keyboardType="number-pad"
-								onChangeText={(val) => setMinPrice(val)}
-								defaultValue={minPrice}
-								selectionColor={COLORS.primary}
-							/>
-						</View>
-						<View style={styles.inputFilterContainer}>
-							<Text style={[styles.dropdownText, { width: '30%' }]}>Tối đa</Text>
-							<TextInput
-								style={styles.inputFilter}
-								color={COLORS.black}
-								keyboardType="number-pad"
-								onChangeText={(val) => setMaxPrice(val)}
-								defaultValue={maxPrice}
-								selectionColor={COLORS.primary}
-							/>
-						</View>
-					</View>
-					<Button
-						title="Áp dụng filter"
-						uppercase={false}
-						color={COLORS.primary}
-						onPress={handleDropdownOptionSelect}
-						titleStyle={{
-							color: COLORS.secondary,
-							fontFamily: FONTS.medium,
-						}}
-					/>
-					<Divider style={{ marginVertical: SIZES.small }} />
-					<Button
-						title="Thoát"
-						uppercase={false}
-						color={COLORS.white}
-						onPress={handleToggleDropdown}
-						titleStyle={{
-							fontFamily: FONTS.medium,
-						}}
-					/>
-				</View>
-			)}
+			<Modal
+				animationType="fades"
+				transparent
+				visible={isModalVisible}
+				onRequestClose={handleToggleModal}
+			>
+				<ModalResultsFilter
+					convertedList={convertedList}
+					setValue={setValue}
+					value={value}
+					setDiversity={setDiversity}
+					diversity={diversity}
+					setMinPrice={setMinPrice}
+					minPrice={minPrice}
+					setMaxPrice={setMaxPrice}
+					maxPrice={maxPrice}
+					onClose={handleToggleModal}
+					onSubmit={handleDropdownOptionSelect}
+				/>
+			</Modal>
 		</View>
 	);
 }

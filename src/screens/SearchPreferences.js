@@ -100,6 +100,7 @@ function SearchPreferences({ navigation }) {
 								maximumValue={30}
 								value={pageSize}
 								step={2}
+								thumbTintColor={COLORS.primary}
 								onValueChange={(val) => setPageSize(val)}
 								minimumTrackTintColor="#000000"
 								maximumTrackTintColor="#000000"
@@ -129,6 +130,7 @@ function SearchPreferences({ navigation }) {
 								minimumValue={1}
 								maximumValue={80}
 								step={1}
+								thumbTintColor={COLORS.primary}
 								value={diversity}
 								onValueChange={(val) => setDiversity(val)}
 								minimumTrackTintColor="#000000"
