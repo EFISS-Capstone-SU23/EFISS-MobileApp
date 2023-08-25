@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import React from 'react';
 import { Badge, Text } from '@react-native-material/core';
 import {
-	COLORS, SIZES, FONTS, SHADOWS,
+	COLORS, SIZES, FONTS,
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
 
@@ -61,7 +61,7 @@ function ProductCard({ product, navigation }) {
 						}}
 						resizeMode={FastImage.resizeMode.cover}
 						style={{
-							height: 120, width: 120, borderRadius: 5, ...SHADOWS.dark,
+							height: 120, width: 120, borderRadius: 5, elevation: 5,
 						}}
 					/>
 				</View>
