@@ -41,7 +41,7 @@ function Action({ icon, title, onPress }) {
 						name={icon}
 						type="ionicon"
 						size={28}
-						color={COLORS.secondary}
+						color={COLORS.black}
 					/>
 				</View>
 				<Text style={styles.actionTitle}>{title}</Text>

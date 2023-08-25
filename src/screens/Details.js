@@ -274,7 +274,7 @@ function Details({ route, navigation }) {
 											name="arrow-back-outline"
 											type="ionicon"
 											size={24}
-											color={COLORS.secondary}
+											color={COLORS.black}
 										/>
 									)}
 									contentContainerStyle={{
@@ -292,7 +292,7 @@ function Details({ route, navigation }) {
 												name="heart"
 												type="ionicon"
 												size={24}
-												color={COLORS.secondary}
+												color={COLORS.black}
 											/>
 										)}
 										contentContainerStyle={{
@@ -367,7 +367,7 @@ function Details({ route, navigation }) {
 										name="attach-outline"
 										type="ionicon"
 										style={styles.linkIcon}
-										color={COLORS.secondary}
+										color={COLORS.black}
 									/>
 								</TouchableOpacity>
 							</View>
@@ -378,7 +378,6 @@ function Details({ route, navigation }) {
 									labelStyle={styles.price}
 									style={{
 										height: SIZES.extraLarge,
-										marginLeft: 10,
 									}}
 								/>
 							</View>
@@ -389,7 +388,7 @@ function Details({ route, navigation }) {
 											name="cart-outline"
 											type="ionicon"
 											style={{ fontSize: 28 }}
-											color={COLORS.secondary}
+											color={COLORS.black}
 										/>
 									</View>
 									<Text variant="overline" style={{ fontSize: SIZES.font, fontFamily: FONTS.regular }}>
