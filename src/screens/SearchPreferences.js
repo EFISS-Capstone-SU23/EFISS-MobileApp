@@ -128,6 +128,7 @@ function SearchPreferences({ navigation }) {
 								style={{ width: 200, height: 40 }}
 								minimumValue={1}
 								maximumValue={80}
+								step={1}
 								value={diversity}
 								onValueChange={(val) => setDiversity(val)}
 								minimumTrackTintColor="#000000"
