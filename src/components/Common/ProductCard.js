@@ -44,7 +44,7 @@ function ProductCard({ product, navigation }) {
 	const randomValue = Math.random() * 100;
 
 	// Set isSponsored based on the random number
-	const isSponsored = randomValue <= 20;
+	const isSponsored = randomValue <= 10;
 
 	return (
 		<TouchableHighlight
