@@ -81,8 +81,7 @@ export const collectionAdsGet = () => async (dispatch) => {
 		const { data } = await axios.get(
 			`${config.BE_BASE_API}/${config.COLLECTIONS_ADD_ROUTER}`,
 		);
-		dispatch({ type: COLLECTION_ADS_GET_SUCCESS, payload: data.ads });
-		console.log(data.ads.collectionAds);
+		dispatch({ type: COLLECTION_ADS_GET_SUCCESS, payload: data });
 	} catch (error) {
 		console.log('collectionAdsGet error: ', error);
 		dispatch({ type: COLLECTION_ADS_GET_FAIL, payload: error });

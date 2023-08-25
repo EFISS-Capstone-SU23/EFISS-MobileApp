@@ -8,7 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { collectionAdsGet } from '../../actions/productActions';
 import { FONTS, SIZES, COLORS } from '../../constants';
-import CarouselCard from '../Common/CarouselCard';
+import CarouselCardAds from '../Common/CarouselCardAds';
 
 const styles = StyleSheet.create({
 	container: {
@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
 function AdsCollections({ navigation }) {
 	const dispatch = useDispatch();
 	const getCollectionAds = useSelector((state) => state.getCollectionAds);
-	const { ads, loading, error } = getCollectionAds;
+	const { data, loading, error } = getCollectionAds;
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
-		if (isFocused && (ads === null || ads === undefined)) {
+		if (isFocused && (data === null || data === undefined)) {
 			dispatch(collectionAdsGet());
 		}
 	}, [dispatch, isFocused]);
@@ -53,7 +53,7 @@ function AdsCollections({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>{ads ? ads?.collectionAds?.name : 'Bộ sưu tập dành cho bạn'}</Text>
+				<Text style={styles.headerTitle}>{data?.ads?.collectionAds?.name ? data?.ads?.collectionAds?.name : 'Bộ sưu tập dành cho bạn'}</Text>
 			</View>
 
 			<View style={styles.cardsContainer}>
@@ -61,15 +61,17 @@ function AdsCollections({ navigation }) {
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : error ? (
 					<Text style={{ textAlign: 'center', color: COLORS.black, fontFamily: FONTS.regular }}>EFISS chưa có bộ sưu tập nào cho bạn</Text>
-				) : (ads?.collectionAds?.products?.length === 0) ? (
+				// eslint-disable-next-line max-len
+				) : (data?.ads?.collectionAds?.products === null || data?.ads?.collectionAds?.products === undefined) ? (
 					<Text style={{ textAlign: 'center', color: COLORS.black, fontFamily: FONTS.regular }}>EFISS chưa có bộ sưu tập nào cho bạn</Text>
 				) : (
 					<FlatList
-						data={ads?.collectionAds?.products}
+						// eslint-disable-next-line max-len
+						data={data?.ads?.collectionAds?.products}
 						renderItem={({ item }) => (
-							<CarouselCard product={item} navigation={navigation} />
+							<CarouselCardAds product={item} navigation={navigation} />
 						)}
-						keyExtractor={(item) => item._id}
+						keyExtractor={(item) => item.id}
 						showsHorizontalScrollIndicator={false}
 						horizontal
 					/>

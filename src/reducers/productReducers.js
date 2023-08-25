@@ -55,7 +55,7 @@ export const getCollectionAdsReducer = (state = { loading: true }, action) => {
 	case COLLECTION_ADS_GET_REQUEST:
 		return { loading: true };
 	case COLLECTION_ADS_GET_SUCCESS:
-		return { loading: false, ads: action.payload };
+		return { loading: false, data: action.payload };
 	case COLLECTION_ADS_GET_FAIL:
 		return { loading: false, error: action.payload };
 	default:

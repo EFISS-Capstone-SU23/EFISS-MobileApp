@@ -4,6 +4,7 @@ import ProductCard from './Common/ProductCard';
 import CarouselCard from './Common/CarouselCard';
 import NoResultsFound from './Common/NoResultsFound';
 import ErrorView from './Common/ErrorView';
+import CarouselCardAds from './Common/CarouselCardAds';
 
 import CollectionCard from './Collections/CollectionCard';
 import ModalAddCollection from './Collections/ModalAddCollection';
@@ -70,4 +71,5 @@ export {
 	ErrorView,
 	SearchBar,
 	AdsCollections,
+	CarouselCardAds,
 };

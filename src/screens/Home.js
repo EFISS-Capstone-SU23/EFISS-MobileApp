@@ -9,8 +9,8 @@ import {
 	COLORS,
 } from '../constants';
 import {
-	ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel,
-	AdsBar, SearchBar, HomeHeader,
+	ModalPicker, ProductHistoryCarousel, ProductRecommendCarousel,
+	AdsBar, SearchBar, HomeHeader, AdsCollections,
 } from '../components';
 
 function Home() {
@@ -34,7 +34,7 @@ function Home() {
 					navigation={navigation}
 				/>
 				<AdsBar />
-				<Category />
+				<AdsCollections navigation={navigation} />
 				<ProductRecommendCarousel navigation={navigation} />
 				<ProductHistoryCarousel navigation={navigation} />
 			</ScrollView>
