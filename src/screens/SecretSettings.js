@@ -1,5 +1,5 @@
 import {
-	View,
+	View, ToastAndroid,
 	StyleSheet, SafeAreaView,
 } from 'react-native';
 import {
@@ -90,15 +90,19 @@ function SecretSettings({ navigation }) {
 	const [imageStorage, setImageStorage] = useState(config.IMG_STORAGE_URL);
 
 	const handleLocalUpdate = () => {
+		console.log('hit');
 		if (baseApi && baseApi.length > 0) {
 			updateBaseApi(baseApi);
 		}
 		if (imageStorage) {
 			updateImgUrl(imageStorage);
 		}
-		if (isLocal) {
-			updateLocalStatus(isLocal);
-		}
+		updateLocalStatus(isLocal);
+		ToastAndroid.showWithGravity(
+			'Cập nhật config thành công',
+			ToastAndroid.SHORT,
+			ToastAndroid.BOTTOM,
+		);
 	};
 
 	return (

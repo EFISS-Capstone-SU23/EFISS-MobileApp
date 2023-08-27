@@ -9,6 +9,7 @@ import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
+import { config } from '../../../config';
 
 const cardWidth = SIZES.WIDTH / 2 - 20;
 
@@ -50,7 +51,12 @@ function CarouselCardAds({ product, navigation }) {
 				<View style={{ alignItems: 'center', top: -10 }}>
 					<FastImage
 						source={{
-							uri: product.imagesList ? product.imagesList[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
+							uri: config.IS_LOCAL
+								? product.imagesList[0]?.replace(
+									'https://storage.googleapis.com',
+									config.IMG_STORAGE_URL,
+								)
+								: product.imagesList[0] || 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
 							priority: FastImage.priority.normal,
 						}}
 						resizeMode={FastImage.resizeMode.cover}
