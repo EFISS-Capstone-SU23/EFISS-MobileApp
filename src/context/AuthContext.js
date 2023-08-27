@@ -8,6 +8,7 @@ import {
 } from '../utils/utils';
 import { signin, signout } from '../actions/userActions';
 import { USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS } from '../constants/userConstants';
+import { loadConfigFromStorage } from '../../config';
 
 export const AuthContext = createContext();
 
@@ -24,6 +25,7 @@ export function AuthProvider({ children }) {
 
 	const isLoggedIn = async () => {
 		dispatch({ type: USER_SIGNIN_REQUEST });
+		loadConfigFromStorage();
 		const tokenIsValid = await isTokenStillValid();
 		if (!tokenIsValid) {
 			await logout();

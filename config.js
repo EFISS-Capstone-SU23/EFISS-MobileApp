@@ -1,3 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const configKeys = {
+	BE_BASE_API: 'BE_BASE_API',
+	IS_LOCAL: 'IS_LOCAL',
+	IMG_STORAGE_URL: 'IMG_STORAGE_URL',
+};
+
 export const config = {
 	BE_BASE_API: 'https://dev.efiss.tech',
 	IMG_STORAGE_URL: '',
@@ -39,16 +47,31 @@ export const config = {
 	SORT_BY_DEFAULT: 'default',
 };
 
-export const updateBaseApi = (newApi) => {
-	config.BE_BASE_API = newApi;
+export const updateBaseApi = async (newApi) => {
+	try {
+		config.BE_BASE_API = newApi;
+		await AsyncStorage.setItem(configKeys.BE_BASE_API, newApi);
+	} catch (error) {
+		console.error('Error saving data:', error);
+	}
 };
 
-export const updateLocalStatus = (newStatus) => {
-	config.IS_LOCAL = newStatus;
+export const updateLocalStatus = async (newStatus) => {
+	try {
+		config.IS_LOCAL = newStatus;
+		await AsyncStorage.setItem(configKeys.IS_LOCAL, newStatus.toString());
+	} catch (error) {
+		console.error('Error updating and storing local status:', error);
+	}
 };
 
-export const updateImgUrl = (newImgUrl) => {
-	config.IMG_STORAGE_URL = newImgUrl;
+export const updateImgUrl = async (newImgUrl) => {
+	try {
+		config.IMG_STORAGE_URL = newImgUrl;
+		await AsyncStorage.setItem(configKeys.IMG_STORAGE_URL, newImgUrl);
+	} catch (error) {
+		console.error('Error saving data:', error);
+	}
 };
 
 export const updatePageSize = (newSize) => {
@@ -57,4 +80,27 @@ export const updatePageSize = (newSize) => {
 
 export const updateDiversity = (newDiversity) => {
 	config.DIVERSITY = newDiversity;
+};
+
+// Load config from AsyncStorage when app starts
+export const loadConfigFromStorage = async () => {
+	try {
+		const storedApi = await AsyncStorage.getItem(configKeys.BE_BASE_API);
+		const storedLocalStatus = await AsyncStorage.getItem(configKeys.IS_LOCAL);
+		const storedImgUrl = await AsyncStorage.getItem(configKeys.IMG_STORAGE_URL);
+
+		if (storedApi !== null) {
+			config.BE_BASE_API = storedApi;
+		}
+
+		if (storedLocalStatus !== null) {
+			config.IS_LOCAL = JSON.parse(storedLocalStatus);
+		}
+
+		if (storedImgUrl !== null) {
+			config.IMG_STORAGE_URL = storedImgUrl;
+		}
+	} catch (error) {
+		console.error('Error loading config from storage:', error);
+	}
 };
