@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import {
 	View, StyleSheet, ImageBackground, Linking,
 } from 'react-native';
@@ -38,11 +39,29 @@ const styles = StyleSheet.create({
 	},
 });
 
-function AdsCard({ data }) {
+function AdsCard({ data, index }) {
+	let imageSource = null;
+
+	switch (index) {
+	case 0:
+		imageSource = require('../../assets/banners/banner-1.jpg');
+		break;
+	case 1:
+		imageSource = require('../../assets/banners/banner-2.jpg');
+		break;
+	case 2:
+		imageSource = require('../../assets/banners/banner-3.jpg');
+		break;
+	default:
+		imageSource = require('../../assets/banners/banner-3.jpg');
+		break;
+	}
+
 	return (
 		<View style={styles.imgContainer}>
 			<ImageBackground
-				source={{ uri: data.bannerUrl }}
+				// eslint-disable-next-line global-require
+				source={imageSource}
 				style={styles.imageBackground}
 				imageStyle={{ borderRadius: SIZES.base }}
 			>
@@ -58,7 +77,7 @@ function AdsCard({ data }) {
 							marginBottom: 10,
 						}}
 						color={COLORS.white}
-						onPress={() => { Linking.openURL(data.destinationUrl); }}
+						onPress={() => { Linking.openURL(data.link); }}
 					/>
 				</View>
 			</ImageBackground>

@@ -197,6 +197,8 @@ function Details({ route, navigation }) {
 	// product data extracted from the results screen
 	const { productId } = route.params;
 
+	console.log(productId);
+
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
 	const position = Animated.divide(scrollX, SIZES.WIDTH);

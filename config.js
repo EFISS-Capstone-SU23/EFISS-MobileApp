@@ -1,7 +1,9 @@
 export const config = {
-	BE_BASE_API: 'https://dev.efiss.tech',
-	IMG_STORAGE_URL: '',
-	IS_LOCAL: false,
+	// BE_BASE_API: 'https://dev.efiss.tech',
+	BE_BASE_API: 'http://192.168.0.103',
+	// IMG_STORAGE_URL: '',
+	IMG_STORAGE_URL: 'http://192.168.0.101:9999',
+	IS_LOCAL: true,
 
 	SELECT_FROM_BOTH: 'both',
 	SELECT_FROM_BRAND: 'brand',

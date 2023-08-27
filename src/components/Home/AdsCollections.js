@@ -45,7 +45,7 @@ function AdsCollections({ navigation }) {
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
-		if (isFocused && (data === null || data === undefined)) {
+		if (isFocused) {
 			dispatch(collectionAdsGet());
 		}
 	}, [dispatch, isFocused]);
