@@ -19,6 +19,7 @@ import {
 	PRODUCT_HISTORY_SET_REQUEST, PRODUCT_HISTORY_SET_SUCCESS, PRODUCT_HISTORY_SET_FAIL,
 	PRODUCT_RECOMMEND_LOAD_REQUEST, PRODUCT_RECOMMEND_LOAD_SUCCESS, PRODUCT_RECOMMEND_LOAD_FAIL,
 	BANNER_ADS_GET_REQUEST, BANNER_ADS_GET_SUCCESS, BANNER_ADS_GET_FAIL,
+	COLLECTION_ADS_GET_REQUEST, COLLECTION_ADS_GET_SUCCESS, COLLECTION_ADS_GET_FAIL,
 } from '../constants/productConstants';
 
 // product search
@@ -35,7 +36,6 @@ export const searchProductsReducer = (state = { loading: true }, action) => {
 	}
 };
 
-// product search
 export const getBannerAdsReducer = (state = { loading: true }, action) => {
 	switch (action.type) {
 	case BANNER_ADS_GET_REQUEST:
@@ -43,6 +43,20 @@ export const getBannerAdsReducer = (state = { loading: true }, action) => {
 	case BANNER_ADS_GET_SUCCESS:
 		return { loading: false, ads: action.payload };
 	case BANNER_ADS_GET_FAIL:
+		return { loading: false, error: action.payload };
+	default:
+		return state;
+	}
+};
+
+// product search
+export const getCollectionAdsReducer = (state = { loading: true }, action) => {
+	switch (action.type) {
+	case COLLECTION_ADS_GET_REQUEST:
+		return { loading: true };
+	case COLLECTION_ADS_GET_SUCCESS:
+		return { loading: false, data: action.payload };
+	case COLLECTION_ADS_GET_FAIL:
 		return { loading: false, error: action.payload };
 	default:
 		return state;

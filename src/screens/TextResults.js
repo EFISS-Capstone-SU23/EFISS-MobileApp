@@ -36,24 +36,37 @@ function TextResults({ route, navigation }) {
 		loading, error, totalPages, products,
 	} = searchTextProducts;
 
+	const [text, setText] = useState(query);
 	const [items, setItems] = useState([]);
 	const [pageNum, setPageNum] = useState(1);
 	const [refreshControl, setRefreshControl] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_DEFAULT);
+	const [shop, setShop] = useState(config.SELECT_FROM_BOTH);
 	const [minPrice, setMinPrice] = useState(null);
 	const [maxPrice, setMaxPrice] = useState(null);
-	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
+	const changeSort = (sortOption, shopSelection, minimumPrice, maximumPrice) => {
 		setSortBy(sortOption);
+		setShop(shopSelection);
 		setPageNum(1);
 		setMinPrice(minimumPrice);
 		setMaxPrice(maximumPrice);
-		dispatch(productsTextSearch(query, 1, sortOption, minimumPrice, maximumPrice));
+		dispatch(productsTextSearch(text, 1, sortOption, shopSelection, minimumPrice, maximumPrice));
+	};
+
+	const newSearch = (val) => {
+		setText(val);
+		setSortBy(config.SORT_BY_DEFAULT);
+		setShop(config.SELECT_FROM_BOTH);
+		setPageNum(1);
+		setMinPrice(null);
+		setMaxPrice(null);
+		dispatch(productsTextSearch(val, 1, config.SORT_BY_DEFAULT, shop, null, null));
 	};
 
 	useEffect(() => {
-		dispatch(productsTextSearch(query, pageNum, sortBy, minPrice, maxPrice));
+		dispatch(productsTextSearch(query, pageNum, sortBy, shop, minPrice, maxPrice));
 	}, [dispatch, query]);
 
 	useEffect(() => {
@@ -71,7 +84,7 @@ function TextResults({ route, navigation }) {
 				) : error ? (
 					<ErrorView navigation={navigation} />
 				) : (
-					<View style={items.length > 0 ? {} : { flex: 1 }}>
+					<View style={items.length > 4 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
 							renderItem={({ item }) => (
@@ -79,10 +92,11 @@ function TextResults({ route, navigation }) {
 							)}
 							numColumns={2}
 							keyExtractor={(item) => item?._id}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<TextResultsHeader navigation={navigation} query={query} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} />
+								<TextResultsHeader navigation={navigation} query={text} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} handleSearch={newSearch} place={shop} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (

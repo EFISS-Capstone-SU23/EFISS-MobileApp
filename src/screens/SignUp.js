@@ -314,18 +314,27 @@ function SignUp({ navigation }) {
 
 								<Button
 									title="Đăng ký"
+									uppercase={false}
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
 									style={styles.saveButton}
+									titleStyle={{
+										color: COLORS.secondary,
+										fontFamily: FONTS.medium,
+									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
 									title="Quay lại"
+									uppercase={false}
 									variant="outlined"
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}
 									style={styles.saveButton}
+									titleStyle={{
+										fontFamily: FONTS.medium,
+									}}
 								/>
 							</View>
 						)}

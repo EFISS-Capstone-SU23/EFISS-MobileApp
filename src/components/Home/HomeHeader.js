@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.primary,
 	},
 	logoText: {
-		color: COLORS.white,
+		color: COLORS.secondary,
 		fontSize: 32,
 		fontFamily: FONTS.bold,
 	},
@@ -40,10 +40,10 @@ function HomeHeader({ onLogin, onProfile }) {
 					onPress={onProfile}
 				>
 					<Icon
-						name="person"
+						name="person-circle-outline"
 						type="ionicon"
 						size={32}
-						color={COLORS.white}
+						color={COLORS.secondary}
 					/>
 				</TouchableOpacity>
 			) : (
@@ -54,7 +54,7 @@ function HomeHeader({ onLogin, onProfile }) {
 						name="log-in"
 						type="ionicon"
 						size={32}
-						color={COLORS.white}
+						color={COLORS.secondary}
 					/>
 				</TouchableOpacity>
 			)}

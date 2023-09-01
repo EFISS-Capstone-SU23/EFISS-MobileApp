@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
 		padding: SIZES.medium,
 		flexDirection: 'row',
 		alignItems: 'center',
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	button: {
 		borderRadius: 20,
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		flex: 1,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.medium,
 		fontSize: SIZES.large,
 		color: COLORS.white,
 		textAlign: 'center',

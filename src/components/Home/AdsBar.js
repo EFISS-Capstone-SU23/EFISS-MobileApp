@@ -36,12 +36,31 @@ const styles = StyleSheet.create({
 	},
 });
 
+const ADS = [
+	{
+		id: 1,
+		uri: '../../assets/banners/banner-1.jpg',
+		link: '',
+	},
+	{
+		id: 2,
+		uri: '../../assets/banners/banner-2.jpg',
+		link: '',
+	},
+	{
+		id: 3,
+		uri: '../../assets/banners/banner-3.jpg',
+		link: '',
+	},
+];
+
 function AdsBar() {
 	const dispatch = useDispatch();
 	const getBannerAds = useSelector((state) => state.getBannerAds);
 	const { ads, loading, error } = getBannerAds;
 	const isFocused = useIsFocused();
 
+	// eslint-disable-next-line no-unused-vars
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
@@ -79,15 +98,20 @@ function AdsBar() {
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				</View>
 			) : error ? (
-				<Text style={{ textAlign: 'center', color: COLORS.black, marginTop: 20 }}>Quảng cáo chưa có sẵn dành cho bạn</Text>
+				<Text style={{
+					textAlign: 'center', color: COLORS.black, marginTop: 20, fontFamily: FONTS.regular,
+				}}
+				>
+					Quảng cáo chưa có sẵn dành cho bạn
+				</Text>
 			) : (
 				<View style={styles.container}>
 					<View style={styles.cardsContainer}>
 						<FlatList
 							ref={flatListRef}
-							data={items}
-							renderItem={({ item }) => (
-								<AdsCard data={item} />
+							data={ADS}
+							renderItem={({ item, index }) => (
+								<AdsCard data={item} index={index} />
 							)}
 							keyExtractor={(item) => item.id.toString()} // Convert ID to string
 							showsHorizontalScrollIndicator={false}

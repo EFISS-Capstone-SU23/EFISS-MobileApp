@@ -17,7 +17,9 @@ import { USER_REPORT_BUG_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	headerTitle: {
 		fontFamily: FONTS.bold,
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 	},
 	inputTitle: {
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		color: COLORS.black,
 		marginBottom: 5,
 	},
@@ -108,7 +110,15 @@ function BugReport({ navigation }) {
 				values, errors, touched, handleChange, setFieldTouched, handleSubmit, isValid,
 			}) => (
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Báo cáo lỗi" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+					<AppBar
+						title="Báo cáo lỗi"
+						style={styles.header}
+						titleStyle={{
+							color: COLORS.secondary,
+							textAlign: 'center',
+							fontFamily: FONTS.medium,
+						}}
+					/>
 
 					<ScrollView>
 						{loading ? (
@@ -159,18 +169,27 @@ function BugReport({ navigation }) {
 
 								<Button
 									title="Gửi báo cáo"
+									uppercase={false}
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
 									style={styles.saveButton}
+									titleStyle={{
+										color: COLORS.secondary,
+										fontFamily: FONTS.medium,
+									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
 									title="Quay lại"
+									uppercase={false}
 									variant="outlined"
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}
 									style={styles.saveButton}
+									titleStyle={{
+										fontFamily: FONTS.medium,
+									}}
 								/>
 
 							</View>

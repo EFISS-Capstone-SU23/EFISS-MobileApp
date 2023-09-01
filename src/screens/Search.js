@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 	},
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	button: {
 		aspectRatio: 1,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
 	connector: {
 		fontFamily: FONTS.regular,
 		color: COLORS.black,
-		fontSize: SIZES.large,
+		fontSize: SIZES.extraLarge,
 	},
 });
 
@@ -168,15 +170,23 @@ function Search() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<AppBar title="Tìm kiếm bằng hình ảnh" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+			<AppBar
+				title="Tìm kiếm bằng hình ảnh"
+				style={styles.header}
+				titleStyle={{
+					color: COLORS.secondary,
+					textAlign: 'center',
+					fontFamily: FONTS.medium,
+				}}
+			/>
 			<VStack fill m={4} spacing={6} center>
 				<VStack w="100%" center>
 					<Pressable style={styles.button} onPress={takePicture}>
 						<Icon
 							name="camera-outline"
 							type="ionicon"
-							size={32}
-							color={COLORS.white}
+							size={36}
+							color={COLORS.secondary}
 						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chụp ảnh</Text>
@@ -189,8 +199,8 @@ function Search() {
 						<Icon
 							name="images-outline"
 							type="ionicon"
-							size={32}
-							color={COLORS.white}
+							size={36}
+							color={COLORS.secondary}
 						/>
 					</Pressable>
 					<Text style={styles.buttonTitle}>Chọn từ thư viện</Text>

@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	title: {
 		fontSize: 32,
@@ -83,7 +85,15 @@ function Profile() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<AppBar title="Tài khoản của bạn" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+			<AppBar
+				title="Tài khoản của bạn"
+				style={styles.header}
+				titleStyle={{
+					color: COLORS.secondary,
+					textAlign: 'center',
+					fontFamily: FONTS.medium,
+				}}
+			/>
 			{loading ? (
 				<ActivityIndicator style={styles.container} size="large" color={COLORS.primary} />
 			) : error ? (
@@ -110,7 +120,7 @@ function Profile() {
 							marginRight: SIZES.medium,
 						}}
 						>
-							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
+							<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} labelStyle={{ color: COLORS.secondary }} />
 						</View>
 						<View style={styles.nameSection}>
 							<Text style={[styles.text, { fontFamily: FONTS.bold, color: COLORS.black }]}>{`${userInfo?.lastName} ${userInfo?.firstName}`}</Text>

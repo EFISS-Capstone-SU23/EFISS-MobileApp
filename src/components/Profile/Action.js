@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
 	iconContainer: {
 		width: 40,
 		height: 40,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: SIZES.base,
 	},
 	actionTitle: {
-		color: COLORS.quaternary,
-		fontFamily: FONTS.bold,
+		color: COLORS.black,
+		fontFamily: FONTS.medium,
 		marginLeft: SIZES.base,
 		fontSize: SIZES.medium,
 	},
@@ -41,7 +41,7 @@ function Action({ icon, title, onPress }) {
 						name={icon}
 						type="ionicon"
 						size={28}
-						color={COLORS.white}
+						color={COLORS.black}
 					/>
 				</View>
 				<Text style={styles.actionTitle}>{title}</Text>
@@ -50,7 +50,7 @@ function Action({ icon, title, onPress }) {
 				name="chevron-forward-outline"
 				type="ionicon"
 				size={28}
-				color={COLORS.white}
+				color={COLORS.button}
 			/>
 		</TouchableOpacity>
 	);

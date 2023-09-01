@@ -173,18 +173,27 @@ function Login() {
 
 						<Button
 							title="Đăng nhập"
+							uppercase={false}
 							onPress={handleSubmit}
 							disabled={!isValid}
 							color={COLORS.primary}
 							style={styles.submitBtn}
+							titleStyle={{
+								color: COLORS.secondary,
+								fontFamily: FONTS.medium,
+							}}
 						/>
 						<Divider style={{ marginBottom: SIZES.medium }} />
 						<Button
 							title="Quay lại"
+							uppercase={false}
 							variant="outlined"
 							color={COLORS.black}
 							onPress={() => navigation.goBack()}
 							style={styles.submitBtn}
+							titleStyle={{
+								fontFamily: FONTS.medium,
+							}}
 						/>
 
 						<View style={styles.textLink}>
@@ -194,7 +203,7 @@ function Login() {
 						</View>
 
 						<View style={styles.textLink}>
-							<Text>Chưa có tài khoản?</Text>
+							<Text style={{ fontFamily: FONTS.light }}>Chưa có tài khoản?</Text>
 							<TouchableOpacity onPress={() => {
 								navigation.navigate('SignUp');
 							}}

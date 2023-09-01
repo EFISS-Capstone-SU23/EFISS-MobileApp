@@ -20,7 +20,9 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const styles = StyleSheet.create({
 	header: {
-		backgroundColor: COLORS.white,
+		backgroundColor: COLORS.primary,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	backButton: {
 		position: 'absolute',
@@ -136,7 +138,15 @@ function EditProfile({ navigation }) {
 			}) => (
 				// eslint-disable-next-line react/self-closing-comp
 				<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-					<AppBar title="Chỉnh sửa hồ sơ cá nhân" style={styles.header} titleStyle={{ color: COLORS.primary, textAlign: 'center' }} />
+					<AppBar
+						title="Chỉnh sửa hồ sơ cá nhân"
+						style={styles.header}
+						titleStyle={{
+							color: COLORS.secondary,
+							textAlign: 'center',
+							fontFamily: FONTS.medium,
+						}}
+					/>
 					{loading ? (
 						<View style={styles.loadingIndicator}>
 							<ActivityIndicator size="large" color={COLORS.primary} />
@@ -145,7 +155,7 @@ function EditProfile({ navigation }) {
 						<ScrollView>
 
 							<View style={{ alignItems: 'center', marginVertical: 22 }}>
-								<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} />
+								<Avatar label={`${userInfo?.lastName} ${userInfo?.firstName}`} style={styles.avatar} labelStyle={{ color: COLORS.secondary }} />
 							</View>
 
 							<View style={{ marginHorizontal: 22 }}>
@@ -189,18 +199,27 @@ function EditProfile({ navigation }) {
 
 								<Button
 									title="Lưu thay đổi"
+									uppercase={false}
 									color={COLORS.primary}
 									disabled={!isValid}
 									onPress={handleSubmit}
 									style={styles.saveButton}
+									titleStyle={{
+										color: COLORS.secondary,
+										fontFamily: FONTS.medium,
+									}}
 								/>
 								<Divider style={{ marginBottom: SIZES.medium }} />
 								<Button
 									title="Quay lại"
+									uppercase={false}
 									variant="outlined"
 									color={COLORS.black}
 									onPress={() => navigation.goBack()}
 									style={styles.saveButton}
+									titleStyle={{
+										fontFamily: FONTS.medium,
+									}}
 								/>
 							</View>
 

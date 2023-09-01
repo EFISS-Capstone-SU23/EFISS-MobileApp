@@ -12,7 +12,7 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { COLORS, SIZES } from '../../constants';
+import { COLORS, SIZES, FONTS } from '../../constants';
 import { collectionsUpdate } from '../../actions/productActions';
 
 const styles = StyleSheet.create({
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 	},
 	inputTitle: {
 		marginBottom: SIZES.medium,
+		fontFamily: FONTS.medium,
 	},
 	inputField: {
 		marginBottom: SIZES.medium,
@@ -89,17 +90,26 @@ function ModalUpdateCollection({ onClose, name, id }) {
 
 							<Button
 								title="Cập nhật"
+								uppercase={false}
 								color={COLORS.primary}
 								disabled={!isValid}
 								onPress={handleSubmit}
 								style={styles.saveButton}
+								titleStyle={{
+									color: COLORS.secondary,
+									fontFamily: FONTS.medium,
+								}}
 							/>
 							<Button
 								title="Hủy"
+								uppercase={false}
 								variant="outlined"
 								color={COLORS.black}
 								onPress={onClose}
 								style={styles.saveButton}
+								titleStyle={{
+									fontFamily: FONTS.medium,
+								}}
 							/>
 
 						</View>

@@ -44,18 +44,21 @@ function Results({ route, navigation }) {
 	const [totalPages, setTotalPages] = useState(1);
 
 	const [sortBy, setSortBy] = useState(config.SORT_BY_RELEVANCE);
+	const [shop, setShop] = useState(config.SELECT_FROM_BOTH);
 	const [minPrice, setMinPrice] = useState(null);
 	const [maxPrice, setMaxPrice] = useState(null);
-	const changeSort = (sortOption, minimumPrice, maximumPrice) => {
+	const changeSort = (sortOption, shopSelection, minimumPrice, maximumPrice) => {
+		console.log('selection: ', shopSelection);
 		setSortBy(sortOption);
+		setShop(shopSelection);
 		setSegment(1);
 		setMinPrice(minimumPrice);
 		setMaxPrice(maximumPrice);
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, [''], minimumPrice, maximumPrice));
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortOption, shopSelection, [''], minimumPrice, maximumPrice));
 	};
 
 	useEffect(() => {
-		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
+		dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, shop, [''], minPrice, maxPrice));
 	}, [dispatch, imageUrl]);
 
 	useEffect(() => {
@@ -76,18 +79,22 @@ function Results({ route, navigation }) {
 				) : error ? (
 					<ErrorView navigation={navigation} />
 				) : (
-					<View style={items.length > 0 ? {} : { flex: 1 }}>
+					<View style={items.length > 4 ? {} : { flex: 1 }}>
 						<FlatList
 							data={items}
-							renderItem={({ item }) => (
-								<ProductCard product={item} navigation={navigation} />
+							renderItem={({ item, index }) => (
+								<ProductCard product={item} navigation={navigation} index={index} />
 							)}
 							numColumns={2}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							keyExtractor={(item) => item?._id}
-							contentContainerStyle={{ columnGap: SIZES.medium, flex: 1 }}
+							contentContainerStyle={{
+								columnGap: SIZES.medium,
+								flex: 1,
+							}}
 							ListHeaderComponent={
 								// eslint-disable-next-line max-len
-								<ResultsHeader navigation={navigation} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} croppedImg={croppedImg} />
+								<ResultsHeader navigation={navigation} handleSort={changeSort} sortBy={sortBy} min={minPrice} max={maxPrice} croppedImg={croppedImg} place={shop} />
 							}
 							// eslint-disable-next-line react/no-unstable-nested-components
 							ListFooterComponent={() => (
@@ -100,7 +107,7 @@ function Results({ route, navigation }) {
 									refreshing={refreshControl}
 									onRefresh={() => {
 										setRefreshControl(true);
-										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, [''], minPrice, maxPrice));
+										dispatch(productsSearch(imageUrl, config.PAGE_SIZE, sortBy, shop, [''], minPrice, maxPrice));
 										setSegment(1);
 										setRefreshControl(false);
 									}}

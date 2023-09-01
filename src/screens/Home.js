@@ -1,63 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigation } from '@react-navigation/native';
-// import {
-// 	View, SafeAreaView, StyleSheet, ScrollView, Modal, StatusBar,
-// } from 'react-native';
-
-// import { COLORS } from '../constants';
-// import {
-// 	HomeHeader, ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel, AdsBar,
-// } from '../components';
-
-// const styles = StyleSheet.create({
-// 	container: {
-// 		flex: 1,
-// 		backgroundColor: COLORS.white,
-// 	},
-// });
-
-// function Home() {
-// 	const navigation = useNavigation();
-// 	const [isModalVisible, setIsModalVisible] = useState(false);
-// 	const changeModalVisibility = (bool) => {
-// 		setIsModalVisible(bool);
-// 	};
-
-// 	return (
-// 		<SafeAreaView style={styles.container}>
-// 			<StatusBar backgroundColor={COLORS.primary} />
-
-// 			<ScrollView
-// 				showsVerticalScrollIndicator={false}
-// 			>
-// 				<View style={{ flex: 1 }}>
-// 					<HomeHeader
-// 						navigation={navigation}
-// 						onPicture={() => changeModalVisibility(true)}
-// 						onLogin={() => navigation.navigate('Login')}
-// 						onProfile={() => navigation.navigate('Profile')}
-// 					/>
-// 					<AdsBar />
-// 					<Category />
-// 					<ProductRecommendCarousel navigation={navigation} />
-// 					<ProductHistoryCarousel navigation={navigation} />
-// 				</View>
-// 			</ScrollView>
-
-// 			<Modal
-// 				transparent
-// 				animationType="fade"
-// 				visible={isModalVisible}
-// 				onRequestClose={() => changeModalVisibility(false)}
-// 			>
-// 				<ModalPicker changeModalVisibility={changeModalVisibility} navigation={navigation} />
-// 			</Modal>
-// 		</SafeAreaView>
-// 	);
-// }
-
-// export default Home;
-
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -69,8 +9,8 @@ import {
 	COLORS,
 } from '../constants';
 import {
-	ModalPicker, Category, ProductHistoryCarousel, ProductRecommendCarousel,
-	AdsBar, SearchBar, HomeHeader,
+	ModalPicker, ProductHistoryCarousel, ProductRecommendCarousel,
+	AdsBar, SearchBar, HomeHeader, AdsCollections,
 } from '../components';
 
 function Home() {
@@ -94,7 +34,7 @@ function Home() {
 					navigation={navigation}
 				/>
 				<AdsBar />
-				<Category />
+				<AdsCollections navigation={navigation} />
 				<ProductRecommendCarousel navigation={navigation} />
 				<ProductHistoryCarousel navigation={navigation} />
 			</ScrollView>

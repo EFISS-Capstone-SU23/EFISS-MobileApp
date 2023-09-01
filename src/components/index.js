@@ -4,6 +4,7 @@ import ProductCard from './Common/ProductCard';
 import CarouselCard from './Common/CarouselCard';
 import NoResultsFound from './Common/NoResultsFound';
 import ErrorView from './Common/ErrorView';
+import CarouselCardAds from './Common/CarouselCardAds';
 
 import CollectionCard from './Collections/CollectionCard';
 import ModalAddCollection from './Collections/ModalAddCollection';
@@ -19,6 +20,7 @@ import ProductHistoryCarousel from './Home/ProductHistoryCarousel';
 import Welcome from './Home/Welcome';
 import AdsBar from './Home/AdsBar';
 import SearchBar from './Home/SearchBar';
+import AdsCollections from './Home/AdsCollections';
 
 import Action from './Profile/Action';
 
@@ -68,4 +70,6 @@ export {
 	NoResultsFound,
 	ErrorView,
 	SearchBar,
+	AdsCollections,
+	CarouselCardAds,
 };

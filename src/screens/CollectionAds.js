@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-function Collections({ navigation }) {
+function CollectionAds({ navigation }) {
 	const dispatch = useDispatch();
 
 	const loadCollections = useSelector((state) => state.loadCollections);
@@ -198,4 +198,4 @@ function Collections({ navigation }) {
 	);
 }
 
-export default Collections;
+export default CollectionAds;

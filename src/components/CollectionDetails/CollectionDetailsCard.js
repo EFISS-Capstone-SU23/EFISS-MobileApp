@@ -13,19 +13,21 @@ import {
 	COLORS, SIZES, FONTS,
 } from '../../constants';
 import { formatNumber } from '../../utils/utils';
+import { config } from '../../../config';
+
+const cardWidth = SIZES.WIDTH / 2 - 20;
 
 const styles = StyleSheet.create({
 	container: {
-		width: '47%',
+		width: cardWidth,
 		backgroundColor: COLORS.white,
-		margin: 5,
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
+		borderRadius: SIZES.medium,
 	},
 	productImage: {
 		height: '100%',
 		borderTopLeftRadius: SIZES.base,
 		borderTopRightRadius: SIZES.base,
+		elevation: 5,
 	},
 	productTitle: {
 		fontSize: SIZES.medium,
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	productPrice: {
-		color: COLORS.black,
+		color: COLORS.secondary,
 		fontFamily: FONTS.medium,
 		fontSize: 12,
 	},
@@ -77,11 +79,15 @@ const styles = StyleSheet.create({
 	},
 });
 
-function CollectionDetailsCard({ collectionId, product, navigation }) {
+function CollectionDetailsCard({
+	collectionId, product, navigation, index,
+}) {
 	const dispatch = useDispatch();
+	const even = (index + 1) % 2 === 0;
 
 	return (
-		<View style={styles.container}>
+		// eslint-disable-next-line max-len
+		<View style={[styles.container, { marginLeft: !even ? 15 : 0, marginRight: even ? 15 : 0, marginTop: 10 }]}>
 			<View style={{ width: '100%', height: 150 }}>
 				<TouchableOpacity
 					onPress={() => {
@@ -90,12 +96,18 @@ function CollectionDetailsCard({ collectionId, product, navigation }) {
 				>
 					<FastImage
 						source={{
-							uri: product.imagesList[0] ? product.imagesList[0] : 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
+							uri: config.IS_LOCAL
+								? product.imagesList[0]?.replace(
+									'https://storage.googleapis.com',
+									config.IMG_STORAGE_URL,
+								)
+								: product.imagesList[0] || 'https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png',
 							priority: FastImage.priority.normal,
 						}}
 						resizeMode={FastImage.resizeMode.cover}
 						style={styles.productImage}
 					/>
+
 					<View style={styles.optionContainer}>
 						<IconButton
 							icon={(
@@ -127,7 +139,7 @@ function CollectionDetailsCard({ collectionId, product, navigation }) {
 				<View style={{ marginBottom: SIZES.base }}>
 					<Text
 						variant="subtitle2"
-						numberOfLines={1}
+						numberOfLines={2}
 						onPress={() => {
 							dispatch(productHistorySet(product));
 							navigation.navigate('Details', { productId: product.id });

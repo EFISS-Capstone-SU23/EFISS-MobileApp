@@ -21,21 +21,31 @@ import {
 	PRODUCT_HISTORY_LOAD_REQUEST, PRODUCT_HISTORY_LOAD_SUCCESS, PRODUCT_HISTORY_LOAD_FAIL,
 	PRODUCT_RECOMMEND_LOAD_REQUEST, PRODUCT_RECOMMEND_LOAD_SUCCESS, PRODUCT_RECOMMEND_LOAD_FAIL,
 	BANNER_ADS_GET_REQUEST, BANNER_ADS_GET_SUCCESS, BANNER_ADS_GET_FAIL,
+	COLLECTION_ADS_GET_REQUEST, COLLECTION_ADS_GET_SUCCESS, COLLECTION_ADS_GET_FAIL,
 } from '../constants/productConstants';
 import { config } from '../../config';
 import { isTokenStillValid, showSessionExpiredAlert } from '../utils/utils';
 
 // eslint-disable-next-line max-len
-export const productsSearch = (imageURL, _limit, _sortBy, _category, _minPrice, _maxPrice) => async (dispatch) => {
+export const productsSearch = (imageURL, _limit, _sortBy, _shopType, _category, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_SEARCH_REQUEST, payload: imageURL });
 	try {
 		const startTime = new Date(); // Capture the start time
+		console.log({
+			limit: _limit,
+			sortBy: _sortBy,
+			...(_shopType !== 'both' && { shopType: _shopType }),
+			...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
+			...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
+			diversity: config.DIVERSITY,
+		});
 		const { data } = await axios.post(
 			`${config.BE_BASE_API}/${config.SEARCH_ROUTER}`,
 			{
 				encodedImage: imageURL,
 				limit: _limit,
 				sortBy: _sortBy,
+				...(_shopType !== 'both' && { shopType: _shopType }),
 				...(_minPrice !== null && { minPrice: parseFloat(_minPrice) }),
 				...(_maxPrice !== null && { maxPrice: parseFloat(_maxPrice) }),
 				diversity: config.DIVERSITY,
@@ -59,15 +69,27 @@ export const bannerAdsGet = () => async (dispatch) => {
 			`${config.BE_BASE_API}/${config.BANNER_ADS_ROUTER}`,
 		);
 		dispatch({ type: BANNER_ADS_GET_SUCCESS, payload: data.ads });
-		console.log(data.ads.map((obj) => obj.bannerAds));
 	} catch (error) {
 		console.log('bannerAdsGet error: ', error);
 		dispatch({ type: BANNER_ADS_GET_FAIL, payload: error });
 	}
 };
 
+export const collectionAdsGet = () => async (dispatch) => {
+	dispatch({ type: COLLECTION_ADS_GET_REQUEST });
+	try {
+		const { data } = await axios.get(
+			`${config.BE_BASE_API}/${config.COLLECTIONS_ADD_ROUTER}`,
+		);
+		dispatch({ type: COLLECTION_ADS_GET_SUCCESS, payload: data });
+	} catch (error) {
+		console.log('collectionAdsGet error: ', error);
+		dispatch({ type: COLLECTION_ADS_GET_FAIL, payload: error });
+	}
+};
+
 // eslint-disable-next-line max-len
-export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPrice) => async (dispatch) => {
+export const productsTextSearch = (_query, _pageNum, _sortBy, _shopType, _minPrice, _maxPrice) => async (dispatch) => {
 	dispatch({ type: PRODUCT_TEXT_SEARCH_REQUEST, payload: _query });
 	const startTime = new Date(); // Capture the start time
 	try {
@@ -85,6 +107,10 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 			updatedRouter += `&maxPrice=${_maxPrice}`;
 		}
 
+		if (_shopType !== null && _shopType !== 'both') {
+			updatedRouter += `&shopType=${_shopType}`;
+		}
+
 		const { data } = await axios.get(`${config.BE_BASE_API}/${updatedRouter}`);
 		dispatch({ type: PRODUCT_TEXT_SEARCH_SUCCESS, payload: data });
 
@@ -99,8 +125,22 @@ export const productsTextSearch = (_query, _pageNum, _sortBy, _minPrice, _maxPri
 
 export const productGetById = (_productId) => async (dispatch) => {
 	dispatch({ type: PRODUCT_GET_BY_ID_REQUEST });
-	console.log(_productId);
 	try {
+		// Check if the product is in the product_history array
+		const productHistoryJSON = await AsyncStorage.getItem('product_history');
+
+		if (productHistoryJSON) {
+			const productHistory = JSON.parse(productHistoryJSON);
+			const storedProduct = productHistory.find((product) => product._id === _productId);
+
+			if (storedProduct) {
+				// Use the stored product data
+				dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: storedProduct });
+				return;
+			}
+		}
+
+		// Fetch the product from the API
 		const { data } = await axios.get(`${config.BE_BASE_API}/${config.GET_BY_ID_ROUTER}/${_productId}`);
 		dispatch({ type: PRODUCT_GET_BY_ID_SUCCESS, payload: data.product });
 	} catch (error) {

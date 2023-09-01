@@ -4,6 +4,7 @@ import React from 'react';
 import FastImage from 'react-native-fast-image';
 
 import { COLORS, SIZES } from '../../constants';
+import { config } from '../../../config';
 
 const styles = StyleSheet.create({
 	imgContainer: {
@@ -19,14 +20,14 @@ function RenderImageItem({ item }) {
 	return (
 		<View style={styles.imgContainer}>
 			<FastImage
-				// Move the key prop to the Image component
 				source={{
-					uri: item,
+					uri: config.IS_LOCAL ? item.replace('https://storage.googleapis.com', config.IMG_STORAGE_URL) : item,
 					priority: FastImage.priority.normal,
 				}}
 				resizeMode={FastImage.resizeMode.contain}
 				style={{ width: '100%', height: '100%' }}
 			/>
+
 		</View>
 	);
 }

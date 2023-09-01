@@ -18,6 +18,7 @@ import SearchPreferences from '../screens/SearchPreferences';
 import TextResults from '../screens/TextResults';
 import VerifyEmail from '../screens/VerifyEmail';
 import ForgotPassword from '../screens/ForgotPassword';
+import SecretSettings from '../screens/SecretSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ function AppNavigator() {
 			<Stack.Screen name="Results" component={Results} />
 			<Stack.Screen name="TextResults" component={TextResults} />
 			<Stack.Screen name="Preferences" component={SearchPreferences} />
+			<Stack.Screen name="SecretSettings" component={SecretSettings} />
 			{userToken && userToken !== null
 				? (
 					<>

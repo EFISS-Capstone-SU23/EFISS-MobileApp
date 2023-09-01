@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
 	},
 	groupLabel: {
 		fontSize: SIZES.font,
+		fontFamily: FONTS.regular,
 		color: COLORS.black,
 		letterSpacing: 1,
 		opacity: 0.8,
@@ -104,17 +105,18 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontFamily: FONTS.bold,
+		fontFamily: FONTS.semiBold,
 		letterSpacing: 0.5,
 		marginVertical: 4,
 		color: COLORS.black,
 		maxWidth: '85%',
+		marginRight: 5,
 	},
 	linkIcon: {
 		fontSize: 28,
 		color: COLORS.black,
 		marginRight: 6,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		padding: 12,
 		borderRadius: 28,
 	},
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
 	},
 	locationSection: {
 		color: COLORS.primary,
-		backgroundColor: COLORS.primary,
+		backgroundColor: COLORS.button,
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 12,
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
 	price: {
 		width: 'auto',
 		fontFamily: FONTS.medium,
+		color: COLORS.black,
 		fontSize: SIZES.large,
 	},
 	priceContainer: {
@@ -193,6 +196,8 @@ function Details({ route, navigation }) {
 
 	// product data extracted from the results screen
 	const { productId } = route.params;
+
+	console.log(productId);
 
 	// image carousel swipe configuration
 	const scrollX = new Animated.Value(0);
@@ -275,7 +280,7 @@ function Details({ route, navigation }) {
 										/>
 									)}
 									contentContainerStyle={{
-										backgroundColor: COLORS.primary,
+										backgroundColor: COLORS.button,
 										opacity: 0.8,
 									}}
 								/>
@@ -286,14 +291,14 @@ function Details({ route, navigation }) {
 										onPress={handleToggleModal}
 										icon={(
 											<Icon
-												name="arrow-back-outline"
+												name="heart"
 												type="ionicon"
 												size={24}
 												color={COLORS.black}
 											/>
 										)}
 										contentContainerStyle={{
-											backgroundColor: COLORS.primary,
+											backgroundColor: COLORS.button,
 											opacity: 0.8,
 										}}
 									/>
@@ -339,7 +344,7 @@ function Details({ route, navigation }) {
 										name="shirt"
 										type="ionicon"
 										style={styles.groupIcon}
-										color={COLORS.primary}
+										color={COLORS.button}
 									/>
 									<Text style={styles.groupLabel}>
 										{product.categories.length > 0 ? product.categories.join(', ') : 'Sản phẩm thời trang'}
@@ -364,14 +369,14 @@ function Details({ route, navigation }) {
 										name="attach-outline"
 										type="ionicon"
 										style={styles.linkIcon}
+										color={COLORS.black}
 									/>
 								</TouchableOpacity>
 							</View>
 							<View style={styles.priceContainer}>
-								<Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.large }}>Giá: </Text>
 								<Badge
 									label={`${formatNumber(product.price)} VND`}
-									color={COLORS.primary}
+									color={COLORS.yellow}
 									labelStyle={styles.price}
 									style={{
 										height: SIZES.extraLarge,
@@ -384,10 +389,11 @@ function Details({ route, navigation }) {
 										<Icon
 											name="cart-outline"
 											type="ionicon"
-											style={{ fontSize: 28, color: COLORS.black }}
+											style={{ fontSize: 28 }}
+											color={COLORS.black}
 										/>
 									</View>
-									<Text variant="overline" style={{ fontSize: SIZES.font }}>
+									<Text variant="overline" style={{ fontSize: SIZES.font, fontFamily: FONTS.regular }}>
 										{product.shopName}
 									</Text>
 								</View>
@@ -407,9 +413,14 @@ function Details({ route, navigation }) {
 					<View style={styles.floatButtonContainer}>
 						<Button
 							title="Đi tới cửa hàng"
+							uppercase={false}
 							color={COLORS.primary}
 							onPress={() => { Linking.openURL(product.url); }}
 							style={styles.floatButton}
+							titleStyle={{
+								color: COLORS.secondary,
+								fontFamily: FONTS.medium,
+							}}
 						/>
 					</View>
 

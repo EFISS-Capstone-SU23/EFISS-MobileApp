@@ -1,27 +1,23 @@
 import {
-	View, StyleSheet, Image, ToastAndroid, TouchableOpacity,
+	View, StyleSheet, Image, ToastAndroid,
+	TouchableOpacity, Modal,
 } from 'react-native';
-import {
-	Text, Button, TextInput, Divider,
-} from '@react-native-material/core';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Icon } from '@rneui/themed';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 import {
 	COLORS, FONTS, SIZES,
 } from '../../constants';
-import { config } from '../../../config';
+import { config, updateDiversity } from '../../../config';
+import ModalResultsFilter from './ModalResultsFilter';
 
 const styles = StyleSheet.create({
-	button: {
-		marginRight: 10,
-		backgroundColor: COLORS.white,
-		borderRadius: 20,
-		color: COLORS.primary,
-		padding: 12,
+	container: {
+		backgroundColor: COLORS.primary,
+		padding: SIZES.base,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 	},
 	text: {
 		fontFamily: FONTS.bold,
@@ -29,47 +25,30 @@ const styles = StyleSheet.create({
 		color: COLORS.white,
 		textAlign: 'center',
 	},
-	tabsContainer: {
-		width: '100%',
-		marginTop: SIZES.base,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	dropdownContainer: {
-		position: 'absolute',
-		top: 80, // Adjust the position as needed
-		right: 10, // Adjust the position as needed
-		backgroundColor: COLORS.white,
-		borderRadius: 8,
-		padding: SIZES.medium,
-		elevation: 3,
-		width: '99%',
-	},
-	dropdownItem: {
-		paddingVertical: 2,
-		paddingHorizontal: SIZES.base,
-		fontSize: SIZES.large,
-	},
-	dropdownText: {
-		fontFamily: FONTS.regular,
-		fontSize: SIZES.large,
-	},
 	productImage: {
-		height: '100%',
-		borderTopLeftRadius: SIZES.base,
-		borderTopRightRadius: SIZES.base,
-	},
-	inputFilterContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	inputFilter: {
-		marginBottom: 5,
 		flex: 1,
-		height: '80%',
+		width: undefined,
+		height: 50,
 	},
 });
+
+const SELECT_FROM = [
+	{
+		id: 1,
+		title: 'Tất cả',
+		value: config.SELECT_FROM_BOTH,
+	},
+	{
+		id: 2,
+		title: 'Brand',
+		value: config.SELECT_FROM_BRAND,
+	},
+	{
+		id: 3,
+		title: 'Market Place',
+		value: config.SELECT_FROM_MARKETPLACE,
+	},
+];
 
 const SORT_OPTIONS = [
 	{
@@ -79,39 +58,52 @@ const SORT_OPTIONS = [
 	},
 	{
 		id: 2,
-		title: 'Giá: từ thấp đến cao',
+		title: 'Giá: tăng dần',
 		value: config.SORT_BY_PRICE_ASC,
 	},
 	{
 		id: 3,
-		title: 'Giá: từ cao đến thấp',
+		title: 'Giá: giảm dần',
 		value: config.SORT_BY_PRICE_DESC,
 	},
 ];
 
 function ResultsHeader({
-	navigation, handleSort, sortBy, min, max, croppedImg,
+	navigation, handleSort, sortBy, min, max, croppedImg, place,
 }) {
-	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [isModalVisible, setModalVisible] = useState(false);
+
+	const handleToggleModal = () => {
+		setModalVisible((prevState) => !prevState);
+	};
 
 	const base64Icon = `data:image/png;base64,${croppedImg}`;
+
+	const convertedPlaceList = SELECT_FROM.map(({ id, title }) => ({
+		value: id,
+		label: title,
+	}));
 
 	const convertedList = SORT_OPTIONS.map(({ id, title }) => ({
 		value: id,
 		label: title,
 	}));
 
+	const selectedPlace = SELECT_FROM.find((option) => option.value === place);
+	const [shop, setShop] = useState(selectedPlace
+		? selectedPlace.id : convertedPlaceList[0].value);
+
 	const selectedSortOption = SORT_OPTIONS.find((option) => option.value === sortBy);
 	const [value, setValue] = useState(selectedSortOption
 		? selectedSortOption.id : convertedList[0].value);
+
 	const [minPrice, setMinPrice] = useState(min === null ? '' : min);
 	const [maxPrice, setMaxPrice] = useState(max === null ? '' : max);
-
-	const handleToggleDropdown = () => {
-		setDropdownOpen((prevState) => !prevState);
-	};
+	const [diversity, setDiversity] = useState(config.DIVERSITY);
 
 	const handleDropdownOptionSelect = () => {
+		updateDiversity(diversity);
+
 		if (parseFloat(minPrice) < 0 || parseFloat(maxPrice) < 0) {
 			ToastAndroid.showWithGravity(
 				'Giá tiền phải lớn hơn 0',
@@ -126,7 +118,8 @@ function ResultsHeader({
 			const adjustedMinPrice = minPrice === '' ? null : minPrice;
 			const adjustedMaxPrice = maxPrice === '' ? null : maxPrice;
 
-			handleSort(SORT_OPTIONS[value - 1].value, adjustedMinPrice, adjustedMaxPrice);
+			// eslint-disable-next-line max-len
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, adjustedMinPrice, adjustedMaxPrice);
 		} else if (parseFloat(minPrice) > parseFloat(maxPrice)) {
 			ToastAndroid.showWithGravity(
 				'Khoảng giá không hợp lệ',
@@ -134,18 +127,17 @@ function ResultsHeader({
 				ToastAndroid.BOTTOM,
 			);
 		} else {
-			handleSort(SORT_OPTIONS[value - 1].value, minPrice, maxPrice);
-			setDropdownOpen(false);
+			handleSort(SORT_OPTIONS[value - 1].value, SELECT_FROM[shop - 1].value, minPrice, maxPrice);
 		}
 	};
 
 	return (
-		<View style={{ backgroundColor: COLORS.primary, padding: SIZES.base }}>
+		<View style={styles.container}>
 			<View
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
-					alignItems: 'flex-end',
+					alignItems: 'center',
 					paddingHorizontal: 5,
 				}}
 			>
@@ -163,15 +155,11 @@ function ResultsHeader({
 				<Image
 					source={{ uri: base64Icon }}
 					resizeMode="contain"
-					style={{
-						flex: 1,
-						width: undefined,
-						height: 70,
-					}}
+					style={styles.productImage}
 				/>
 
 				<TouchableOpacity
-					onPress={handleToggleDropdown}
+					onPress={handleToggleModal}
 				>
 					<Icon
 						name="funnel-outline"
@@ -182,65 +170,29 @@ function ResultsHeader({
 				</TouchableOpacity>
 			</View>
 
-			{dropdownOpen && (
-				<View style={styles.dropdownContainer}>
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>Sắp xếp theo: </Text>
-					<View>
-						<RadioForm>
-							{
-								convertedList?.map((obj, index) => (
-									<RadioButton labelHorizontal key={index}>
-										<RadioButtonInput
-											obj={obj}
-											index={index}
-											isSelected={obj.value === value}
-											onPress={(val) => setValue(val)}
-											buttonInnerColor={obj.value === value ? COLORS.primary : COLORS.grey}
-											buttonOuterColor={obj.value === value ? COLORS.primary : COLORS.grey}
-											buttonWrapStyle={styles.dropdownItem}
-										/>
-										<RadioButtonLabel
-											obj={obj}
-											index={index}
-											onPress={(val) => setValue(val)}
-											labelStyle={styles.dropdownText}
-										/>
-									</RadioButton>
-								))
-							}
-						</RadioForm>
-					</View>
-					<Divider style={{ marginVertical: SIZES.base }} />
-					<Text style={[styles.dropdownItem, { fontFamily: FONTS.bold }]}>
-						Khoảng giá (VND):
-					</Text>
-					<View style={{ paddingLeft: SIZES.base, marginBottom: SIZES.base }}>
-						<View style={styles.inputFilterContainer}>
-							<Text style={{ width: '30%', marginRight: 5 }}>Tối thiểu</Text>
-							<TextInput
-								style={styles.inputFilter}
-								color={COLORS.primary}
-								keyboardType="number-pad"
-								onChangeText={(val) => setMinPrice(val)}
-								defaultValue={minPrice}
-							/>
-						</View>
-						<View style={styles.inputFilterContainer}>
-							<Text style={{ width: '30%', marginRight: 5 }}>Tối đa</Text>
-							<TextInput
-								style={styles.inputFilter}
-								color={COLORS.primary}
-								keyboardType="number-pad"
-								onChangeText={(val) => setMaxPrice(val)}
-								defaultValue={maxPrice}
-							/>
-						</View>
-					</View>
-					<Button title="Áp dụng filter" color={COLORS.primary} onPress={handleDropdownOptionSelect} />
-					<Divider style={{ marginVertical: SIZES.small }} />
-					<Button title="Thoát" color={COLORS.white} onPress={handleToggleDropdown} />
-				</View>
-			)}
+			<Modal
+				animationType="fades"
+				transparent
+				visible={isModalVisible}
+				onRequestClose={handleToggleModal}
+			>
+				<ModalResultsFilter
+					convertedPlaceList={convertedPlaceList}
+					setShop={setShop}
+					shop={shop}
+					convertedList={convertedList}
+					setValue={setValue}
+					value={value}
+					setDiversity={setDiversity}
+					diversity={diversity}
+					setMinPrice={setMinPrice}
+					minPrice={minPrice}
+					setMaxPrice={setMaxPrice}
+					maxPrice={maxPrice}
+					onClose={handleToggleModal}
+					onSubmit={handleDropdownOptionSelect}
+				/>
+			</Modal>
 		</View>
 	);
 }
